@@ -1,4 +1,4 @@
-package sample;
+package authentification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,7 +16,7 @@ public class UserConnectionSingleton {
     private UserConnectionSingleton() {
 
         // get connection to db using JPA Eclipse Link
-        final String PERSISTENCE_UNIT_NAME = "user";
+        final String PERSISTENCE_UNIT_NAME = "User";
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         em = factory.createEntityManager();
 
