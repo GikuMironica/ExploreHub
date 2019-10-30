@@ -20,12 +20,12 @@
                   <Font name="Impact" size="32.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameField" alignment="CENTER">
+            <TextField fx:id="usernameField" onKeyReleased="#handleKeyRelease" alignment="CENTER">
                <VBox.margin>
                   <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <PasswordField fx:id="passwordField" alignment="CENTER">
+            <PasswordField fx:id="passwordField" onKeyReleased="#handleKeyRelease" alignment="CENTER">
                <VBox.margin>
                   <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
                </VBox.margin>
