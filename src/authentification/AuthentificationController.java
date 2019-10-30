@@ -11,10 +11,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import models.Admin;
+import models.Events;
+import models.Transactions;
+import models.User;
+import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.List;
 
 
 public class AuthentificationController {
@@ -34,18 +41,59 @@ public class AuthentificationController {
         // process the credentials
     @FXML
     private void login(){
-            // TEST
+            // TEST CONNECTION
         UserConnectionSingleton con = UserConnectionSingleton.getInstance();
         em = con.getManager();
         AdminConnectionSingleton con2 = AdminConnectionSingleton.getInstance();
         em = con2.getManager();
-            // execute NamedQuery from user class to find if password matches username
-        // TypedQuery<User> tq1 = em.createNamedQuery(
-        //       "User.fetchUserEmail,Password",
-        //        User.class );
-        // tq1.setParameter("Email", usernameField.getText());
-        // tq1.setParameter("Password", passwordField.getText());
-        // id = tq1.getSingleResult();
+        User u1 = em.find(User.class, 6);
+        System.out.println(u1.getFirstname()+" "+u1.getLastname()+" "+u1.getAccess()+" "+u1.getId()+" "+u1.getPassword());
+
+            //TEST ENTITY RELATIONS
+        if(u1.getEvents().equals(null))
+            System.out.println("null events");
+        else {
+            List<Events> ev = u1.getEvents();
+            System.out.println("Found " + ev.size() + " Events for this user");
+        }
+        if(u1.getCourse().equals(null))
+            System.out.println("Course Null");
+        else
+            System.out.println(u1.getCourse().getName());
+        if(u1.getTransactions().equals(null))
+            System.out.println("Transactions Null");
+        else{
+            List<Transactions> tr = u1.getTransactions();
+            System.out.println("Found " + tr.size() + " Transactions for this user");
+        }
+
+            // TEST NAMEQUERY FIND USER BY EMAIL
+        TypedQuery<User> tq1 = em.createNamedQuery(
+                "User.findUserbyEmail",
+                User.class );
+        tq1.setParameter("email", "Bredesen@hs-ulm.de");
+        User u2 = tq1.getSingleResult();
+        System.out.println(u2.getId()+" "+u2.getFirstname()+" "+u2.getLastname());
+
+            // TEST NAMEDQUERY FIND USER BY GIVEN EMAIL+PASSWORD
+        TypedQuery<User> tq2 = em.createNamedQuery(
+                "User.findUserbyEmailPass",
+                User.class );
+        tq2.setParameter("email", "Giles@hs-ulm.de");
+        tq2.setParameter("password", "user8");
+        User u3 = tq2.getSingleResult();
+        System.out.println(u3.getId()+" "+u3.getFirstname()+" "+u3.getLastname());
+
+            // TEST NAMEDQUERY TO FIND ALL ADMINS
+        TypedQuery<Admin> tq3 = em.createNamedQuery(
+                "Admin.findAdmins",
+                Admin.class );
+        tq3.setParameter("access", 1);
+        List<Admin> al = tq3.getResultList();
+        for(Admin temp : al){
+            System.out.println(temp.getEmail());
+        }
+
         /**
          * if password matches username then proceed to checking the Access Level, initialize an User/Admin account
          *

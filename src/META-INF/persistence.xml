@@ -6,9 +6,13 @@
     <persistence-unit name="Administrator" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
+
+        <class>models.Courses</class>
+        <class>models.Events</class>
+        <class>models.Transactions</class>
+        <class>models.User</class>
+        <class>models.Admin</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
@@ -21,10 +25,11 @@
 
     <persistence-unit name="User" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
-        <!--<class>models.classes</class> -->
+
+        <class>models.Courses</class>
+        <class>models.Events</class>
+        <class>models.Transactions</class>
+        <class>models.User</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
