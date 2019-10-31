@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0"
-            prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="mainUI.MainUiController">
-
-</AnchorPane>
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
+    <left>
+    <VBox>
+       <children>
+           <fx:include fx:id="filterLayout" source="/filterComponent/filter.fxml" />
+           <fx:include fx:id="mapLayout" source="/mapComponent/map.fxml" />
+       </children>
+    </VBox>
+    </left>
+    <right>
+        <fx:include fx:id="sideBar" source="/sidebarComponent/sidebar.fxml" />
+    </right>
+    <top>
+        <fx:include source="/barComponent/navbar.fxml" fx:id="navLayout" />
+    </top>
+    <center>
+        <fx:include fx:id="listLayout" source="/listComponent/list.fxml"/>
+    </center>
+</BorderPane>
