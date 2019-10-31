@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Admin;
@@ -53,97 +54,45 @@ public class AuthentificationController {
 
     @FXML
     private void login(Event event) throws IOException{
-        // TEST CONNECTION
-//        UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-//        em = con.getManager();
-//        AdminConnectionSingleton con2 = AdminConnectionSingleton.getInstance();
-//        em = con2.getManager();
-//        User u1 = em.find(User.class, 6);
-//        System.out.println(u1.getFirstname() + " " + u1.getLastname() + " " + u1.getAccess() + " " + u1.getId() + " " + u1.getPassword());
-//
-//        //TEST ENTITY RELATIONS
-//        if (u1.getEvents().equals(null))
-//            System.out.println("null events");
-//        else {
-//            List<Events> ev = u1.getEvents();
-//            System.out.println("Found " + ev.size() + " Events for this user");
-//        }
-//        if (u1.getCourse().equals(null))
-//            System.out.println("Course Null");
-//        else
-//            System.out.println(u1.getCourse().getName());
-//        if (u1.getTransactions().equals(null))
-//            System.out.println("Transactions Null");
-//        else {
-//            List<Transactions> tr = u1.getTransactions();
-//            System.out.println("Found " + tr.size() + " Transactions for this user");
-//        }
-//
-//        // TEST NAMEQUERY FIND USER BY EMAIL
-//        TypedQuery<User> tq1 = em.createNamedQuery(
-//                "User.findUserbyEmail",
-//                User.class);
-//        tq1.setParameter("email", "Bredesen@hs-ulm.de");
-//        User u2 = tq1.getSingleResult();
-//        System.out.println(u2.getId() + " " + u2.getFirstname() + " " + u2.getLastname());
-
         // Try to establish connection as a user
-        try {
-            UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-            em = con.getManager();
 
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            TypedQuery<User> tq2 = em.createNamedQuery(
-                    "User.findUserbyEmailPass",
-                    User.class);
-            tq2.setParameter("email", username);
-            tq2.setParameter("password", password);
-            User u3 = tq2.getSingleResult();
+        UserConnectionSingleton con = UserConnectionSingleton.getInstance();
+        em = con.getManager();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        TypedQuery<User> tq2 = em.createNamedQuery(
+                "User.findUserbyEmailPass",
+                User.class);
+        tq2.setParameter("email", username);
+        tq2.setParameter("password", password);
+        System.out.println(username+" "+password);
 
-            //if user is logged in successfully, open the Home page
+            // disabled Login for Testing purpose
+            // User u3 = tq2.getSingleResult();
 
-            Parent root = FXMLLoader.load(getClass().getResource("../MainUi/mainUi.fxml"));
-            Scene scene = new Scene(root,800,600);
-            scene.getStylesheets().add("/MainUI/style.css");
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
+            //if user is logged in successfully, open the Home pag
 
+        BorderPane root = new BorderPane();
+        FXMLLoader loaderCenter = new FXMLLoader(getClass().getResource("/listComponent/list.fxml"));
+        FXMLLoader loaderTop = new FXMLLoader(getClass().getResource("/barComponent/navbar.fxml"));
+        FXMLLoader loaderLeftTop = new FXMLLoader(getClass().getResource("/filterComponent/filter.fxml"));
+        FXMLLoader loaderLeftBottom = new FXMLLoader(getClass().getResource("/mapComponent/map.fxml"));
+        FXMLLoader loaderRight = new FXMLLoader(getClass().getResource("/sidebarComponent/sidebar.fxml"));
 
-        } catch (Exception exception){
-            System.out.println(exception.getMessage());
-            alert.setText("Unable to login");
-            alert.setVisible(true);
-            usernameField.clear();
-            passwordField.clear();
-            //make the Alert appear and make it disappear after 3 seconds
-            PauseTransition visiblePause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            visiblePause.setOnFinished(
-                    e -> alert.setVisible(false)
-            );
-            visiblePause.play();
+        VBox leftBox = new VBox();
+        leftBox.getChildren().add(loaderLeftTop.load());
+        leftBox.getChildren().add(loaderLeftBottom.load());
 
-        }
+        root.setCenter(loaderCenter.load());
+        root.setRight(loaderRight.load());
+        root.setLeft(leftBox);
+        root.setTop(loaderTop.load());
 
-
-        Parent root = FXMLLoader.load(getClass().getResource("/mainUI/MainUI.fxml"));
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root,1000,600);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
 
-//        // TEST NAMEDQUERY TO FIND ALL ADMINS
-//        TypedQuery<Admin> tq3 = em.createNamedQuery(
-//                "Admin.findAdmins",
-//                Admin.class);
-//        tq3.setParameter("access", 1);
-//        List<Admin> al = tq3.getResultList();
-//        for (Admin temp : al) {
-//            System.out.println(temp.getEmail());
-//        }
     }
 
 
