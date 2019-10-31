@@ -8,18 +8,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.Admin;
 import models.Events;
 import models.Transactions;
 import models.User;
-import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,7 +38,7 @@ public class AuthentificationController {
 
         // process the credentials
     @FXML
-    private void login(Event e) throws IOException{
+    private void login(Event event) throws IOException{
         // TEST CONNECTION
         UserConnectionSingleton con = UserConnectionSingleton.getInstance();
         em = con.getManager();
@@ -97,10 +93,9 @@ public class AuthentificationController {
         }
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("../MainUi/mainUi.fxml"));
-        Scene scene = new Scene(root,800,600);
-        scene.getStylesheets().add("/MainUI/style.css");
-        Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/mainUI/MainUI.fxml"));
+        Scene scene = new Scene(root, 600, 400);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
 

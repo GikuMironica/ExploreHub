@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class Transactions {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int Id;
 
     @Basic(optional=false)

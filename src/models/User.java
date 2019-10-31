@@ -18,8 +18,19 @@ import java.util.Set;
 @Table(name="users")
 public class User implements Account{
 
+    public User(){
+
+    }
+    public User(String firstname, String lastname, String email, String password, Courses course) {
+        this.Email = email;
+        this.Firstname = firstname;
+        this.Lastname = lastname;
+        this.Password = password;
+        this.Course = course;
+    }
+
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Basic(optional=false)
     private int Id;
 
@@ -42,7 +53,7 @@ public class User implements Account{
     private String Password;
 
     @ManyToOne
-    @JoinColumn(name = "CourseID", nullable=false)
+    @JoinColumn(name = "CourseID", nullable=true)
     private Courses Course;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
@@ -50,7 +61,6 @@ public class User implements Account{
 
     @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="wishlist",
-
         joinColumns = { @JoinColumn(name="StudentID")},
             inverseJoinColumns = { @JoinColumn (name = "EventID")}
             )

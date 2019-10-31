@@ -20,7 +20,7 @@ import java.util.Set;
 public class Admin implements Account{
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Basic(optional=false)
     private int Id;
 

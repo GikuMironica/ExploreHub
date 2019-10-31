@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class Events {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
     @Basic(optional=false)
