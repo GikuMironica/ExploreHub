@@ -30,6 +30,7 @@
         <class>models.Events</class>
         <class>models.Transactions</class>
         <class>models.User</class>
+        <class>models.Admin</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"

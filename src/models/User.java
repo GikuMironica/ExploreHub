@@ -8,9 +8,11 @@ import java.util.Set;
 
 
 
+@SuppressWarnings("JpaQlInspection")
 @NamedQueries({
         @NamedQuery(name= "User.findUserbyEmailPass", query =	"SELECT u FROM User u WHERE u.Email = :email AND u.Password = :password"),
-        @NamedQuery(name= "User.findUserbyEmail", query =	"SELECT u FROM User u WHERE u.Email = :email")
+        @NamedQuery(name= "User.findUserbyEmail", query =	"SELECT u FROM User u WHERE u.Email = :email"),
+        @NamedQuery(name= "User.determineAccess", query = "SELECT u.Access FROM User u WHERE u.Email = :email AND u.Password = :password")
 })
 
 
@@ -136,6 +138,5 @@ public class User implements Account{
         UserConnectionSingleton u1 = UserConnectionSingleton.getInstance();
         return u1.getManager();
     }
-
 
 }

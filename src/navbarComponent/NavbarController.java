@@ -1,4 +1,4 @@
-package barComponent;
+package navbarComponent;
 
 import javafx.fxml.Initializable;
 

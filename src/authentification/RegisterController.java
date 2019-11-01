@@ -39,14 +39,14 @@ public class RegisterController implements Initializable  {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-            // Views setup
+        // Views setup
         firstNameField.setPromptText("First Name");
         lastNameField.setPromptText("Last Name");
         emailField.setPromptText("emailField");
         passwordField.setPromptText("New passwordField");
 
-
-            // get courses from DB -> display into ChoiseBox
+        // get courses from DB -> display into ChoiseBox
+        //noinspection JpaQueryApiInspection
         tq1 = entityManager.createNamedQuery(
                 "Courses.findCourses",
                 Courses.class);
@@ -54,9 +54,7 @@ public class RegisterController implements Initializable  {
         for( Courses temp : l1){
             courseChoiceBox.getItems().add(temp.getName());
         }
-
         courseChoiceBox.getSelectionModel().selectFirst();
-
     }
 
     public void register(Event e) throws IOException {
@@ -70,6 +68,7 @@ public class RegisterController implements Initializable  {
         // get Course ID by Name, check connection
         try{
             String courseName = courseChoiceBox.getSelectionModel().getSelectedItem().toString();
+            //noinspection JpaQueryApiInspection
             tq1 = entityManager.createNamedQuery(
                 "Courses.findCourseByName",
                 Courses.class);
@@ -80,7 +79,7 @@ public class RegisterController implements Initializable  {
             alert.showAndWait();
         }
 
-            // Validate Fields
+        // Validate Fields
         boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches("^[a-zA-Z]*$")));
         boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches("^[a-zA-Z]*$")));
         boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@hs-ulm\\.(de)$")));
@@ -108,21 +107,22 @@ public class RegisterController implements Initializable  {
         if(fieldsInvalid)
             return;
 
-            // Everything valid a this step
-            // Persist new user
+        // Everything valid a this step
+        // Persist new user
         try {
-            User u1 = new User(firstName, lastName, email, password, course);
+            User user = new User(firstName, lastName, email, password, course);
             entityManager.getTransaction().begin();
-            entityManager.persist(u1);
+            entityManager.persist(user);
             entityManager.getTransaction().commit();
-            CurrentUserSingleton currentUser = CurrentUserSingleton.getInstance();
-            currentUser.setUser(u1);
+            CurrentAccountSingleton currentUser = CurrentAccountSingleton.getInstance();
+            currentUser.setAccount(user);
         }catch(Exception ex){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
             alert.showAndWait();
         }
 
-        Parent root = FXMLLoader.load(getClass().getResource("../mainUI/mainUi.fxml"));
+
+        Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUi.fxml"));
         Scene scene = new Scene(root,800,600);
         scene.getStylesheets().add("/mainUI/style.css");
         Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();

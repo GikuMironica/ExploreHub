@@ -2,18 +2,15 @@ package models;
 
 import authentification.AdminConnectionSingleton;
 import authentification.UserConnectionSingleton;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-
 @NamedQueries({
-        @NamedQuery(name= "Admin.findUserbyEmailPass", query =	"SELECT u FROM Admin u WHERE u.Email = :email AND u.Password = :password"),
-        @NamedQuery(name= "Admin.findUserbyEmail", query =	"SELECT u FROM Admin u WHERE u.Email = :email"),
+        @NamedQuery(name= "Admin.findAdminByEmailPass", query =	"SELECT u FROM Admin u WHERE u.Email = :email AND u.Password = :password"),
+        @NamedQuery(name= "Admin.findAdminbyEmail", query =	"SELECT u FROM Admin u WHERE u.Email = :email"),
         @NamedQuery(name= "Admin.findAdmins", query = "SELECT a FROM Admin a WHERE a.Access = :access")
 })
-
 
 @Entity
 @Table(name="users")
@@ -43,15 +40,15 @@ public class Admin implements Account{
     private String Password;
 
     @ManyToOne
-    @JoinColumn(name = "CourseID", nullable=false)
+    @JoinColumn(name = "CourseID")
     private Courses Course;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private List<Transactions> Transactions;
 
     @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="wishlist",
-
             joinColumns = { @JoinColumn(name="StudentID")},
             inverseJoinColumns = { @JoinColumn (name = "EventID")}
     )
@@ -95,7 +92,6 @@ public class Admin implements Account{
     public void setAccess(int x){
         this.Access = x;
     }
-
 
     public String getPassword() {
         return Password;

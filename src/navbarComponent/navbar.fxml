@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" fx:id="navbarLayout"  minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barComponent.NavbarController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" fx:id="navbarLayout"  minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
    <children>
       <HBox alignment="CENTER" prefHeight="69.0" prefWidth="162.0">
          <children>
