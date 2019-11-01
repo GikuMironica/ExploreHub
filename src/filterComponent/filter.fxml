@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.Font?>
+<?import java.awt.Label?>
+<?import java.awt.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity"  fx:id="filterLayout" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="filterLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="217.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="filterComponent.FilterController">
    <children>
-      <Button  mnemonicParsing="false" text="Button" />
+      <Label text="Filter list">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <font>
+            <Font name="Dubai Regular" size="18.0" />
+         </font>
+      </Label>
+      <TextField alignment="CENTER" prefHeight="31.0" prefWidth="140.0">
+         <VBox.margin>
+            <Insets left="50.0" right="50.0" />
+         </VBox.margin></TextField>
+      <TextField alignment="CENTER">
+         <VBox.margin>
+            <Insets left="50.0" right="50.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding></TextField>
+      <Button fx:id="filterButton" mnemonicParsing="false" text="Button" />
    </children>
-</StackPane>
+</VBox>
+

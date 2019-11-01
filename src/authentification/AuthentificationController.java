@@ -54,45 +54,47 @@ public class AuthentificationController {
 
     @FXML
     private void login(Event event) throws IOException{
-        // Try to establish connection as a user
+        try {
+            UserConnectionSingleton con = UserConnectionSingleton.getInstance();
+            em = con.getManager();
 
-        UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-        em = con.getManager();
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        TypedQuery<User> tq2 = em.createNamedQuery(
-                "User.findUserbyEmailPass",
-                User.class);
-        tq2.setParameter("email", username);
-        tq2.setParameter("password", password);
-        System.out.println(username+" "+password);
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            TypedQuery<User> tq2 = em.createNamedQuery(
+                    "User.findUserbyEmailPass",
+                    User.class);
+            tq2.setParameter("email", username);
+            tq2.setParameter("password", password);
+            User u3 = tq2.getSingleResult();
+            System.out.println(u3);
+            //if user is logged in successfully, open the Home page
 
-            // disabled Login for Testing purpose
-            // User u3 = tq2.getSingleResult();
+            Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUI.fxml"));
+            Scene scene = new Scene(root,782,483);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setResizable(false);
+            window.setScene(scene);
+            window.show();
+            System.out.println("User logged in");
 
-            //if user is logged in successfully, open the Home pag
 
-        BorderPane root = new BorderPane();
-        FXMLLoader loaderCenter = new FXMLLoader(getClass().getResource("/listComponent/list.fxml"));
-        FXMLLoader loaderTop = new FXMLLoader(getClass().getResource("/barComponent/navbar.fxml"));
-        FXMLLoader loaderLeftTop = new FXMLLoader(getClass().getResource("/filterComponent/filter.fxml"));
-        FXMLLoader loaderLeftBottom = new FXMLLoader(getClass().getResource("/mapComponent/map.fxml"));
-        FXMLLoader loaderRight = new FXMLLoader(getClass().getResource("/sidebarComponent/sidebar.fxml"));
 
-        VBox leftBox = new VBox();
-        leftBox.getChildren().add(loaderLeftTop.load());
-        leftBox.getChildren().add(loaderLeftBottom.load());
+        } catch (Exception exception){
+            System.out.println(exception.getMessage());
+            alert.setText("Unable to login");
+            alert.setVisible(true);
+            usernameField.clear();
+            passwordField.clear();
+            //make the Alert appear and make it disappear after 3 seconds
+            PauseTransition visiblePause = new PauseTransition(
+                    Duration.seconds(3)
+            );
+            visiblePause.setOnFinished(
+                    e -> alert.setVisible(false)
+            );
+            visiblePause.play();
 
-        root.setCenter(loaderCenter.load());
-        root.setRight(loaderRight.load());
-        root.setLeft(leftBox);
-        root.setTop(loaderTop.load());
-
-        Scene scene = new Scene(root,1000,600);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
-
+        }
     }
 
 

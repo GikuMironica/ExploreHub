@@ -3,22 +3,22 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
-    <left>
-    <VBox>
-       <children>
-           <fx:include fx:id="filterLayout" source="/filterComponent/filter.fxml" />
-           <fx:include fx:id="mapLayout" source="/mapComponent/map.fxml" />
-       </children>
-    </VBox>
-    </left>
-    <right>
-        <fx:include fx:id="sideBar" source="/sidebarComponent/sidebar.fxml" />
-    </right>
-    <top>
-        <fx:include source="/barComponent/navbar.fxml" fx:id="navLayout" />
-    </top>
-    <center>
-        <fx:include fx:id="listLayout" source="/listComponent/list.fxml"/>
-    </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="782.0" stylesheets="@mainStyle.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="483.0" prefWidth="217.0" BorderPane.alignment="CENTER">
+         <children>
+            <fx:include fx:id="filterLayout" source="/filterComponent/filter.fxml" />
+         </children>
+         <children>
+           <fx:include source="/filterComponent/filter.fxml"></fx:include>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="425.0" prefWidth="565.0" BorderPane.alignment="CENTER">
+         <children>
+            <fx:include source="/barComponent/navbar.fxml"></fx:include>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

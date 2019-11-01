@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.VBox?>
+
+
 <?import javafx.scene.layout.StackPane?>
-
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" fx:id="mapLayout" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button mnemonicParsing="false" text="Button" />
-   </children>
+<?import javafx.scene.control.Button?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" fx:id="mapLayout" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="217.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1%22%3E" fx:controller="mapComponent.MapController">
+<children>
+   <Button mnemonicParsing=" false" text="Button" />
+</children>
 </StackPane>
+
+<!--        prefHeight="210.0" prefWidth="217.0"-->

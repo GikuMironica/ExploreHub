@@ -4,8 +4,17 @@
 <?import javafx.scene.layout.StackPane?>
 
 
-<StackPane maxHeight="-Infinity" fx:id="listLayout" maxWidth="-Infinity" fx:controller="listComponent.ListController" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" fx:id="listLayout" fx:controller="listComponent.ListController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="list" mnemonicParsing="false" text="Button" />
+      <Label text="This is going to be the main area with the list" />
    </children>
-</StackPane>
+   <effect>
+      <ColorAdjust />
+   </effect>
+</VBox>
+

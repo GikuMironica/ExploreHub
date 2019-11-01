@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorLogIn" prefHeight="400.0" prefWidth="600.0" stylesheets="@../mainUI/style.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
+<AnchorPane fx:id="anchorLogIn" prefHeight="400.0" prefWidth="600.0" stylesheets="@../mainUI/login.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
    <children>
-      <VBox alignment="CENTER" layoutY="1.0" prefHeight="289.0" prefWidth="371.0" stylesheets="@../mainUI/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutY="1.0" prefHeight="289.0" prefWidth="371.0" stylesheets="@../mainUI/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label text="iExplore">
                <font>
