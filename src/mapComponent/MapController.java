@@ -12,13 +12,12 @@ public class MapController implements Initializable {
     @FXML
     Button map;
 
-
     @FXML
     private Button mapButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        map.setText("Map here");
+
     }
 
     @FXML

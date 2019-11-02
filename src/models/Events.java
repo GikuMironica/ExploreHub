@@ -27,6 +27,12 @@ public class Events {
     @Basic(optional=false)
     private int AvailablePlaces;
 
+    @Column(nullable = true, name="ShortDescription")
+    private String ShortDescription;
+
+    @Column(nullable = true, name="LongDescription")
+    private String LongDescription;
+
     public int getId() {
         return Id;
     }
@@ -73,5 +79,21 @@ public class Events {
 
     public void setAvailablePlaces(int availablePlaces) {
         AvailablePlaces = availablePlaces;
+    }
+
+    public String getShortDescription() {
+        return ShortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        ShortDescription = shortDescription;
+    }
+
+    public String getLongDescription() {
+        return LongDescription;
+    }
+
+    public void setLongDescription(String longDescription) {
+        LongDescription = longDescription;
     }
 }

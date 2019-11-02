@@ -55,7 +55,7 @@ public class User implements Account{
     private String Password;
 
     @ManyToOne
-    @JoinColumn(name = "CourseID", nullable=true)
+    @JoinColumn(name = "CourseID")
     private Courses Course;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)

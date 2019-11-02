@@ -11,7 +11,7 @@
               <fx:include source="/filterComponent/filter.fxml" />
           </children>
           <children>
-              <fx:include source="/mapComponent/map.fxml" />
+              <fx:include source="/mapComponent/map.fxml" fx:id="mapLayout" />
           </children>
       </VBox>
    </left>

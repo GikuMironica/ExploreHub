@@ -82,7 +82,7 @@ public class RegisterController implements Initializable  {
         // Validate Fields
         boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches("^[a-zA-Z]*$")));
         boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches("^[a-zA-Z]*$")));
-        boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@hs-ulm\\.(de)$")));
+        boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$")));
         boolean validPassword = (!(password.isEmpty()));
 
         if(!validFirstName){

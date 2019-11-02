@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="205.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="205.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
    <children>
-      <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="77.0" text="Button" />
+      <Button fx:id="mapButton" mnemonicParsing="false" onAction="#registerClick" prefHeight="36.0" prefWidth="77.0" text="Button" />
    </children>
 </VBox>
