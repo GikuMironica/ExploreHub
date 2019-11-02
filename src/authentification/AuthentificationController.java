@@ -58,7 +58,7 @@ public class AuthentificationController {
             tq1.setParameter("password", password);
             int i = (int)tq1.getSingleResult();
 
-            // create unique instance of logged in use through the system
+            // create unique instance of logged in user through the system
             if(i==0) {
                 @SuppressWarnings("JpaQueryApiInspection")
                 TypedQuery<User> tq2 = entityManager.createNamedQuery(
@@ -97,9 +97,10 @@ public class AuthentificationController {
         }
         //if user is logged in successfully, open the Home pag
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUI.fxml"));
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 786, 483);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
+        window.setResizable(false);
         window.show();
     }
 

@@ -1,0 +1,8 @@
+#mainBox{
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: #f0f4f5;
+}
+
+.root{
+    -fx-background-color: white;
+}
