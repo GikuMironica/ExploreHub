@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="boxLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="cellLogo" fitHeight="166.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox alignment="CENTER" prefHeight="160.0" prefWidth="259.0">
+         <children>
+            <Label fx:id="descriptionLabel" text="Label" />
+         </children>
+      </VBox>
+      <VBox alignment="BOTTOM_RIGHT" prefHeight="165.0" prefWidth="127.0">
+         <children>
+            <Label fx:id="locationLabel" text="Label" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="5.0" top="10.0" />
+   </padding>
+</HBox>

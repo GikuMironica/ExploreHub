@@ -22,8 +22,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ *Class that handles the registration process
+ * @author Gheorghe Mironica
+ */
 public class RegisterController implements Initializable  {
-
     @FXML
     private TextField firstNameField, lastNameField, emailField;
     @FXML
@@ -35,7 +38,6 @@ public class RegisterController implements Initializable  {
 
     UserConnectionSingleton con = UserConnectionSingleton.getInstance();
     EntityManager entityManager = con.getManager();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,7 +59,13 @@ public class RegisterController implements Initializable  {
         courseChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public void register(Event e) throws IOException {
+    /**
+     * Method that handles the registration process
+     * @param e pressed button triggers event
+     * @throws IOException
+     */
+    @FXML
+    private void register(Event e) throws IOException {
         boolean fieldsInvalid = false;
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -79,36 +87,10 @@ public class RegisterController implements Initializable  {
             alert.showAndWait();
         }
 
-        // Validate Fields
-        boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches("^[a-zA-Z]*$")));
-        boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches("^[a-zA-Z]*$")));
-        boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$")));
-        boolean validPassword = (!(password.isEmpty()));
-
-        if(!validFirstName){
-            firstNameField.setText("Input valid name");
-            firstNameField.setStyle("-fx-text-inner-color: red;");
-            fieldsInvalid = true;
-        }
-        if(!validLastName){
-            lastNameField.setText("Input valid name");
-            lastNameField.setStyle("-fx-text-inner-color: red;");
-            fieldsInvalid = true;
-        }
-        if(!validEmail){
-            emailField.setText("Input a valid HS emailField");
-            emailField.setStyle("-fx-text-inner-color: red;");
-            fieldsInvalid = true;
-        }
-        if(!validPassword){
-            passwordField.setPromptText("Input a password");
-            fieldsInvalid = true;
-        }
-        if(fieldsInvalid)
+        if(!validateFields(firstName, lastName, email, password))
             return;
 
-        // Everything valid a this step
-        // Persist new user
+        // Everything Valid, persist new user
         try {
             User user = new User(firstName, lastName, email, password, course);
             entityManager.getTransaction().begin();
@@ -121,27 +103,64 @@ public class RegisterController implements Initializable  {
             alert.showAndWait();
         }
 
-
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUi.fxml"));
         Scene scene = new Scene(root,800,600);
-        scene.getStylesheets().add("/mainUI/style.css");
         Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
     }
 
+    /**
+     * Method that validates the input fields
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @return true if all fields are valid otherwise false
+     */
+    private Boolean validateFields(String firstName, String lastName, String email, String password){
+        // Validate Fields
+        boolean ok = true;
+        boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches("^[a-zA-Z]*$")));
+        boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches("^[a-zA-Z]*$")));
+        boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$")));
+        boolean validPassword = (!(password.isEmpty()));
 
-    public void fNameClick(){
+        if(!validFirstName){
+            firstNameField.setText("Input valid name");
+            firstNameField.setStyle("-fx-text-inner-color: red;");
+            ok = false;
+        }
+        if(!validLastName){
+            lastNameField.setText("Input valid name");
+            lastNameField.setStyle("-fx-text-inner-color: red;");
+            ok = false;
+        }
+        if(!validEmail){
+            emailField.setText("Input a valid HS emailField");
+            emailField.setStyle("-fx-text-inner-color: red;");
+            ok = false;
+        }
+        if(!validPassword){
+            passwordField.setPromptText("Input a password");
+            ok = false;
+        }
+        return ok;
+    }
+    @FXML
+    private void fNameClick(){
         firstNameField.setText("");
         firstNameField.setStyle("-fx-text-inner-color: black;");
 
     }
-    public void lNameClick(){
+    @FXML
+    private void lNameClick(){
         lastNameField.setText("");
         lastNameField.setStyle("-fx-text-inner-color: black;");
 
     }
-    public void emailClick(){
+    @FXML
+    private void emailClick(){
         emailField.setText("");
         emailField.setStyle("-fx-text-inner-color: black;");
 

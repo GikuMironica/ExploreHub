@@ -4,6 +4,14 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+@SuppressWarnings("ALL")
+@NamedQueries({
+        @NamedQuery(name="Events.findAllEvents", query="SELECT e FROM Events e")
+})
+/**
+ *Model class which represents the Event entity and encapsulates direct access to it
+ * @author Gheorghe Mironica
+ */
 @Entity
 @Table(name="event")
 public class Events {

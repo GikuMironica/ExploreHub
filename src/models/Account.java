@@ -1,7 +1,10 @@
 package models;
 
 import javax.persistence.EntityManager;
-
+/**
+ * Interface for the Users , Admins,
+ * @Author Gheorghe Mironica
+ * */
 public interface Account {
     EntityManager getConnection();
     int getId();

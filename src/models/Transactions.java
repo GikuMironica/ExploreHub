@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+/**
+ *Model class which represents the Transaction entity and encapsulates direct access to it
+ * @author Gheorghe Mironica
+ */
 @Entity
 public class Transactions {
 

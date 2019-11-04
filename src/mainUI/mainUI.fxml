@@ -22,6 +22,9 @@
                 <fx:include source="/navbarComponent/navbar.fxml" />
             </HBox>
          </children>
+          <children>
+              <fx:include source="/listComponent/list.fxml" fx:id="listLayout" />
+          </children>
       </VBox>
    </center>
 </BorderPane>

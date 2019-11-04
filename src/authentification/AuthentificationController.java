@@ -22,7 +22,10 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 
-
+/**
+ * Singleton Class which servers as an interface to the Database with User rights,
+ * @author Gheorghe Mironica, Tonislav Tachev
+ */
 public class AuthentificationController {
 
     @FXML

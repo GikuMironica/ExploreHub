@@ -5,6 +5,11 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name="Courses.findCourses", query="SELECT c FROM Courses c"),
         @NamedQuery(name="Courses.findCourseByName", query="SELECT c FROM Courses c WHERE C.Name = :name")})
+
+/**
+ *Model class which represents the Course entity and encapsulates direct access to it
+ * @author Gheorghe Mironica
+ */
 @Entity
 @Table(name="courses")
 public class Courses {

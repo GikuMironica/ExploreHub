@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import models.Courses;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
@@ -16,22 +17,13 @@ public class RegisterControllerTest {
 
     @Test
     public void initialize() {
-
+        try{
+            UserConnectionSingleton con = UserConnectionSingleton.getInstance();
+            EntityManager entityManager = con.getManager();
+            assertTrue(entityManager.find(Courses.class, 1).getName().matches("CTS"));
+        }catch(Exception e){
+            return;
+        }
     }
 
-    @Test
-    public void register() {
-    }
-
-    @Test
-    public void fNameClick() {
-    }
-
-    @Test
-    public void lNameClick() {
-    }
-
-    @Test
-    public void emailClick() {
-    }
 }
