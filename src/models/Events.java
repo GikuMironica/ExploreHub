@@ -41,6 +41,17 @@ public class Events {
     @Column(nullable = true, name="LongDescription")
     private String LongDescription;
 
+    @Basic(optional = false)
+    private int CheckedIN;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name="Id")
+    private Location location;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name="Id")
+    private Pictures picture;
+
     public int getId() {
         return Id;
     }
@@ -103,5 +114,29 @@ public class Events {
 
     public void setLongDescription(String longDescription) {
         LongDescription = longDescription;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Pictures getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Pictures picture) {
+        this.picture = picture;
+    }
+
+    public int getCheckedIN() {
+        return CheckedIN;
+    }
+
+    public void setCheckedIN(int checkedIN) {
+        CheckedIN = checkedIN;
     }
 }

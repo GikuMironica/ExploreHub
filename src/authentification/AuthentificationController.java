@@ -34,6 +34,7 @@ public class AuthentificationController {
     private Button loginButton;
     @FXML
     private Label alert;
+    private Strategy loginStrategy;
     private EntityManager entityManager;
 
     public void init() throws IOException{
@@ -41,18 +42,18 @@ public class AuthentificationController {
         passwordField.setPromptText("Password");
         loginButton.setDisable(true);
         alert.setVisible(false);
+        alert.setVisible(false);
     }
 
     @FXML
     private void login(Event event) throws IOException{
         String username = usernameField.getText();
         String password = passwordField.getText();
-        CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
+       // CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
         try {
             // Try to establish connection as a user
             UserConnectionSingleton con = UserConnectionSingleton.getInstance();
             entityManager = con.getManager();
-
             @SuppressWarnings("JpaQueryApiInspection")
             Query tq1 = entityManager.createNamedQuery(
                     "User.determineAccess",
@@ -61,25 +62,16 @@ public class AuthentificationController {
             tq1.setParameter("password", password);
             int i = (int)tq1.getSingleResult();
 
-            // create unique instance of logged in user through the system
+            // Using Strategy Pattern to pass a unique instance of User to The Singleton
             if(i==0) {
-                @SuppressWarnings("JpaQueryApiInspection")
-                TypedQuery<User> tq2 = entityManager.createNamedQuery(
-                        "User.findUserbyEmailPass",
-                        User.class);
-                tq2.setParameter("email", username);
-                tq2.setParameter("password", password);
-                currentAccount.setAccount(tq2.getSingleResult());
+                loginStrategy = new UserStrategy();
+                loginStrategy.getAccount(username, password);
             }
             else {
-                @SuppressWarnings("JpaQueryApiInspection")
-                TypedQuery<Admin> tq2 = entityManager.createNamedQuery(
-                        "Admin.findAdminByEmailPass",
-                        Admin.class);
-                tq2.setParameter("email", username);
-                tq2.setParameter("password", password);
-                currentAccount.setAccount(tq2.getSingleResult());
+                loginStrategy = new AdminStrategy();
+                loginStrategy.getAccount(username, password);
             }
+
         }catch(Exception e){
             e.printStackTrace();
             alert.setText("Invalid Email or Password");
@@ -98,6 +90,7 @@ public class AuthentificationController {
             visiblePause.play();
             return;
         }
+
         //if user is logged in successfully, open the Home pag
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUI.fxml"));
         Scene scene = new Scene(root, 786, 483);

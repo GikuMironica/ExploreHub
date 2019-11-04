@@ -2,6 +2,11 @@ package models;
 
 import javax.persistence.*;
 
+@SuppressWarnings("ALL")
+@NamedQueries({
+        @NamedQuery(name="Location.findAllLocation", query="SELECT l FROM Location l")
+})
+
 @Entity
 @Table(name="location")
 public class Location {
@@ -11,10 +16,10 @@ public class Location {
     private int EventID;
 
     @Basic(optional=false)
-    private double Xcoord;
+    private double Latitude;
 
     @Basic(optional=false)
-    private double Ycoord;
+    private double Longitude;
 
     @Basic(optional=false)
     private String City;
@@ -27,20 +32,20 @@ public class Location {
         EventID = eventID;
     }
 
-    public double getXcoord() {
-        return Xcoord;
+    public double getLatitude() {
+        return Latitude;
     }
 
-    public void setXcoord(double xcoord) {
-        Xcoord = xcoord;
+    public void setLatitude(double xcoord) {
+        Latitude = xcoord;
     }
 
-    public double getYcoord() {
-        return Ycoord;
+    public double getLongitude() {
+        return Longitude;
     }
 
-    public void setYcoord(double ycoord) {
-        Ycoord = ycoord;
+    public void setLongitude(double ycoord) {
+        Longitude = ycoord;
     }
 
     public String getCity() {

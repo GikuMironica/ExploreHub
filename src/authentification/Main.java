@@ -5,7 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import listComponent.EventListSingleton;
 
+/**
+ * Main method
+ * @author Gheorghe Mironica
+ */
 public class Main extends Application {
 
     @Override
@@ -16,6 +21,15 @@ public class Main extends Application {
         AuthentificationController atController = atLoader.getController();
         atController.init();
 
+        //Initialize listView in a separate Thread
+        Thread thread = new Thread(){
+            public void run(){
+                EventListSingleton ev = EventListSingleton.getInstance();
+            }
+        };
+        thread.start();
+
+        System.out.println("Login scene is loading");
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();

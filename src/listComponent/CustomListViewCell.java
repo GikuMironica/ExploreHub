@@ -15,6 +15,10 @@ import models.Pictures;
 
 import javax.persistence.EntityManager;
 
+/**
+ * This class serves as a controller for the custom ListCell of the ListView
+ * @author Gheorghe Mironica
+ */
 public class CustomListViewCell extends ListCell<Events> {
 
     @FXML
@@ -53,13 +57,12 @@ public class CustomListViewCell extends ListCell<Events> {
             } catch(Exception e){
                 // Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
                 // alert.showAndWait();
-                e.printStackTrace();
+                // e.printStackTrace();
             }
 
             id = event.getId();
             imageURL = entityManager.find(Pictures.class, id).getLogo();
             city = entityManager.find(Location.class, id).getCity();
-            System.out.println(imageURL);
             image = new Image(imageURL);
             cellLogo.setImage(image);
 

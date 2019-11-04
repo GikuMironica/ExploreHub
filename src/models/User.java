@@ -196,6 +196,7 @@ public class User implements Account{
     @Override
     public EntityManager getConnection() {
         UserConnectionSingleton u1 = UserConnectionSingleton.getInstance();
+        System.out.println("UserConnection EntityManager returned - User.class");
         return u1.getManager();
     }
 
