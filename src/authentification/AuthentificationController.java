@@ -93,7 +93,7 @@ public class AuthentificationController {
 
         //if user is logged in successfully, open the Home pag
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUI.fxml"));
-        Scene scene = new Scene(root, 786, 483);
+        Scene scene = new Scene(root);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.setResizable(false);
