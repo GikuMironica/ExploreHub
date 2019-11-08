@@ -1,6 +1,8 @@
 package listComponent;
 
 import authentification.UserConnectionSingleton;
+import filterComponent.FilterSingleton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Events;
@@ -25,6 +27,7 @@ public class EventListSingleton {
         return ourInstance;
     }
 
+    @SuppressWarnings("JpaQueryApiInspection")
     private EventListSingleton() {
         con = UserConnectionSingleton.getInstance();
         entityManager = con.getManager();
@@ -44,5 +47,22 @@ public class EventListSingleton {
 
     public void setEventsObservableList(ObservableList<Events> eventsList){
         this.eventsObservableList = eventsList;
+    }
+
+    /**
+     * Method which refreshes the ListView, executed as Background Scheduled Task
+     */
+    @SuppressWarnings("JpaQueryApiInspection")
+    public void refreshList(){
+        TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
+        tempList = tq1.getResultList();
+        Platform.runLater(() -> {
+            eventsObservableList.clear();
+            eventsObservableList.addAll(tempList);
+            FilterSingleton filter = FilterSingleton.getInstance();
+            filter.filterItems();
+        });
+
+
     }
 }

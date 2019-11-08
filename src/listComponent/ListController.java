@@ -52,12 +52,7 @@ public class ListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         EventList.setItems(eventsObservableList);
-        EventList.setCellFactory(new Callback<ListView<Events>, ListCell<Events>>() {
-            @Override
-            public ListCell<Events> call(ListView<Events> customListViewCell) {
-                return new CustomListViewCell();
-            }
-        });
+        EventList.setCellFactory(customListViewCell -> new CustomListViewCell());
 
     }
 
@@ -81,9 +76,9 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
-            ex.printStackTrace();
+            // Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
+            // alert.showAndWait();
+            // ex.printStackTrace();
             return;
         }
 
