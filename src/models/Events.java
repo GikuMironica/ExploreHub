@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 @NamedQueries({
         @NamedQuery(name="Events.findAllEvents", query="SELECT e FROM Events e")
 })
+//@NamedNativeQuery(name="countWishListOccurence", query="SELECT COUNT(*) FROM wishlist WHERE EventID = :id")
+
 /**
  *Model class which represents the Event entity and encapsulates direct access to it
  * @author Gheorghe Mironica
@@ -35,14 +37,14 @@ public class Events {
     @Basic(optional=false)
     private int AvailablePlaces;
 
+    @Transient
+    private Query query;
+
     @Column(nullable = true, name="ShortDescription")
     private String ShortDescription;
 
     @Column(nullable = true, name="LongDescription")
     private String LongDescription;
-
-    @Basic(optional = false)
-    private int CheckedIN;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name="Id")
@@ -132,11 +134,17 @@ public class Events {
         this.picture = picture;
     }
 
-    public int getCheckedIN() {
-        return CheckedIN;
+    /**
+     *  Method which count's how many accounts added this event to wishlist
+     * @param em Entity Manager must be passed by reference
+     * @param id The event ID
+     * @return returns the counter
+     */
+    public int getCheckedIN(EntityManager em, int id) {
+        query = em.createNativeQuery("SELECT COUNT(*) FROM wishlist WHERE EventID = ?");
+        query.setParameter(1, id);
+
+        return ((Number) query.getSingleResult()).intValue();
     }
 
-    public void setCheckedIN(int checkedIN) {
-        CheckedIN = checkedIN;
-    }
 }

@@ -2,6 +2,7 @@ package listComponent;
 
 import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,7 @@ public class EventWindowController{
     @FXML
     private TextFlow longDescription;
     @FXML
-    private Button back, book, wishList;
+    private Button book, wishList;
     @FXML
     private Label dateData, considering, placesData, locationData, title, priceData;
     @FXML
@@ -40,15 +41,12 @@ public class EventWindowController{
     private double price;
     private int available, total, consider;
     private Image image;
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
     private Account account;
 
     public void initModel(Events event){
         this.currentEvent = event;
         account = CurrentAccountSingleton.getInstance().getAccount();
-        if(checkUser())
-            checkIfInWishlist();
 
         // get connection
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
@@ -66,6 +64,7 @@ public class EventWindowController{
                 "Here here here here here here \n"+
                 "And here here here here"));
         title.setText(currentEvent.getShortDescription());
+        consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
 
         locationData.setText(currentEvent.getLocation().getCity());
         dateData.setText(currentEvent.getDate().toString());
@@ -75,9 +74,12 @@ public class EventWindowController{
         } else{
             priceData.setText(String.valueOf(price)+"€");
         }
+
+        if(checkUser())
+            checkIfInWishlist();
+
         available = currentEvent.getAvailablePlaces();
         total = currentEvent.getTotalPlaces();
-        consider = currentEvent.getCheckedIN();
         sanityCheck();
         placesData.setText(available+"/"+total);
         considering.setText(consider+" Students added it to Wishlist");
@@ -87,10 +89,6 @@ public class EventWindowController{
     private void sanityCheck() {
         if (available>total){
             available = total;
-        }
-        if(consider<0){
-            consider =0;
-            currentEvent.setCheckedIN(0);
         }
     }
 
@@ -107,11 +105,12 @@ public class EventWindowController{
     }
     private void checkIfInWishlist(){
         List<Events> l1 = ((User)(account)).getEvents();
-        for( Events temp : l1){
-            if (temp.getId() == currentEvent.getId()){
-                wishList.setText("Remove From Wishlist");
-            }
-        }
+        boolean ok = ((User)(account)).checkEventPresence(entityManager, currentEvent.getId());
+           if (ok){
+               wishList.setText("Remove From Wishlist");
+           } else{
+               wishList.setText("Add to Wishlist");
+           }
     }
 
     @FXML
@@ -120,20 +119,20 @@ public class EventWindowController{
             wishList.setText("Remove From Wishlist");
             List<Events> l1 = ((User)(account)).getEvents();
             l1.add(currentEvent);
-            currentEvent.setCheckedIN(consider+1);
+            ((User)(account)).setEvents(l1);
             entityManager.getTransaction().begin();
             entityManager.merge(account);
             entityManager.getTransaction().commit();
-
+            executeOnThread();
         }else{
             wishList.setText("Add to Wishlist");
             List<Events> l1 = ((User)(account)).getEvents();
             l1.remove(currentEvent);
             ((User)(account)).setEvents(l1);
-            currentEvent.setCheckedIN(consider-1);
             entityManager.getTransaction().begin();
             entityManager.merge(account);
             entityManager.getTransaction().commit();
+            executeOnThread();
         }
     }
 
@@ -158,5 +157,13 @@ public class EventWindowController{
             ex.printStackTrace();
             return;
         }
+    }
+
+    private void executeOnThread(){
+        Thread t1 = new Thread(() -> {
+            consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
+            Platform.runLater(() -> considering.setText(consider+" Students added it to Wishlist"));
+        });
+        t1.start();
     }
 }

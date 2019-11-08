@@ -14,6 +14,7 @@ import java.util.Set;
         @NamedQuery(name= "User.findUserbyEmail", query =	"SELECT u FROM User u WHERE u.Email = :email"),
         @NamedQuery(name= "User.determineAccess", query = "SELECT u.Access FROM User u WHERE u.Email = :email AND u.Password = :password")
 })
+@NamedNativeQuery(name="checkIfEventInWishList", query ="SELECT Count(*) FROM wishlist WHERE StudentID = ? AND EventID = ?;")
 
 /**
  *Model class which represents the user entity and encapsulates direct access to it,
@@ -33,6 +34,9 @@ public class User implements Account{
         this.Password = password;
         this.Course = course;
     }
+
+    @Transient
+    private Query query;
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -200,4 +204,15 @@ public class User implements Account{
         return u1.getManager();
     }
 
+    @SuppressWarnings("JpaQueryApiInspection")
+    public boolean checkEventPresence(EntityManager em, int eventID){
+        query = em.createNamedQuery("checkIfEventInWishList");
+        query.setParameter(1, getId());
+        query.setParameter(2, eventID);
+        int i = ((Number) query.getSingleResult()).intValue();
+        if(i==0)
+            return false;
+        else
+            return true;
+    }
 }
