@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="471.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
+   <children>
+      <VBox prefHeight="470.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <TitledPane animated="false" prefHeight="471.0" prefWidth="190.0" text="User Statistics">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" />
+                        <Label layoutX="28.0" layoutY="74.0" />
+                        <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" />
+                        <Label layoutX="14.0" layoutY="178.0" text="Average amount of money spent by user" />
+                     </children></AnchorPane>
+              </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <TitledPane animated="false" prefHeight="471.0" prefWidth="190.0" text="Event Statistics">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="28.0" text="Number of Events" />
+                        <Label layoutX="14.0" layoutY="112.0" text="Past events" />
+                        <Label layoutX="19.0" layoutY="184.0" text="Average number of  bookings per event" />
+                     </children></AnchorPane>
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <TitledPane animated="false" prefHeight="471.0" prefWidth="190.0" text="Payment Statistics">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="21.0" layoutY="37.0" text="Number of bookings" />
+                        <Label layoutX="18.0" layoutY="111.0" text="Number of pending orders" />
+                        <Label layoutX="21.0" layoutY="184.0" text="Number of overdue payments" />
+                     </children></AnchorPane>
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="823.0" layoutY="141.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="750.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="350.0" prefWidth="200.0">
+               <children>
+                  <RadioButton layoutX="23.0" layoutY="34.0" mnemonicParsing="false" text="Week" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
+                  <RadioButton layoutX="23.0" layoutY="65.0" mnemonicParsing="false" text="Month" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0" />
+                  <RadioButton layoutX="23.0" layoutY="100.0" mnemonicParsing="false" text="Year" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0" />
+                  <Label layoutX="86.0" layoutY="14.0" text="Configure payment statistics" underline="true" AnchorPane.leftAnchor="20.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Label>
+                  <RadioButton layoutX="14.0" layoutY="129.0" mnemonicParsing="false" text="Week" AnchorPane.topAnchor="160.0" />
+                  <RadioButton layoutX="14.0" layoutY="149.0" mnemonicParsing="false" text="Month" AnchorPane.topAnchor="180.0" />
+                  <RadioButton layoutX="14.0" layoutY="169.0" mnemonicParsing="false" text="Year" AnchorPane.topAnchor="200.0" />
+                  <Label layoutX="14.0" layoutY="103.0" text="Configure user statistics" underline="true" AnchorPane.topAnchor="125.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="5.0" layoutY="254.0" mnemonicParsing="false" text="Refresh" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="254.0" />
+                  <Button layoutX="133.0" layoutY="292.0" mnemonicParsing="false" onMouseClicked="#openHomepage" text="Home" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="20.0" />
+               </children>
+            </AnchorPane>
+            <Separator prefWidth="200.0" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Pagination layoutY="-21.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label layoutX="45.0" layoutY="50.0" text="Feedback here" />
+               </children></AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

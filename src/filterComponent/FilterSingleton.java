@@ -1,12 +1,15 @@
 package filterComponent;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import listComponent.EventListSingleton;
 import models.Events;
+import java.util.Comparator;
+
 
 /**
- *Class that implemets the filter.
+ *Class that implements the filter.
  * @author Aleksejs Marmiss
  *
  */
@@ -94,7 +97,7 @@ public class FilterSingleton {
 
     /**
      * Getter for Filter Singleton instance.
-     * @return
+     * @return instance of the FilterSingleton.
      */
     public static FilterSingleton getInstance() {
         return ourInstance;
@@ -158,11 +161,9 @@ public class FilterSingleton {
         Criteria filter = new AndCriteria(minPers,price);
         Criteria totalFilter = new AndCriteria(radius,filter);
         ObservableList<Events> listValues = listSingleton.getEventsObservableList();
-        int i = 0;
-        while ( i < listValues.size()){
-            listValues.remove(i);
-        }
+        listValues.clear();
         listValues.addAll(totalFilter.meetCriteria(backup));
+        applySort();
     }
 
     /**
@@ -170,10 +171,7 @@ public class FilterSingleton {
      */
     public void resetFilter(){
         ObservableList<Events> listValues = listSingleton.getEventsObservableList();
-        int i = 0;
-        while ( i < listValues.size()){
-            listValues.remove(i);
-        }
+        listValues.clear();
         listValues.addAll(backup);
         priceValue = 100;
         radiusSelected = -1;
@@ -182,5 +180,23 @@ public class FilterSingleton {
         cityValue = null;
     }
 
+    /**
+     * Method that updates the backup of ObservableList.
+     */
+    public void updateFilter(){
+        backup = FXCollections.observableArrayList(listSingleton.getEventsObservableList());
+    }
 
+    public void applySort(){
+        if (sortSelected != -1) {
+            EventListSingleton listSingleton = EventListSingleton.getInstance();
+            ObservableList<Events> toSortList = listSingleton.getEventsObservableList();
+            if (sortSelected == 0) toSortList.sort(Comparator.comparingDouble(Events::getPrice));
+            else if (sortSelected == 1) toSortList.sort(Comparator.comparingDouble(Events::getPrice).reversed());
+            else if (sortSelected == 2) toSortList.sort(Comparator.comparing(Events::getDate).reversed());
+            else if (sortSelected == 3) toSortList.sort(Comparator.comparing(Events::getDate));
+            else if (sortSelected == 4) toSortList.sort(Comparator.comparing(Events::getCompany).reversed());
+            else if (sortSelected == 5) toSortList.sort(Comparator.comparing(Events::getCompany));
+        }
+    }
 }

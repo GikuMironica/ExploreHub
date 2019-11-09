@@ -61,8 +61,12 @@ public class NavbarController implements Initializable {
      * @param mouseEvent - the even which triggered the method
      */
     @FXML
-    private void handlePanelClicked(MouseEvent mouseEvent) {
-        // TODO: open admin's control panel
+    private void handlePanelClicked(MouseEvent mouseEvent) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/controlPanelComponent/controlPanel.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
     /**

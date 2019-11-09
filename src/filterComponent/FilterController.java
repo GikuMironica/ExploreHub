@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import listComponent.EventListSingleton;
 import models.Events;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -61,7 +60,6 @@ public class FilterController implements Initializable {
      */
         public void applyFilter() {
             filter.filterItems();
-            onSortingChanged();
         }
 
     /**
@@ -93,7 +91,6 @@ public class FilterController implements Initializable {
                             break;
                         }
                     }
-
                 }
             }catch (IOException | ParseException ioe){
                 ioe.printStackTrace();
@@ -138,25 +135,8 @@ public class FilterController implements Initializable {
      *Method sorts the list in accordance with chosen option.
      */
         public void onSortingChanged(){
-            if (!sortBy.getSelectionModel().isSelected(-1)) {
-                EventListSingleton listSingleton = EventListSingleton.getInstance();
-                ObservableList<Events> toSortList = listSingleton.getEventsObservableList();
-                int index = sortBy.getSelectionModel().getSelectedIndex();
-                if (index == 0) {
-                    toSortList.sort(Comparator.comparingDouble(Events::getPrice));
-                } else if (index == 1) {
-                    toSortList.sort(Comparator.comparingDouble(Events::getPrice).reversed());
-                } else if (index == 2) {
-                    toSortList.sort(Comparator.comparing(Events::getDate).reversed());
-                } else if (index == 3) {
-                    toSortList.sort(Comparator.comparing(Events::getDate));
-                } else if (index == 4) {
-                    toSortList.sort(Comparator.comparing(Events::getCompany).reversed());
-                } else if (index == 5) {
-                    toSortList.sort(Comparator.comparing(Events::getCompany));
-                }
-                filter.setSortSelected(sortBy.getSelectionModel().getSelectedIndex());
-            }
+            filter.setSortSelected(sortBy.getSelectionModel().getSelectedIndex());
+            filter.applySort();
         }
 
     /**
