@@ -1,12 +1,9 @@
 package settingsComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
@@ -69,9 +66,11 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleChangePasswordClicked(MouseEvent mouseEvent) {
         try {
-            switchScene("/changePasswordComponent/change_password.fxml");
+            Convenience.switchScene(mouseEvent,
+                    getClass().getResource("/changePasswordComponent/change_password.fxml"));
         } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
         }
     }
 
@@ -90,7 +89,7 @@ public class SettingsController implements Initializable {
                 new FileChooser.ExtensionFilter("PNG Files", "*.png")
         );
 
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        Stage window = Convenience.getWindow(mouseEvent);
         File selectedFile = fileChooser.showOpenDialog(window);
 
         System.out.println("Selected file: " + selectedFile);
@@ -104,20 +103,18 @@ public class SettingsController implements Initializable {
      */
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText("Unsaved changes will be lost");
-        alert.setContentText("Do you want to continue?");
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(
+                Alert.AlertType.CONFIRMATION,
+                "Confirmation", "Unsaved changes will be lost", "Do you want to continue?",
+                ButtonType.YES, ButtonType.CANCEL
+        );
 
-        alert.getButtonTypes().clear();
-        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.CANCEL);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.YES) {
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             try {
-                switchScene("/mainUI/mainUI.fxml");
+                Convenience.switchScene(mouseEvent, getClass().getResource("/mainUI/mainUI.fxml"));
             } catch (IOException e) {
-                System.out.println("Exception occurred: " + e.getMessage());
+                Convenience.showAlert(Alert.AlertType.ERROR,
+                        "Error", "Something went wrong", "Please, try again later");
             }
         }
     }
@@ -151,38 +148,22 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * Switches the current scene to the given one
-     *
-     * @param resourcePath - path to fxml file which is to be loaded
-     * @throws IOException - can be thrown if the page could not be loaded
-     */
-    private void switchScene(String resourcePath) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(resourcePath));
-        Scene scene = new Scene(root);
-        Stage window = (Stage) profilePhotoCircle.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
-    }
-
-    /**
      * Shows the user that the changes have been saved and asks if he/she wants to return to homepage.
      * If yes, the homepage will be loaded. Otherwise, the page will not be changed.
      */
     private void showSuccess() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText("Your changes have been saved!");
-        alert.setContentText("Return to homepage?");
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(
+                Alert.AlertType.INFORMATION,
+                "Information", "Your changes have been saved!", "Return to homepage?",
+                ButtonType.YES, ButtonType.CANCEL
+        );
 
-        alert.getButtonTypes().clear();
-        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.CLOSE);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.YES) {
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             try {
-                switchScene("/mainUI/mainUI.fxml");
+                Convenience.switchScene(profilePhotoCircle, getClass().getResource("/mainUI/mainUI.fxml"));
             } catch (IOException e) {
-                System.out.println("Exception occurred: " + e.getMessage());
+                Convenience.showAlert(Alert.AlertType.ERROR,
+                        "Error", "Something went wrong", "Please, try again later");
             }
         }
     }

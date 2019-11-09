@@ -1,6 +1,7 @@
 package sidebarComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,9 +59,10 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleWishlistClicked(MouseEvent mouseEvent) {
         try {
-            switchScene("/wishlistComponent/wishlist.fxml");
+            Convenience.switchScene(mouseEvent, getClass().getResource("/wishlistComponent/wishlist.fxml"));
         } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
         }
     }
 
@@ -72,11 +74,7 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleSettingsClicked(MouseEvent mouseEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/settingsComponent/settings.fxml"));
-        Scene scene = new Scene(root);
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        Convenience.switchScene(mouseEvent, getClass().getResource("/settingsComponent/settings.fxml"));
     }
 
     /**
@@ -87,9 +85,10 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleFAQClicked(MouseEvent mouseEvent) {
         try {
-            switchScene("/FAQComponent/faq.fxml");
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FAQComponent/faq.fxml"));
         } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
         }
     }
 
@@ -101,9 +100,10 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleAboutClicked(MouseEvent mouseEvent) {
         try {
-            switchScene("/aboutComponent/about.fxml");
+            Convenience.switchScene(mouseEvent, getClass().getResource("/aboutComponent/about.fxml"));
         } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
         }
     }
 
@@ -115,9 +115,10 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleFeedbackClicked(MouseEvent mouseEvent) {
         try {
-            switchScene("/feedbackComponent/feedback.fxml");
+            Convenience.switchScene(mouseEvent, getClass().getResource("/feedbackComponent/feedback.fxml"));
         } catch (IOException e) {
-            System.out.println("Exception occurred: " + e.getMessage());
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
         }
     }
 
@@ -134,11 +135,7 @@ public class SidebarController implements Initializable {
             CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
             currentAccount.setAccount(null);
 
-            Parent root = FXMLLoader.load(getClass().getResource("/authentification/authentification.fxml"));
-            Scene scene = new Scene(root, 600, 400);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
+            Convenience.switchScene(mouseEvent, getClass().getResource("/authentification/authentification.fxml"));
         }
     }
 
@@ -187,29 +184,12 @@ public class SidebarController implements Initializable {
      * @return true, if the user presses the YES button. Otherwise, false.
      */
     private boolean userWantsToLogOut() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText("Confirm Logout");
-        alert.setContentText("Are you sure you want to log out?");
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(
+                Alert.AlertType.CONFIRMATION, "Confirmation",
+                "Confirm Logout", "Are you sure you want to log out?",
+                ButtonType.YES, ButtonType.CANCEL
+        );
 
-        alert.getButtonTypes().clear();
-        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.CANCEL);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.YES;
-    }
-
-    /**
-     * Switches the current page
-     *
-     * @param resourcePath - path to the fxml file which is to be loaded
-     * @throws IOException - if the resource could not be loaded
-     */
-    private void switchScene(String resourcePath) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(resourcePath));
-        Scene scene = new Scene(root);
-        Stage window = (Stage) sidebarPane.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        return response.isPresent() && response.get() == ButtonType.YES;
     }
 }
