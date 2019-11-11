@@ -12,8 +12,9 @@ public class AdminConnectionSingleton {
     private static EntityManagerFactory factory;
     private static AdminConnectionSingleton ourInstance = new AdminConnectionSingleton();
     private static EntityManager em;
+    private final String PERSISTENCE_UNIT_NAME = "Administrator";
 
-        // ensure single global access via whole system
+
     /**
      * Method that returns an instance to this class
      */
@@ -22,9 +23,6 @@ public class AdminConnectionSingleton {
     }
         // private c-tor
     private AdminConnectionSingleton() {
-
-            // get connection to db using JPA Eclipse Link
-        final String PERSISTENCE_UNIT_NAME = "Administrator";
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         em = factory.createEntityManager();
 

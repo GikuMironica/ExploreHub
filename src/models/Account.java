@@ -2,7 +2,8 @@ package models;
 
 import javax.persistence.EntityManager;
 /**
- * Interface for the Users , Admins,
+ * Interface for the {@link User} , {@link Admin}
+ *
  * @Author Gheorghe Mironica
  * */
 public interface Account {

@@ -59,10 +59,7 @@ public class EventWindowController{
         imageView.setFitHeight(333.0);
         imageView.setFitWidth(464.0);
 
-        longDescription.getChildren().add(new Text(currentEvent.getLongDescription()+"\n"+
-                "We need to add few more lines\n"+
-                "Here here here here here here \n"+
-                "And here here here here"));
+        longDescription.getChildren().add(new Text(currentEvent.getLongDescription()));
         title.setText(currentEvent.getShortDescription());
         consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
 
