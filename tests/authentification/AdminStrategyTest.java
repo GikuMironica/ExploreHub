@@ -10,17 +10,30 @@ import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class for the {@link AdminStrategy}
+ *
+ * @author Gheorghe Mironica
+ */
 public class AdminStrategyTest {
 
     private EntityManager entityManager;
     private AdminConnectionSingleton con;
 
+    /**
+     * Establish data base connection before starting
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         con = AdminConnectionSingleton.getInstance();
         entityManager = con.getManager();
     }
 
+    /**
+     * Tests the method {@link #getAccount()}
+     */
     @Test
     public void getAccount() {
         @SuppressWarnings("JpaQueryApiInspection")

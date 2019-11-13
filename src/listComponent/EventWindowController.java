@@ -2,6 +2,7 @@ package listComponent;
 
 import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
+import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -112,24 +113,30 @@ public class EventWindowController{
 
     @FXML
     private void addremoveWishList(Event event){
-        if(wishList.getText().matches("Add to Wishlist")){
-            wishList.setText("Remove From Wishlist");
-            List<Events> l1 = ((User)(account)).getEvents();
-            l1.add(currentEvent);
-            ((User)(account)).setEvents(l1);
-            entityManager.getTransaction().begin();
-            entityManager.merge(account);
-            entityManager.getTransaction().commit();
-            executeOnThread();
-        }else{
-            wishList.setText("Add to Wishlist");
-            List<Events> l1 = ((User)(account)).getEvents();
-            l1.remove(currentEvent);
-            ((User)(account)).setEvents(l1);
-            entityManager.getTransaction().begin();
-            entityManager.merge(account);
-            entityManager.getTransaction().commit();
-            executeOnThread();
+        try {
+            if (wishList.getText().matches("Add to Wishlist")) {
+                wishList.setText("Remove From Wishlist");
+                List<Events> l1 = ((User) (account)).getEvents();
+                l1.add(currentEvent);
+                ((User) (account)).setEvents(l1);
+                entityManager.getTransaction().begin();
+                entityManager.merge(account);
+                entityManager.getTransaction().commit();
+                executeOnThread();
+            } else {
+                wishList.setText("Add to Wishlist");
+                List<Events> l1 = ((User) (account)).getEvents();
+                l1.remove(currentEvent);
+                ((User) (account)).setEvents(l1);
+                entityManager.getTransaction().begin();
+                entityManager.merge(account);
+                entityManager.getTransaction().commit();
+                executeOnThread();
+            }
+        }catch(Exception e){
+            // event deleted.
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
+            return;
         }
     }
 

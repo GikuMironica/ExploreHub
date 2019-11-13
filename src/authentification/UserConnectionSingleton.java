@@ -1,5 +1,8 @@
 package authentification;
 
+import handlers.Convenience;
+import javafx.scene.control.Alert;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,9 +26,13 @@ public class UserConnectionSingleton {
      * Method that returns an instance to this class
      */
     private UserConnectionSingleton() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        em = factory.createEntityManager();
-
+        try {
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            em = factory.createEntityManager();
+        }catch(Exception e){
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Oops, looks like you have no internet connection","Try later.");
+            return;
+        }
     }
     // fetch ze manager
     /**

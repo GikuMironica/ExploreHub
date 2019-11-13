@@ -16,7 +16,7 @@ public class AdminStrategy implements Strategy {
     private AdminConnectionSingleton con;
 
     /**
-     * This method is validating the credentials and resets the current A   ccount to an Admin
+     * This method is validating the credentials and resets the current Account to an Admin
      * @param email this is username
      * @param pass this is the password
      */
@@ -33,5 +33,6 @@ public class AdminStrategy implements Strategy {
         tq2.setParameter("email", email);
         tq2.setParameter("password", pass);
         currentAccount.setAccount(tq2.getSingleResult());
+
     }
 }

@@ -6,8 +6,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Events;
-import models.Events;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -21,7 +19,7 @@ public class EventListSingleton {
     private static UserConnectionSingleton con;
     private static EntityManager entityManager;
     private static List<Events> tempList;
-    private ObservableList<Events> eventsObservableList;
+    private static ObservableList<Events> eventsObservableList;
 
     public static EventListSingleton getInstance() {
         return ourInstance;
@@ -54,15 +52,16 @@ public class EventListSingleton {
      */
     @SuppressWarnings("JpaQueryApiInspection")
     public void refreshList(){
-        TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
-        tempList = tq1.getResultList();
-        Platform.runLater(() -> {
-            eventsObservableList.clear();
-            eventsObservableList.addAll(tempList);
-            FilterSingleton filter = FilterSingleton.getInstance();
-            filter.filterItems();
+        Thread thread = new Thread(() -> {
+            TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
+            tempList = tq1.getResultList();
+            Platform.runLater(() -> {
+                eventsObservableList.clear();
+                eventsObservableList.addAll(tempList);
+            });
         });
-
-
+        thread.start();
+        //FilterSingleton filter = FilterSingleton.getInstance();
+        //filter.filterItems();
     }
 }

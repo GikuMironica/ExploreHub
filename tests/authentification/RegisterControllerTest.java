@@ -12,9 +12,16 @@ import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 
-    // to be Implemented
+/**
+ * Test class for the {@link RegisterController}
+ *
+ * @author Gheorghe Mironica
+ */
 public class RegisterControllerTest {
 
+    /**
+     * Test the functionality of the {@link #initialize()}
+     */
     @Test
     public void initialize() {
         try{

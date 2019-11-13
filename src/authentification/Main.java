@@ -31,11 +31,9 @@ public class Main extends Application {
         atController.init();
 
         //Initialize listView in a separate Thread
-        Thread thread = new Thread(){
-            public void run(){
-                EventListSingleton ev = EventListSingleton.getInstance();
-            }
-        };
+        Thread thread = new Thread(() -> {
+            EventListSingleton ev = EventListSingleton.getInstance();
+        });
         thread.start();
 
 
@@ -57,6 +55,12 @@ public class Main extends Application {
         System.out.println("Stage is closing");
         timer.cancel();
         timer.purge();
+        try {
+            CurrentAccountSingleton.getInstance().getAccount().getConnection().close();
+        }catch(Exception e){
+            UserConnectionSingleton.getInstance().getManager().close();
+            AdminConnectionSingleton.getInstance().getManager().close();
+        }
     }
 
     public static void main(String[] args) {

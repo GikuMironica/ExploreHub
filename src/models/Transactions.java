@@ -21,7 +21,7 @@ public class Transactions {
     @Basic(optional=false)
     private int Completed;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int EventID;
 
     @Basic(optional=false)
@@ -23,6 +23,27 @@ public class Location {
 
     @Basic(optional=false)
     private String City;
+
+    /**
+     * Default constructor
+     */
+    Location(){
+
+    }
+
+    /**
+     * Constructor
+     *
+     * @param id id of the {@link Events}
+     * @param latitude latitude {@link String}
+     * @param longitude longitude {@link String}
+     * @param city city name {@link String}
+     */
+    public Location(double latitude, double longitude, String city) {
+        Latitude = latitude;
+        Longitude = longitude;
+        City = city;
+    }
 
     public int getEventID() {
         return EventID;

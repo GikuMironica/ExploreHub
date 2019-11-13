@@ -24,7 +24,7 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Label>
-                  <TextField fx:id="companyField" onMouseClicked="#companyFieldClicked" prefHeight="28.0" prefWidth="77.0">
+                  <TextField fx:id="companyField" prefHeight="28.0" prefWidth="77.0">
                      <HBox.margin>
                         <Insets right="-0.0" />
                      </HBox.margin></TextField>
@@ -33,7 +33,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceField" onMouseClicked="#priceFieldClicked" prefHeight="20.0" prefWidth="70.0">
+                  <TextField fx:id="priceField" prefHeight="20.0" prefWidth="70.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
@@ -54,7 +54,7 @@
                         <Insets />
                      </HBox.margin></Label>
                   <ComboBox fx:id="placesCombo" prefHeight="31.0" prefWidth="62.0" />
-                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="112.0" text="Upload Picture">
+                  <Button fx:id="picButton" mnemonicParsing="false" onAction="#uploadPic" prefHeight="31.0" prefWidth="112.0" text="Upload Picture">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -62,7 +62,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="102.0" text="Upload Logo">
+                  <Button fx:id="logoButton" mnemonicParsing="false" onAction="#uploadLogo" prefHeight="31.0" prefWidth="102.0" text="Upload Logo">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -79,42 +79,78 @@
                   <TextField fx:id="longitudeField" prefHeight="31.0" prefWidth="172.0" />
                </children>
             </HBox>
-            <HBox prefHeight="70.0" prefWidth="424.0" spacing="10.0">
+            <HBox prefHeight="70.0" prefWidth="424.0">
                <children>
-                  <Label text="Short Description:">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <TextArea fx:id="shortField" prefHeight="70.0" prefWidth="369.0" />
+                  <VBox prefHeight="70.0" prefWidth="129.0">
+                     <children>
+                        <Label text="Short Description:" />
+                        <HBox prefHeight="49.0" prefWidth="98.0">
+                           <children>
+                              <Label fx:id="shortCharsRemaining" text="Label">
+                                 <font>
+                                    <Font name="System Bold" size="9.0" />
+                                 </font></Label>
+                              <Label text="Characters left">
+                                 <padding>
+                                    <Insets left="2.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <TextArea fx:id="shortField" prefHeight="70.0" prefWidth="343.0" />
                </children>
             </HBox>
-            <HBox prefHeight="134.0" prefWidth="423.0" spacing="10.0">
+            <HBox prefHeight="134.0" prefWidth="423.0">
                <children>
-                  <Label text="Long Description:">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <TextArea fx:id="longField" prefHeight="134.0" prefWidth="372.0" />
+                  <VBox prefHeight="134.0" prefWidth="127.0">
+                     <children>
+                        <Label text="Long Description:" />
+                        <HBox prefHeight="100.0" prefWidth="103.0">
+                           <children>
+                              <Label fx:id="longCharsRemaining" text="Label">
+                                 <font>
+                                    <Font name="System Bold" size="9.0" />
+                                 </font></Label>
+                              <Label text="Characters left">
+                                 <padding>
+                                    <Insets left="2.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <TextArea fx:id="longField" prefHeight="134.0" prefWidth="344.0" />
                </children>
             </HBox>
          </children>
       </VBox>
       <ListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" />
-      <HBox alignment="CENTER" layoutX="512.0" layoutY="381.0" prefHeight="21.0" prefWidth="372.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="512.0" layoutY="381.0" prefHeight="29.0" prefWidth="394.0" spacing="10.0">
          <children>
             <Button fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" text="Clear">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#createEvent" prefHeight="16.0" prefWidth="138.0" text="Create New Event" textAlignment="JUSTIFY">
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="29.0" prefWidth="100.0" text="Delete Event">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#saveChanges" prefHeight="37.0" prefWidth="77.0" text="Save">
+            <Button mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="100.0" text="Create Event" textAlignment="JUSTIFY">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#updateEvent" prefHeight="29.0" prefWidth="120.0" text="Update Event">
                <font>
                   <Font size="13.0" />
                </font>

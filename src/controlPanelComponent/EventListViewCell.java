@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
  *
  * @author Gheorghe Mironica
  */
-public class EditListViewCell extends ListCell<Events> {
+public class EventListViewCell extends ListCell<Events> {
 
     private FXMLLoader loader;
     private UserConnectionSingleton con;
