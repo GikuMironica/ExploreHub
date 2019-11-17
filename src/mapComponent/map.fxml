@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="205.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="213.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
    <children>
-      <Button fx:id="mapButton" mnemonicParsing="false" onAction="#registerClick" prefHeight="36.0" prefWidth="77.0" text="Button" />
+      <ImageView fx:id="mapView" fitHeight="209.0" fitWidth="220.0" onMouseClicked="#openMap" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@maps.PNG" />
+         </image></ImageView>
    </children>
 </VBox>
