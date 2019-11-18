@@ -3,6 +3,7 @@ package authentification;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Account;
@@ -43,6 +46,14 @@ public class AuthentificationController {
         loginButton.setDisable(true);
         alert.setVisible(false);
         alert.setVisible(false);
+        passwordField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event){
+                if(event.getCode().equals(KeyCode.ENTER)){
+                    loginButton.fire();
+                }
+            }
+        });
     }
 
     @FXML
@@ -89,6 +100,7 @@ public class AuthentificationController {
             visiblePause.play();
             return;
         }
+        alert.setVisible(false);
 
         //if user is logged in successfully, open the Home pag
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUI.fxml"));
@@ -131,6 +143,11 @@ public class AuthentificationController {
             alert.showAndWait();
             return;
         }
+    }
+
+    @FXML
+    public void onEnter(ActionEvent ae){
+        System.out.println("test") ;
     }
 
     @FXML

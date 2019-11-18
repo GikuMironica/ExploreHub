@@ -26,7 +26,7 @@
                   <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <PasswordField fx:id="passwordField" alignment="CENTER" onKeyReleased="#handleKeyRelease">
+            <PasswordField fx:id="passwordField" alignment="CENTER" onAction="#onEnter" onKeyReleased="#handleKeyRelease">
                <VBox.margin>
                   <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
                </VBox.margin>
