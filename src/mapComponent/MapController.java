@@ -3,9 +3,15 @@ package mapComponent;
 import handlers.Convenience;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
@@ -19,6 +25,7 @@ public class MapController implements Initializable {
     @FXML
     ImageView mapView;
 
+
     @FXML
     private Button mapButton;
 
@@ -28,12 +35,12 @@ public class MapController implements Initializable {
     }
 
     @FXML
-    public void openMap(){
+    public void openMap(MouseEvent event) throws IOException {
         try {
             Desktop.getDesktop().browse(new URL("http://iexploremap.herokuapp.com/").toURI());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (URISyntaxException e) {
+        }catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
