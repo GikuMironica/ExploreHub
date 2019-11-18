@@ -14,7 +14,8 @@ import java.util.Set;
 
 
 /**
- *Model class which represents the admin entity and encapsulates direct access to it,
+ *Model class which represents the admin entity and encapsulates direct access to it
+ *
  * @author: Gheorghe Mironica
  */
 @Entity

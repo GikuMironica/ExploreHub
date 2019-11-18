@@ -50,10 +50,8 @@ public class ListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         EventList.setItems(eventsObservableList);
         EventList.setCellFactory(customListViewCell -> new CustomListViewCell());
-
     }
 
     /**
@@ -63,8 +61,7 @@ public class ListController implements Initializable {
     @FXML
     private void cellClicked(Event event){
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
-       //Check the internet connection first
-        // then pass the selected event to the new scene
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/listComponent/eventwindow.fxml"));
@@ -76,10 +73,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-            // Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            // alert.showAndWait();
-            // ex.printStackTrace();
-            return;
+            //...
         }
 
     }

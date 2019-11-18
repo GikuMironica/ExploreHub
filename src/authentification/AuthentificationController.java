@@ -73,7 +73,6 @@ public class AuthentificationController {
             }
 
         }catch(Exception e){
-            e.printStackTrace();
             alert.setText("Invalid Email or Password");
             alert.setVisible(true);
             usernameField.clear();

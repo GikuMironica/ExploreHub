@@ -3,7 +3,6 @@ package listComponent;
 import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
@@ -17,6 +16,7 @@ import javax.persistence.EntityManager;
 
 /**
  * This class serves as a controller for the custom ListCell of the ListView
+ *
  * @author Gheorghe Mironica
  */
 public class CustomListViewCell extends ListCell<Events> {
@@ -38,7 +38,7 @@ public class CustomListViewCell extends ListCell<Events> {
     private String city;
 
     @Override
-    protected void updateItem(Events event, boolean empty) {
+    protected synchronized void updateItem(Events event, boolean empty) {
         super.updateItem(event, empty);
 
         if(empty || event == null){
@@ -60,15 +60,18 @@ public class CustomListViewCell extends ListCell<Events> {
                 // e.printStackTrace();
             }
 
-            id = event.getId();
-            imageURL = entityManager.find(Pictures.class, id).getLogo();
-            city = entityManager.find(Location.class, id).getCity();
-            image = new Image(imageURL);
-            cellLogo.setImage(image);
-
+            try {
+                id = event.getId();
+                imageURL = entityManager.find(Pictures.class, id).getLogo();
+                city = entityManager.find(Location.class, id).getCity();
+                image = new Image(imageURL);
+                cellLogo.setImage(image);
+            } catch(Exception e){
+                image = new Image("./res/quest.png");
+                cellLogo.setImage(image);
+            }
             descriptionLabel.setText(event.getShortDescription());
             locationLabel.setText(city);
-
             setText(null);
             setGraphic(boxLayout);
         }

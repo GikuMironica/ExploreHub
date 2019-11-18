@@ -18,7 +18,11 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Test class for the {@link authentification.AuthentificationController}
+ *
+ * @author Gheorghe Mironica
+ */
 public class AuthentificationControllerTest {
 
    private TextField usernameField;
@@ -29,6 +33,12 @@ public class AuthentificationControllerTest {
     public void init() {
     }
 
+    /**
+     * Test the functionality of the login method
+     *
+     * @param e
+     * @throws IOException
+     */
     @Test
     public void login(Event e) throws IOException {
         try {

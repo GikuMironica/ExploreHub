@@ -6,9 +6,10 @@ import java.sql.Timestamp;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
-        @NamedQuery(name="Events.findAllEvents", query="SELECT e FROM Events e")
+        @NamedQuery(name="Events.findAllEvents", query="SELECT e FROM Events e"),
+        @NamedQuery(name="Events.findMaxId", query="SELECT MAX(e.Id) FROM Events e")
 })
-//@NamedNativeQuery(name="countWishListOccurence", query="SELECT COUNT(*) FROM wishlist WHERE EventID = :id")
+
 
 /**
  *Model class which represents the Event entity and encapsulates direct access to it
@@ -17,6 +18,24 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="event")
 public class Events {
+
+
+    public Events(){
+
+    }
+
+    public Events(java.sql.Date date, String company, Double price, int totalPlaces, int availablePlaces, String shortDescription,
+                  String longDescription) {
+        Date = date;
+        Company = company;
+        Price = price;
+        TotalPlaces = totalPlaces;
+        AvailablePlaces = availablePlaces;
+        ShortDescription = shortDescription;
+        LongDescription = longDescription;
+        this.location = location;
+        this.picture = picture;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

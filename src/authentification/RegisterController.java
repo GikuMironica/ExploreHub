@@ -34,20 +34,17 @@ public class RegisterController implements Initializable  {
     @FXML
     private ChoiceBox courseChoiceBox;
     private TypedQuery<Courses> tq1;
-
-
-    UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-    EntityManager entityManager = con.getManager();
+    private UserConnectionSingleton con = UserConnectionSingleton.getInstance();
+    private EntityManager entityManager = con.getManager();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Views setup
+
         firstNameField.setPromptText("First Name");
         lastNameField.setPromptText("Last Name");
         emailField.setPromptText("emailField");
         passwordField.setPromptText("New passwordField");
 
-        // get courses from DB -> display into ChoiseBox
         //noinspection JpaQueryApiInspection
         tq1 = entityManager.createNamedQuery(
                 "Courses.findCourses",
@@ -66,26 +63,12 @@ public class RegisterController implements Initializable  {
      */
     @FXML
     private void register(Event e) throws IOException {
-        boolean fieldsInvalid = false;
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        Courses course = new Courses();
 
-        // get Course ID by Name, check connection
-        try{
-            String courseName = courseChoiceBox.getSelectionModel().getSelectedItem().toString();
-            //noinspection JpaQueryApiInspection
-            tq1 = entityManager.createNamedQuery(
-                "Courses.findCourseByName",
-                Courses.class);
-            tq1.setParameter("name", courseName);
-            course = tq1.getSingleResult();
-        }catch(Exception er){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
-        }
+        Courses course = fetchCourse();
 
         if(!validateFields(firstName, lastName, email, password))
             return;
@@ -104,14 +87,16 @@ public class RegisterController implements Initializable  {
         }
 
         Parent root = FXMLLoader.load(getClass().getResource("/mainUI/mainUi.fxml"));
-        Scene scene = new Scene(root,800,600);
+        Scene scene = new Scene(root);
         Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
     }
 
+
     /**
-     * Method that validates the input fields
+     * Method that validates the input text fields
+     *
      * @param firstName
      * @param lastName
      * @param email
@@ -146,6 +131,27 @@ public class RegisterController implements Initializable  {
             ok = false;
         }
         return ok;
+    }
+
+    /**
+     * Method which gets the selected Course from ChoiseBox and return a Course Object
+     *
+     * @return {@link Courses} object.
+     */
+    private Courses fetchCourse() {
+        try{
+            String courseName = courseChoiceBox.getSelectionModel().getSelectedItem().toString();
+            //noinspection JpaQueryApiInspection
+            tq1 = entityManager.createNamedQuery(
+                    "Courses.findCourseByName",
+                    Courses.class);
+            tq1.setParameter("name", courseName);
+            return tq1.getSingleResult();
+        }catch(Exception er){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
+            alert.showAndWait();
+            return new Courses();
+        }
     }
     @FXML
     private void fNameClick(){

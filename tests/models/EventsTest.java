@@ -11,17 +11,30 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test the model {@link Events}
+ *
+ * @author Gheorghe Mironica
+ */
 public class EventsTest {
 
     private EntityManager em;
     private AdminConnectionSingleton con;
 
+    /**
+     * Establish database connection before starting
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         con = AdminConnectionSingleton.getInstance();
         em = con.getManager();
     }
 
+    /**
+     * Test the functionality of the {@link #testNamedQuery()}
+     */
     @Test
     public void testNamedQuery(){
         TypedQuery<Events> tq1 = em.createNamedQuery("Events.findAllEvents", Events.class);
@@ -29,6 +42,9 @@ public class EventsTest {
         assertTrue(!listEvents.isEmpty());
     }
 
+    /**
+     * Test the functionality of the {@link #getLocation()}
+     */
     @Test
     public void getLocation() {
         Events e1 = em.find(Events.class, 1);
@@ -37,6 +53,9 @@ public class EventsTest {
         assertTrue(e1.getLocation().getCity().matches("Ulm"));
     }
 
+    /**
+     * Test the functionality of the {@link #getPicture()}
+     */
     @Test
     public void getPicture(){
         Events e2 = em.find(Events.class, 5);
@@ -44,6 +63,9 @@ public class EventsTest {
         assertTrue(e2.getPicture().getPicture().matches("https://i.imgur.com/Bhs5aVb.jpg"));
     }
 
+    /**
+     * Test the functionality of the {@link #setPicture()}
+     */
     @Test
     public void setPicture(){
         Events e3 = em.find(Events.class, 1);

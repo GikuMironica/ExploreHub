@@ -9,17 +9,31 @@ import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class which tests the functionality of {@link UserStrategy}
+ *
+ * @author Gheorghe Mironica
+ */
 public class UserStrategyTest {
 
     private EntityManager entityManager;
     private UserConnectionSingleton con;
 
+    /**
+     * Method which connects to DataBase before starting
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         con = UserConnectionSingleton.getInstance();
         entityManager = con.getManager();
     }
 
+    /**
+     * Test the functionality of the {@link #getAccount()}
+     * 
+     */
     @Test
     public void getAccount() {
         @SuppressWarnings("JpaQueryApiInspection")

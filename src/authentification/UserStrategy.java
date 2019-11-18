@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 /**
  * Class part of the strategy pattern serving as a concrete strategy to login as User
+ *
  * @author Gheorghe Mironica
  */
 public class UserStrategy implements Strategy {
@@ -17,6 +18,7 @@ public class UserStrategy implements Strategy {
 
     /**
      * This method is validating the credentials and resets the current Account to an User
+     *
      * @param email this is username
      * @param pass this is the password
      */
