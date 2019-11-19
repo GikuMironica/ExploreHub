@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="213.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
+   <children>
+      <ImageView fx:id="mapView" fitHeight="209.0" fitWidth="220.0" onMouseClicked="#openMap" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../IMG/maps.PNG" />
+         </image></ImageView>
+   </children>
+</VBox>
