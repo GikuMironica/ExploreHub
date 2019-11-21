@@ -21,6 +21,7 @@ public class EventListViewCell extends ListCell<Events> {
     private FXMLLoader loader;
     private UserConnectionSingleton con;
     private EntityManager entityManager;
+
     @FXML
     private HBox editEventLayout;
 
@@ -41,9 +42,7 @@ public class EventListViewCell extends ListCell<Events> {
                 loader.setController(this);
             }
             try{
-                con = UserConnectionSingleton.getInstance();
                 loader.load();
-                entityManager = con.getManager();
             } catch(Exception e){
                 //
             }

@@ -190,7 +190,6 @@ public class Admin implements Account{
     @Override
     public EntityManager getConnection() {
         AdminConnectionSingleton u1 = AdminConnectionSingleton.getInstance();
-        System.out.println("AdminConnection EntityManager returned - Admin.class");
         return u1.getManager();
     }
 

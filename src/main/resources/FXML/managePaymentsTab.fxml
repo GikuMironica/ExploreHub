@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManagePaymentsTabController">
+<AnchorPane fx:id="paymentValidationLayout" prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManagePaymentsTabController">
    <children>
-      <ListView fx:id="transactionsList" layoutX="4.0" layoutY="29.0" prefHeight="386.0" prefWidth="425.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
+      <ListView fx:id="transactionsListView" layoutX="4.0" layoutY="29.0" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="425.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
       <Separator layoutX="-94.0" layoutY="433.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Label fx:id="homeLabel" layoutX="456.0" layoutY="436.0" onMouseClicked="#goHome" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
          <font>
@@ -31,7 +31,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="transactionLabel" text="Label" />
+                  <Label fx:id="transactionLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -43,7 +43,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="eventidLabel" text="Label" />
+                  <Label fx:id="eventidLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -55,7 +55,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="eventnameLabel" text="Label" />
+                  <Label fx:id="eventnameLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -67,7 +67,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="eventdateLabel" text="Label" />
+                  <Label fx:id="eventdateLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -79,7 +79,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="priceLabel" text="Label" />
+                  <Label fx:id="priceLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -91,7 +91,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="studentnameLabel" text="Label" />
+                  <Label fx:id="studentnameLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -103,7 +103,7 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="studentemailLabel" text="Label" />
+                  <Label fx:id="studentemailLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
@@ -115,7 +115,19 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="statuslabel" text="Label" />
+                  <Label fx:id="statusLabel" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <children>
+                  <Label text="Payment Method:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font></Label>
+                  <Label fx:id="paymethodLabel" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="423.0" spacing="10.0">
@@ -123,17 +135,17 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="validateButton" mnemonicParsing="false" prefHeight="0.0" prefWidth="79.0" text="Validate">
+                  <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validatePayment" prefHeight="0.0" prefWidth="79.0" text="Validate">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="rejectButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" text="Reject">
+                  <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectPayment" prefHeight="31.0" prefWidth="73.0" text="Reject">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="refundButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="134.0" text="Cancel &amp; Refund">
+                  <Button fx:id="refundButton" mnemonicParsing="false" onAction="#refundTransaction" prefHeight="31.0" prefWidth="134.0" text="Cancel &amp; Refund">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -143,15 +155,15 @@
 
          </children>
       </VBox>
-      <RadioButton fx:id="radioOpen" layoutX="205.0" layoutY="4.0" mnemonicParsing="false" text="Open ">
+      <RadioButton fx:id="radioOpen" layoutX="205.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#openRadioEnabled" text="Open ">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></RadioButton>
-      <RadioButton fx:id="radioProcessed" layoutX="284.0" layoutY="4.0" mnemonicParsing="false" text="Processed">
+      <RadioButton fx:id="radioProcessed" layoutX="284.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#processedRadioEnabled" text="Processed">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></RadioButton>
-      <RadioButton fx:id="radioAll" layoutX="137.0" layoutY="4.0" mnemonicParsing="false" text="All">
+      <RadioButton fx:id="radioAll" layoutX="137.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#allRadioEnabled" text="All">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

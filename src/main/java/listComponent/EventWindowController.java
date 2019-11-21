@@ -132,7 +132,7 @@ public class EventWindowController{
                 executeOnThread();
             }
         }catch(Exception e){
-            // event deleted.
+            e.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }

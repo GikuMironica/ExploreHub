@@ -13,7 +13,9 @@ import java.util.List;
 
 @SuppressWarnings("JpaQlInspection")
 @NamedQueries({
-        @NamedQuery(name="Transactions.findAllActiveTransactions", query = "SELECT t FROM Transactions t WHERE t.Completed=0")
+        @NamedQuery(name="Transactions.findAllActiveTransactions", query = "SELECT t FROM Transactions t WHERE t.Completed=0"),
+        @NamedQuery(name="Transactions.findAllProcessedTransactions", query="SELECT t FROM Transactions t WHERE t.Completed=1 OR t.Completed=2 OR t.Completed=3"),
+        @NamedQuery(name="Transactions.findAllTransactions", query="SELECT t FROM Transactions t")
 })
 @Entity
 public class Transactions {
@@ -27,14 +29,16 @@ public class Transactions {
 
     @Basic(optional=false)
     private int Completed;
-    
+
+    @Basic(optional=false)
+    @Column(name="PaymentMethod")
     private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 
