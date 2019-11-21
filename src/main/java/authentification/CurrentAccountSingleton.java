@@ -5,7 +5,7 @@ import models.User;
 
 /**
  * Singleton class that holds the instace of the current registered account
- * @Author: Gheorghe Mironica
+ * @author: Gheorghe Mironica
  */
 public class CurrentAccountSingleton {
     private static CurrentAccountSingleton ourInstance = null;

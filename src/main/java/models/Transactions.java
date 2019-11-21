@@ -7,9 +7,14 @@ import java.util.List;
 
 /**
  *Model class which represents the Transaction entity and encapsulates direct access to it
- * 
+ *
  * @author Gheorghe Mironica
  */
+
+@SuppressWarnings("JpaQlInspection")
+@NamedQueries({
+        @NamedQuery(name="Transactions.findAllActiveTransactions", query = "SELECT t FROM Transactions t WHERE t.Completed=0")
+})
 @Entity
 public class Transactions {
 
@@ -22,14 +27,14 @@ public class Transactions {
 
     @Basic(optional=false)
     private int Completed;
-
+    
     private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 

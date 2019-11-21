@@ -204,14 +204,10 @@ public class User implements Account{
         this.bookedEvents = bookedEvents;
     }
 
-
     /**
      *  Method to access the access the database interface as User
      * @return Entity Manager
      */
-
-
-
     @Override
     public EntityManager getConnection() {
         UserConnectionSingleton u1 = UserConnectionSingleton.getInstance();
