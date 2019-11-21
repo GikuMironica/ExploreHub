@@ -3,9 +3,11 @@ package models;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  *Model class which represents the Transaction entity and encapsulates direct access to it
+ * 
  * @author Gheorghe Mironica
  */
 @Entity
@@ -20,6 +22,8 @@ public class Transactions {
 
     @Basic(optional=false)
     private int Completed;
+
+    private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
@@ -67,5 +71,13 @@ public class Transactions {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getPaymentMethod() {
+        return PaymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        PaymentMethod = paymentMethod;
     }
 }

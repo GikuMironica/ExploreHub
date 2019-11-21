@@ -58,6 +58,9 @@ public class User implements Account{
     @Column(name="AccessLevel")
     private int Access;
 
+    @Transient
+    private List<Events> bookedEvents;
+
     @Basic(optional=false)
     private String Password;
 
@@ -193,10 +196,22 @@ public class User implements Account{
         this.events = events;
     }
 
+    public List<models.Events> getBookedEvents() {
+        return bookedEvents;
+    }
+
+    public void setBookedEvents(List<models.Events> bookedEvents) {
+        this.bookedEvents = bookedEvents;
+    }
+
+
     /**
      *  Method to access the access the database interface as User
      * @return Entity Manager
      */
+
+
+
     @Override
     public EntityManager getConnection() {
         UserConnectionSingleton u1 = UserConnectionSingleton.getInstance();
