@@ -10,7 +10,8 @@ import javax.persistence.Persistence;
 
 /**
  * Singleton Class which servers as an interface to the Database with User rights
- * @Author: Gheorghe Mironica
+ *
+ * @author: Gheorghe Mironica
  */
 public class UserConnectionSingleton {
     private static EntityManagerFactory factory;

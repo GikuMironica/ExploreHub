@@ -132,7 +132,7 @@
             </HBox>
          </children>
       </VBox>
-      <ListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" />
+      <ListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
       <HBox alignment="CENTER" layoutX="512.0" layoutY="381.0" prefHeight="29.0" prefWidth="394.0" spacing="10.0">
          <children>
             <Button fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" text="Clear">
@@ -158,7 +158,7 @@
          </children>
       </HBox>
       <Separator layoutX="377.0" layoutY="435.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="HomeLabel" layoutX="480.0" layoutY="438.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home">
+      <Label fx:id="HomeLabel" layoutX="487.0" layoutY="438.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

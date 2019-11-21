@@ -28,6 +28,7 @@ public class UploadImage {
     /**
      * Uploads the images to imugr and returns the link
      *
+     * @throws Exception
      * @return URL String
      */
     public String upload() throws Exception {

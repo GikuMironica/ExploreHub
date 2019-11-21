@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 /**
  * Interface for the {@link User} , {@link Admin}
  *
- * @Author Gheorghe Mironica
+ * @author Gheorghe Mironica
  * */
 public interface Account {
     EntityManager getConnection();

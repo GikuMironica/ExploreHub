@@ -83,6 +83,22 @@ public class MessageHandler {
     }
 
     /**
+     * Method sends confirmation email to user
+     * @param letter confirmation message as a String
+     * @param recipientEmail email address of a user as a String
+     * @throws MessagingException
+     */
+    public void sendConfirmation(String letter, String recipientEmail) throws MessagingException{
+        String title = "noreply_iExplore Booking Confirmation ";
+        String message = letter + "\n" +
+                "Your iExplore team.";
+
+        MimeMessage msg = prepareMessage(title,message, recipientEmail);
+        Transport.send(msg);
+    }
+
+
+    /**
      * Method that prepares message prior sending.
      * @param title subject of a message as a String.
      * @param text message content as a String.

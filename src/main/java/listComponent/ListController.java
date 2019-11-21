@@ -34,11 +34,15 @@ public class ListController implements Initializable {
             eventsObservableList = events.getEventsObservableList();
         } catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
             e.printStackTrace();
         }
     }
 
+    /**
+     * Method which initializes the vies
+     * @param location location {@link URL}
+     * @param resources resource {@link ResourceBundle}
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         EventList.setItems(eventsObservableList);
@@ -64,7 +68,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-            //...
+           //
         }
 
     }

@@ -7,9 +7,20 @@ import java.util.List;
 
 /**
  *Model class which represents the Transaction entity and encapsulates direct access to it
- * 
+ *
  * @author Gheorghe Mironica
  */
+
+@SuppressWarnings("JpaQlInspection")
+@NamedQueries({
+        @NamedQuery(name="Transactions.findAllActiveTransactions", query = "SELECT t FROM Transactions t WHERE t.Completed=0"),
+        @NamedQuery(name="Transactions.findAllProcessedTransactions", query="SELECT t FROM Transactions t WHERE t.Completed=1 OR t.Completed=2 OR t.Completed=3"),
+        @NamedQuery(name="Transactions.findAllTransactions", query="SELECT t FROM Transactions t"),
+        @NamedQuery(name="Transactions.findAllOngoing&Accepted", query="SELECT t FROM Transactions t " +
+                "WHERE t.user.Id =:userId AND t.event.Id =:id " +
+                "AND (t.Completed = 0 OR t.Completed = 1)")
+})
+
 @Entity
 public class Transactions {
 
@@ -23,13 +34,15 @@ public class Transactions {
     @Basic(optional=false)
     private int Completed;
 
+    @Basic(optional=false)
+    @Column(name="PaymentMethod")
     private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 

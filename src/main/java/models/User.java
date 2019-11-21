@@ -17,7 +17,8 @@ import java.util.Set;
 @NamedNativeQuery(name="checkIfEventInWishList", query ="SELECT Count(*) FROM wishlist WHERE StudentID = ? AND EventID = ?;")
 
 /**
- *Model class which represents the user entity and encapsulates direct access to it,
+ *Model class which represents the user entity and encapsulates direct access to it
+ *
  *@Author: Gheorghe Mironica
  */
 @Entity
@@ -204,18 +205,13 @@ public class User implements Account{
         this.bookedEvents = bookedEvents;
     }
 
-
     /**
      *  Method to access the access the database interface as User
      * @return Entity Manager
      */
-
-
-
     @Override
     public EntityManager getConnection() {
         UserConnectionSingleton u1 = UserConnectionSingleton.getInstance();
-        System.out.println("UserConnection EntityManager returned - User.class");
         return u1.getManager();
     }
 

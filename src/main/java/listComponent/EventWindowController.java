@@ -20,10 +20,13 @@ import javafx.stage.Stage;
 import models.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This is the controller class for the selected event from the ListView
+ *
  * @author Gheorghe Mironica
  */
 public class EventWindowController{
@@ -43,6 +46,11 @@ public class EventWindowController{
     private EntityManager entityManager;
     private Account account;
 
+    /**
+     * View initializer
+     *
+     * @param event controller trigger {@link Event}
+     */
     public void initModel(Events event){
         this.currentEvent = event;
         account = CurrentAccountSingleton.getInstance().getAccount();
@@ -71,24 +79,36 @@ public class EventWindowController{
             priceData.setText(String.valueOf(price)+"€");
         }
 
-        if(checkUser())
-            checkIfInWishlist();
-
         available = currentEvent.getAvailablePlaces();
         total = currentEvent.getTotalPlaces();
+
+        if(checkUser()) {
+            checkIfInWishlist();
+            checkIfBooked();
+            checkAvailable();
+        }
         sanityCheck();
+
         placesData.setText(available+"/"+total);
         considering.setText(consider+" Students added it to Wishlist");
 
     }
 
+    /**
+     * Check the validness of some views data
+     */
     private void sanityCheck() {
         if (available>total){
             available = total;
         }
     }
 
-    private boolean checkUser() {
+    /**
+     * Method which restricts admins from booking
+     *
+     * @return
+     */
+    protected boolean checkUser() {
         if(account instanceof Admin){
             book.setVisible(false);
             wishList.setVisible(false);
@@ -99,7 +119,11 @@ public class EventWindowController{
             return true;
         }
     }
-    private void checkIfInWishlist(){
+
+    /**
+     * Method which checks if user has current event in wishlist
+     */
+    protected void checkIfInWishlist(){
         List<Events> l1 = ((User)(account)).getEvents();
         boolean ok = ((User)(account)).checkEventPresence(entityManager, currentEvent.getId());
            if (ok){
@@ -109,6 +133,11 @@ public class EventWindowController{
            }
     }
 
+    /**
+     * Method which adds / removes current event from users wishlist
+     *
+     * @param event method trigger {@link Event}
+     */
     @FXML
     private void addremoveWishList(Event event){
         try {
@@ -132,19 +161,31 @@ public class EventWindowController{
                 executeOnThread();
             }
         }catch(Exception e){
-            // event deleted.
+            e.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }
     }
 
-    private boolean available() {
+    /**
+     * Method which restricts user from boooking if no more available places for current event
+     *
+     * @return
+     */
+    private boolean checkAvailable() {
         if(currentEvent.getAvailablePlaces()==0){
+            book.setText("Booked Out");
+            book.setDisable(true);
             return false;
         }else
             return true;
     }
 
+    /**
+     * Method which switches scene to main
+     *
+     * @param event {@link Event}
+     */
     @FXML
     private void goBack(Event event){
         try {
@@ -167,5 +208,37 @@ public class EventWindowController{
             Platform.runLater(() -> considering.setText(consider+" Students added it to Wishlist"));
         });
         t1.start();
+    }
+
+    /**
+     * Method which books current event
+     */
+    @FXML
+    private void bookButton(){
+        List<Events> currentEventList = new ArrayList<>();
+        currentEventList.add(currentEvent);
+        ((User)(account)).setBookedEvents(currentEventList);
+       // System.out.println(((User)(account)).getBookedEvents().size()+" event booked");
+        book.setDisable(true);
+        book.setText("Booked");
+
+        // jump to window
+    }
+
+    /**
+     * Method which checks if current event already booked
+     */
+    @SuppressWarnings("JpaQueryApiInspection")
+    protected void checkIfBooked(){
+        TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
+        tq1.setParameter("id", currentEvent.getId());
+        tq1.setParameter("userId", account.getId());
+        int size = tq1.getResultList().size();
+        //System.out.println(size+" transactions found for this event");
+        if(size>0){
+            book.setText("Booked");
+            book.setDisable(true);
+            return;
+        }
     }
 }

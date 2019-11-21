@@ -81,7 +81,11 @@ public class ManageEventsTabController implements Initializable {
     private Image logoPic;
     private Image mainPic;
 
-
+    /**
+     * Method which initializes the view ManageEventsTabController
+     * @param url input parameter
+     * @param resourceBundle input parameter
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
@@ -184,6 +188,7 @@ public class ManageEventsTabController implements Initializable {
 
         if(mainPic != null){
             try {
+                System.out.println("main not null");
                 UploadImage uploadImg = new UploadImage(mainPic);
                 String urlPic = uploadImg.upload();
                 selectedEvent.getPicture().setPicture(urlPic);
@@ -194,9 +199,10 @@ public class ManageEventsTabController implements Initializable {
         }
         if(logoPic != null){
             try{
+                System.out.println("logo not null");
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 String urlLogo = uploadLogo.upload();
-                selectedEvent.getPicture().setPicture(urlLogo);
+                selectedEvent.getPicture().setLogo(urlLogo);
             }catch(Exception e){
                 Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
                 return;
@@ -274,6 +280,7 @@ public class ManageEventsTabController implements Initializable {
             entityManager.getTransaction().begin();
             entityManager.merge(newEvent);
             entityManager.getTransaction().commit();
+            eventsObservableList.add(newEvent);
 
         } catch(Exception e){
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
@@ -450,7 +457,7 @@ public class ManageEventsTabController implements Initializable {
     /**
      * Clears particular TextField, overloaded {@link #clearForm(Event)}
      *
-     * @param text
+     * @param text {@link} TextField
      */
     private void clearForm(TextField text){
         text.setStyle("-fx-text-inner-color: black;");
@@ -460,7 +467,7 @@ public class ManageEventsTabController implements Initializable {
     /**
      * Clears particular TextArea, overloaded {@link #clearForm(Event)}
      *
-     * @param text
+     * @param text {@link java.awt.TextArea}
      */
     private void clearForm(TextArea text){
         text.setStyle("-fx-text-inner-color: black;");
@@ -509,64 +516,54 @@ public class ManageEventsTabController implements Initializable {
      * Switches scene to the main one
      *
      * @param event the mouse click event which triggered this method
-     * @throws IOException
+     * @throws IOException file not found exception
      */
     @FXML
     private void goHome(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/mainUi.fxml"));
+        Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
     }
 
     /**
-     * This method loads an image
-     *
+     * This method loads Main Picture
      * @param event trigger of the event
-     * @return returns an image object {@link Image}
      */
     @FXML
     private void uploadPic(Event event){
-        FileChooser fileChooser = new FileChooser();
-
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterPNG);
-
-        //Show open file dialog
-        File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
-
-        if(file!=null){
-            mainPic = new Image(file.toURI().toString());
-            picButton.setText("Image Loaded");
-            picButton.setStyle("-fx-text-fill: green;");
-        } else{
-
-            return;
-        }
+        mainPic = uploadPicture(event, picButton);
     }
 
     /**
      * This method loads an image for the Logo
-     *
      * @param event trigger of the event
-     * @return returns an image object {@link Image}
      */
     @FXML
     private void uploadLogo(Event event){
-        FileChooser fileChooser = new FileChooser();
+        logoPic = uploadPicture(event, logoButton);
+    }
 
+    /**
+     * Delegated method of {@link #uploadPic} {@link #uploadLogo} which loads the picture from file system
+     *
+     * @param event trigger of the event
+     * @param imgButton {@link Image}
+     * @return returns an image object {@link Image}
+     */
+    private Image uploadPicture(Event event, Button imgButton){
+        Image pic = null;
+
+        FileChooser fileChooser = new FileChooser();
         //Set extension filter
         FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
         fileChooser.getExtensionFilters().addAll(extFilterPNG);
-
         //Show open file dialog
         File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
 
-        if(file != null){
-            logoPic = new Image(file.toURI().toString());
-            logoButton.setText("Logo Loaded");
-            logoButton.setStyle("-fx-text-fill: green;");
+        if(file!=null){
+            imgButton.setText("Image Loaded");
+            imgButton.setStyle("-fx-text-fill: green;");
+            return new Image(file.toURI().toString());
         } else{
-
-            return;
+            return null;
         }
     }
 

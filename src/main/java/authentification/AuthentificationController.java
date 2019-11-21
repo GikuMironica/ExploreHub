@@ -144,7 +144,6 @@ public class AuthentificationController {
 
     @FXML
     public void onEnter(ActionEvent ae){
-        System.out.println("test") ;
     }
 
     @FXML

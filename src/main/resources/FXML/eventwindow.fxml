@@ -36,7 +36,7 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Button>
-                        <Button fx:id="book" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" text="Book Now" textAlignment="JUSTIFY">
+                        <Button fx:id="book" mnemonicParsing="false" onAction="#bookButton" prefHeight="30.0" prefWidth="170.0" text="Book Now" textAlignment="JUSTIFY">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Button>

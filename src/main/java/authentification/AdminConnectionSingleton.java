@@ -9,7 +9,8 @@ import javax.persistence.Persistence;
 
 /**
  * Singleton Class which servers as an interface to the Database with Administrator rights,
- * @Author: Gheorghe Mironica
+ *
+ * @author: Gheorghe Mironica
  */
 public class AdminConnectionSingleton {
     private static EntityManagerFactory factory;
