@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.BookingController">
+   <children>
+      <HBox layoutX="40.0" layoutY="31.0" prefHeight="150.0" prefWidth="533.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <TextFlow prefHeight="150.0" prefWidth="344.0" />
+         </children></HBox>
+      <VBox layoutX="52.0" layoutY="200.0" prefHeight="64.0" prefWidth="100.0" spacing="10.0">
+         <children>
+            <RadioButton fx:id="cash" mnemonicParsing="false" onAction="#selectPayment" selected="true" text="Cash">
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggleGroupPayments" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="card" mnemonicParsing="false" onAction="#selectPayment" text="Card" toggleGroup="$toggleGroupPayments" />
+         </children>
+      </VBox>
+      <HBox alignment="BOTTOM_RIGHT" layoutX="373.0" layoutY="286.0" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+         <children>
+            <Label fx:id="totalPrice" prefHeight="29.0" prefWidth="55.0" text="Label" />
+            <Button mnemonicParsing="false" onAction="#cancelBooking" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#proceedToPayment" text="Next" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

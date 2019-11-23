@@ -21,6 +21,7 @@ import models.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,7 +215,7 @@ public class EventWindowController{
      * Method which books current event
      */
     @FXML
-    private void bookButton(){
+    private void bookButton(Event event){
         List<Events> currentEventList = new ArrayList<>();
         currentEventList.add(currentEvent);
         ((User)(account)).setBookedEvents(currentEventList);
@@ -223,6 +224,9 @@ public class EventWindowController{
         book.setText("Booked");
 
         // jump to window
+        try{
+            Convenience.switchScene(event, getClass().getResource(("/FXML/booking.fxml")));
+        }catch(IOException e){e.printStackTrace();}
     }
 
     /**

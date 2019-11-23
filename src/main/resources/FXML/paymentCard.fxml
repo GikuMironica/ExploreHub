@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="70.0" layoutY="38.0" mnemonicParsing="false" text="Card" />
+   </children>
+</Pane>
