@@ -103,7 +103,7 @@
                      <Insets left="20.0" right="20.0" />
                  </VBox.margin>
                <children>
-                  <JFXButton fx:id="registerBack" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Back">
+                  <JFXButton fx:id="registerBack" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="80.0" text="Back">
                       <font>
                           <Font name="Impact" size="15.0" />
                       </font>

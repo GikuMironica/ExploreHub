@@ -1,5 +1,6 @@
 package authentification;
 
+import handlers.Convenience;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,8 @@ public class RegisterController implements Initializable  {
     private TypedQuery<Courses> tq1;
     private UserConnectionSingleton con = UserConnectionSingleton.getInstance();
     private EntityManager entityManager = con.getManager();
+    private String NAME_PATTERN = "^[a-zA-Z]*$";
+    private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -106,9 +109,9 @@ public class RegisterController implements Initializable  {
     private Boolean validateFields(String firstName, String lastName, String email, String password){
         // Validate Fields
         boolean ok = true;
-        boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches("^[a-zA-Z]*$")));
-        boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches("^[a-zA-Z]*$")));
-        boolean validEmail = (!(email.isEmpty())&&(email.matches("[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$")));
+        boolean validFirstName = (!(firstName.isEmpty())&&(firstName.matches(NAME_PATTERN)));
+        boolean validLastName = (!(lastName.isEmpty())&&(lastName.matches(NAME_PATTERN)));
+        boolean validEmail = (!(email.isEmpty())&&(email.matches(EMAIL_PATTERN)));
         boolean validPassword = (!(password.isEmpty()));
 
         if(!validFirstName){
@@ -153,22 +156,45 @@ public class RegisterController implements Initializable  {
             return new Courses();
         }
     }
+
+    /**
+     * Method which clears FirstName Label
+     */
     @FXML
     private void fNameClick(){
         firstNameField.setText("");
         firstNameField.setStyle("-fx-text-inner-color: black;");
 
     }
+
+    /**
+     * Method which clears LastName Label
+     */
     @FXML
     private void lNameClick(){
         lastNameField.setText("");
         lastNameField.setStyle("-fx-text-inner-color: black;");
 
     }
+
+    /**
+     * Method which clears Email Label
+     */
     @FXML
     private void emailClick(){
         emailField.setText("");
         emailField.setStyle("-fx-text-inner-color: black;");
 
+    }
+
+    /**
+     * Method which jumps back to previous scene
+     *
+     * @param event method trigger
+     * @throws IOException {@link IOException}
+     */
+    @FXML
+    private void goBack(Event event) throws IOException {
+        Convenience.switchScene(event, getClass().getResource("/FXML/authentification.fxml"));
     }
 }

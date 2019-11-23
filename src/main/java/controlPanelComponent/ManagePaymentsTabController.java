@@ -80,6 +80,7 @@ public class ManagePaymentsTabController implements Initializable {
     private void cellClicked(Event event){
 
         selectedTransaction = transactionsListView.getSelectionModel().getSelectedItem();
+        entityManager.refresh(selectedTransaction);
         disableButtons(selectedTransaction);
         selectedUser = selectedTransaction.getUser();
         selectedEvent = selectedTransaction.getEvent();

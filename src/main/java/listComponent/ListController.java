@@ -65,6 +65,7 @@ public class ListController implements Initializable {
     private void cellClicked(Event event){
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
 
+
         try {
             if(account instanceof User) {
                 entityManager.refresh(selectedEvent);
@@ -79,7 +80,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-           //
+            ex.printStackTrace();
         }
 
     }
