@@ -238,7 +238,7 @@ public class EventWindowController{
         tq1.setParameter("id", currentEvent.getId());
         tq1.setParameter("userId", account.getId());
         int size = tq1.getResultList().size();
-        //System.out.println(size+" transactions found for this event");
+
         if(size>0){
             book.setText("Booked");
             book.setDisable(true);

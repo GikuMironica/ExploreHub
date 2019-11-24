@@ -53,7 +53,6 @@ public class EventListSingleton {
     @SuppressWarnings("JpaQueryApiInspection")
     public void refreshList(){
         Thread thread = new Thread(() -> {
-            System.out.println("EntityManager cache refreshed - EventListSingleton");
             TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
             tempList = tq1.getResultList();
             Platform.runLater(() -> {

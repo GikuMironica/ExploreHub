@@ -1,6 +1,7 @@
 package listComponent;
 
 
+import authentification.CurrentAccountSingleton;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -12,8 +13,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import models.Account;
 import models.Events;
+import models.User;
 
+import javax.persistence.EntityManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +31,8 @@ public class ListController implements Initializable {
     private ListView<Events> EventList;
     private ObservableList<Events> eventsObservableList;
     private Events selectedEvent;
+    private EntityManager entityManager;
+    private Account account;
 
     public ListController(){
         try{
@@ -47,6 +53,8 @@ public class ListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         EventList.setItems(eventsObservableList);
         EventList.setCellFactory(customListViewCell -> new CustomListViewCell());
+        account =CurrentAccountSingleton.getInstance().getAccount();
+        entityManager = account.getConnection();
     }
 
     /**
@@ -58,6 +66,9 @@ public class ListController implements Initializable {
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
 
         try {
+            if(account instanceof User) {
+                entityManager.refresh(selectedEvent);
+            }
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/FXML/eventwindow.fxml"));
             ScrollPane root = loader.load();

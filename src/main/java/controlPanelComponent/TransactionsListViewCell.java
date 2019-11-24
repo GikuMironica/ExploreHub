@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 public class TransactionsListViewCell extends ListCell<Transactions> {
 
     @FXML
-    private Label transactionID, studentEmail, status;
+    private Label transactionID, studentEmail, status, timeLabel;
     @FXML
     private HBox cellLayout;
     private FXMLLoader loader;
@@ -46,6 +46,7 @@ public class TransactionsListViewCell extends ListCell<Transactions> {
                 studentEmail.setText(item.getUser().getEmail());
                 TransactionStatus statusID = TransactionStatus.valueOf(item.getCompleted());
                 status.setText(String.valueOf(statusID));
+                timeLabel.setText(String.valueOf(item.getDate()));
             } catch(Exception e){
                 e.printStackTrace();
             }

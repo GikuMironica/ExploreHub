@@ -2,16 +2,24 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="cellLayout" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="421.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="cellLayout" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="421.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="293.0" spacing="10.0">
    <children>
-      <Label fx:id="transactionID" text="Label">
+      <Label fx:id="transactionID" prefHeight="21.0" prefWidth="105.0" text="Label">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="studentEmail" text="Label" />
-      <Label fx:id="status" text="Label" />
+      <Label fx:id="studentEmail" prefHeight="23.0" prefWidth="195.0" text="Label" />
    </children>
+   </HBox>
+<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+   <children>
+      <Label fx:id="status" text="Label" />
+      <Label fx:id="timeLabel" text="Label" />
+   </children>
+</VBox>
 </HBox>

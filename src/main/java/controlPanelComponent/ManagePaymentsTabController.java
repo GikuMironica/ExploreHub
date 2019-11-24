@@ -18,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -30,7 +29,7 @@ import java.util.ResourceBundle;
 public class ManagePaymentsTabController implements Initializable {
 
     @FXML
-    private Label paymethodLabel, transactionLabel, eventidLabel, eventnameLabel, eventdateLabel, priceLabel, studentnameLabel, studentemailLabel, statusLabel, homeLabel;
+    private Label paymethodLabel, companyLabel, transactionLabel, eventidLabel, eventnameLabel, eventdateLabel, priceLabel, studentnameLabel, studentemailLabel, statusLabel, homeLabel;
     @FXML
     private Button validateButton, rejectButton, refundButton;
     @FXML
@@ -41,7 +40,7 @@ public class ManagePaymentsTabController implements Initializable {
     private Transactions selectedTransaction;
     private ObservableList<Transactions> transactionsList;
     private User selectedUser;
-    private Events selecteEvent;
+    private Events selectedEvent;
     private EntityManager entityManager;
     private MessageHandler messageHandler;
 
@@ -83,7 +82,7 @@ public class ManagePaymentsTabController implements Initializable {
         selectedTransaction = transactionsListView.getSelectionModel().getSelectedItem();
         disableButtons(selectedTransaction);
         selectedUser = selectedTransaction.getUser();
-        selecteEvent = selectedTransaction.getEvent();
+        selectedEvent = selectedTransaction.getEvent();
 
         // fill the form with selected data
         fillTransactionForm();
@@ -142,12 +141,13 @@ public class ManagePaymentsTabController implements Initializable {
      */
     protected void fillTransactionForm() {
         transactionLabel.setText(String.valueOf(selectedTransaction.getId()));
-        eventidLabel.setText(String.valueOf(selecteEvent.getId()));
-        eventnameLabel.setText(String.valueOf(selecteEvent.getShortDescription()));
-        eventdateLabel.setText(String.valueOf(selecteEvent.getDate()));
-        priceLabel.setText(String.valueOf(selecteEvent.getPrice()));
+        eventidLabel.setText(String.valueOf(selectedEvent.getId()));
+        eventnameLabel.setText(String.valueOf(selectedEvent.getShortDescription()));
+        eventdateLabel.setText(String.valueOf(selectedEvent.getDate()));
+        priceLabel.setText(String.valueOf(selectedEvent.getPrice()));
         studentnameLabel.setText(selectedUser.getFirstname()+" "+selectedUser.getLastname());
         studentemailLabel.setText(selectedUser.getEmail());
+        companyLabel.setText(selectedEvent.getCompany());
 
         // fill for the transaction transactionStatus
         TransactionStatus transactionStatus = TransactionStatus.valueOf(selectedTransaction.getCompleted());
@@ -167,6 +167,7 @@ public class ManagePaymentsTabController implements Initializable {
     private void validatePayment(Event event){
         String message= "The payment for one of your booked event has been approved";
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Validation", "Are you sure you want to validate this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
@@ -179,11 +180,13 @@ public class ManagePaymentsTabController implements Initializable {
             // send email about confirmation
             try {
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
+                clearView();
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     /**
      * This method rejects the selected transaction
@@ -194,22 +197,21 @@ public class ManagePaymentsTabController implements Initializable {
     private void rejectPayment(Event event){
         String message= "The payment for one of your booked event has been rejected";
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rejection", "Are you sure you want to reject this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
-            selectedTransaction.setCompleted(2);
-            entityManager.getTransaction().begin();
-            entityManager.merge(selectedTransaction);
-            entityManager.getTransaction().commit();
-
             openRadioEnabled();
             try {
+                startTransaction(2);
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
-            } catch (MessagingException e) {
+                clearView();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     /**
      * This method cancels the selected, already processed transaction
@@ -220,22 +222,22 @@ public class ManagePaymentsTabController implements Initializable {
     private void refundTransaction(Event event){
         String message= "The payment for one of your booked event has been refunded";
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rollback", "Are you sure you want to undo this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
-            selectedTransaction.setCompleted(3);
-            entityManager.getTransaction().begin();
-            entityManager.merge(selectedTransaction);
-            entityManager.getTransaction().commit();
-
             openRadioEnabled();
+
             try {
+                startTransaction(3);
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
-            } catch (MessagingException e) {
+                clearView();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     /**
      * Disable certain buttons depending on the state of transaction
@@ -272,6 +274,7 @@ public class ManagePaymentsTabController implements Initializable {
         }
     }
 
+
     /**
      * This method switches scene to home
      *
@@ -281,5 +284,44 @@ public class ManagePaymentsTabController implements Initializable {
     @FXML
     private void goHome(Event event) throws IOException {
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+    }
+
+    /**
+     * This method starts a DB transaction
+     *
+     * @param status transaction status {@link int}
+     * @throws Exception Connection exception {@link Exception}
+     */
+    private void startTransaction(int status) throws Exception{
+        selectedTransaction.setCompleted(status);
+        selectedEvent.setAvailablePlaces(selectedEvent.getAvailablePlaces()+1);
+        entityManager.getTransaction().begin();
+        entityManager.merge(selectedEvent);
+        entityManager.merge(selectedTransaction);
+        entityManager.getTransaction().commit();
+    }
+
+    /**
+     * Method which clears the views after a transaction has been processed
+     */
+    private void clearView(){
+        selectedTransaction= null;
+        selectedUser = null;
+        selectedEvent = null;
+
+        validateButton.setDisable(true);
+        rejectButton.setDisable(true);
+        refundButton.setDisable(true);
+
+        transactionLabel.setText("");
+        eventidLabel.setText("");
+        eventnameLabel.setText("");
+        eventdateLabel.setText("");
+        priceLabel.setText("");
+        studentnameLabel.setText("");
+        studentemailLabel.setText("");
+        statusLabel.setText("");
+        paymethodLabel.setText("");
+        companyLabel.setText("");
     }
 }

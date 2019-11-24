@@ -39,13 +39,25 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <Label text="Event ID:">
+                  <Label text="Company Name:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Label>
-                  <Label fx:id="eventidLabel" />
+                  <Label fx:id="companyLabel" />
                </children>
             </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
+            <VBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+            <children>
+               <Label text="Event ID:">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font></Label>
+               <Label fx:id="eventidLabel" />
+            </children>
+         </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
