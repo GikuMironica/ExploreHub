@@ -19,7 +19,7 @@
          </children></HBox>
       <VBox layoutX="52.0" layoutY="200.0" prefHeight="64.0" prefWidth="100.0" spacing="10.0">
          <children>
-            <RadioButton fx:id="cash" mnemonicParsing="false" onAction="#selectPayment" selected="true" text="Cash">
+            <RadioButton fx:id="cash" mnemonicParsing="false" onAction="#selectPayment" text="Cash">
                <toggleGroup>
                   <ToggleGroup fx:id="toggleGroupPayments" />
                </toggleGroup></RadioButton>

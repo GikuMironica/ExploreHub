@@ -1,7 +1,9 @@
 package bookingComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +14,7 @@ import javafx.scene.layout.Pane;
 import models.Events;
 import models.User;
 
+import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
@@ -26,7 +29,7 @@ public class PaymentController implements Initializable {
     Pane container;
 
     @FXML
-    Button payBtn;
+    Button payBtn, cancel, back;
 
     @FXML
     Label totalPrice;
@@ -47,14 +50,14 @@ public class PaymentController implements Initializable {
 
 
         // Cash
-        if(BookingController.getPaymentType() == 0){
+        if(BookingController.getPaymentType() == 1){
 
             // Final text confirming cash purchase
 
         }
 
         // Card
-        else if(BookingController.getPaymentType() == 1){
+        else if(BookingController.getPaymentType() == 0){
             try{
                 newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentCard.fxml"));
                 container.getChildren().add(newPane);
@@ -66,14 +69,14 @@ public class PaymentController implements Initializable {
     @FXML
     public void payment(){ // Once user presses Pay button initiate strategy
 
-        disablePayBtn();
+        disableControlBtns();
 
-        if(BookingController.getPaymentType() == 0){
+        if(BookingController.getPaymentType() == 1){
             CashPaymentStrategy CashPS = new CashPaymentStrategy();
             CashPS.pay();
             confirmationText = "Payment with Cash. Visit X at Y to pay.";
         }
-        else if (BookingController.getPaymentType() == 1 ) {
+        else if (BookingController.getPaymentType() == 0 ) {
             CardPaymentStrategy CardPS = new CardPaymentStrategy();
             CardPS.pay();
             confirmationText = "Payment with card successful.";
@@ -81,6 +84,21 @@ public class PaymentController implements Initializable {
 
         confirmationScene();
 
+    }
+
+    @FXML
+    public void goBack(Event event){
+        try {
+            Convenience.switchScene(event, getClass().getResource("/FXML/booking.fxml"));
+        }catch(IOException e){e.printStackTrace();}
+    }
+
+    @FXML
+    public void cancelBooking(Event event){ // Once user presses Cancel button - cancel the booking
+        BookingController.setPaymentTypeValue(100);
+        try {
+            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(IOException e){e.printStackTrace();}
     }
 
     public void confirmationScene(){
@@ -95,6 +113,18 @@ public class PaymentController implements Initializable {
         Platform.runLater(()->{
             payBtn.setDisable(true);
             payBtn.setVisible(false);
+        });
+    }
+
+    public void disableControlBtns(){
+        Platform.runLater(()->{
+            payBtn.setDisable(true);
+            payBtn.setVisible(false);
+            cancel.setDisable(true);
+            cancel.setVisible(false);
+            back.setDisable(true);
+            back.setVisible(false);
+
         });
     }
 

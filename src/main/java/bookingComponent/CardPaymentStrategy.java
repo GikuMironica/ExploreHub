@@ -6,6 +6,7 @@ import models.Events;
 import models.Transactions;
 import models.User;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.ListIterator;
 public class CardPaymentStrategy implements PaymentStrategy {
 
     private List<Events> evList;
+    private List<Events> interestList;
     private Events currentEvent;
     private LocalDate localDate;
     private Date date;
@@ -54,8 +56,12 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
                     currentEvent.setAvailablePlaces(currentEvent.getAvailablePlaces() - 1);
 
+                    // Delete from interest list
+                    //resetInterestList(currentEvent, entityManager);
+
                     try {
                         entityManager.getTransaction().begin();
+                        entityManager.merge(currentEvent);
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
                     } catch (Exception e) {
@@ -77,7 +83,12 @@ public class CardPaymentStrategy implements PaymentStrategy {
     public void generateInvoice(){
         // Send email to user and maybe provide a pdf invoice or something
     }
-    public void resetInterestList(){
-
+    public void resetInterestList(){//Events event, EntityManager entityManager){
+       /* interestList = ((User) (CurrentAccountSingleton.getInstance().getAccount())).getEvents();
+        if(interestList != null) {
+            ListIterator iterator = interestList.listIterator();
+            while (iterator.hasNext()) {
+                currentEvent = (Events) iterator.next();
+        }*/
     }
 }

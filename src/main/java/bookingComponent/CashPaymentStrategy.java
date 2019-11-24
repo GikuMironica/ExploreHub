@@ -38,7 +38,7 @@ public class CashPaymentStrategy implements PaymentStrategy {
                     localDate = LocalDate.now();
                     date = Date.valueOf(localDate);
                     completed = 0;
-                    paymentMethod = 0;
+                    paymentMethod = 1;
 
                     // New Transaction entry
                     Transactions transactions = new Transactions();
@@ -53,6 +53,7 @@ public class CashPaymentStrategy implements PaymentStrategy {
 
                     try {
                         entityManager.getTransaction().begin();
+                        entityManager.merge(currentEvent);
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
                     } catch (Exception e) {

@@ -30,19 +30,32 @@ public class BookingController implements Initializable {
     @FXML
     Label totalPrice;
 
+    @FXML
+    RadioButton cash, card;
+
     private RadioButton selectedRadioBtn;
     private String toggleValue;
-    private static int paymentType;
+    private static int paymentType = 100;
 
     private List<Events> evList;
     private Events tempEvent;
-    private static int total = 0;
+    private static int total;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //if(!(getPaymentType() == 0)) cash.setSelected(true);
+        //else cash.setSelected(true);
+        switch(getPaymentType()){
+            case 1: cash.setSelected(true); break;
+            case 0: card.setSelected(true); break;
+
+            default: cash.setSelected(true);
+        }
+
         // Get events from basket and sum the prices for total price
         evList = ((User) (CurrentAccountSingleton.getInstance().getAccount())).getBookedEvents();
+        total = 0;
 
         if(evList != null) {
             ListIterator iterator = evList.listIterator();
@@ -85,6 +98,7 @@ public class BookingController implements Initializable {
     @FXML
     private void cancelBooking(Event event){
         // User changed their mind and pressed the Cancel button
+        setPaymentTypeValue(100);
         try {
             Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(IOException e){e.printStackTrace();}
@@ -98,9 +112,11 @@ public class BookingController implements Initializable {
      * @param payment Temporary paramater
      */
     public static void setPaymentType(String payment){
-        if(payment.equals("cash")) paymentType = 0;
-        else if (payment.equals("card")) paymentType = 1;
+        if(payment.equals("cash")) paymentType = 1;
+        else if (payment.equals("card")) paymentType = 0;
     }
+    public static void setPaymentTypeValue(int val){paymentType = val;}
+
     public static int getPaymentType(){return paymentType;}
 
     public static int getTotalPrice(){return total;}

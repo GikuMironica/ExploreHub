@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentConfirmationController">
    <children>
       <Label fx:id="confirmationText" layoutX="62.0" layoutY="47.0" prefHeight="35.0" prefWidth="224.0" text="Confirmation" />
+      <Button fx:id="homepage" layoutX="236.0" layoutY="292.0" mnemonicParsing="false" onAction="#goToHomepage" text="Return to Homepage" />
    </children>
 </AnchorPane>
