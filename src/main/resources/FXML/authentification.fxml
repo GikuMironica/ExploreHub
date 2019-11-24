@@ -1,36 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorLogIn" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
+<AnchorPane fx:id="anchorLogIn" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
    <children>
-      <VBox alignment="CENTER" layoutY="1.0" prefHeight="289.0" prefWidth="371.0" stylesheets="@../Styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" style="-fx-background-image: url(http://www.internshipsdownunder.com/wp-content/uploads/2015/06/1.jpg);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="390.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="iExplore">
+            <ImageView fx:id="img_Icon" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+               <Image url="https://icon-library.net/images/information-i-icon/information-i-icon-29.jpg" />
+            </image>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label fx:id="labeliExplore" text="iExplore">
                <font>
-                  <Font name="Dubai Regular" size="32.0" />
+                  <Font name="Serif Bold" size="48.0" />
                </font>
+               <VBox.margin>
+                  <Insets right="5.0" top="30.0" />
+               </VBox.margin>
             </Label>
-            <Label fx:id="alert" />
-            <TextField fx:id="usernameField" alignment="CENTER" onKeyReleased="#handleKeyRelease">
+            <Label fx:id="labelDescription" style="-fx-wrap-text: true;" text="Manage and Book Excursions from Hochschule Ulm" textAlignment="CENTER">
+               <font>
+                  <Font name="Serif Regular" size="16.0" />
+               </font>
                <VBox.margin>
-                  <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
+                  <Insets right="5.0" top="10.0" />
                </VBox.margin>
-            </TextField>
-            <PasswordField fx:id="passwordField" alignment="CENTER" onAction="#onEnter" onKeyReleased="#handleKeyRelease">
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #D9DDDC;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="alert">
+            </Label>
+            <JFXTextField fx:id="usernameField" alignment="CENTER" focusColor="#73c2fb" onKeyReleased="#handleKeyRelease" prefHeight="40.0">
                <VBox.margin>
-                  <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
+                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
                </VBox.margin>
-            </PasswordField>
+               <font>
+                  <Font name="Serif Regular" size="20.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#73c2fb" onAction="#onEnter" onKeyReleased="#handleKeyRelease" prefHeight="40.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Serif Regular" size="20.0" />
+               </font>
+            </JFXPasswordField>
             <HBox alignment="CENTER" prefHeight="51.0" prefWidth="300.0" spacing="30.0">
                <VBox.margin>
                   <Insets left="150.0" right="150.0" top="20.0" />
@@ -39,27 +71,25 @@
                   <Insets left="35.0" right="30.0" />
                </padding>
                <children>
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="20.0" prefWidth="100.0" text="Log In">
-                     <font>
-                        <Font name="Dubai Regular" size="15.0" />
-                     </font></Button>
-                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#register" prefHeight="0.0" prefWidth="100.0" text="Register">
-                     <font>
-                        <Font name="Dubai Regular" size="15.0" />
-                     </font></Button>
+                  <JFXButton fx:id="loginButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#login" prefHeight="20.0" prefWidth="100.0" text="Log In">
+                     <HBox.margin>
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="registerButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#register" prefHeight="20.0" prefWidth="100.0" text="Register">
+                  </JFXButton>
                </children>
             </HBox>
-            <Separator prefWidth="542.0">
+            <Separator>
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Separator>
-            <Label fx:id="recover" onMouseClicked="#recover" text="Forgot Password ?">
+            <Label fx:id="recover" alignment="CENTER" onMouseClicked="#recover" text="Forgot Password?" textAlignment="CENTER">
                <VBox.margin>
-                  <Insets bottom="20.0" left="150.0" right="150.0" top="20.0" />
+                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
                </VBox.margin>
                <font>
-                  <Font size="14.0" />
+                  <Font name="Serif Bold" size="20.0" />
                </font>
             </Label>
          </children>

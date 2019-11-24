@@ -7,7 +7,9 @@
 }
 
 .button{
-    -fx-background-color: #f0f4f5;
+    -fx-background-color: #73C2FB;
+    -fx-font-family: Serif Regular;
+    -fx-font-size: 16.0;
 }
 
 .root{
@@ -19,8 +21,7 @@
 
 .separator{
     -fx-border-style: solid;
-    -fx-border-color:#f0f4f5;
-    -fx-background-color: #f0f4f5;
+    -fx-background-color: #000000;
     -fx-border-width: 1px;
 }
 
@@ -31,11 +32,8 @@
 
 #alert{
     -fx-background-color: #ff5757;
-     -fx-padding: 5;
+    -fx-padding: 5;
     -fx-border-width: 1000px;
-}
-
-.text-field{
-    -fx-border-style: none;
-    -fx-background-color: #f0f4f5;
+    -fx-font-family: Serif Regular;
+    -fx-font-size: 20.0;
 }

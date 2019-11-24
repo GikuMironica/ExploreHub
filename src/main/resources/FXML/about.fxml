@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
    <children>
-      <Label layoutX="264.0" layoutY="14.0" text="About!">
+      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <Label alignment="CENTER" layoutX="181.0" layoutY="14.0" text="iExplore" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="160.0">
          <font>
-            <Font size="24.0" />
+            <Font size="48.0" />
          </font>
       </Label>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="100.0">
+         <image>
+            <Image url="https://icon-library.net/images/information-i-icon/information-i-icon-29.jpg" />
+         </image></ImageView>
+      <JFXTextArea editable="false" labelFloat="true" layoutX="171.0" layoutY="113.0" prefHeight="258.0" prefWidth="330.0" text="iExplore 1.0 &#10;&#10;iExplore is used to book and manage excursions &#10;from the Hochschule Ulm.&#10;&#10;Copyright © 2019-2020 iExploreTeam, All rights reserved. iExplore, iExplore logo are trademarks of iExploreTeam.&#10;iExplore created by Abdul Basit, Aleksejs Marmiss, Braz Castana, Daniel Dyankov, Diaae Bakri, Domagoj Frecko, Gheorge Mironica, Hidayat Rzayev and Tonislav Tachev" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextArea>
+      <JFXButton prefHeight="30.0" prefWidth="80.0" text="Back" onMouseClicked="#handleBackClicked" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
