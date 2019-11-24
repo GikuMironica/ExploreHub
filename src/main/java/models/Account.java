@@ -1,6 +1,10 @@
 package models;
 
+<<<<<<< HEAD
 import javax.persistence.EntityManager;
+=======
+import javax.persistence.*;
+>>>>>>> [DiscussionComponent] UI implemented
 import java.util.List;
 
 /**
@@ -8,6 +12,7 @@ import java.util.List;
  *
  * @author Gheorghe Mironica
  * */
+<<<<<<< HEAD
 public interface Account {
 
     int getId();
@@ -104,4 +109,129 @@ public interface Account {
     EntityManager getConnection();
 
     void closeConnection();
+=======
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name="users")
+public abstract class Account {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Basic(optional=false)
+    private int Id;
+
+    @Basic(optional=false)
+    private String Email;
+
+    @Basic(optional=false)
+    @Column(name="FirstName")
+    private String Firstname;
+
+    @Basic(optional=false)
+    @Column(name="LastName")
+    private String Lastname;
+
+    @Basic(optional=false)
+    @Column(name="AccessLevel")
+    private int Access;
+
+    @Transient
+    private List<Events> bookedEvents;
+
+    @Basic(optional=false)
+    private String Password;
+
+    @ManyToOne
+    @JoinColumn(name = "CourseID")
+    private Courses Course;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Transactions> Transactions;
+
+    @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="wishlist",
+            joinColumns = { @JoinColumn(name="StudentID")},
+            inverseJoinColumns = { @JoinColumn (name = "EventID")}
+    )
+    private List<Events> events;
+
+    public EntityManager getConnection() {
+       return null;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getFirstname() {
+        return Firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        Firstname = firstname;
+    }
+
+    public String getLastname() {
+        return Lastname;
+    }
+
+    public void setLastname(String lastname) {
+        Lastname = lastname;
+    }
+
+    public int getAccess() {
+        return Access;
+    }
+
+    public void setAccess(int access) {
+        Access = access;
+    }
+
+    public List<Events> getBookedEvents() {
+        return bookedEvents;
+    }
+
+    public void setBookedEvents(List<Events> bookedEvents) {
+        this.bookedEvents = bookedEvents;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
+    public Courses getCourse() {
+        return Course;
+    }
+
+    public void setCourse(Courses course) {
+        Course = course;
+    }
+
+    public List<models.Transactions> getTransactions() {
+        return Transactions;
+    }
+
+    public void setTransactions(List<models.Transactions> transactions) {
+        Transactions = transactions;
+    }
+
+    public List<Events> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Events> events) {
+        this.events = events;
+    }
+>>>>>>> [DiscussionComponent] UI implemented
 }
