@@ -19,9 +19,9 @@
          </padding></VBox>
    </left>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="67.0" prefWidth="577.0">
+            <HBox prefWidth="577.0">
                <fx:include source="/FXML/navbar.fxml" />
             </HBox>
             <Pane fx:id="view" />

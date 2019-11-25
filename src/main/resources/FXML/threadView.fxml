@@ -5,22 +5,29 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="threadViewAP" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="400.0" prefWidth="600.0" spacing="10.0">
+      <VBox fx:id="postDisplayVbox" spacing="10.0">
          <children>
-            <Label text="Forum" textFill="DIMGRAY" />
-            <Label text="Topic Title">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <ListView prefHeight="289.0" prefWidth="580.0" />
+            <Label fx:id="forumName" text="Forum" textFill="DIMGRAY" />
+            <VBox>
+               <children>
+                  <Label fx:id="threadTitle" text="Topic Title">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="threadAuthor" text="Label" />
+               </children>
+            </VBox>
+            <ListView fx:id="threadListView" stylesheets="@/Styles/postList.css">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding></ListView>
             <HBox alignment="CENTER_RIGHT" prefWidth="580.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onMouseClicked="#goBack" text="Return" />
+                  <Button mnemonicParsing="false" onMouseClicked="#postReply" text="Reply" />
                </children>
             </HBox>
          </children>
