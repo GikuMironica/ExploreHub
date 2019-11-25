@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -63,6 +64,7 @@
                   <Font name="Serif Regular" size="20.0" />
                </font>
             </JFXPasswordField>
+            <CheckBox fx:id="rememberBox" mnemonicParsing="false" text="Remember Me!" />
             <HBox alignment="CENTER" prefHeight="51.0" prefWidth="300.0" spacing="30.0">
                <VBox.margin>
                   <Insets left="150.0" right="150.0" top="20.0" />

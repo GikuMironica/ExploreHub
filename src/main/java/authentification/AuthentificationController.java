@@ -9,25 +9,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.Account;
 import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 
 /**
- * Singleton Class which servers as an interface to the Database with User rights,
+ * Class which handles the authentification process
+ *
  * @author Gheorghe Mironica, Tonislav Tachev
  */
 public class AuthentificationController {
 
+    @FXML
+    private CheckBox rememberBox;
     @FXML
     private TextField usernameField, passwordField;
     @FXML
@@ -37,6 +38,11 @@ public class AuthentificationController {
     private Strategy loginStrategy;
     private EntityManager entityManager;
 
+    /**
+     * Method which initializes the views
+     *
+     * @throws IOException {@link IOException}
+     */
     public void init() throws IOException{
         usernameField.setPromptText("Email address");
         passwordField.setPromptText("Password");
@@ -53,6 +59,12 @@ public class AuthentificationController {
         });
     }
 
+    /**
+     * Method which handles the login process
+     *
+     * @param event method trigger {@link Event}
+     * @throws IOException {@link IOException}
+     */
     @FXML
     private void login(Event event) throws IOException{
         String username = usernameField.getText();
@@ -99,6 +111,9 @@ public class AuthentificationController {
         }
         alert.setVisible(false);
 
+        // check if checkbox clicked
+        checkRememberBox(username, password);
+
         //if user is logged in successfully, open the Home pag
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
         Scene scene = new Scene(root);
@@ -106,6 +121,23 @@ public class AuthentificationController {
         window.setScene(scene);
         window.setResizable(false);
         window.show();
+    }
+
+    /**
+     * Saves user credentials on demand
+     *
+     * @param user user email {@link String}
+     * @param pass user password {@link String}
+     */
+    private void checkRememberBox(String user, String pass) {
+        RememberUserDBSingleton userDBSingleton = RememberUserDBSingleton.getInstance();
+
+        if(rememberBox.isSelected()){
+            userDBSingleton.init(user, pass);
+            userDBSingleton.setUser();
+        } else{
+            userDBSingleton.cleanDB();
+        }
     }
 
     @FXML
@@ -126,6 +158,12 @@ public class AuthentificationController {
         }
     }
 
+    /**
+     * Method which handles the register process
+     *
+     * @param event method trigger {@link Event}
+     * @throws IOException {@link IOException}
+     */
     @FXML
     private void register(Event event) throws IOException {
         //Check the internet connection first
@@ -142,10 +180,21 @@ public class AuthentificationController {
         }
     }
 
+    /**
+     * Method which handles enter button pressed
+     *
+     * @param ae method triggers {@link Event}
+     */
     @FXML
     public void onEnter(ActionEvent ae){
     }
 
+    /**
+     * Method which handles the recovery process
+     *
+     * @param event method trigger {@link Event}
+     * @throws IOException {@link IOException}
+     */
     @FXML
     private void recover(Event event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/recover.fxml"));
