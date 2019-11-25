@@ -19,6 +19,7 @@ public class EventListSingleton {
     private static UserConnectionSingleton con;
     private static EntityManager entityManager;
     private static List<Events> tempList;
+    private static String NATIVE_QUERY="SELECT * FROM event;";
     private static ObservableList<Events> eventsObservableList;
 
     public static EventListSingleton getInstance() {

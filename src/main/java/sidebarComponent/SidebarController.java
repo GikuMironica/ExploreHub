@@ -1,6 +1,7 @@
 package sidebarComponent;
 
 import authentification.CurrentAccountSingleton;
+import authentification.RememberUserDBSingleton;
 import handlers.Convenience;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -129,6 +130,9 @@ public class SidebarController implements Initializable {
         if (userWantsToLogOut()) {
             CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
             currentAccount.setAccount(null);
+
+            RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
+            userDB.cleanDB();
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
