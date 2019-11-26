@@ -51,4 +51,28 @@
         </properties>
 
     </persistence-unit>
+
+    <persistence-unit name="Guest" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>models.Courses</class>
+        <class>models.Events</class>
+        <class>models.Excursion</class>
+        <class>models.Transactions</class>
+        <class>models.User</class>
+        <class>models.Admin</class>
+        <class>models.Pictures</class>
+        <class>models.Location</class>
+        <class>models.CompanyExcursion</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://swprodb.mysql.database.azure.com:3306/iexplore?useSSL=true&amp;requireSSL=false" />
+            <property name="javax.persistence.jdbc.user" value="Guest@swprodb" />
+            <property name="javax.persistence.jdbc.password" value="" />
+
+        </properties>
+
+    </persistence-unit>
 </persistence>

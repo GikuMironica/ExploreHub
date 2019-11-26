@@ -1,5 +1,6 @@
 package listComponent;
 
+import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
 import filterComponent.FilterSingleton;
 import javafx.application.Platform;
@@ -20,7 +21,6 @@ import java.util.List;
  */
 public class EventListSingleton {
     private static EventListSingleton ourInstance = new EventListSingleton();
-    private static UserConnectionSingleton con;
     private static EntityManager entityManager;
     private static List<Events> tempList;
     private static String NATIVE_QUERY="SELECT * FROM event;";
@@ -32,8 +32,7 @@ public class EventListSingleton {
 
     @SuppressWarnings("JpaQueryApiInspection")
     private EventListSingleton() {
-        con = UserConnectionSingleton.getInstance();
-        entityManager = con.getManager();
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
         tempList = tq1.getResultList();
         eventsObservableList = FXCollections.observableArrayList();

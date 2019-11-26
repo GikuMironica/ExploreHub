@@ -40,7 +40,7 @@ public class RecoverController implements Initializable {
     private String generatedKey = null;
     private TypedQuery<User> checkUserQuery;
     private List<User> users;
-    private UserConnectionSingleton connection;
+    private GuestConnectionSingleton connection;
     private EntityManager entityManager;
 
 
@@ -134,7 +134,7 @@ public class RecoverController implements Initializable {
      * @return  true if user exists and false if does not exist.
      */
     private boolean checkUser(String email){
-        connection = UserConnectionSingleton.getInstance();
+        connection = GuestConnectionSingleton.getInstance();
         entityManager = connection.getManager();
         checkUserQuery = entityManager.createNamedQuery(
                 "User.findUserbyEmail",

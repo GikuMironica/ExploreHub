@@ -15,11 +15,14 @@ import javax.persistence.Persistence;
  */
 public class UserConnectionSingleton {
     private static EntityManagerFactory factory;
-    private static UserConnectionSingleton ourInstance = new UserConnectionSingleton();
+    private static UserConnectionSingleton ourInstance = null;
     private static EntityManager em;
     private final String PERSISTENCE_UNIT_NAME = "User";
 
     public static UserConnectionSingleton getInstance() {
+        if(ourInstance == null){
+            ourInstance = new UserConnectionSingleton();
+        }
         return ourInstance;
     }
 
@@ -30,6 +33,7 @@ public class UserConnectionSingleton {
         try {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
             em = factory.createEntityManager();
+            System.out.println("User connection started");
         }catch(Exception e){
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Oops, looks like you have no internet connection","Try later.");
             return;
@@ -41,5 +45,13 @@ public class UserConnectionSingleton {
      */
     public EntityManager getManager(){
         return em;
+    }
+
+    /**
+     * Method which closes this connection
+     */
+    public void closeConnection(){
+        System.out.println("User connection shut down");
+        em = null;
     }
 }

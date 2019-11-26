@@ -19,11 +19,6 @@ import java.util.Timer;
  */
 public class Main extends Application {
 
-    private Timer timer;
-    private UpdateListTask updateTask;
-    private long delay = 0;
-    private long interval = 15000;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -32,7 +27,6 @@ public class Main extends Application {
         // checks if remember me was ticked
         if(userDB.okState()) {
             userDB.setUser();
-            initiliaseApp();
             Convenience.switchScene(primaryStage, getClass().getResource("/FXML/mainUI.fxml"));
 
         }else {
@@ -54,35 +48,16 @@ public class Main extends Application {
         }
     }
 
-    /**
-     * This method initialises main application background jobs
-     */
-    private void initiliaseApp() {
-        //Initialize listView in a separate Thread
-        Thread thread = new Thread(() -> {
-            EventListSingleton ev = EventListSingleton.getInstance();
-        });
-        thread.start();
-
-        // Start Job to update regularly the ListView in background
-        timer = new Timer();
-        updateTask = new UpdateListTask();
-        timer.scheduleAtFixedRate(updateTask, delay, interval);
-    }
 
     /**
-     * Method which stops the Scheduled Background Job before exiting app
+     * Method closes the connection before exiting app
      */
     @Override
     public void stop(){
-        System.out.println("Stage is closing");
-        timer.cancel();
-        timer.purge();
         try {
-            CurrentAccountSingleton.getInstance().getAccount().getConnection().close();
+            AuthentificationController.stop();
         }catch(Exception e){
-            UserConnectionSingleton.getInstance().getManager().close();
-            AdminConnectionSingleton.getInstance().getManager().close();
+            e.printStackTrace();
         }
     }
 

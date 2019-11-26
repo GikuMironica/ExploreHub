@@ -35,13 +35,13 @@ public class RegisterController implements Initializable  {
     @FXML
     private ChoiceBox courseChoiceBox;
     private TypedQuery<Courses> tq1;
-    private UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-    private EntityManager entityManager = con.getManager();
+    private EntityManager entityManager;
     private String NAME_PATTERN = "^[a-zA-Z]*$";
     private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        entityManager = GuestConnectionSingleton.getInstance().getManager();
 
         firstNameField.setPromptText("First Name");
         lastNameField.setPromptText("Last Name");
@@ -84,6 +84,10 @@ public class RegisterController implements Initializable  {
             entityManager.getTransaction().commit();
             CurrentAccountSingleton currentUser = CurrentAccountSingleton.getInstance();
             currentUser.setAccount(user);
+
+            GuestConnectionSingleton.getInstance().getManager().close();
+            GuestConnectionSingleton.getInstance().closeConnection();
+            
         }catch(Exception ex){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
             alert.showAndWait();

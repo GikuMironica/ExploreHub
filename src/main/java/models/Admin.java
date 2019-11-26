@@ -183,6 +183,17 @@ public class Admin implements Account{
         this.events = events;
     }
 
+    @Override
+    public List<Events> getBookedEvents() {
+        System.out.println("Admins Can't book");
+        return null;
+    }
+
+    @Override
+    public void setBookedEvents(List<Events> bookedEvents) {
+        System.out.println("Admins can't book");
+    }
+
     /**
      *Method to access the access the database interface as Administrator
      *@return Entity Manager
@@ -191,6 +202,14 @@ public class Admin implements Account{
     public EntityManager getConnection() {
         AdminConnectionSingleton u1 = AdminConnectionSingleton.getInstance();
         return u1.getManager();
+    }
+
+    /**
+     * This method closes connection to db
+     */
+    @Override
+    public void closeConnection(){
+        AdminConnectionSingleton.getInstance().closeConnection();
     }
 
 
