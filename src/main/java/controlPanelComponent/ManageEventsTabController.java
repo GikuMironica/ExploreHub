@@ -22,10 +22,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import listComponent.EventListSingleton;
-import models.Account;
-import models.Events;
-import models.Location;
-import models.Pictures;
+import models.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -51,7 +48,9 @@ public class ManageEventsTabController implements Initializable {
     private Events selectedEvent;
 
     @FXML
-    private Label longCharsRemaining, shortCharsRemaining;
+    private RadioButton freeRadio, paidRadio;
+    @FXML
+    private Label longCharsRemaining, shortCharsRemaining, priceLabel;
     @FXML
     private Button saveButton, deleteButton, picButton, logoButton;
     @FXML
@@ -177,7 +176,9 @@ public class ManageEventsTabController implements Initializable {
 
         selectedEvent.setDate(actualDate);
         selectedEvent.setCompany(companyField.getText());
-        selectedEvent.setPrice(Double.valueOf(priceField.getText()));
+        if(selectedEvent instanceof Excursion) {
+            selectedEvent.setPrice(Double.valueOf(priceField.getText()));
+        }
         selectedEvent.getLocation().setCity(cityField.getText());
         selectedEvent.getLocation().setLatitude(Double.valueOf(latitudeField.getText()));
         selectedEvent.getLocation().setLongitude(Double.valueOf(longitudeField.getText()));
@@ -241,29 +242,28 @@ public class ManageEventsTabController implements Initializable {
             return;
         }
 
-        // delegate uploading image to object
-        UploadImage uploadImg = new UploadImage(mainPic);
-        UploadImage uploadLog = new UploadImage(logoPic);
-        String urlLogo = "";
-        String urlPic = "";
-
-        try {
-            urlLogo = uploadLog.upload();
-            urlPic = uploadImg.upload();
-        } catch (Exception e) {
-            System.out.println("Image couldn't be uploaded to server, check ManageEventsTabController");
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-        }
+        String urlLogo = uploadIMG(mainPic);
+        String urlPic = uploadIMG(logoPic);
 
         // Normal
-        String company = companyField.getText();
-        Double price = Double.valueOf(priceField.getText());
-        int totalSelected = placesCombo.getSelectionModel().getSelectedIndex();
+        Double price = 0.0;
+        int totalSelected = placesCombo.getSelectionModel().getSelectedIndex()+1;
         Date actualDate = Date.valueOf(localDate);
         Double latitude = Double.valueOf(latitudeField.getText());
         Double longitude = Double.valueOf(longitudeField.getText());
+        Events newEvent = null;
 
-        Events newEvent = new Events(actualDate, company, Double.valueOf(price), totalSelected, totalSelected, shortField.getText(), longField.getText());
+
+        if(paidRadio.isSelected()){
+            price = Double.valueOf(priceField.getText());
+            ExcursionStrategy eStrategy = new ExcursionStrategy(actualDate, Double.valueOf(price), totalSelected, totalSelected, shortField.getText(), longField.getText());
+            newEvent = eStrategy.createEvent();
+        }else if (freeRadio.isSelected()){
+            String company = companyField.getText();
+            CompanyExcursionStrategy cStrategy = new CompanyExcursionStrategy(actualDate, company, totalSelected, totalSelected, shortField.getText(), longField.getText());
+            newEvent = cStrategy.createEvent();
+        }
+
         Location newLoc = new Location(Double.valueOf(latitude), Double.valueOf(longitude), cityField.getText());
         Pictures newPic = new Pictures(urlLogo, urlPic);
 
@@ -291,6 +291,23 @@ public class ManageEventsTabController implements Initializable {
         mainPic = null;
         logoPic = null;
         Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Created", "Event was successfully created", "");
+    }
+
+    /**
+     * Method which delegates uploading picture task to {@link UploadImage}
+     *
+     * @param img {@link Image}
+     * @return {@link String}
+     */
+    private String uploadIMG(Image img) {
+        UploadImage uploadImg = new UploadImage(img);
+        try {
+            return uploadImg.upload();
+        } catch (Exception e) {
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -324,9 +341,21 @@ public class ManageEventsTabController implements Initializable {
     /**
      * Method which fetches the date from the selected event and fills the form
      */
-    private void fillFormFromSelectedEvent() {
+        private void fillFormFromSelectedEvent() {
+        if(selectedEvent instanceof CompanyExcursion){
+            freeRadioSelected();
+            freeRadio.setDisable(true);
+            paidRadio.setDisable(true);
+            priceField.setText("Free");
+        }else{
+            priceField.setText(String.valueOf(selectedEvent.getPrice()));
+            paidRadioSelected();
+            freeRadio.setDisable(true);
+            paidRadio.setDisable(true);
+            priceField.setText(String.valueOf(selectedEvent.getPrice()));
+        }
+
         companyField.setText(selectedEvent.getCompany());
-        priceField.setText(String.valueOf(selectedEvent.getPrice()));
         localDate = selectedEvent.getDate().toLocalDate();
         dateField.setValue(localDate);
         cityField.setText(selectedEvent.getLocation().getCity());
@@ -428,6 +457,10 @@ public class ManageEventsTabController implements Initializable {
             ok = false;
             Convenience.showAlert(Alert.AlertType.ERROR, "Invalid date", "Choose a day after tomorrow","");
         }
+        if((!freeRadio.isSelected())&&(!paidRadio.isSelected())){
+            ok = false;
+            Convenience.showAlert(Alert.AlertType.ERROR, "Invalid Event Type", "Choose an Event type","");
+        }
         return ok;
     }
 
@@ -450,6 +483,11 @@ public class ManageEventsTabController implements Initializable {
         picButton.setText("Upload Picture");
         logoButton.setStyle("-fx-text-fill: red;");
         picButton.setStyle("-fx-text-fill: red;");
+        freeRadio.setDisable(false);
+        freeRadio.setSelected(false);
+        paidRadio.setSelected(false);
+        paidRadio.setDisable(false);
+        priceField.setDisable(false);
 
         placesCombo.getSelectionModel().selectFirst();
     }
@@ -565,6 +603,24 @@ public class ManageEventsTabController implements Initializable {
         } else{
             return null;
         }
+    }
+
+    @FXML
+    private void freeRadioSelected(){
+        priceField.setText("Free");
+        priceField.setDisable(true);
+        paidRadio.setSelected(false);
+        freeRadio.setSelected(true);
+        companyField.setDisable(false);
+    }
+
+    @FXML
+    private void paidRadioSelected(){
+        priceField.setDisable(false);
+        freeRadio.setSelected(false);
+        paidRadio.setSelected(true);
+        companyField.setText("Hochschule Ulm");
+        companyField.setDisable(true);
     }
 
 }

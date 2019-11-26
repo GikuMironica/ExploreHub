@@ -15,6 +15,8 @@
         <class>models.Admin</class>
         <class>models.Pictures</class>
         <class>models.Location</class>
+        <class>models.Excursion</class>
+        <class>models.CompanyExcursion</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -31,11 +33,14 @@
 
         <class>models.Courses</class>
         <class>models.Events</class>
+        <class>models.Excursion</class>
         <class>models.Transactions</class>
         <class>models.User</class>
         <class>models.Admin</class>
         <class>models.Pictures</class>
         <class>models.Location</class>
+        <class>models.CompanyExcursion</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
