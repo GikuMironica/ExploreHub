@@ -1,100 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorLogIn" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
-   <children>
-      <VBox alignment="TOP_CENTER" style="-fx-background-image: url(http://www.internshipsdownunder.com/wp-content/uploads/2015/06/1.jpg);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="390.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fx:id="img_Icon" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-               <Image url="https://icon-library.net/images/information-i-icon/information-i-icon-29.jpg" />
-            </image>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </ImageView>
-            <Label fx:id="labeliExplore" text="iExplore">
-               <font>
-                  <Font name="Serif Bold" size="48.0" />
-               </font>
-               <VBox.margin>
-                  <Insets right="5.0" top="30.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="labelDescription" style="-fx-wrap-text: true;" text="Manage and Book Excursions from Hochschule Ulm" textAlignment="CENTER">
-               <font>
-                  <Font name="Serif Regular" size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets right="5.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #D9DDDC;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label fx:id="alert">
-            </Label>
-            <JFXTextField fx:id="usernameField" alignment="CENTER" focusColor="#73c2fb" onKeyReleased="#handleKeyRelease" prefHeight="40.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Serif Regular" size="20.0" />
-               </font>
-            </JFXTextField>
-            <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#73c2fb" onAction="#onEnter" onKeyReleased="#handleKeyRelease" prefHeight="40.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Serif Regular" size="20.0" />
-               </font>
-            </JFXPasswordField>
-            <CheckBox fx:id="rememberBox" mnemonicParsing="false" text="Remember Me!" />
-            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="300.0" spacing="30.0">
-               <VBox.margin>
-                  <Insets left="150.0" right="150.0" top="20.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="35.0" right="30.0" />
-               </padding>
-               <children>
-                  <JFXButton fx:id="loginButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#login" prefHeight="20.0" prefWidth="100.0" text="Log In">
-                     <HBox.margin>
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton fx:id="registerButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#register" prefHeight="20.0" prefWidth="100.0" text="Register">
-                  </JFXButton>
-               </children>
-            </HBox>
-            <Separator>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </Separator>
-            <Label fx:id="recover" alignment="CENTER" onMouseClicked="#recover" text="Forgot Password?" textAlignment="CENTER">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Serif Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
+   <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../IMG/login-hero.jpg" />
+   </ImageView>
+   <Text fill="#f2f7f9" layoutX="183.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ExploreHub" textAlignment="CENTER">
+      <font>
+         <Font name="Ayuthaya" size="50.0" />
+      </font>
+   </Text>
+   <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#0f9d58" layoutX="182.0" layoutY="198.0" onKeyReleased="#handleKeyRelease" prefHeight="52.0" prefWidth="236.0" unFocusColor="#f2f7f9">
+      <font>
+         <Font name="Baghdad Regular" size="20.0" />
+      </font>
+   </JFXPasswordField>
+   <JFXTextField fx:id="usernameField" alignment="CENTER" focusColor="#0f9d58" layoutX="180.0" layoutY="127.0" onKeyReleased="#handleKeyRelease" prefHeight="52.0" prefWidth="240.0" unFocusColor="#f2f7f9">
+      <font>
+         <Font name="Baghdad Regular" size="20.0" />
+      </font>
+   </JFXTextField>
+   <Line endX="219.5" endY="113.5" fill="#f2f7f9" layoutX="-15.0" layoutY="-24.0" startX="440" startY="113.5" stroke="#f2f7f9" strokeWidth="2.0" />
+   <Text fill="#f2f7f9" layoutX="230.0" layoutY="101.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Your excursions guide" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="244.12380981445312">
+      <font>
+         <Font name="Ayuthaya" size="12.0" />
+      </font>
+   </Text>
+   <JFXButton fx:id="loginButton" layoutX="182.0" layoutY="260.0" onAction="#login" prefHeight="43.0" prefWidth="111.0" text="LOG IN" textFill="#f2f7f9" wrapText="true">
+      <font>
+         <Font name="Baghdad Regular" size="15.0" />
+      </font>
+   </JFXButton>
+   <JFXButton fx:id="registerButton" layoutX="300.0" layoutY="260.0" onAction="#register" prefHeight="43.0" prefWidth="111.0" text="REGISTER" textFill="#f2f7f9" wrapText="true">
+      <font>
+         <Font name="Baghdad Regular" size="15.0" />
+      </font>
+   </JFXButton>
+   <Text fill="#f2f7f9" layoutX="496.0" layoutY="385.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember me">
+      <font>
+         <Font name="Ayuthaya" size="10.0" />
+      </font>
+   </Text>
+   <Line endX="-100.0" endY="18.17095947265625" fill="#f2f7f9" layoutX="590.0" layoutY="372.0" opacity="0.7" startX="-100.0" stroke="#f2f7f9" />
+   <Text fx:id="recover" fill="#f2f7f9" layoutX="382.0" layoutY="385.0" onMouseClicked="#recover" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password?">
+      <font>
+         <Font name="Baghdad Regular" size="10.0" />
+      </font>
+   </Text>
+   <JFXCheckBox fx:id="rememberBox" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" layoutX="559.0" layoutY="366.0" opacity="0.7" prefHeight="31.0" prefWidth="101.0" text="Remember me" textFill="#f2f7f9" unCheckedColor="#f2f7f9">
+      <font>
+         <Font name="Baghdad Regular" size="10.0" />
+      </font>
+   </JFXCheckBox>
+   <JFXTextField fx:id="alert" editable="false" layoutX="190.0" layoutY="314.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="230.0" />
 </AnchorPane>

@@ -1,5 +1,7 @@
 package authentification;
 
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXTextField;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -28,13 +30,13 @@ import java.io.IOException;
 public class AuthentificationController {
 
     @FXML
-    private CheckBox rememberBox;
+    private JFXCheckBox rememberBox;
     @FXML
     private TextField usernameField, passwordField;
     @FXML
     private Button loginButton;
     @FXML
-    private Label alert;
+    private JFXTextField alert;
     private Strategy loginStrategy;
     private EntityManager entityManager;
 

@@ -48,8 +48,8 @@ public class Main extends Application {
             // System.out.println("Login scene is loading");
             Scene scene = new Scene(mainRoot, 600, 400);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("iExplore");
-            primaryStage.getIcons().add(new Image("https://icon-library.net/images/information-i-icon/information-i-icon-29.jpg"));
+            primaryStage.setTitle("ExploreHub");
+            primaryStage.setResizable(false);
             primaryStage.show();
         }
     }
