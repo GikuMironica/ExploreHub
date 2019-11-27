@@ -1,6 +1,10 @@
 package bookingComponent;
 
 import authentification.CurrentAccountSingleton;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import models.Account;
 import models.Events;
 import models.Transactions;
 import models.User;
@@ -15,7 +19,9 @@ import java.util.ListIterator;
 public class CashPaymentStrategy implements PaymentStrategy {
 
     private List<Events> evList;
+    private List<Events> interestList;
     private Events currentEvent;
+    private Account user = CurrentAccountSingleton.getInstance().getAccount();
     private LocalDate localDate;
     private Date date;
     private int completed;
@@ -26,7 +32,7 @@ public class CashPaymentStrategy implements PaymentStrategy {
     public void pay() {
 
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
-        evList = ((User) (CurrentAccountSingleton.getInstance().getAccount())).getBookedEvents();
+        evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
 
         if(evList != null) {
             ListIterator iterator = evList.listIterator();
@@ -63,15 +69,44 @@ public class CashPaymentStrategy implements PaymentStrategy {
 
                 else {
                     // Warning telling the user no more spaces available for this certain event and cutting the price down for the total (in confirmation screen)
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.ERROR,"", ButtonType.OK);
+                        alert.setTitle("Booking error!");
+                        alert.setHeaderText("Booking failed");
+                        alert.setContentText("Booking failed because there are not enough available places. \nFor " + currentEvent.getCompany() + "\n" + currentEvent.getShortDescription());
+                        alert.showAndWait();
+                    });
+
                 }
+
             }
         }
 
-        resetInterestList();
+        updateInterestList(evList);
 
     }
 
-    public void resetInterestList(){
+    @SuppressWarnings("Duplicates")
+    public void updateInterestList(List<Events> eventList) {
 
+        interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();
+
+        if (eventList.size() > 1) {
+            while (eventList.size() > 0) {
+                interestList.remove(eventList.get(0));
+                eventList.remove(eventList.get(0));
+            }
+        } else {
+            if (interestList.contains(eventList.get(0))) interestList.remove(eventList.get(0));
+            eventList.remove(eventList.get(0));
+        }
+
+        CurrentAccountSingleton.getInstance().getAccount().setEvents(interestList);
+        CurrentAccountSingleton.getInstance().getAccount().setBookedEvents(eventList);
+
+        entityManager = user.getConnection();
+        entityManager.getTransaction().begin();
+        entityManager.merge(user);
+        entityManager.getTransaction().commit();
     }
 }

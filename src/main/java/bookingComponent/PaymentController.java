@@ -44,15 +44,18 @@ public class PaymentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        evList = ((User) (CurrentAccountSingleton.getInstance().getAccount())).getBookedEvents();
+        evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
 
-        totalPrice.setText("Total: " + BookingController.getTotalPrice());
+        totalPrice.setText("Total: €" + BookingController.getTotalPrice());
 
 
         // Cash
         if(BookingController.getPaymentType() == 1){
 
-            // Final text confirming cash purchase
+            try{
+                newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentCash.fxml"));
+                container.getChildren().add(newPane);
+            }catch (IOException e){e.printStackTrace();}
 
         }
 
@@ -70,16 +73,17 @@ public class PaymentController implements Initializable {
     public void payment(){ // Once user presses Pay button initiate strategy
 
         disableControlBtns();
+        totalPrice.setVisible(false);
 
         if(BookingController.getPaymentType() == 1){
             CashPaymentStrategy CashPS = new CashPaymentStrategy();
             CashPS.pay();
-            confirmationText = "Payment with Cash. Visit X at Y to pay.";
+            confirmationText = "Booking successful! Visit Prittwitzstrasse campus to pay and get approved.\nWe hope you have a nice time!";
         }
         else if (BookingController.getPaymentType() == 0 ) {
             CardPaymentStrategy CardPS = new CardPaymentStrategy();
             CardPS.pay();
-            confirmationText = "Payment with card successful.";
+            confirmationText = "Payment with card successful.\nWe hope you have a nice time!";
         }
 
         confirmationScene();

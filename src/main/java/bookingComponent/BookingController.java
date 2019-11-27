@@ -8,9 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import models.Events;
 import models.Transactions;
 import models.User;
+import org.eclipse.persistence.exceptions.EclipseLinkException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +31,10 @@ public class BookingController implements Initializable {
     private ToggleGroup toggleGroupPayments;
 
     @FXML
-    Label totalPrice;
+    Label totalPrice, bookingDescription;
+
+    @FXML
+    ImageView bookingImage;
 
     @FXML
     RadioButton cash, card;
@@ -47,14 +53,14 @@ public class BookingController implements Initializable {
         //if(!(getPaymentType() == 0)) cash.setSelected(true);
         //else cash.setSelected(true);
         switch(getPaymentType()){
-            case 1: cash.setSelected(true); break;
+            case 1: cash.setSelected(true); paymentType = 1; break;
             case 0: card.setSelected(true); break;
 
-            default: cash.setSelected(true);
+            default: cash.setSelected(true); paymentType = 1;
         }
 
-        // Get events from basket and sum the prices for total price
-        evList = ((User) (CurrentAccountSingleton.getInstance().getAccount())).getBookedEvents();
+        // Get events and sum the prices for total price
+        evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
         total = 0;
 
         if(evList != null) {
@@ -64,7 +70,20 @@ public class BookingController implements Initializable {
                 total += tempEvent.getPrice();
             }
         }
-        totalPrice.setText("Total: " + total);
+        totalPrice.setText("Total: €" + total);
+
+        if(evList.size() > 1){
+            try {
+                bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
+                bookingDescription.setText(evList.get(0).getShortDescription() + " And " + evList.size() + "more event(s)...");
+            } catch (Exception e){e.printStackTrace();}
+        }
+        else {
+            try {
+                bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
+                bookingDescription.setText(evList.get(0).getShortDescription());
+            } catch (Exception e){e.printStackTrace();}
+        }
     }
 
     /**

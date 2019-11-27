@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentController">
    <children>
-      <HBox alignment="BOTTOM_RIGHT" layoutX="399.0" layoutY="346.0" prefHeight="44.0" prefWidth="222.0">
+      <HBox alignment="BOTTOM_RIGHT" layoutX="357.0" layoutY="346.0" prefHeight="44.0" prefWidth="222.0">
          <children>
             <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelBooking" text="Cancel">
                <HBox.margin>
@@ -23,13 +24,16 @@
             </Button>
             <Button fx:id="payBtn" mnemonicParsing="false" onAction="#payment" text="Pay">
                <HBox.margin>
-                  <Insets left="15.0" />
+                  <Insets left="15.0" right="5.0" />
                </HBox.margin>
             </Button>
          </children>
       </HBox>
       <Pane fx:id="container" layoutX="85.0" layoutY="44.0" prefHeight="312.0" prefWidth="422.0" />
-      <Label fx:id="totalPrice" layoutX="586.0" layoutY="314.0" prefHeight="32.0" prefWidth="70.0" text="Total" />
+      <Label fx:id="totalPrice" layoutX="463.0" layoutY="314.0" prefHeight="32.0" prefWidth="88.0" text="Total">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
       <!--<fx:include source="/FXML/paymentCard.fxml" />-->
    </children>
 </AnchorPane>

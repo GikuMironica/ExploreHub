@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentConfirmationController">
    <children>
-      <Label fx:id="confirmationText" layoutX="62.0" layoutY="47.0" prefHeight="35.0" prefWidth="224.0" text="Confirmation" />
-      <Button fx:id="homepage" layoutX="236.0" layoutY="292.0" mnemonicParsing="false" onAction="#goToHomepage" text="Return to Homepage" />
+      <VBox layoutX="5.0" layoutY="3.0" prefHeight="393.0" prefWidth="426.0">
+         <children>
+            <Label fx:id="confirmationText" prefHeight="160.0" prefWidth="295.0" text="Confirmation" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="39.0" prefWidth="592.0">
+               <children>
+                  <Button fx:id="homepage" mnemonicParsing="false" onAction="#goToHomepage" text="Return to Homepage" textAlignment="CENTER" />
+               </children>
+               <VBox.margin>
+                  <Insets top="100.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="213.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      <VBox layoutX="13.0" layoutY="7.0" prefHeight="200.0" prefWidth="293.0">
+         <children>
+            <Label prefHeight="0.0" prefWidth="293.0" text="Cash Payment">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+              <Label fx:id="cashPayment" prefHeight="184.0" prefWidth="293.0" text="To finalize this booking press the Pay button. &#10;Once booked you will have to go to Prittwitzstrasse Campus to pay and get approved.&#10;&#10;Canceling is possible. " wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+         </children>
+      </VBox>
+    </children>
+</Pane>
