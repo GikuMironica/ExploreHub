@@ -1,5 +1,27 @@
 #alert{
-    -fx-background-color: #ff5757;
+    /*-fx-background-color: #ff5757;*/
     -fx-font-family: Baghdad Regular;
     -fx-font-size: 20.0;
+    -fx-text-fill: #ff5757;
+}
+
+.credentialsText{
+    -fx-text-fill: #F2F7F9;
+    -fx-opacity: 80%;
+}
+
+#registerBtn{
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-border-color: #F2F7F9;
+    -fx-border-radius: 54px 0px 54px 54px;
+
+}
+
+#loginBtn{
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-color-label-visible: #F2F7F9;
+    -fx-border-color: #F2F7F9;
+    -fx-border-radius: 0px 54px 54px 54px;
 }
