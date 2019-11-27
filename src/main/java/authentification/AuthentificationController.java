@@ -16,11 +16,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import listComponent.EventListSingleton;
+import listComponent.UpdateListTask;
 import models.Account;
+import models.Admin;
 import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
+import java.util.Timer;
 
 /**
  * Class which handles the authentification process
@@ -39,6 +43,10 @@ public class AuthentificationController {
     private JFXTextField alert;
     private Strategy loginStrategy;
     private EntityManager entityManager;
+    private static Timer timer;
+    private static UpdateListTask updateTask;
+    private static long delay = 0;
+    private static long interval = 15000;
 
     /**
      * Method which initializes the views
@@ -71,10 +79,9 @@ public class AuthentificationController {
     private void login(Event event) throws IOException{
         String username = usernameField.getText();
         String password = passwordField.getText();
-       // CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
         try {
             // Try to establish connection as a user
-            UserConnectionSingleton con = UserConnectionSingleton.getInstance();
+            GuestConnectionSingleton con = GuestConnectionSingleton.getInstance();
             entityManager = con.getManager();
             @SuppressWarnings("JpaQueryApiInspection")
             Query tq1 = entityManager.createNamedQuery(
@@ -93,6 +100,9 @@ public class AuthentificationController {
                 loginStrategy = new AdminStrategy();
                 loginStrategy.getAccount(username, password);
             }
+
+            initiliaseApp();
+            GuestConnectionSingleton.getInstance().closeConnection();
 
         }catch(Exception e){
             alert.setText("Invalid Email or Password");
@@ -126,6 +136,22 @@ public class AuthentificationController {
     }
 
     /**
+     * This method initialises main application background jobs
+     */
+    public static void initiliaseApp() {
+        //Initialize listView in a separate Thread
+        Thread thread = new Thread(() -> {
+            EventListSingleton ev = EventListSingleton.getInstance();
+        });
+        thread.start();
+
+        // Start Job to update regularly the ListView in background
+        timer = new Timer();
+        updateTask = new UpdateListTask();
+        timer.scheduleAtFixedRate(updateTask, delay, interval);
+    }
+
+    /**
      * Saves user credentials on demand
      *
      * @param user user email {@link String}
@@ -137,6 +163,7 @@ public class AuthentificationController {
         if(rememberBox.isSelected()){
             userDBSingleton.init(user, pass);
             userDBSingleton.setUser();
+            GuestConnectionSingleton.getInstance().closeConnection();
         } else{
             userDBSingleton.cleanDB();
         }
@@ -204,5 +231,13 @@ public class AuthentificationController {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+
+    /**
+     * Method which stops the Scheduled Background Job before exiting app
+     */
+    public static void stop(){
+        timer.cancel();
+        timer.purge();
     }
 }

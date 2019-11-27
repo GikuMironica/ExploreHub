@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
  */
 public class AdminConnectionSingleton {
     private static EntityManagerFactory factory;
-    private static AdminConnectionSingleton ourInstance = new AdminConnectionSingleton();
+    private static AdminConnectionSingleton ourInstance = null;
     private static EntityManager em;
     private final String PERSISTENCE_UNIT_NAME = "Administrator";
 
@@ -23,6 +23,9 @@ public class AdminConnectionSingleton {
      * Method that returns an instance to this class
      */
     public static AdminConnectionSingleton getInstance() {
+        if(ourInstance == null){
+            ourInstance = new AdminConnectionSingleton();
+        }
         return ourInstance;
     }
         // private c-tor
@@ -42,5 +45,14 @@ public class AdminConnectionSingleton {
      */
     public EntityManager getManager(){
         return em;
+    }
+
+    /**
+     * Method which closes this connection
+     */
+    public void closeConnection(){
+        em.close();
+        em = null;
+        ourInstance = null;
     }
 }

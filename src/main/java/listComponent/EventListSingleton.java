@@ -1,13 +1,18 @@
 package listComponent;
 
+import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
 import filterComponent.FilterSingleton;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import models.CompanyExcursion;
 import models.Events;
+import models.Excursion;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +21,6 @@ import java.util.List;
  */
 public class EventListSingleton {
     private static EventListSingleton ourInstance = new EventListSingleton();
-    private static UserConnectionSingleton con;
     private static EntityManager entityManager;
     private static List<Events> tempList;
     private static String NATIVE_QUERY="SELECT * FROM event;";
@@ -28,8 +32,7 @@ public class EventListSingleton {
 
     @SuppressWarnings("JpaQueryApiInspection")
     private EventListSingleton() {
-        con = UserConnectionSingleton.getInstance();
-        entityManager = con.getManager();
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
         tempList = tq1.getResultList();
         eventsObservableList = FXCollections.observableArrayList();
@@ -53,9 +56,13 @@ public class EventListSingleton {
      */
     @SuppressWarnings("JpaQueryApiInspection")
     public void refreshList(){
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         Thread thread = new Thread(() -> {
-            TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
-            tempList = tq1.getResultList();
+            List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
+            List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();
+            tempList.clear();
+            tempList.addAll(lc);
+            tempList.addAll(le);
             Platform.runLater(() -> {
                 eventsObservableList.clear();
                 eventsObservableList.addAll(tempList);

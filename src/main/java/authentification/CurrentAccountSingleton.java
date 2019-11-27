@@ -4,7 +4,7 @@ import models.Account;
 import models.User;
 
 /**
- * Singleton class that holds the instace of the current registered account
+ * Singleton class that holds the instance of the current registered account
  * @author: Gheorghe Mironica
  */
 public class CurrentAccountSingleton {
@@ -12,6 +12,7 @@ public class CurrentAccountSingleton {
     private static Account account;
 
     private CurrentAccountSingleton() {
+
         // c-tor
     }
     public static CurrentAccountSingleton getInstance() {

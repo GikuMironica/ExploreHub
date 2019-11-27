@@ -41,7 +41,7 @@ public class EventWindowController{
     private Label dateData, considering, placesData, locationData, title, priceData;
     @FXML
     private ImageView imageView;
-    private double price;
+    private Double price;
     private int available, total, consider;
     private Image image;
     private EntityManager entityManager;
@@ -73,6 +73,7 @@ public class EventWindowController{
 
         locationData.setText(currentEvent.getLocation().getCity());
         dateData.setText(currentEvent.getDate().toString());
+
         price = currentEvent.getPrice();
         if(price<0.1){
             priceData.setText("FREE");

@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -13,22 +14,33 @@ import java.sql.Timestamp;
 
 /**
  *Model class which represents the Event entity and encapsulates direct access to it
+ *
  * @author Gheorghe Mironica
  */
 @Entity
 @Table(name="event")
-public class Events {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "EVENT_TYPE")
+public abstract class Events implements Serializable {
 
-
+    /**
+     * Default constructor
+     */
     public Events(){
 
     }
 
-    public Events(java.sql.Date date, String company, Double price, int totalPlaces, int availablePlaces, String shortDescription,
+    /**
+     * Custom Constructor
+     * @param date {@link Date}
+     * @param totalPlaces {@link Integer}
+     * @param availablePlaces {@link Integer}
+     * @param shortDescription {@link String}
+     * @param longDescription {@link String}
+     */
+    public Events(java.sql.Date date, int totalPlaces, int availablePlaces, String shortDescription,
                   String longDescription) {
         Date = date;
-        Company = company;
-        Price = price;
         TotalPlaces = totalPlaces;
         AvailablePlaces = availablePlaces;
         ShortDescription = shortDescription;
@@ -39,39 +51,33 @@ public class Events {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    protected int Id;
 
     @Basic(optional=false)
-    private Date Date;
+    protected Date Date;
 
     @Basic(optional=false)
-    private String Company;
+    protected int TotalPlaces;
 
     @Basic(optional=false)
-    private Double Price;
-
-    @Basic(optional=false)
-    private int TotalPlaces;
-
-    @Basic(optional=false)
-    private int AvailablePlaces;
+    protected int AvailablePlaces;
 
     @Transient
-    private Query query;
+    protected Query query;
 
     @Column(nullable = true, name="ShortDescription")
-    private String ShortDescription;
+    protected String ShortDescription;
 
     @Column(nullable = true, name="LongDescription")
-    private String LongDescription;
+    protected String LongDescription;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name="Id")
-    private Location location;
+    protected Location location;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name="Id")
-    private Pictures picture;
+    protected Pictures picture;
 
     public int getId() {
         return Id;
@@ -89,20 +95,16 @@ public class Events {
         Date = date;
     }
 
-    public String getCompany() {
-        return Company;
-    }
+    abstract public String getCompany();
 
     public void setCompany(String company) {
-        Company = company;
+        System.out.println("This is a hochschule excursion, can't reset it");
     }
 
-    public Double getPrice() {
-        return Price;
-    }
+    abstract public Double getPrice();
 
     public void setPrice(Double price) {
-        Price = price;
+        System.out.println("This is a free excursion, can't set price");
     }
 
     public int getTotalPlaces() {
@@ -159,7 +161,7 @@ public class Events {
      * @param id The event ID
      * @return returns the counter
      */
-    public int getCheckedIN(EntityManager em, int id) {
+    public final int getCheckedIN(EntityManager em, int id) {
         query = em.createNativeQuery("SELECT COUNT(*) FROM wishlist WHERE EventID = ?");
         query.setParameter(1, id);
 

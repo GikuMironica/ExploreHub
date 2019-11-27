@@ -34,6 +34,7 @@ public class UserStrategy implements Strategy {
                 User.class);
         tq2.setParameter("email", email);
         tq2.setParameter("password", pass);
-        currentAccount.setAccount(tq2.getSingleResult());
+        User u1 = tq2.getSingleResult();
+        currentAccount.setAccount(u1);
     }
 }

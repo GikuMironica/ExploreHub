@@ -215,6 +215,14 @@ public class User implements Account{
         return u1.getManager();
     }
 
+    /**
+     * This method closes connection to db
+     */
+    @Override
+    public void closeConnection(){
+        UserConnectionSingleton.getInstance().closeConnection();
+    }
+
     @SuppressWarnings("JpaQueryApiInspection")
     public boolean checkEventPresence(EntityManager em, int eventID){
         query = em.createNamedQuery("checkIfEventInWishList");

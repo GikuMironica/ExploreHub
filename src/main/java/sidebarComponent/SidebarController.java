@@ -1,6 +1,8 @@
 package sidebarComponent;
 
+import authentification.AuthentificationController;
 import authentification.CurrentAccountSingleton;
+import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
 import handlers.Convenience;
 import javafx.animation.TranslateTransition;
@@ -128,9 +130,12 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userWantsToLogOut()) {
+            CurrentAccountSingleton.getInstance().getAccount().closeConnection();
             CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
             currentAccount.setAccount(null);
+            AuthentificationController.stop();
 
+            GuestConnectionSingleton.getInstance();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();
 

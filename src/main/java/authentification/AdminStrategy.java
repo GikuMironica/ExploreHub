@@ -32,7 +32,8 @@ public class AdminStrategy implements Strategy {
                 Admin.class);
         tq2.setParameter("email", email);
         tq2.setParameter("password", pass);
-        currentAccount.setAccount(tq2.getSingleResult());
+        Admin a1 = tq2.getSingleResult();
+        currentAccount.setAccount(a1);
 
     }
 }
