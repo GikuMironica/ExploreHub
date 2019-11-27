@@ -136,10 +136,10 @@ public class SidebarController implements Initializable {
             currentAccount.setAccount(null);
             AuthentificationController.stop();
 
+            GuestConnectionSingleton.getInstance();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();
 
-            GuestConnectionSingleton.getInstance();
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
     }

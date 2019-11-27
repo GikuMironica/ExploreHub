@@ -56,6 +56,7 @@ public class EventListSingleton {
      */
     @SuppressWarnings("JpaQueryApiInspection")
     public void refreshList(){
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         Thread thread = new Thread(() -> {
             List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
             List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();

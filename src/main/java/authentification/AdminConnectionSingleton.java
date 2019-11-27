@@ -54,5 +54,6 @@ public class AdminConnectionSingleton {
     public void closeConnection(){
         System.out.println("Admin connection shut down");
         em = null;
+        ourInstance = null;
     }
 }

@@ -33,7 +33,7 @@ public class UserConnectionSingleton {
         try {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
             em = factory.createEntityManager();
-            System.out.println("User connection started");
+            System.out.println("Userconnection started");
         }catch(Exception e){
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Oops, looks like you have no internet connection","Try later.");
             return;
@@ -53,5 +53,6 @@ public class UserConnectionSingleton {
     public void closeConnection(){
         System.out.println("User connection shut down");
         em = null;
+        ourInstance = null;
     }
 }

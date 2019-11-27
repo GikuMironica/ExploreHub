@@ -19,6 +19,7 @@ import javafx.util.Duration;
 import listComponent.EventListSingleton;
 import listComponent.UpdateListTask;
 import models.Account;
+import models.Admin;
 import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -138,7 +139,7 @@ public class AuthentificationController {
     /**
      * This method initialises main application background jobs
      */
-    private static void initiliaseApp() {
+    public static void initiliaseApp() {
         //Initialize listView in a separate Thread
         Thread thread = new Thread(() -> {
             EventListSingleton ev = EventListSingleton.getInstance();

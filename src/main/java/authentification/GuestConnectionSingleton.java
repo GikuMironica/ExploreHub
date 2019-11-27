@@ -54,5 +54,6 @@ public class GuestConnectionSingleton {
     public void closeConnection(){
         System.out.println("Guest connection shut down");
         em = null;
+        ourInstance = null;
     }
 }

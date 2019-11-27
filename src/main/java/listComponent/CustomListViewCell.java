@@ -1,5 +1,6 @@
 package listComponent;
 
+import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +34,6 @@ public class CustomListViewCell extends ListCell<Events> {
     private Image image;
     private String imageURL;
     private int id;
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
     private String city;
 
@@ -52,8 +52,7 @@ public class CustomListViewCell extends ListCell<Events> {
 
             try{
                 loader.load();
-                con = UserConnectionSingleton.getInstance();
-                entityManager = con.getManager();
+                entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
             } catch(Exception e){
                 // Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
                 // alert.showAndWait();
