@@ -43,7 +43,7 @@ public class NavbarController implements Initializable {
     @FXML
     private void handleTitleClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/mainUI/mainUI.fxml"));
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -76,12 +76,30 @@ public class NavbarController implements Initializable {
     }
 
     /**
-     * Opens the sidebar
+     * If the sidebar is hidden, then it will be shown. Otherwise it will be hidden.
      *
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
     private void handleMenuClicked(MouseEvent mouseEvent) {
-        sidebarController.show();
+        if (sidebarController.isHidden()) {
+            sidebarController.show();
+        } else {
+            sidebarController.hide();
+        }
     }
+
+    /**
+     * This method is called whenever the user clicks anywhere on the navbar.
+     * If the navbar is not hidden, it will hide it.
+     *
+     * @param mouseEvent - the event which triggered the method
+     */
+//    @FXML
+//    private void handleNavbarClicked(MouseEvent mouseEvent) {
+//        System.out.println("Navbar CLICKED!!!");
+//        if (!sidebarController.isHidden()) {
+//            sidebarController.hide();
+//        }
+//    }
 }

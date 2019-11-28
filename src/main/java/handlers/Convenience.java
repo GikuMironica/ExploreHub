@@ -7,7 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,5 +134,40 @@ public final class Convenience {
         }
 
         return alert.showAndWait();
+    }
+
+    /**
+     * Pops up a new dialog window with a custom content.
+     *
+     * @param owner - window on which the dialog should appear
+     * @param dialogResource - content of the dialog window
+     * @param title - title of the dialog window
+     * @throws IOException - may be thrown if the dialog could not be loaded
+     */
+    public static void popupDialog(Window owner, URL dialogResource, String title) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(dialogResource);
+
+        Dialog dialog = new Dialog();
+        dialog.setTitle(title);
+        dialog.initOwner(owner);
+        dialog.getDialogPane().setContent(loader.load());
+
+        Window dialogWindow = dialog.getDialogPane().getScene().getWindow();
+        dialogWindow.setOnCloseRequest(event -> dialogWindow.hide());
+        dialog.showAndWait();
+    }
+
+    /**
+     * Pops up a new dialog window after some kind of event.
+     * Calls the {@link #popupDialog(Window, URL, String)} method by passing the event's window to it.
+     *
+     * @param event - event that triggered the dialog to popup
+     * @param dialogResource - content of the dialog window
+     * @param title - title of the dialog window
+     * @throws IOException - may be thrown if the dialog could not be loaded
+     */
+    public static void popupDialog(Event event, URL dialogResource, String title) throws IOException {
+        popupDialog(getWindow(event), dialogResource, title);
     }
 }

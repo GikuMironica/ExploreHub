@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="wishlistCellAnchorPane" prefHeight="150.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="350.0" spacing="5.0">
+            <children>
+                <ImageView fx:id="logoImageView" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label fx:id="titleLabel" text="Title">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="descriptionLabel" text="Description" />
+                        <Label fx:id="locationLabel" text="Location" />
+                        <Label fx:id="priceLabel" text="Price" />
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <effect>
+                                <Blend />
+                            </effect>
+                     <buttons>
+                        <JFXButton buttonType="RAISED" onMouseClicked="#handleBookClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" onMouseClicked="#handleRemoveClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Remove" textFill="WHITE" />
+                     </buttons>
+                        </ButtonBar>
+                    </children>
+                </VBox>
+            </children></HBox>
+    </children>
+</AnchorPane>

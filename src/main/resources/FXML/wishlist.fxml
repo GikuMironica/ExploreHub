@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wishlistComponent.WishlistController">
-   <children>
-      <Label layoutX="228.0" layoutY="14.0" text="Your Wishlist!">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wishlistComponent.WishlistController">
+   <content>
+      <JFXListView fx:id="wishListView" focusTraversable="false" onMouseClicked="#handleWishlistClicked" />
+   </content>
+   <header>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <JFXButton fx:id="bookSelectedButton" buttonType="RAISED" disable="true" onMouseClicked="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book selected" textFill="WHITE" />
+         </children>
+      </HBox>
+   </header>
+</DialogPane>

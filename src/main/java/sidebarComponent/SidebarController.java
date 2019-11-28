@@ -1,13 +1,11 @@
 package sidebarComponent;
 
-import authentification.AuthentificationController;
 import authentification.CurrentAccountSingleton;
-import authentification.GuestConnectionSingleton;
-import authentification.RememberUserDBSingleton;
 import handlers.Convenience;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -17,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import mainUI.MainUiController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +37,8 @@ public class SidebarController implements Initializable {
     @FXML
     private Circle profilePhotoCircle;
 
+    private boolean hidden = true;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image profileImage = new Image("/IMG/icon-account.png");
@@ -57,10 +58,11 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleWishlistClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/wishlist.fxml"));
-        } catch (IOException e) {
+            Convenience.popupDialog(mouseEvent, getClass().getResource("/FXML/wishlist.fxml"), "Wishlist");
+        } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
+            ioe.printStackTrace();
         }
     }
 
@@ -130,14 +132,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userWantsToLogOut()) {
-            CurrentAccountSingleton.getInstance().getAccount().closeConnection();
             CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
             currentAccount.setAccount(null);
-            AuthentificationController.stop();
-
-            GuestConnectionSingleton.getInstance();
-            RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
-            userDB.cleanDB();
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
@@ -160,6 +156,7 @@ public class SidebarController implements Initializable {
      */
     public void show() {
         slide(600);
+        hidden = false;
     }
 
     /**
@@ -167,8 +164,9 @@ public class SidebarController implements Initializable {
      * Calls the {@link #slide(int)} method with a specific position on the x-axis,
      * at which it will be hidden from the user.
      */
-    private void hide() {
+    public void hide() {
         slide(800);
+        hidden = true;
     }
 
     /**
@@ -195,5 +193,9 @@ public class SidebarController implements Initializable {
         );
 
         return response.isPresent() && response.get() == ButtonType.YES;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 }
