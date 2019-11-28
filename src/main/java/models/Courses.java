@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 
 @NamedQueries({
-        @NamedQuery(name="Courses.findCourses", query="SELECT c FROM Courses c"),
+        @NamedQuery(name="Courses.findCourses", query="SELECT c FROM Courses c WHERE c.Name NOT LIKE '%None%'"),
         @NamedQuery(name="Courses.findCourseByName", query="SELECT c FROM Courses c WHERE C.Name = :name")})
 
 /**

@@ -41,7 +41,6 @@ public class AuthentificationController {
     private Button loginButton;
     @FXML
     private JFXTextField alert;
-    private Strategy loginStrategy;
     private EntityManager entityManager;
     private static Timer timer;
     private static UpdateListTask updateTask;
@@ -79,6 +78,7 @@ public class AuthentificationController {
     private void login(Event event) throws IOException{
         String username = usernameField.getText();
         String password = passwordField.getText();
+        StrategyContext strategyContext;
         try {
             // Try to establish connection as a user
             GuestConnectionSingleton con = GuestConnectionSingleton.getInstance();
@@ -93,12 +93,12 @@ public class AuthentificationController {
 
             // Using Strategy Pattern to pass a unique instance of User to The Singleton
             if(i==0) {
-                loginStrategy = new UserStrategy();
-                loginStrategy.getAccount(username, password);
+                strategyContext = new StrategyContext(new UserStrategy());
+                strategyContext.executeStrategy(username, password);
             }
             else {
-                loginStrategy = new AdminStrategy();
-                loginStrategy.getAccount(username, password);
+                strategyContext = new StrategyContext(new AdminStrategy());
+                strategyContext.executeStrategy(username, password);
             }
 
             initiliaseApp();

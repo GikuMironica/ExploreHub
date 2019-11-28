@@ -36,5 +36,6 @@ public class UserStrategy implements Strategy {
         tq2.setParameter("password", pass);
         User u1 = tq2.getSingleResult();
         currentAccount.setAccount(u1);
+        System.out.println("user created");
     }
 }

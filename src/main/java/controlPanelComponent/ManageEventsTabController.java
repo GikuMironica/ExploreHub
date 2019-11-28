@@ -3,8 +3,6 @@ package controlPanelComponent;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,21 +11,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import listComponent.EventListSingleton;
 import models.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -187,28 +176,7 @@ public class ManageEventsTabController implements Initializable {
         selectedEvent.setTotalPlaces(totalSelected);
         selectedEvent.setAvailablePlaces(av);
 
-        if(mainPic != null){
-            try {
-                System.out.println("main not null");
-                UploadImage uploadImg = new UploadImage(mainPic);
-                String urlPic = uploadImg.upload();
-                selectedEvent.getPicture().setPicture(urlPic);
-            }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
-            }
-        }
-        if(logoPic != null){
-            try{
-                System.out.println("logo not null");
-                UploadImage uploadLogo = new UploadImage(logoPic);
-                String urlLogo = uploadLogo.upload();
-                selectedEvent.getPicture().setLogo(urlLogo);
-            }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
-            }
-        }
+       checkPictures();
 
         try {
             entityManager.getTransaction().begin();
@@ -224,6 +192,7 @@ public class ManageEventsTabController implements Initializable {
         logoPic = null;
         Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Updated", "Event was successfully updated", "");
     }
+
 
     /**
      * Method which creates the event
@@ -256,42 +225,23 @@ public class ManageEventsTabController implements Initializable {
 
         if(paidRadio.isSelected()){
             price = Double.valueOf(priceField.getText());
-            ExcursionStrategy eStrategy = new ExcursionStrategy(actualDate, Double.valueOf(price), totalSelected, totalSelected, shortField.getText(), longField.getText());
-            newEvent = eStrategy.createEvent();
+            newEvent = new Excursion(actualDate, Double.valueOf(price), totalSelected, totalSelected, shortField.getText(), longField.getText());
         }else if (freeRadio.isSelected()){
             String company = companyField.getText();
-            CompanyExcursionStrategy cStrategy = new CompanyExcursionStrategy(actualDate, company, totalSelected, totalSelected, shortField.getText(), longField.getText());
-            newEvent = cStrategy.createEvent();
+            newEvent = new CompanyExcursion(actualDate, company, totalSelected, totalSelected, shortField.getText(), longField.getText());
         }
 
         Location newLoc = new Location(Double.valueOf(latitude), Double.valueOf(longitude), cityField.getText());
         Pictures newPic = new Pictures(urlLogo, urlPic);
 
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(newEvent);
-            entityManager.getTransaction().commit();
-
-            newLoc.setEventID(newEvent.getId());
-            newPic.setEventID(newEvent.getId());
-            newEvent.setLocation(newLoc);
-            newEvent.setPicture(newPic);
-
-            entityManager.getTransaction().begin();
-            entityManager.merge(newEvent);
-            entityManager.getTransaction().commit();
-            eventsObservableList.add(newEvent);
-
-        } catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-            return;
-        }
+        persistEvent(newEvent, newLoc, newPic);
 
         clearForm(event);
         mainPic = null;
         logoPic = null;
         Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Created", "Event was successfully created", "");
     }
+
 
     /**
      * Method which delegates uploading picture task to {@link UploadImage}
@@ -623,5 +573,54 @@ public class ManageEventsTabController implements Initializable {
         companyField.setDisable(true);
     }
 
+    private void persistEvent(Events newEvent, Location newLoc, Pictures newPic) {
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(newEvent);
+            entityManager.getTransaction().commit();
+
+            newLoc.setEventID(newEvent.getId());
+            newPic.setEventID(newEvent.getId());
+            newEvent.setLocation(newLoc);
+            newEvent.setPicture(newPic);
+
+            entityManager.getTransaction().begin();
+            entityManager.merge(newEvent);
+            entityManager.getTransaction().commit();
+            eventsObservableList.add(newEvent);
+
+        } catch(Exception e){
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+            return;
+        }
+
+    }
+
+    private void checkPictures() {
+        if(mainPic != null){
+            try {
+                System.out.println("main not null");
+                UploadImage uploadImg = new UploadImage(mainPic);
+                String urlPic = uploadImg.upload();
+                selectedEvent.getPicture().setPicture(urlPic);
+            }catch(Exception e){
+                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+                return;
+            }
+        }
+        if(logoPic != null){
+            try{
+                System.out.println("logo not null");
+                UploadImage uploadLogo = new UploadImage(logoPic);
+                String urlLogo = uploadLogo.upload();
+                selectedEvent.getPicture().setLogo(urlLogo);
+            }catch(Exception e){
+                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+                return;
+            }
+        }
+    }
 }
+
 

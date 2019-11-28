@@ -85,15 +85,22 @@ public class EventWindowController{
         total = currentEvent.getTotalPlaces();
 
         if(checkUser()) {
-            checkIfInWishlist();
-            checkIfBooked();
-            checkAvailable();
+            hasItInWishlist();
+            isEventBooked();
+            isAvailable();
         }
         sanityCheck();
 
         placesData.setText(available+"/"+total);
         considering.setText(consider+" Students added it to Wishlist");
 
+    }
+
+    private void hasItInWishlist() {
+        checkIfInWishlist();
+        if(isBooked()){
+            wishList.setDisable(true);
+        }
     }
 
     /**
@@ -174,7 +181,7 @@ public class EventWindowController{
      *
      * @return
      */
-    private boolean checkAvailable() {
+    private boolean isAvailable() {
         if(currentEvent.getAvailablePlaces()==0){
             book.setText("Booked Out");
             book.setDisable(true);
@@ -234,16 +241,20 @@ public class EventWindowController{
      * Method which checks if current event already booked
      */
     @SuppressWarnings("JpaQueryApiInspection")
-    protected void checkIfBooked(){
+    protected void isEventBooked(){
+        if(isBooked()){
+            book.setText("Booked");
+            book.setDisable(true);
+            return;
+        }
+    }
+    private boolean isBooked(){
+        @SuppressWarnings("JpaQueryApiInspection")
         TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
         tq1.setParameter("id", currentEvent.getId());
         tq1.setParameter("userId", account.getId());
         int size = tq1.getResultList().size();
 
-        if(size>0){
-            book.setText("Booked");
-            book.setDisable(true);
-            return;
-        }
+        return size>0;
     }
 }

@@ -34,6 +34,6 @@ public class AdminStrategy implements Strategy {
         tq2.setParameter("password", pass);
         Admin a1 = tq2.getSingleResult();
         currentAccount.setAccount(a1);
-
+        System.out.println("admin created");
     }
 }

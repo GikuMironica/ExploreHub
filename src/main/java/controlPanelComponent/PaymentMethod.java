@@ -10,7 +10,8 @@ import java.util.Map;
  */
 public enum PaymentMethod {
     CARD(0),
-    CASH(1);
+    CASH(1),
+    NONE(2);
 
     private int number;
     private static Map map = new HashMap<>();

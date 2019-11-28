@@ -105,10 +105,10 @@ public class RegisterController implements Initializable  {
     /**
      * Method that validates the input text fields
      *
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param password
+     * @param firstName firstname {@link String}
+     * @param lastName last name {@link String}
+     * @param email email {@link String}
+     * @param password password {@link String}
      * @return true if all fields are valid otherwise false
      */
     private Boolean validateFields(String firstName, String lastName, String email, String password){
