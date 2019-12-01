@@ -90,6 +90,7 @@ public class AuthentificationController {
             tq1.setParameter("email", username);
             tq1.setParameter("password", password);
             int i = (int)tq1.getSingleResult();
+            System.out.println(i);
 
             // Using Strategy Pattern to pass a unique instance of User to The Singleton
             if(i==0) {

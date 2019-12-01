@@ -76,7 +76,27 @@ public class NavbarController implements Initializable {
     }
 
     /**
+<<<<<<< HEAD
      * If the sidebar is hidden, then it will be shown. Otherwise it will be hidden.
+=======
+     * Loads the Discussion page
+     *
+     * @param mouseEvent - the event which triggered the method
+     */
+    @FXML
+    private void handleDiscussionClicked(MouseEvent mouseEvent) {
+        try {
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/discussionView.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * Opens the sidebar
+>>>>>>> [DiscussionComponent] UI implemented
      *
      * @param mouseEvent - the event which triggered the method
      */

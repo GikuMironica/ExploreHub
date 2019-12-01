@@ -34,6 +34,7 @@ public class ListController implements Initializable {
     private EntityManager entityManager;
     private Account account;
 
+
     public ListController(){
         try{
             EventListSingleton events = EventListSingleton.getInstance();

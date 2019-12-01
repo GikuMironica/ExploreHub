@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Thread;
 
 /**
  * Singleton Class which holds the ObservableList for the main ListView
