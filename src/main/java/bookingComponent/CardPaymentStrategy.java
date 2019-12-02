@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -103,19 +104,13 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
         interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();
 
-        if (eventList.size() > 1){
-            while(eventList.size()>0){
-                interestList.remove(eventList.get(0));
-                eventList.remove(eventList.get(0));
-            }
-        }
-        else {
-            if(interestList.contains(eventList.get(0))) interestList.remove(eventList.get(0));
-            eventList.remove(eventList.get(0));
-        }
+        List<Events> bookedEvents = new ArrayList<>(eventList); // Makes the list modifiable
+
+        interestList.removeAll(bookedEvents);
+        bookedEvents.clear();
 
         CurrentAccountSingleton.getInstance().getAccount().setEvents(interestList);
-        CurrentAccountSingleton.getInstance().getAccount().setBookedEvents(eventList);
+        CurrentAccountSingleton.getInstance().getAccount().setBookedEvents(bookedEvents);
 
         entityManager = user.getConnection();
         entityManager.getTransaction().begin();
