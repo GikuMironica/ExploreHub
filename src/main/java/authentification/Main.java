@@ -57,11 +57,7 @@ public class Main extends Application {
      */
     @Override
     public void stop(){
-        try {
-            AuthentificationController.stop();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
     }
 
     public static void main(String[] args) {

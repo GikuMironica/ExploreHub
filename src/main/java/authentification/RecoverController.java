@@ -1,5 +1,6 @@
 package authentification;
 
+import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -68,11 +69,14 @@ public class RecoverController implements Initializable {
                 try {
                     messageHandler.sendRecoveryConfirmation(key, recoveryEmail.getText());
                 } catch (MessagingException ade) {
-                    popRecoveryInfo("Warning", "Attempt failed.", "Password recovery failed. Please try again later.");
+                    Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.WARNING,
+                                            "Warning", "Attempt failed.", "Password recovery failed. Please try again later."));
+                    ade.printStackTrace();
                 }
                 setConfirmEnabled();
             }else{
-                popRecoveryInfo("Warning", "Attempt failed.", "User does not exist");
+                Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.ERROR,
+                                        "Error", "Attempt failed.", "User does not exist"));
                 setMailEnabled();
             }
         });
@@ -86,11 +90,10 @@ public class RecoverController implements Initializable {
      * @throws IOException In case if failed to send a message.
      */
     @FXML
-    private void confirmButton(Event event) throws IOException {
+    private void confirmButton(Event event){
         confirmationCode.setDisable(true);
         confirmationCodeButton.setDisable(true);
         String userKey = confirmationCode.getText();
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/authentification.fxml"));
         Thread thread = new Thread(() -> {
             if (generatedKey != null && generatedKey.equals(userKey)){
                 String generatedPassword = generatePassword();
@@ -99,33 +102,30 @@ public class RecoverController implements Initializable {
                     MessageHandler messageHandler = MessageHandler.getMessageHandler();
                     messageHandler.sendNewPassword(generatedPassword, recoveryEmail.getText());
                 }catch (MessagingException me){
-                    popRecoveryInfo("Warning", "Attempt failed.", "Password recovery failed. Please try again later.");
+                    Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.WARNING,
+                                                "Warning", "Attempt failed.", "Password recovery failed. Please try again later." ));
+                    me.printStackTrace();
                 }
-                popRecoveryInfo("Attention", "Password recovery", "Your new password was sent on your email.");
+                Platform.runLater(() -> Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.INFORMATION,
+                                                                    "Attention", "Password recovery", "Your new password was sent on your email.")));
                 generatedKey = null;
-                jumpToLogIn(event,  root);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Convenience.switchScene(event, getClass().getResource("/authentification/authentification.fxml"));
+                        }catch (IOException ioe){
+                            Convenience.showAlert(Alert.AlertType.ERROR,
+                                    "Error", "Something went wrong", "Please, try again later");
+                        }
+                    }
+                });
 
             }else{
                 setEisabled();
             }
         });
         thread.start();
-    }
-
-    /**
-     *Method that informs user about the process.
-     * @param title title of a popup window as a String.
-     * @param header header of a popup window as a String.
-     * @param content text body of a popup window as a String.
-     */
-    private void popRecoveryInfo(String title, String header, String content){
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,"", ButtonType.OK);
-            alert.setTitle(title);
-            alert.setHeaderText(header);
-            alert.setContentText(content);
-            alert.showAndWait();
-        });
     }
 
     /**
@@ -205,17 +205,4 @@ public class RecoverController implements Initializable {
         });
 
     }
-    /**
-     * Method that opens new window using main thread.
-     */
-    private void jumpToLogIn(Event event,  Parent root){
-        Platform.runLater(() -> {
-            Scene scene = new Scene(root, 600, 400);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        });
-
-    }
-
 }

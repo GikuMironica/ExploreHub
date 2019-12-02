@@ -1,9 +1,11 @@
 package filterComponent;
 
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import listComponent.EventListSingleton;
+import listComponent.ListController;
 import models.Events;
 import java.util.Comparator;
 
@@ -184,7 +186,8 @@ public class FilterSingleton {
      * Method that updates the backup of ObservableList.
      */
     public void updateFilter(){
-        backup = FXCollections.observableArrayList(listSingleton.getEventsObservableList());
+           backup = FXCollections.observableArrayList(listSingleton.getEventsObservableList());
+           filterItems();
     }
 
     public void applySort(){

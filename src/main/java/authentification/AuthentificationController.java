@@ -141,15 +141,16 @@ public class AuthentificationController {
      */
     public static void initiliaseApp() {
         //Initialize listView in a separate Thread
-        Thread thread = new Thread(() -> {
-            EventListSingleton ev = EventListSingleton.getInstance();
-        });
-        thread.start();
-
-        // Start Job to update regularly the ListView in background
-        timer = new Timer();
+//        Thread thread = new Thread(() -> {
+//            EventListSingleton ev = EventListSingleton.getInstance();
+//        });
+//        thread.start();
         updateTask = new UpdateListTask();
-        timer.scheduleAtFixedRate(updateTask, delay, interval);
+        updateTask.run();
+        // Start Job to update regularly the ListView in background
+        //timer = new Timer();
+       // updateTask = new UpdateListTask();
+        //timer.scheduleAtFixedRate(updateTask, delay, interval);
     }
 
     /**

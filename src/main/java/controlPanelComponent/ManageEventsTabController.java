@@ -33,7 +33,7 @@ import java.lang.Thread;
  *
  * @author Gheorghe Mironica
  */
-public class ManageEventsTabController implements Initializable {
+public class ManageEventsTabController {
 
     private Events selectedEvent;
 
@@ -72,11 +72,9 @@ public class ManageEventsTabController implements Initializable {
 
     /**
      * Method which initializes the view ManageEventsTabController
-     * @param url input parameter
-     * @param resourceBundle input parameter
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public void initialize() {
         try{
             EventListSingleton events = EventListSingleton.getInstance();
             eventsObservableList = events.getEventsObservableList();

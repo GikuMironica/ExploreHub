@@ -67,10 +67,11 @@ public class EventListSingleton {
             Platform.runLater(() -> {
                 eventsObservableList.clear();
                 eventsObservableList.addAll(tempList);
+                FilterSingleton filter = FilterSingleton.getInstance();
+                filter.updateFilter();
             });
         });
         thread.start();
-        //FilterSingleton filter = FilterSingleton.getInstance();
-        //filter.filterItems();
+
     }
 }

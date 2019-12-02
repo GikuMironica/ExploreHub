@@ -1,19 +1,15 @@
 package filterComponent;
 
+import authentification.UserConnectionSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import models.Events;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import models.Location;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -78,23 +74,19 @@ public class FilterController implements Initializable {
      * @return an observable list of cities.
      */
         private ObservableList<String> getCities () {
-            ObservableList<String> cities =  FXCollections.observableArrayList();
-            try {
-                Object object = new JSONParser().parse(new InputStreamReader(getClass().getResourceAsStream("/europe.json")));
-                JSONArray jsonFile =  (JSONArray)object;
-                for (Object city :jsonFile
-                ) {
-                    JSONObject jsonObject = (JSONObject) city;
-                    for (Events event:filter.getBackup()
-                         ) {
-                        if (event.getLocation().getCity().equalsIgnoreCase(jsonObject.get("city").toString())) {
-                            cities.add(jsonObject.get("city").toString());
-                            break;
-                        }
-                    }
+            ObservableList<Location> locations = FXCollections.observableArrayList();
+            ObservableList<String> cities = FXCollections.observableArrayList();
+            UserConnectionSingleton connection = UserConnectionSingleton.getInstance();
+            EntityManager entityManager = connection.getManager();
+            TypedQuery<Location> locationQuery;
+            locationQuery = entityManager.createNamedQuery(
+                    "Location.findAllLocation",
+                    Location.class);
+            locations.addAll(locationQuery.getResultList());
+            for (Location city:locations) {
+                if(!cities.contains(city.getCity())) {
+                    cities.add(city.getCity());
                 }
-            }catch (IOException | ParseException ioe){
-                ioe.printStackTrace();
             }
             Comparator<String> comparator = Comparator.naturalOrder();
             FXCollections.sort(cities, comparator);

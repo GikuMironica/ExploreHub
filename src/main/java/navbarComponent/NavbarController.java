@@ -1,12 +1,21 @@
 package navbarComponent;
 
 import authentification.CurrentAccountSingleton;
+import controlPanelComponent.PreLoader;
 import handlers.Convenience;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import listComponent.UpdateListTask;
 import models.Account;
 import sidebarComponent.SidebarController;
 
@@ -57,7 +66,20 @@ public class NavbarController implements Initializable {
      */
     @FXML
     private void handlePanelClicked(MouseEvent mouseEvent) throws IOException{
-        Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/controlPanel.fxml"));
+        //Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/PreLoader.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PreLoader.fxml"));
+        Parent root = (Parent) loader.load();
+        PreLoader controller = (PreLoader) loader.getController();
+        controller.setScene(((Node) mouseEvent.getSource()).getScene());
+        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        Stage window = new Stage();
+        window.setScene(scene);
+        window.initStyle(StageStyle.UNDECORATED);
+        window.setTitle("Loading");
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.show();
+       // stage.hide();
     }
 
     /**
@@ -122,4 +144,11 @@ public class NavbarController implements Initializable {
 //            sidebarController.hide();
 //        }
 //    }
+
+    @FXML
+    private void handleRefreshClicked(MouseEvent mouseEvent){
+        UpdateListTask updateListTask = new UpdateListTask();
+        updateListTask.run();
+    }
+
 }

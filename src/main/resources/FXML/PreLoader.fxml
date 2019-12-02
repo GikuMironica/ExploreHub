@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="stackrPane" maxHeight="240.0" maxWidth="345.0" prefHeight="240.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.PreLoader">
+   <children>
+      <ImageView fx:id="loadingScreen" fitHeight="240.0" fitWidth="345.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</StackPane>

@@ -117,4 +117,17 @@ public class MessageHandler {
         return message;
     }
 
+    /**
+     * Method that prepares message prior sending.
+     * @param subject subject of a message as a String.
+     * @param message message content as a String.
+     * @param recipientEmail user's email address as a String.
+     * @return message fully prepared message of a type MimeMessage.
+     * @throws MessagingException
+     */
+    public void sendEmail(String message, String subject, String recipientEmail) throws MessagingException{
+        MimeMessage msg = prepareMessage(subject, message, recipientEmail);
+        Transport.send(msg);
+    }
+
 }

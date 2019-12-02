@@ -138,8 +138,6 @@ public class SidebarController implements Initializable {
             CurrentAccountSingleton.getInstance().getAccount().closeConnection();
             CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
             currentAccount.setAccount(null);
-            AuthentificationController.stop();
-
             GuestConnectionSingleton.getInstance();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();

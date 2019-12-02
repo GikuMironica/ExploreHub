@@ -4,33 +4,29 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="950.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="220.0" tabMinWidth="220.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
+<TabPane fx:id="tabPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="950.0" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="220.0" tabMinWidth="220.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
    <tabs>
-      <Tab text="Statistics">
+      <Tab  text="Statistics">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0">
-            <fx:include source="statisticsTab.fxml" />
-            </AnchorPane>
+          <AnchorPane  fx:id="statisticsTab" minHeight="0.0" minWidth="0.0">
+          </AnchorPane>
         </content>
       </Tab>
       <Tab text="Users">
         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0">
-                <fx:include source="manageUsersTab.fxml" />
+            <AnchorPane fx:id="manageUsers" minHeight="0.0" minWidth="0.0">
             </AnchorPane>
         </content>
       </Tab>
       <Tab text="Events">
         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0">
-                <fx:include source="manageEventsTab.fxml" />
+            <AnchorPane fx:id="manageEvents" minHeight="0.0" minWidth="0.0">
             </AnchorPane>
         </content>
       </Tab>
       <Tab text="Payments">
         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0">
-                <fx:include source="managePaymentsTab.fxml" />
+            <AnchorPane fx:id="managePayments" minHeight="0.0" minWidth="0.0">
             </AnchorPane>
         </content>
       </Tab>

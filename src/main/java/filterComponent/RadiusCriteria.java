@@ -1,14 +1,12 @@
 package filterComponent;
 
+import authentification.UserConnectionSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Events;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import java.io.FileReader;
-import java.io.IOException;
+import models.Location;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -41,8 +39,8 @@ public class RadiusCriteria implements Criteria {
     public ObservableList<Events> meetCriteria(ObservableList<Events> events) {
         Predicate<Events> predicate;
         if(radius != 0 && city != null) {
-            JSONObject jsonObject = getCityCoordinates(city);
-            predicate = event -> distance(event.getLocation().getLatitude(),event.getLocation().getLongitude(), Double.valueOf(jsonObject.get("lat").toString()), Double.valueOf(jsonObject.get("lng").toString())) < radius;
+            Location location = getCityCoordinates(city);
+            predicate = event -> distance(event.getLocation().getLatitude(),event.getLocation().getLongitude(), location.getLatitude(), location.getLongitude()) < radius;
         }else if(radius == 0 && city != null){
             predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city);
         }else {return events;}
@@ -78,23 +76,21 @@ public class RadiusCriteria implements Criteria {
      * @param name name of the city as String.
      * @return json Object which contains the information about the city.
      */
-    public JSONObject getCityCoordinates (String name) {
-        try {
-            Object object = new JSONParser().parse(new FileReader("res\\europe.json"));
-            JSONArray jsonFile =  (JSONArray)object;
-            for (Object city :jsonFile
-                 ) {
-                JSONObject jsonObject = (JSONObject) city;
-                if(jsonObject.get("city").toString().equalsIgnoreCase(name)){
-                    return jsonObject;
-                }
+    private Location getCityCoordinates (String name) {
+        ObservableList<Location> locations = FXCollections.observableArrayList();
+        UserConnectionSingleton connection = UserConnectionSingleton.getInstance();
+        EntityManager entityManager = connection.getManager();
+        TypedQuery<Location> locationQuery;
+        locationQuery = entityManager.createNamedQuery(
+                "Location.findAllLocation",
+                Location.class);
+        locations.addAll(locationQuery.getResultList());
+        for (Location location:locations
+             ) {
+            if(location.getCity().equalsIgnoreCase(name)){
+                return location;
             }
-        }catch (IOException ioe){
-            ioe.printStackTrace();
-        }catch (ParseException pe){
-            pe.printStackTrace();
         }
         return null;
     }
-
 }

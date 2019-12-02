@@ -68,9 +68,7 @@ public class ListController implements Initializable {
 
 
         try {
-            if(account instanceof User) {
-                entityManager.refresh(selectedEvent);
-            }
+            entityManager.refresh(selectedEvent);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/FXML/eventwindow.fxml"));
             ScrollPane root = loader.load();
@@ -81,7 +79,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-            ex.printStackTrace();
+
         }
 
     }

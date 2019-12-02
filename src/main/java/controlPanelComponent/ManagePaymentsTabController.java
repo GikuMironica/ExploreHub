@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  *
  * @author Gheorghe Mironica
  */
-public class ManagePaymentsTabController implements Initializable {
+public class ManagePaymentsTabController {
 
     @FXML
     private Label paymethodLabel, companyLabel, transactionLabel, eventidLabel, eventnameLabel, eventdateLabel, priceLabel, studentnameLabel, studentemailLabel, statusLabel, homeLabel;
@@ -48,11 +48,9 @@ public class ManagePaymentsTabController implements Initializable {
     /**
      * This method initializes the views
      *
-     * @param url input parameter
-     * @param resourceBundle input parameter
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public void initialize() {
         // no button until transaction selected
         validateButton.setDisable(true);
         rejectButton.setDisable(true);

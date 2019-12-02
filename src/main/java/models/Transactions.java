@@ -13,6 +13,7 @@ import java.util.List;
 
 @SuppressWarnings("JpaQlInspection")
 @NamedQueries({
+	@NamedQuery(name= "Transactions.findTransactionsById", query =	"SELECT t FROM Transactions t WHERE t.Id = :id "),
         @NamedQuery(name="Transactions.findAllActiveTransactions", query = "SELECT t FROM Transactions t WHERE t.Completed=0"),
         @NamedQuery(name="Transactions.findAllProcessedTransactions", query="SELECT t FROM Transactions t WHERE t.Completed=1 OR t.Completed=2 OR t.Completed=3"),
         @NamedQuery(name="Transactions.findAllTransactions", query="SELECT t FROM Transactions t"),

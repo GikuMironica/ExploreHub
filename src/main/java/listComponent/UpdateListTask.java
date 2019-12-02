@@ -9,7 +9,7 @@ import java.util.TimerTask;
  *
  * @author Gheorghe Mironica
  */
-public class UpdateListTask extends TimerTask {
+public class UpdateListTask extends Thread {
 
     @Override
     public void run() {

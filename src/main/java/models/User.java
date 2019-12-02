@@ -12,7 +12,8 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name= "User.findUserbyEmailPass", query =	"SELECT u FROM User u WHERE u.Email = :email AND u.Password = :password"),
         @NamedQuery(name= "User.findUserbyEmail", query =	"SELECT u FROM User u WHERE u.Email = :email"),
-        @NamedQuery(name= "User.determineAccess", query = "SELECT u.Access FROM User u WHERE u.Email = :email AND u.Password = :password")
+        @NamedQuery(name= "User.determineAccess", query = "SELECT u.Access FROM User u WHERE u.Email = :email AND u.Password = :password"),
+        @NamedQuery(name= "User.findAllUser", query = "SELECT u FROM User u")
 })
 @NamedNativeQuery(name="checkIfEventInWishList", query ="SELECT Count(*) FROM wishlist WHERE StudentID = ? AND EventID = ?;")
 
