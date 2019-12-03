@@ -25,7 +25,7 @@ public class AboutController implements Initializable {
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
-    private void handleBackClicked(MouseEvent mouseEvent) {
+    private void handleBackFromAboutClicked(MouseEvent mouseEvent) {
         try {
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         } catch (IOException ioe) {

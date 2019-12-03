@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
-   <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles/login.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
+   <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <Image url="@../IMG/login-hero.jpg" />
    </ImageView>
-   <Text fill="#f2f7f9" layoutX="155.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="exploreHub" textAlignment="CENTER">
+   <Text fill="#f2f7f9" layoutX="220.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ExploreHub" textAlignment="CENTER">
       <font>
-         <Font name="Ayuthaya" size="50.0" />
+         <Font name="Ayuthaya" size="72.0" />
       </font>
    </Text>
-   <Line endX="219.5" endY="113.5" fill="#f2f7f9" layoutX="-30.0" layoutY="-25.0" startX="440" startY="113.5" stroke="#f2f7f9" strokeWidth="2.0" />
-   <Text fill="#f2f7f9" layoutX="217.0" layoutY="102.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Your excursions guide" AnchorPane.leftAnchor="217.0" AnchorPane.rightAnchor="231.94859313964844">
+   <Line endX="220.0" endY="115.0" fill="#f2f7f9" layoutX="40.0" startX="520.0" startY="115.0" stroke="#f2f7f9" strokeWidth="2.0" />
+   <Text fill="#f2f7f9" layoutX="320.0" layoutY="135.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Your excursions guide">
       <font>
-         <Font name="Ayuthaya" size="12.0" />
+         <Font name="Ayuthaya" size="16.0" />
       </font>
    </Text>
-   <JFXTextField fx:id="usernameField" alignment="CENTER" focusColor="#0f9d58" layoutX="180.0" layoutY="127.0" onKeyReleased="#handleKeyRelease" prefHeight="52.0" prefWidth="240.0" promptText="example@thu.de" styleClass="credentialsText" unFocusColor="#f2f7f9">
+   <JFXTextField fx:id="usernameField" alignment="CENTER" focusColor="#0f9d58" layoutX="230.0" layoutY="200.0" onKeyReleased="#handleKeyRelease" prefHeight="60.0" prefWidth="350.0" promptText="Email Address" styleClass="credentialsText" unFocusColor="#f2f7f9">
       <font>
          <Font name="Baghdad Regular" size="20.0" />
       </font>
    </JFXTextField>
-   <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#0f9d58" layoutX="182.0" layoutY="198.0" onKeyReleased="#handleKeyRelease" prefHeight="52.0" prefWidth="236.0" promptText="Password" styleClass="credentialsText" unFocusColor="#f2f7f9">
+   <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#0f9d58" layoutX="230.0" layoutY="320.0" onKeyReleased="#handleKeyRelease" prefHeight="60.0" prefWidth="350.0" promptText="Password" styleClass="credentialsText" unFocusColor="#f2f7f9">
       <font>
          <Font name="Baghdad Regular" size="20.0" />
       </font>
    </JFXPasswordField>
-   <JFXButton id="loginBtn" fx:id="loginButton" layoutX="182.0" layoutY="260.0" onAction="#login" prefHeight="43.0" prefWidth="111.0" text="LOG IN" textFill="#f2f7f9" wrapText="true">
+   <JFXButton id="loginBtn" fx:id="loginButton" layoutX="270.0" layoutY="420.0" onAction="#login" prefHeight="50.0" prefWidth="120.0" text="LOG IN" textFill="#f2f7f9" wrapText="true">
       <font>
-         <Font name="Baghdad Regular" size="15.0" />
+         <Font name="Baghdad Regular" size="16.0" />
       </font>
    </JFXButton>
-   <JFXButton id="registerBtn" fx:id="registerButton" layoutX="300.0" layoutY="260.0" onAction="#register" prefHeight="43.0" prefWidth="111.0" text="REGISTER" textFill="#f2f7f9" wrapText="true">
+   <JFXButton id="registerBtn" fx:id="registerButton" layoutX="430.0" layoutY="420.0" onAction="#register" prefHeight="50.0" prefWidth="120.0" text="REGISTER" textFill="#f2f7f9" wrapText="true">
       <font>
-         <Font name="Baghdad Regular" size="15.0" />
+         <Font name="Baghdad Regular" size="16.0" />
       </font>
    </JFXButton>
-   <Text fill="#f2f7f9" layoutX="496.0" layoutY="385.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember me">
+   <Text fill="#f2f7f9" layoutX="645.0" layoutY="575.0" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember me">
       <font>
-         <Font name="Ayuthaya" size="10.0" />
+         <Font name="Ayuthaya" size="16.0" />
       </font>
    </Text>
-   <Line endX="-100.0" endY="18.17095947265625" fill="#f2f7f9" layoutX="590.0" layoutY="372.0" opacity="0.7" startX="-100.0" stroke="#f2f7f9" />
-   <Text fx:id="recover" fill="#f2f7f9" layoutX="398.0" layoutY="385.0" onMouseClicked="#recover" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password">
+   <Line endX="-100.0" endY="20.0" fill="#f2f7f9" layoutX="740.0" layoutY="560.0" opacity="0.7" startX="-100.0" stroke="#f2f7f9" />
+   <Text fx:id="recover" fill="#f2f7f9" layoutX="515.0" layoutY="575.0" onMouseClicked="#recover" opacity="0.7" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password">
       <font>
-         <Font name="Ayuthaya" size="9.5" />
+         <Font name="Ayuthaya" size="16" />
       </font>
    </Text>
-   <JFXCheckBox fx:id="rememberBox" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" layoutX="559.0" layoutY="366.0" opacity="0.7" prefHeight="31.0" prefWidth="101.0" text="Remember me" textFill="#f2f7f9" unCheckedColor="#f2f7f9">
+   <JFXCheckBox fx:id="rememberBox" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" layoutX="760.0" layoutY="550.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.7" prefHeight="40.0" prefWidth="20.0" text="Remember me" textFill="#f2f7f9" unCheckedColor="#f2f7f9">
       <font>
          <Font name="Baghdad Regular" size="10.0" />
       </font>
    </JFXCheckBox>
-   <JFXTextField fx:id="alert" editable="false" layoutX="190.0" layoutY="314.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="230.0" />
+   <JFXTextField fx:id="alert" editable="false" focusColor="RED" layoutX="300.0" layoutY="490.0" prefHeight="40.0" prefWidth="230.0" unFocusColor="RED">
+      <font>
+         <Font name="Ayuthaya" size="16.0" />
+      </font>
+   </JFXTextField>
 </AnchorPane>
