@@ -36,18 +36,12 @@ public class Main extends Application {
             GuestConnectionSingleton.getInstance();
             StackPane mainRoot = new StackPane();
             BorderPane root = new BorderPane();
-            FXMLLoader atLoader = new FXMLLoader(getClass().getResource("/FXML/authentification.fxml"));
-            root.setCenter(atLoader.load());
-            AuthentificationController atController = atLoader.getController();
-            atController.init();
             mainRoot.getChildren().addAll(root);
 
-            // System.out.println("Login scene is loading");
-            Scene scene = new Scene(mainRoot, 600, 400);
-            primaryStage.setScene(scene);
             primaryStage.setTitle("ExploreHub");
             primaryStage.setResizable(false);
-            primaryStage.show();
+
+            Convenience.switchScene(primaryStage, getClass().getResource("/FXML/authentification.fxml"));
         }
     }
 

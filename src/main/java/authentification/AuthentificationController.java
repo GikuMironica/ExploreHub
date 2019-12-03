@@ -2,12 +2,14 @@ package authentification;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
+import handlers.Convenience;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +26,8 @@ import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Timer;
 
 /**
@@ -31,7 +35,7 @@ import java.util.Timer;
  *
  * @author Gheorghe Mironica, Tonislav Tachev
  */
-public class AuthentificationController {
+public class AuthentificationController implements Initializable {
 
     @FXML
     private JFXCheckBox rememberBox;
@@ -52,7 +56,8 @@ public class AuthentificationController {
      *
      * @throws IOException {@link IOException}
      */
-    public void init() throws IOException{
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
         usernameField.setPromptText("Email address");
         passwordField.setPromptText("Password");
         loginButton.setDisable(true);
@@ -76,24 +81,16 @@ public class AuthentificationController {
      */
     @FXML
     private void login(Event event) throws IOException{
+
+        StrategyContext strategyContext;
         String username = usernameField.getText();
         String password = passwordField.getText();
-        StrategyContext strategyContext;
+
         try {
-            // Try to establish connection as a user
-            GuestConnectionSingleton con = GuestConnectionSingleton.getInstance();
-            entityManager = con.getManager();
-            @SuppressWarnings("JpaQueryApiInspection")
-            Query tq1 = entityManager.createNamedQuery(
-                    "User.determineAccess",
-                    User.class);
-            tq1.setParameter("email", username);
-            tq1.setParameter("password", password);
-            int i = (int)tq1.getSingleResult();
-            System.out.println(i);
+            int accessLvl = getUserAccessLvl(username, password);
 
             // Using Strategy Pattern to pass a unique instance of User to The Singleton
-            if(i==0) {
+            if(accessLvl==0) {
                 strategyContext = new StrategyContext(new UserStrategy());
                 strategyContext.executeStrategy(username, password);
             }
@@ -128,29 +125,37 @@ public class AuthentificationController {
         checkRememberBox(username, password);
 
         //if user is logged in successfully, open the Home pag
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
-        Scene scene = new Scene(root);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.setResizable(false);
-        window.show();
+        Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
     }
 
     /**
-     * This method initialises main application background jobs
+     * Method which checks if user exists, returns access level
+     *
+     * @param user username {@link String}
+     * @param pass password {@link String}
+     * @return {@link Integer}
+     */
+    private int getUserAccessLvl(String user, String pass) {
+            // Try to establish connection as a guest
+            GuestConnectionSingleton con = GuestConnectionSingleton.getInstance();
+            entityManager = con.getManager();
+            @SuppressWarnings("JpaQueryApiInspection")
+            Query tq1 = entityManager.createNamedQuery(
+                    "User.determineAccess",
+                    User.class);
+            tq1.setParameter("email", user);
+            tq1.setParameter("password", pass);
+            return (int) tq1.getSingleResult();
+
+    }
+
+    /**
+     * This method initialises main application in a new parallel thread
      */
     public static void initiliaseApp() {
-        //Initialize listView in a separate Thread
-//        Thread thread = new Thread(() -> {
-//            EventListSingleton ev = EventListSingleton.getInstance();
-//        });
-//        thread.start();
+
         updateTask = new UpdateListTask();
         updateTask.run();
-        // Start Job to update regularly the ListView in background
-        //timer = new Timer();
-       // updateTask = new UpdateListTask();
-        //timer.scheduleAtFixedRate(updateTask, delay, interval);
     }
 
     /**
@@ -242,4 +247,5 @@ public class AuthentificationController {
         timer.cancel();
         timer.purge();
     }
+
 }

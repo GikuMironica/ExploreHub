@@ -47,7 +47,7 @@ public class ControlPanelController {
             ManageUsersTabController manageUsersTabController = (ManageUsersTabController) manageUsersLoader.getController();
             ManagePaymentsTabController managePaymentsTabController = (ManagePaymentsTabController) managePaymentsLoader.getController();
             ManageEventsTabController manageEventsTabController = (ManageEventsTabController) manageEventsLoader.getController();
-            manageEventsTabController.initialize();
+            manageEventsTabController.initialize(eventsList);
             managePaymentsTabController.initialize();
             statisticsController.initialize(eventsList, usersList, transactionsList);
             manageUsersTabController.setUsers(usersList);

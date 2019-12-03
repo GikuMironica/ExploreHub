@@ -74,10 +74,10 @@ public class ManageEventsTabController {
      * Method which initializes the view ManageEventsTabController
      */
 
-    public void initialize() {
+    public void initialize(List<Events> eventList) {
         try{
-            EventListSingleton events = EventListSingleton.getInstance();
-            eventsObservableList = events.getEventsObservableList();
+            eventsObservableList = FXCollections.observableArrayList();
+            eventsObservableList.addAll(eventList);
             mEventsList.setItems(eventsObservableList);
             saveButton.setDisable(true);
             deleteButton.setDisable(true);
