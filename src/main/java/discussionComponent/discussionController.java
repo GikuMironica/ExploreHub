@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import models.*;
-import models.Thread;
+import models.Topic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -39,7 +39,7 @@ public class discussionController implements Initializable {
     ObservableList observableList = FXCollections.observableArrayList();
     ObservableList forumObservableList = FXCollections.observableArrayList();
     private ListView threadListView;
-    public static List<Thread> threadListElementSet = new ArrayList<>();
+    public static List<Topic> topicListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
     private EntityManager entityManager;
@@ -47,17 +47,17 @@ public class discussionController implements Initializable {
 
     private void setListView(){
         threadListView.getItems().clear();
-        observableList.setAll(threadListElementSet);
+        observableList.setAll(topicListElementSet);
         threadListView.setItems(observableList);
-        threadListView.setCellFactory((Callback<ListView<Thread>, ListCell<Thread>>) param -> new ThreadListViewCell());
+        threadListView.setCellFactory((Callback<ListView<Topic>, ListCell<Topic>>) param -> new ThreadListViewCell());
     }
 
     private void initThreadListView(){
         threadListView = new ListView();
         threadListView.setMinWidth(600.0);
-        TypedQuery<Thread> tq1 = entityManager.createNamedQuery("Thread.getThreadsbyForum", Thread.class);
+        TypedQuery<Topic> tq1 = entityManager.createNamedQuery("Topic.getThreadsbyForum", Topic.class);
         tq1.setParameter("fName", eventDiscussion.getSelectionModel().getSelectedItem());
-        threadListElementSet = tq1.getResultList();
+        topicListElementSet = tq1.getResultList();
         setListView();
         if(addTopicBtn.isDisabled()) addTopicBtn.setDisable(false);
         view.getChildren().add(threadListView);
@@ -66,6 +66,7 @@ public class discussionController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         entityManager = user.getConnection();
+
 
         if (user instanceof User) {
             TypedQuery<ForumCategory> tq1 = entityManager.createNamedQuery("ForumCategory.getCategories", ForumCategory.class);

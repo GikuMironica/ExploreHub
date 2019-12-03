@@ -6,11 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import models.Post;
-import models.Thread;
+import models.Topic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -34,8 +32,8 @@ public class ThreadListElement {
     @FXML
     private Button threadLastReplyBtn;
 
-    private Thread tlo;
     private EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
+    private Topic tlo;
 
     public ThreadListElement(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/threadListObject.fxml"));
@@ -47,9 +45,9 @@ public class ThreadListElement {
         }
     }
 
-    public void setElement(Thread tlo){
+    public void setElement(Topic tlo){
 
-        TypedQuery tq1 = entityManager.createNamedQuery("Thread.getReplyCount", Integer.class);
+        TypedQuery tq1 = entityManager.createNamedQuery("Topic.getReplyCount", Integer.class);
         tq1.setParameter("tid", tlo.getId());
         this.tlo = tlo;
         threadTitle.setText(tlo.getThreadTitle());

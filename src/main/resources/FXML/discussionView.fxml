@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="483.0" prefWidth="982.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="discussionComponent.discussionController">
+<BorderPane prefHeight="483.0" prefWidth="982.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="discussionComponent.discussionController">
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="196.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +28,7 @@
             <HBox prefWidth="577.0">
                <fx:include source="/FXML/navbar.fxml" />
             </HBox>
-            <Pane fx:id="view" />
+            <Pane fx:id="view" prefHeight="300.0" prefWidth="552.0" />
          </children>
       </VBox>
    </center>

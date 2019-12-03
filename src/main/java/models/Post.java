@@ -1,13 +1,11 @@
 package models;
 
-import jdk.jfr.Name;
-
 import javax.persistence.*;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
         @NamedQuery(name="Post.getPostById", query = "Select p from Post p WHERE p.Id = :pid"),
-        @NamedQuery(name="Post.getPostbyThread", query = "SELECT p FROM Post p WHERE p.thread = :t")
+        @NamedQuery(name="Post.getPostbyThread", query = "SELECT p FROM Post p WHERE p.topic = :t")
 })
 
 @Entity
@@ -17,7 +15,7 @@ public class Post {
 
     }
 
-    public Post(User postAuthor, String postContent, String postTime){
+    public Post(Account postAuthor, String postContent, String postTime){
         this.postAuthor = postAuthor;
         this.postContent = postContent;
         this.postTime = postTime;
@@ -30,11 +28,11 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "threadID", nullable=false)
-    private Thread thread;
+    private Topic topic;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postAuthor", nullable=false)
-    private User postAuthor;
+    private Account postAuthor;
 
     @Basic(optional = false)
     private String postContent;
@@ -50,19 +48,19 @@ public class Post {
         this.Id = postID;
     }
 
-    public Thread getThread() {
-        return thread;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setThread(Thread thread) {
-        this.thread = thread;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
-    public User getAuthor() {
+    public Account getAuthor() {
         return postAuthor;
     }
 
-    public void setUser(User author) {
+    public void setUser(Account author) {
         this.postAuthor = author;
     }
 

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="threadViewAP" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="threadViewAP" maxHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="postDisplayVbox" spacing="10.0">
+      <VBox fx:id="postDisplayVbox" prefHeight="400.0" spacing="10.0">
          <children>
             <Label fx:id="forumName" text="Forum" textFill="DIMGRAY" />
             <VBox>
@@ -20,10 +24,11 @@
                   <Label fx:id="threadAuthor" text="Label" />
                </children>
             </VBox>
-            <ListView fx:id="threadListView" stylesheets="@/Styles/postList.css">
+            <ListView fx:id="threadListView" prefHeight="200.0" prefWidth="580.0" stylesheets="@/Styles/postList.css">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding></ListView>
+               </padding>
+            </ListView>
             <HBox alignment="CENTER_RIGHT" prefWidth="580.0" spacing="10.0">
                <children>
                   <Button mnemonicParsing="false" onMouseClicked="#goBack" text="Return" />

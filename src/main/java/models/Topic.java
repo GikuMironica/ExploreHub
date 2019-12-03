@@ -4,18 +4,19 @@ import javax.persistence.*;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
-        @NamedQuery(name="Thread.getThreads", query = "SELECT t FROM Thread t"),
-        @NamedQuery(name="Thread.getThreadsbyForum", query = "SELECT t FROM Thread t JOIN ForumCategory f ON t.category = f JOIN Post p on t.threadLastPost = p WHERE f.Name = :fName ORDER BY p.postTime DESC"),
-        @NamedQuery(name="Thread.getReplyCount", query = "SELECT Count(p) FROM Thread t JOIN Post p on t = p.thread WHERE (NOT p = t.threadFirstPost) AND t.Id = :tid")
+        @NamedQuery(name="Topic.getThreads", query = "SELECT t FROM Topic t"),
+        @NamedQuery(name="Topic.getThreadsbyForum", query = "SELECT t FROM Topic t JOIN ForumCategory f ON t.category = f JOIN Post p on t.threadLastPost = p WHERE f.Name = :fName ORDER BY p.postTime DESC"),
+        @NamedQuery(name="Topic.getReplyCount", query = "SELECT Count(p) FROM Topic t JOIN Post p on t = p.topic WHERE (NOT p = t.threadFirstPost) AND t.Id = :tid")
 })
 @Entity
 @Table(name="thread")
-public class Thread {
-    public Thread(){
+public class Topic {
+    public Topic(){
 
     }
 
-    public Thread(ForumCategory category, String threadTitle, User threadAuthor, int threadLocked, int threadType) {
+
+    public Topic(ForumCategory category, String threadTitle, Account threadAuthor, int threadLocked, int threadType) {
         this.category = category;
         this.threadTitle = threadTitle;
         this.threadAuthor = threadAuthor;
@@ -35,9 +36,9 @@ public class Thread {
     @Basic(optional=false)
     private String threadTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "threadAuthor", nullable=false)
-    private User threadAuthor;
+    private Account threadAuthor;
 
     @OneToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "threadFirstPost")
@@ -69,11 +70,11 @@ public class Thread {
         this.threadTitle = threadTitle;
     }
 
-    public User getThreadAuthor() {
+    public Account getThreadAuthor() {
         return threadAuthor;
     }
 
-    public void setThreadAuthor(User threadAuthor) {
+    public void setThreadAuthor(Account threadAuthor) {
         this.threadAuthor = threadAuthor;
     }
 

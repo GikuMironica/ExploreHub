@@ -2,14 +2,13 @@ package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Post;
-import models.Thread;
+import models.Topic;
 import models.User;
 
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class postReplyController implements Initializable {
-    private Thread thread;
+    private Topic topic;
 
     @FXML
     private AnchorPane postAP;
@@ -32,8 +31,8 @@ public class postReplyController implements Initializable {
 
     private EntityManager entityManager;
 
-    public postReplyController(Thread t){
-        this.thread = t;
+    public postReplyController(Topic t){
+        this.topic = t;
     }
 
     @Override
@@ -51,17 +50,17 @@ public class postReplyController implements Initializable {
     @FXML
     private void postReply() throws IOException{
 
-        Post newPost = new Post(((User)CurrentAccountSingleton.getInstance().getAccount()),
+        Post newPost = new Post((CurrentAccountSingleton.getInstance().getAccount()),
                 replyMessage.getText(),
                 String.valueOf(new Timestamp(System.currentTimeMillis()).getTime()));
 
-        newPost.setThread(thread);
+        newPost.setTopic(topic);
 
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         entityManager.getTransaction().begin();
         entityManager.persist(newPost);
-        thread.setThreadLastPost(newPost);
-        entityManager.merge(thread);
+        topic.setThreadLastPost(newPost);
+        entityManager.merge(topic);
         entityManager.getTransaction().commit();
 
         ((Pane) postAP.getParent()).getChildren().get(0).setVisible(true);

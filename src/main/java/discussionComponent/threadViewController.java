@@ -2,14 +2,10 @@ package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
-import javafx.beans.property.Property;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -19,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import models.Account;
 import models.Post;
-import models.Thread;
+import models.Topic;
 import javafx.collections.ObservableList;
 
 import javax.persistence.EntityManager;
@@ -38,7 +34,8 @@ public class threadViewController implements Initializable {
     private static List<Post> postListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
-    private static EntityManager entityManager;
+    private UserConnectionSingleton con;
+    private EntityManager entityManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +57,7 @@ public class threadViewController implements Initializable {
     private String fName;
     private String tTitle;
     private String tAuthor;
-    private Thread thread;
+    private Topic topic;
 
     @FXML
     private AnchorPane threadViewAP;
@@ -82,7 +79,7 @@ public class threadViewController implements Initializable {
     @FXML
     private void postReply() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/postReply.fxml"));
-        postReplyController ATC = new postReplyController(thread);
+        postReplyController ATC = new postReplyController(topic);
         loader.setController(ATC);
         AnchorPane postReplyFXML = loader.load();
         ((Pane) threadViewAP.getParent()).getChildren().add(postReplyFXML);
@@ -106,7 +103,7 @@ public class threadViewController implements Initializable {
     private void initPostListView(){
         threadListView = new ListView();
         TypedQuery<Post> tq1 = entityManager.createNamedQuery("Post.getPostbyThread", Post.class);
-        tq1.setParameter("t", thread);
+        tq1.setParameter("t", topic);
         postListElementSet = tq1.getResultList();
         setListView(postListElementSet);
         postDisplayVbox.getChildren().remove(2);
@@ -121,8 +118,8 @@ public class threadViewController implements Initializable {
     }
 
 
-    public threadViewController(Thread tlo){
-        this.thread = tlo;
+    public threadViewController(Topic tlo){
+        this.topic = tlo;
         this.threadId = tlo.getId();
         this.fName = tlo.getCategory().getName();
         this.tTitle = tlo.getThreadTitle();
