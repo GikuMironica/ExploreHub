@@ -22,6 +22,22 @@ import java.util.Set;
 @Table(name="users")
 public class Admin implements Account{
 
+    public Admin(){
+
+    }
+    public Admin(String firstname, String lastname, String email, String password, Courses course) {
+        this.Email = email;
+        this.Firstname = firstname;
+        this.Lastname = lastname;
+        this.Password = password;
+        this.Course = course;
+    }
+
+    public Admin(String firstname, String lastname, String email, String password, Courses course, String picture) {
+        this(firstname, lastname, email, password, course);
+        this.picture = picture;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Basic(optional=false)
@@ -42,6 +58,8 @@ public class Admin implements Account{
     @Column(name="AccessLevel")
     private int Access;
 
+    @Column(name="Picture")
+    private String picture;
 
     @Basic(optional=false)
     private String Password;
@@ -165,6 +183,16 @@ public class Admin implements Account{
      */
     public void setTransactions(List<models.Transactions> transactions) {
         Transactions = transactions;
+    }
+
+    @Override
+    public String getPicture() {
+        return picture;
+    }
+
+    @Override
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     /**

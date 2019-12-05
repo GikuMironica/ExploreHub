@@ -37,6 +37,13 @@ public class User implements Account{
         this.Course = course;
     }
 
+    public User(String firstname, String lastname, String email, String password, Courses course, String picture) {
+        this(firstname, lastname, email, password, course);
+        this.picture = picture;
+    }
+
+
+
     @Transient
     private Query query;
 
@@ -65,6 +72,10 @@ public class User implements Account{
 
     @Basic(optional=false)
     private String Password;
+
+    @Column(name="Picture")
+    private String picture;
+
 
     @ManyToOne
     @JoinColumn(name = "CourseID")
@@ -196,6 +207,14 @@ public class User implements Account{
      */
     public void setEvents(List<Events> events) {
         this.events = events;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public List<models.Events> getBookedEvents() {

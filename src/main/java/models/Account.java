@@ -63,6 +63,10 @@ public interface Account {
      */
     Courses getCourse();
 
+    String getPicture();
+
+    void setPicture(String picture);
+
     /**
      *  Method to set an entity's associated attributes
      * @param course Course object
