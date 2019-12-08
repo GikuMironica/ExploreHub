@@ -125,8 +125,8 @@ public class RememberUserDBSingleton {
             }
 
             EntityManager entityManager = GuestConnectionSingleton.getInstance().getManager();
-            Query query = entityManager.createNamedQuery("User.determineAccess",
-                    User.class);
+            Query query = entityManager.createNamedQuery("Account.determineAccess",
+                    Account.class);
             query.setParameter("email", lastUser);
             query.setParameter("password", lastPass);
             int access = (Integer)query.getSingleResult();
