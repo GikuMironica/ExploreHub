@@ -150,7 +150,6 @@ public class RememberUserDBSingleton {
         try {
             PreparedStatement statement1 = connection.prepareStatement("DELETE FROM tblUser;");
             statement1.execute();
-
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -170,7 +169,6 @@ public class RememberUserDBSingleton {
                 return false;
             }
         } catch (Exception e) {
-            // db doesn't exist
             return false;
         }
     }
