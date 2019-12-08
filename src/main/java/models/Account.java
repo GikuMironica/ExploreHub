@@ -1,111 +1,237 @@
 package models;
 
-import javax.persistence.EntityManager;
+import authentification.UserConnectionSingleton;
+
+import javax.persistence.*;
 import java.util.List;
 
-/**
- * Interface for the {@link User} , {@link Admin}
- *
- * @author Gheorghe Mironica
- * */
-public interface Account {
+@SuppressWarnings("JpaQlInspection")
+@NamedQuery(name= "Account.determineAccess", query = "SELECT u.Access FROM Account u WHERE u.Email = :email AND u.Password = :password")
 
-    int getId();
+@Entity
+@Table(name="users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "AccessLevel")
+public abstract class Account{
+
+    /**
+     * Default constructor
+     */
+    public Account(){
+
+    }
+
+    @Transient
+    protected Query query;
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Basic(optional=false)
+    protected int Id;
+
+    @Basic(optional=false)
+    protected String Email;
+
+    @Basic(optional=false)
+    @Column(name="FirstName")
+    protected String Firstname;
+
+    @Basic(optional=false)
+    @Column(name="LastName")
+    protected String Lastname;
+
+    @Basic(optional=false)
+    @Column(name="AccessLevel")
+    protected int Access;
+
+    @Transient
+    protected List<Events> bookedEvents;
+
+    @Basic(optional=false)
+    protected String Password;
+
+    @Column(name="Picture")
+    protected String picture;
+
+    @ManyToOne
+    @JoinColumn(name = "CourseID")
+    protected Courses Course;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    protected List<Transactions> Transactions;
+
+    @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="wishlist",
+            joinColumns = { @JoinColumn(name="StudentID")},
+            inverseJoinColumns = { @JoinColumn (name = "EventID")}
+    )
+    protected List<Events> events;
+
+    public Account(String firstname, String lastname, String email, String password, Courses course) {
+        this.Email = email;
+        this.Firstname = firstname;
+        this.Lastname = lastname;
+        this.Password = password;
+        this.Course = course;
+    }
+
+    public Account(String firstname, String lastname, String email, String password, Courses course, String picture) {
+        this(firstname, lastname, email, password, course);
+        this.picture = picture;
+    }
+
+    /**
+     *  Method to get the entity primary key
+     */
+    public int getId() {
+        return Id;
+    }
 
     /**
      *  Method to get the entity email
      */
-    String getEmail();
+    public String getEmail() {
+        return Email;
+    }
 
     /**
      *  Method to reset the entity email
      */
-    void setEmail(String email);
+    public void setEmail(String email) {
+        Email = email;
+    }
 
     /**
      *  Method to get the entity First Name
      */
-    String getFirstname();
+    public String getFirstname() {
+        return Firstname;
+    }
 
     /**
      *  Method to reset the entity's First Name
      */
-    void setFirstname(String firstname);
+    public void setFirstname(String firstname) {
+        Firstname = firstname;
+    }
 
     /**
      *  Method to get the entity's Last Name
      */
-    String getLastname();
+    public String getLastname() {
+        return Lastname;
+    }
 
     /**
      *  Method to reset the entity's Last Name
      */
-    void setLastname(String lastname);
+    public void setLastname(String lastname) {
+        Lastname = lastname;
+    }
 
     /**
      *  Method to get the entity's access level
      */
-    int getAccess();
+    public int getAccess() {
+        return Access;
+    }
 
     /**
      *  Method to get the entity's password
      */
-    String getPassword();
+    public String getPassword() {
+        return Password;
+    }
 
     /**
      *  Method to reset the entity's password
      */
-    void setPassword(String password);
+    public void setPassword(String password) {
+        Password = password;
+    }
 
     /**
      *  Method to get the entity associated attribute
      * @return Course object if found
      */
-    Courses getCourse();
-
-    String getPicture();
-
-    void setPicture(String picture);
+    public Courses getCourse() {
+        return Course;
+    }
 
     /**
      *  Method to set an entity's associated attributes
      * @param course Course object
      */
-    void setCourse(Courses course);
+    public void setCourse(Courses course) {
+        Course = course;
+    }
 
     /**
      *  Method to set an entity's associated attributes
      * @return List of Transactions
      */
-    List<Transactions> getTransactions();
+    public List<models.Transactions> getTransactions() {
+        return Transactions;
+    }
 
     /**
      *  Method to associate this entity with a list of transactions
      * @param transactions List of transactions
      */
-    void setTransactions(List<models.Transactions> transactions);
+    public void setTransactions(List<models.Transactions> transactions) {
+        Transactions = transactions;
+    }
 
     /**
      *  Method to set an entity's associated attributes
      * @return  List of Event objects
      */
-    List<Events> getEvents();
+    public List<Events> getEvents() {
+        return events;
+    }
 
     /**
      *  Method to associate entity with a list of event objects
      * @param events List type events
      */
-    void setEvents(List<Events> events);
+    public void setEvents(List<Events> events) {
+        this.events = events;
+    }
 
-    List<models.Events> getBookedEvents();
+    public String getPicture() {
+        return picture;
+    }
 
-    void setBookedEvents(List<models.Events> bookedEvents);
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public List<models.Events> getBookedEvents() {
+        return bookedEvents;
+    }
+
+    public void setBookedEvents(List<models.Events> bookedEvents) {
+        this.bookedEvents = bookedEvents;
+    }
 
     /**
-     *  Method to access the access the database interface as User
+     * Method to access the access the database interface as User
      * @return Entity Manager
      */
-    EntityManager getConnection();
+    public abstract EntityManager getConnection();
 
-    void closeConnection();
+    /**
+     * This method closes connection to db
+     */
+
+    public abstract void closeConnection();
+
+    @SuppressWarnings("JpaQueryApiInspection")
+    public boolean checkEventPresence(EntityManager em, int eventID){
+        query = em.createNamedQuery("checkIfEventInWishList");
+        query.setParameter(1, getId());
+        query.setParameter(2, eventID);
+        int i = ((Number) query.getSingleResult()).intValue();
+        return !(i==0);
+    }
 }

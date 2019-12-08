@@ -46,10 +46,7 @@ public class AuthentificationController implements Initializable {
     @FXML
     private JFXTextField alert;
     private EntityManager entityManager;
-    private static Timer timer;
     private static UpdateListTask updateTask;
-    private static long delay = 0;
-    private static long interval = 15000;
 
     /**
      * Method which initializes the views
@@ -89,7 +86,6 @@ public class AuthentificationController implements Initializable {
         try {
             int accessLvl = getUserAccessLvl(username, password);
 
-            // Using Strategy Pattern to pass a unique instance of User to The Singleton
             if(accessLvl==0) {
                 strategyContext = new StrategyContext(new UserStrategy());
                 strategyContext.executeStrategy(username, password);
@@ -107,7 +103,7 @@ public class AuthentificationController implements Initializable {
             alert.setVisible(true);
             usernameField.clear();
             passwordField.clear();
-            //make the Alert appear and make it disappear after 3 seconds
+
             PauseTransition visiblePause = new PauseTransition(
                     Duration.seconds(3)
             );
@@ -119,12 +115,9 @@ public class AuthentificationController implements Initializable {
             visiblePause.play();
             return;
         }
+
         alert.setVisible(false);
-
-        // check if checkbox clicked
         checkRememberBox(username, password);
-
-        //if user is logged in successfully, open the Home pag
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
     }
 
@@ -141,8 +134,8 @@ public class AuthentificationController implements Initializable {
             entityManager = con.getManager();
             @SuppressWarnings("JpaQueryApiInspection")
             Query tq1 = entityManager.createNamedQuery(
-                    "User.determineAccess",
-                    User.class);
+                    "Account.determineAccess",
+                    Account.class);
             tq1.setParameter("email", user);
             tq1.setParameter("password", pass);
             return (int) tq1.getSingleResult();
@@ -153,7 +146,6 @@ public class AuthentificationController implements Initializable {
      * This method initialises main application in a new parallel thread
      */
     public static void initiliaseApp() {
-
         updateTask = new UpdateListTask();
         updateTask.run();
     }
@@ -202,13 +194,9 @@ public class AuthentificationController implements Initializable {
      */
     @FXML
     private void register(Event event) throws IOException {
-        //Check the internet connection first
+
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/FXML/register.fxml"));
-            Scene scene = new Scene(root, 600, 400);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
+            Convenience.switchScene(event, getClass().getResource("/FXML/register.fxml"));
         } catch(Error e){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
             alert.showAndWait();
@@ -233,19 +221,8 @@ public class AuthentificationController implements Initializable {
      */
     @FXML
     private void recover(Event event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/recover.fxml"));
-        Scene scene = new Scene(root, 600, 400);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        Convenience.switchScene(event, getClass().getResource("/FXML/recover.fxml"));
     }
 
-    /**
-     * Method which stops the Scheduled Background Job before exiting app
-     */
-    public static void stop(){
-        timer.cancel();
-        timer.purge();
-    }
 
 }

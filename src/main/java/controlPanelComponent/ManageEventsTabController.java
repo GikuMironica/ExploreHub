@@ -2,30 +2,27 @@ package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.UploadImage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import listComponent.EventListSingleton;
 import models.*;
 
 import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.lang.Thread;
 
 /**
@@ -599,7 +596,6 @@ public class ManageEventsTabController {
     private void checkPictures() {
         if(mainPic != null){
             try {
-                System.out.println("main not null");
                 UploadImage uploadImg = new UploadImage(mainPic);
                 String urlPic = uploadImg.upload();
                 selectedEvent.getPicture().setPicture(urlPic);
@@ -610,7 +606,6 @@ public class ManageEventsTabController {
         }
         if(logoPic != null){
             try{
-                System.out.println("logo not null");
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 String urlLogo = uploadLogo.upload();
                 selectedEvent.getPicture().setLogo(urlLogo);

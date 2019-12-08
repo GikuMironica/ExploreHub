@@ -125,8 +125,8 @@ public class RememberUserDBSingleton {
             }
 
             EntityManager entityManager = GuestConnectionSingleton.getInstance().getManager();
-            Query query = entityManager.createNamedQuery("User.determineAccess",
-                    User.class);
+            Query query = entityManager.createNamedQuery("Account.determineAccess",
+                    Account.class);
             query.setParameter("email", lastUser);
             query.setParameter("password", lastPass);
             int access = (Integer)query.getSingleResult();
@@ -150,7 +150,6 @@ public class RememberUserDBSingleton {
         try {
             PreparedStatement statement1 = connection.prepareStatement("DELETE FROM tblUser;");
             statement1.execute();
-
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -170,7 +169,6 @@ public class RememberUserDBSingleton {
                 return false;
             }
         } catch (Exception e) {
-            // db doesn't exist
             return false;
         }
     }
