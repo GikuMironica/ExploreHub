@@ -10,7 +10,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name= "Admin.findAdminByEmailPass", query =	"SELECT u FROM Admin u WHERE u.Email = :email AND u.Password = :password"),
         @NamedQuery(name= "Admin.findAdminbyEmail", query =	"SELECT u FROM Admin u WHERE u.Email = :email"),
-        @NamedQuery(name= "Admin.findAdmins", query = "SELECT a FROM Admin a WHERE a.Access = :access")
+        @NamedQuery(name= "Admin.findAdmins", query = "SELECT a FROM Admin a")
 })
 
 /**
