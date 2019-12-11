@@ -250,8 +250,8 @@ public class ManageEventsTabController {
         try {
             return uploadImg.upload();
         } catch (Exception e) {
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
             e.printStackTrace();
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
             return null;
         }
     }
@@ -588,6 +588,7 @@ public class ManageEventsTabController {
 
         } catch(Exception e){
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+            e.printStackTrace();
             return;
         }
 

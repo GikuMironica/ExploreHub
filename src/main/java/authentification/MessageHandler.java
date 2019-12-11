@@ -1,6 +1,9 @@
 package authentification;
 
 import java.util.*;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -83,6 +86,29 @@ public class MessageHandler {
     }
 
     /**
+     * Method sends confirmation email to user + pdf invoice
+     * @param letter confirmation message as a String
+     * @param recipientEmail email address of a user as a String
+     * @param filename Name of pdf file to be sent
+     * @throws MessagingException
+     */
+    public void sendConfirmation(String letter, String recipientEmail, String filename) throws MessagingException{
+        String title = "noreply_iExplore Booking Confirmation ";
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(filename);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(filename);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+
+        MimeMessage msg = prepareMessage(title, letter, recipientEmail);
+        msg.setContent(multipart);
+
+        Transport.send(msg);
+    }
+
+    /**
      * Method sends confirmation email to user
      * @param letter confirmation message as a String
      * @param recipientEmail email address of a user as a String
@@ -90,10 +116,8 @@ public class MessageHandler {
      */
     public void sendConfirmation(String letter, String recipientEmail) throws MessagingException{
         String title = "noreply_iExplore Booking Confirmation ";
-        String message = letter + "\n" +
-                "Your iExplore team.";
 
-        MimeMessage msg = prepareMessage(title,message, recipientEmail);
+        MimeMessage msg = prepareMessage(title, letter, recipientEmail);
         Transport.send(msg);
     }
 

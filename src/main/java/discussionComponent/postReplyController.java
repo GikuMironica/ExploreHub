@@ -1,7 +1,6 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -58,7 +57,7 @@ public class postReplyController implements Initializable {
 
         newPost.setThread(thread);
 
-        entityManager = UserConnectionSingleton.getInstance().getManager();
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         entityManager.getTransaction().begin();
         entityManager.persist(newPost);
         thread.setThreadLastPost(newPost);

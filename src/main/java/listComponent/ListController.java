@@ -54,7 +54,7 @@ public class ListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         EventList.setItems(eventsObservableList);
         EventList.setCellFactory(customListViewCell -> new CustomListViewCell());
-        account =CurrentAccountSingleton.getInstance().getAccount();
+        account = CurrentAccountSingleton.getInstance().getAccount();
         entityManager = account.getConnection();
     }
 
@@ -79,7 +79,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-
+            ex.printStackTrace();
         }
 
     }

@@ -1,6 +1,6 @@
 package filterComponent;
 
-import authentification.UserConnectionSingleton;
+import authentification.CurrentAccountSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,8 +76,7 @@ public class FilterController implements Initializable {
         private ObservableList<String> getCities () {
             ObservableList<Location> locations = FXCollections.observableArrayList();
             ObservableList<String> cities = FXCollections.observableArrayList();
-            UserConnectionSingleton connection = UserConnectionSingleton.getInstance();
-            EntityManager entityManager = connection.getManager();
+            EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
             TypedQuery<Location> locationQuery;
             locationQuery = entityManager.createNamedQuery(
                     "Location.findAllLocation",

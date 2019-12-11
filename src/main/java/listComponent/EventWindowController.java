@@ -120,12 +120,12 @@ public class EventWindowController{
      */
     protected boolean checkUser() {
         if(account instanceof Admin){
-            book.setVisible(false);
-            wishList.setVisible(false);
+            book.setDisable(true);
+            wishList.setDisable(true);
             return false;
         }else{
-            book.setVisible(true);
-            wishList.setVisible(true);
+            book.setDisable(false);
+            wishList.setDisable(false);
             return true;
         }
     }
@@ -134,8 +134,8 @@ public class EventWindowController{
      * Method which checks if user has current event in wishlist
      */
     protected void checkIfInWishlist(){
-        List<Events> l1 = ((User)(account)).getEvents();
-        boolean ok = ((User)(account)).checkEventPresence(entityManager, currentEvent.getId());
+        List<Events> l1 = (account).getEvents();
+        boolean ok = (account).checkEventPresence(entityManager, currentEvent.getId());
            if (ok){
                wishList.setText("Remove From Wishlist");
            } else{
@@ -155,7 +155,7 @@ public class EventWindowController{
                 wishList.setText("Remove From Wishlist");
                 List<Events> l1 = ((User) (account)).getEvents();
                 l1.add(currentEvent);
-                ((User) (account)).setEvents(l1);
+                (account).setEvents(l1);
                 entityManager.getTransaction().begin();
                 entityManager.merge(account);
                 entityManager.getTransaction().commit();
@@ -164,7 +164,7 @@ public class EventWindowController{
                 wishList.setText("Add to Wishlist");
                 List<Events> l1 = ((User) (account)).getEvents();
                 l1.remove(currentEvent);
-                ((User) (account)).setEvents(l1);
+               (account).setEvents(l1);
                 entityManager.getTransaction().begin();
                 entityManager.merge(account);
                 entityManager.getTransaction().commit();
@@ -227,12 +227,11 @@ public class EventWindowController{
     private void bookButton(Event event){
         List<Events> currentEventList = new ArrayList<>();
         currentEventList.add(currentEvent);
-        ((User)(account)).setBookedEvents(currentEventList);
-       // System.out.println(((User)(account)).getBookedEvents().size()+" event booked");
+        (account).setBookedEvents(currentEventList);
+
         book.setDisable(true);
         book.setText("Booked");
 
-        // jump to window
         try{
             Convenience.switchScene(event, getClass().getResource(("/FXML/booking.fxml")));
         }catch(IOException e){e.printStackTrace();}

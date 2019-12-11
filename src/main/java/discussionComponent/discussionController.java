@@ -42,7 +42,6 @@ public class discussionController implements Initializable {
     public static List<Thread> threadListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
     private static List<ForumCategory> tempList;
 
@@ -66,8 +65,7 @@ public class discussionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        con = UserConnectionSingleton.getInstance();
-        entityManager = con.getManager();
+        entityManager = user.getConnection();
 
         if (user instanceof User) {
             TypedQuery<ForumCategory> tq1 = entityManager.createNamedQuery("ForumCategory.getCategories", ForumCategory.class);

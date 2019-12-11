@@ -18,7 +18,6 @@ import javax.persistence.EntityManager;
 public class UserCellController extends ListCell<User> {
 
     private FXMLLoader loader;
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
     @FXML
     private Label name, surname, email;

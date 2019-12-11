@@ -2,7 +2,6 @@ package controlPanelComponent;
 
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -19,7 +18,6 @@ import javax.persistence.EntityManager;
 public class UserBookingsCellController extends ListCell<Transactions> {
 
     private FXMLLoader loader;
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
     @FXML
     public HBox bookingCell;

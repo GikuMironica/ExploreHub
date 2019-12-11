@@ -74,7 +74,6 @@ public class AdminTest {
     public void setAccess() {
         a1 = em.find(Admin.class, 101);
         a1.getAccess();
-        a1.setAccess(1);
         em.getTransaction().begin();
         em.persist(a1);
         em.getTransaction().commit();

@@ -38,13 +38,11 @@ public class threadViewController implements Initializable {
     private static List<Post> postListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
-    private static UserConnectionSingleton con;
     private static EntityManager entityManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        con = UserConnectionSingleton.getInstance();
-        entityManager = con.getManager();
+        entityManager = user.getConnection();
         forumName.setText(fName);
         threadTitle.setText(tTitle);
         threadAuthor.setText(tAuthor);

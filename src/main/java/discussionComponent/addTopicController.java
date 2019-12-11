@@ -1,7 +1,6 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,7 +50,7 @@ public class addTopicController implements Initializable {
             Post newPost = new Post((User)user, message.getText(), String.valueOf(new Timestamp(System.currentTimeMillis()).getTime()));
             Thread newThread = new Thread(fp, topic.getText(), (User) user, 0, 0);
 
-            entityManager = UserConnectionSingleton.getInstance().getManager();
+            entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
             entityManager.getTransaction().begin();
             entityManager.persist(newThread);
             entityManager.getTransaction().commit();

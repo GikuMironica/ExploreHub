@@ -1,5 +1,6 @@
 package filterComponent;
 
+import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,8 +79,7 @@ public class RadiusCriteria implements Criteria {
      */
     private Location getCityCoordinates (String name) {
         ObservableList<Location> locations = FXCollections.observableArrayList();
-        UserConnectionSingleton connection = UserConnectionSingleton.getInstance();
-        EntityManager entityManager = connection.getManager();
+        EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Location> locationQuery;
         locationQuery = entityManager.createNamedQuery(
                 "Location.findAllLocation",

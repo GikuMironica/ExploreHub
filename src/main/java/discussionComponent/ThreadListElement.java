@@ -1,6 +1,6 @@
 package discussionComponent;
 
-import authentification.UserConnectionSingleton;
+import authentification.CurrentAccountSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,8 +35,7 @@ public class ThreadListElement {
     private Button threadLastReplyBtn;
 
     private Thread tlo;
-    private UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-    private EntityManager entityManager = con.getManager();
+    private EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
 
     public ThreadListElement(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/threadListObject.fxml"));
