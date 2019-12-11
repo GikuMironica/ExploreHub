@@ -3,6 +3,7 @@ package controlPanelComponent;
 import authentification.CurrentAccountSingleton;
 import authentification.MessageHandler;
 import handlers.Convenience;
+import handlers.GeneratePDF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -10,14 +11,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import models.Events;
+import models.Invoice;
 import models.Transactions;
 import models.User;
 
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -167,25 +173,33 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void validatePayment(Event event){
-        String message= "The payment for one of your booked event has been approved";
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Validation", "Are you sure you want to validate this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
+            String message= "The payment for one of your booked event has been approved";
             selectedTransaction.setCompleted(1);
             entityManager.getTransaction().begin();
             entityManager.merge(selectedTransaction);
+            Invoice invoice = new Invoice(selectedTransaction);
+            entityManager.persist(invoice);
             entityManager.getTransaction().commit();
 
-            openRadioEnabled();
-            // send email about confirmation
+            GeneratePDF pdf;
+            String newFile = "";
             try {
-                messageHandler.sendConfirmation(message, selectedUser.getEmail());
+                pdf = new GeneratePDF(selectedUser, selectedTransaction);
+                newFile = pdf.getFilename();
+                messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
                 clearView();
-            } catch (MessagingException e) {
-               //
+                Path fileToDeletePath = Paths.get(newFile);
+                Files.delete(fileToDeletePath);
+            }catch(Exception e){
+                e.printStackTrace();
             }
+
+            openRadioEnabled();
         }
     }
 
@@ -197,7 +211,6 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void rejectPayment(Event event){
-        String message= "The payment for one of your booked event has been rejected";
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rejection", "Are you sure you want to reject this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
@@ -205,6 +218,7 @@ public class ManagePaymentsTabController {
         } else {
             openRadioEnabled();
             try {
+                String message= "The payment for one of your booked event has been rejected";
                 startTransaction(2);
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();
@@ -222,7 +236,7 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void refundTransaction(Event event){
-        String message= "The payment for one of your booked event has been refunded";
+
         Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rollback", "Are you sure you want to undo this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
@@ -231,6 +245,7 @@ public class ManagePaymentsTabController {
             openRadioEnabled();
 
             try {
+                String message= "The payment for one of your booked event has been refunded";
                 startTransaction(3);
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();

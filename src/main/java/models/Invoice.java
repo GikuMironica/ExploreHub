@@ -8,6 +8,9 @@ import java.sql.Date;
  *
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("JpaQlInspection")
+@NamedQuery(name="Invoice.findAllInvoicesForUser", query="SELECT i FROM Invoice i WHERE i.Customer =:user")
+
 @Entity
 @Table(name="invoice")
 public class Invoice {
@@ -17,7 +20,7 @@ public class Invoice {
     private int Id;
 
     @Basic(optional=false)
-    @Column(name="CustumerName")
+    @Column(name="CustomerName")
     private String Customer;
 
     @Column(name="Date")
@@ -33,20 +36,20 @@ public class Invoice {
     private String Company;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="Id", nullable = false)
-    private Transactions transaction;
+    @JoinColumn(name="TransactionID")
+    private Transactions TransactionID;
 
     public Invoice(){
         // ctor
     }
 
     public Invoice(Transactions transaction){
-        this.Id = transaction.getId();
         this.Customer = transaction.getUser().getLastname();
         this.EventDate = transaction.getDate();
         this.Ammount = transaction.getEvent().getPrice();
         this.EventName = transaction.getEvent().getShortDescription();
         this.Company = transaction.getEvent().getCompany();
+        this.TransactionID = transaction;
     }
 
     public int getId() {
@@ -55,6 +58,14 @@ public class Invoice {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public Transactions getTransaction() {
+        return TransactionID;
+    }
+
+    public void setTransaction(Transactions transactions) {
+        this.TransactionID = transactions;
     }
 
     public String getCustomer() {
@@ -97,11 +108,4 @@ public class Invoice {
         Company = company;
     }
 
-    public Transactions getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transactions transaction) {
-        this.transaction = transaction;
-    }
 }
