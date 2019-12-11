@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @SuppressWarnings("ALL")
 @NamedQueries({
         @NamedQuery(name="Events.findAllEvents", query="SELECT e FROM Events e"),
+        @NamedQuery(name="Events.findAllValidEvents", query="SELECT e FROM Events e WHERE e.Date > :today"),
         @NamedQuery(name="Events.findMaxId", query="SELECT MAX(e.Id) FROM Events e")
 })
 

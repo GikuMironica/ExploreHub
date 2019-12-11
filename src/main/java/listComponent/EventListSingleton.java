@@ -12,6 +12,8 @@ import models.Excursion;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Thread;
@@ -33,9 +35,15 @@ public class EventListSingleton {
 
     @SuppressWarnings("JpaQueryApiInspection")
     private EventListSingleton() {
+        List<Events> tempTrash = new ArrayList<Events>();
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Events> tq1 = entityManager.createNamedQuery("Events.findAllEvents", Events.class);
         tempList = tq1.getResultList();
+        for(Events e : tempList){
+            if(e.getDate().before(Date.valueOf(LocalDate.now())))
+                tempTrash.add(e);
+        }
+        tempList.removeAll(tempTrash);
         eventsObservableList = FXCollections.observableArrayList();
         eventsObservableList.addAll(tempList);
     }
@@ -57,6 +65,7 @@ public class EventListSingleton {
      */
     @SuppressWarnings("JpaQueryApiInspection")
     public void refreshList(){
+        List<Events> tempTrash = new ArrayList<Events>();
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         Thread thread = new Thread(() -> {
             List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
@@ -64,6 +73,12 @@ public class EventListSingleton {
             tempList.clear();
             tempList.addAll(lc);
             tempList.addAll(le);
+            tempTrash.clear();
+            for(Events e : tempList){
+                if(e.getDate().before(Date.valueOf(LocalDate.now())))
+                    tempTrash.add(e);
+            }
+            tempList.removeAll(tempTrash);
             Platform.runLater(() -> {
                 eventsObservableList.clear();
                 eventsObservableList.addAll(tempList);
