@@ -27,13 +27,16 @@ public class Admin extends Account{
     }
     public Admin(String firstname, String lastname, String email, String password, Courses course) {
         super(firstname, lastname, email, password, course);
-        super.Access = 1;
     }
 
-    public Admin(String firstname, String lastname, String email, String password, Courses course, String picture) {
+    public Admin(String firstname, String lastname, String email, int access, String password, Courses course, String picture) {
         super(firstname, lastname, email, password, course);
+        setAccess(access);
         super.picture = picture;
-        super.Access = 1;
+    }
+
+    public void setAccess(int i ){
+        super.Access = i;
     }
 
     /**

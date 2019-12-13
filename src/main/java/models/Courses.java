@@ -21,6 +21,14 @@ public class Courses {
     @Basic(optional=false)
     private String Name;
 
+    public Courses(){
+
+    }
+    public Courses(int id, String Name){
+        this.Id = id;
+        this.Name = Name;
+    }
+
     public int getId() {
         return Id;
     }

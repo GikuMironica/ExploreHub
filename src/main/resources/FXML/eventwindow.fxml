@@ -12,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <ScrollPane fx:id="eventLayout" fitToHeight="true" fitToWidth="true" prefHeight="540.0" prefWidth="694.0" vbarPolicy="ALWAYS" vvalue="0.01" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.EventWindowController">
    <StackPane minHeight="-Infinity" prefHeight="800.0" prefWidth="675.0">
    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="573.0" spacing="10.0" BorderPane.alignment="CENTER">
@@ -32,14 +33,14 @@
                   </TextFlow>
                   <VBox alignment="CENTER" prefHeight="91.0" prefWidth="209.0" spacing="15.0">
                      <children>
-                        <Button fx:id="wishList" mnemonicParsing="false" onAction="#addremoveWishList" prefHeight="29.0" prefWidth="170.0" text="Add to Wishlist">
+                        <JFXButton fx:id="wishList" onAction="#addremoveWishList" alignment="CENTER" buttonType="RAISED" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Add to Wishlist" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
-                           </font></Button>
-                        <Button fx:id="book" mnemonicParsing="false" onAction="#bookButton" prefHeight="30.0" prefWidth="170.0" text="Book Now" textAlignment="JUSTIFY">
+                           </font></JFXButton>
+                        <JFXButton fx:id="book" mnemonicParsing="false" onAction="#bookButton" buttonType="RAISED" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book Now" textFill="WHITE" textAlignment="JUSTIFY">
                            <font>
                               <Font name="System Bold" size="13.0" />
-                           </font></Button>
+                           </font></JFXButton>
                         <Label fx:id="considering" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="206.0" text="Label" textAlignment="JUSTIFY">
                            <VBox.margin>
                               <Insets top="-11.0" />
@@ -150,10 +151,10 @@
                   <Insets left="45.0" />
                </VBox.margin>
             </HBox>
-            <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#goBack" text="Back to Events" textAlignment="JUSTIFY">
+            <JFXButton fx:id="back" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" textFill="WHITE" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#goBack" text="Back to Events" textAlignment="JUSTIFY">
                <VBox.margin>
                   <Insets bottom="10.0" top="20.0" />
-               </VBox.margin></Button>
+               </VBox.margin></JFXButton>
 
          </children>
          <BorderPane.margin>

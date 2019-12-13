@@ -16,7 +16,7 @@
       <ButtonBar layoutX="129.0" layoutY="1.0" prefHeight="70.0" prefWidth="471.0">
         <buttons>
           <Button fx:id="panelButton" mnemonicParsing="false" onMouseClicked="#handlePanelClicked" text="Panel" visible="false" />
-            <Button mnemonicParsing="false" onMouseClicked="#handleRefreshClicked" text="Refresh" />
+            <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#handleRefreshClicked" text="Refresh" />
             <Button mnemonicParsing="false" onMouseClicked="#handleHomeClicked" style="-fx-cursor: hand;" text="Home" />
             <Button mnemonicParsing="false" onMouseClicked="#handleDiscussionClicked" style="-fx-cursor: hand;" text="Discussion" />
             <Button mnemonicParsing="false" onMouseClicked="#handleMenuClicked" style="-fx-cursor: hand;" text="Menu" />

@@ -22,7 +22,7 @@ import java.lang.Thread;
  * Singleton Class which holds the ObservableList for the main ListView
  * @author Gheorghe Mironica
  */
-public class EventListSingleton {
+public class EventListSingleton{
     private static EventListSingleton ourInstance = new EventListSingleton();
     private static EntityManager entityManager;
     private static List<Events> tempList;
@@ -64,29 +64,34 @@ public class EventListSingleton {
      * Method which refreshes the ListView, executed as Background Scheduled Task
      */
     @SuppressWarnings("JpaQueryApiInspection")
-    public void refreshList(){
-        List<Events> tempTrash = new ArrayList<Events>();
-        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
+    public void refresh(){
+                List<Events> tempTrash = new ArrayList<Events>();
+                entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
+                List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
+                List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();
+                tempList.clear();
+                tempList.addAll(lc);
+                tempList.addAll(le);
+                tempTrash.clear();
+
+                for (Events e : tempList) {
+                    if (e.getDate().before(Date.valueOf(LocalDate.now())))
+                        tempTrash.add(e);
+                }
+                tempList.removeAll(tempTrash);
+    }
+
+    public void refreshList() {
         Thread thread = new Thread(() -> {
-            List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
-            List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();
-            tempList.clear();
-            tempList.addAll(lc);
-            tempList.addAll(le);
-            tempTrash.clear();
-            for(Events e : tempList){
-                if(e.getDate().before(Date.valueOf(LocalDate.now())))
-                    tempTrash.add(e);
-            }
-            tempList.removeAll(tempTrash);
-            Platform.runLater(() -> {
+            refresh();
+            FilterSingleton filter = FilterSingleton.getInstance();
+
+            Platform.runLater(()->{
                 eventsObservableList.clear();
                 eventsObservableList.addAll(tempList);
-                FilterSingleton filter = FilterSingleton.getInstance();
                 filter.updateFilter();
             });
         });
         thread.start();
-
     }
 }

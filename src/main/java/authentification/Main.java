@@ -2,16 +2,9 @@ package authentification;
 
 import handlers.Convenience;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import listComponent.EventListSingleton;
-import listComponent.UpdateListTask;
-
-import java.util.Timer;
 
 /**
  * Main method

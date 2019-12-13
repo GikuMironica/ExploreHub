@@ -16,6 +16,7 @@
         <class>models.Thread</class>
         <class>models.Post</class>
         <class>models.Admin</class>
+        <class>models.Owner</class>
         <class>models.Account</class>
         <class>models.Pictures</class>
         <class>models.Location</class>
@@ -44,6 +45,7 @@
         <class>models.Excursion</class>
         <class>models.Transactions</class>
         <class>models.User</class>
+        <class>models.Owner</class>
         <class>models.ForumCategory</class>
         <class>models.Thread</class>
         <class>models.Account</class>
@@ -74,6 +76,7 @@
         <class>models.Excursion</class>
         <class>models.Transactions</class>
         <class>models.Account</class>
+        <class>models.Owner</class>
         <class>models.User</class>
         <class>models.Admin</class>
         <class>models.Pictures</class>
