@@ -1,6 +1,7 @@
 package listComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -37,7 +38,7 @@ public class EventWindowController{
     @FXML
     private TextFlow longDescription;
     @FXML
-    private Button book, wishList;
+    private JFXButton book, wishList;
     @FXML
     private Label dateData, considering, placesData, locationData, title, priceData;
     @FXML
@@ -170,6 +171,7 @@ public class EventWindowController{
                 entityManager.getTransaction().commit();
                 executeOnThread();
             }
+
         }catch(Exception e){
             e.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");

@@ -65,7 +65,7 @@ public class RegisterController implements Initializable  {
      * @throws IOException
      */
     @FXML
-    private void register(Event e) throws IOException {
+    private void register(Event e) throws IOException, InterruptedException {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String email = emailField.getText();

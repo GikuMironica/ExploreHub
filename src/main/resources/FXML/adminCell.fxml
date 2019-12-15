@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="admincellPane" prefHeight="57.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="14.0" layoutY="23.0" text="ID:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="idLabel" layoutX="41.0" layoutY="22.0" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="15.0" prefHeight="17.0" prefWidth="215.0" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="firstnameLabel" alignment="CENTER" layoutX="142.0" layoutY="35.0" prefHeight="17.0" prefWidth="78.0" text="Label" />
+      <Label fx:id="lastnameLabel" alignment="CENTER" layoutX="233.0" layoutY="35.0" prefHeight="17.0" prefWidth="78.0" text="Label" />
+   </children>
+</AnchorPane>

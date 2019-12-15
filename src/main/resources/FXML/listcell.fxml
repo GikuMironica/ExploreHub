@@ -1,26 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox fx:id="boxLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="cellLogo" fitHeight="166.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" />
-      <VBox alignment="CENTER" prefHeight="160.0" prefWidth="259.0">
+      <HBox fx:id="boxLayout" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="138.0" prefWidth="535.0">
          <children>
-            <Label fx:id="descriptionLabel" text="Label" />
+            <ImageView fx:id="cellLogo" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></ImageView>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="118.0" prefWidth="297.0" spacing="10.0">
+               <children>
+                  <Label fx:id="descriptionLabel" text="Label">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="259.0" spacing="10.0">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                           <image>
+                              <Image url="@../IMG/placeholder-filled-point.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label fx:id="locationLabel" prefHeight="18.0" prefWidth="111.0" text="Label">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                           <image>
+                              <Image url="@../IMG/euro-price-tag(1).png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label fx:id="priceLabel" text="Label">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="118.0" prefWidth="105.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="wishlistButton" alignment="CENTER" buttonType="RAISED" onAction="#wishlistAction" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Add Wishlist" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></JFXButton>
+                  <HBox prefHeight="17.0" prefWidth="98.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="70.0" text="Places Left:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="availableLabel" prefHeight="18.0" prefWidth="38.0" text="100" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
-      </VBox>
-      <VBox alignment="BOTTOM_RIGHT" prefHeight="165.0" prefWidth="127.0">
-         <children>
-            <Label fx:id="locationLabel" text="Label" />
-         </children>
-      </VBox>
+         <padding>
+            <Insets bottom="10.0" left="5.0" top="10.0" />
+         </padding>
+      </HBox>
    </children>
-   <padding>
-      <Insets bottom="10.0" left="5.0" top="10.0" />
-   </padding>
-</HBox>
+</StackPane>

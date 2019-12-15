@@ -8,27 +8,20 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
-import listComponent.UpdateListTask;
 import models.Account;
-import models.Admin;
-import models.User;
+import models.Owner;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
 
 /**
  * Class which handles the authentification process
@@ -46,7 +39,6 @@ public class AuthentificationController implements Initializable {
     @FXML
     private JFXTextField alert;
     private EntityManager entityManager;
-    private static UpdateListTask updateTask;
 
     /**
      * Method which initializes the views
@@ -86,15 +78,14 @@ public class AuthentificationController implements Initializable {
         try {
             int accessLvl = getUserAccessLvl(username, password);
 
-            if(accessLvl==0) {
-                strategyContext = new StrategyContext(new UserStrategy());
-                strategyContext.executeStrategy(username, password);
-            }
-            else {
-                strategyContext = new StrategyContext(new AdminStrategy());
-                strategyContext.executeStrategy(username, password);
+            switch(accessLvl){
+                case 2: strategyContext = new StrategyContext(new OwnerStrategy()); break;
+                case 1: strategyContext = new StrategyContext(new AdminStrategy()); break;
+                case 0: strategyContext = new StrategyContext(new UserStrategy()); break;
+                default: strategyContext = null;
             }
 
+            strategyContext.executeStrategy(username, password);
             initiliaseApp();
             GuestConnectionSingleton.getInstance().closeConnection();
 
@@ -113,11 +104,13 @@ public class AuthentificationController implements Initializable {
                     }
             );
             visiblePause.play();
+            e.printStackTrace();
             return;
         }
         alert.setVisible(false);
         checkRememberBox(username, password);
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+
     }
 
     /**
@@ -144,9 +137,9 @@ public class AuthentificationController implements Initializable {
     /**
      * This method initialises main application in a new parallel thread
      */
-    public static void initiliaseApp() {
-        updateTask = new UpdateListTask();
-        updateTask.run();
+    public static void initiliaseApp(){
+        EventListSingleton eventList = EventListSingleton.getInstance();
+        eventList.refreshList();
     }
 
     /**

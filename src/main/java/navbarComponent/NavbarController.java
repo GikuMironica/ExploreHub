@@ -3,6 +3,9 @@ package navbarComponent;
 import authentification.CurrentAccountSingleton;
 import controlPanelComponent.PreLoader;
 import handlers.Convenience;
+import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,8 +18,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import listComponent.UpdateListTask;
+import javafx.util.Duration;
+import listComponent.EventListSingleton;
 import models.Account;
+import models.Admin;
 import sidebarComponent.SidebarController;
 
 import java.io.IOException;
@@ -30,7 +35,7 @@ import java.util.ResourceBundle;
 public class NavbarController implements Initializable {
 
     @FXML
-    private Button panelButton;
+    private Button panelButton, refreshButton;
 
     @FXML
     private SidebarController sidebarController;
@@ -39,7 +44,7 @@ public class NavbarController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Account currentAccount = CurrentAccountSingleton.getInstance().getAccount();
         int accessLevel = currentAccount.getAccess();
-        if (accessLevel == 1) {
+        if (currentAccount instanceof Admin) {
             panelButton.setVisible(true);
         }
     }
@@ -98,9 +103,7 @@ public class NavbarController implements Initializable {
     }
 
     /**
-<<<<<<< HEAD
      * If the sidebar is hidden, then it will be shown. Otherwise it will be hidden.
-=======
      * Loads the Discussion page
      *
      * @param mouseEvent - the event which triggered the method
@@ -118,7 +121,6 @@ public class NavbarController implements Initializable {
 
     /**
      * Opens the sidebar
->>>>>>> [DiscussionComponent] UI implemented
      *
      * @param mouseEvent - the event which triggered the method
      */
@@ -147,8 +149,20 @@ public class NavbarController implements Initializable {
 
     @FXML
     private void handleRefreshClicked(MouseEvent mouseEvent){
-        UpdateListTask updateListTask = new UpdateListTask();
-        updateListTask.run();
+        EventListSingleton eventList = EventListSingleton.getInstance();
+        eventList.refreshList();
+
+        refreshButton.setDisable(true);
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(5)
+        );
+
+        visiblePause.setOnFinished(
+                (ActionEvent ev) -> {
+                    refreshButton.setDisable(false);
+                }
+        );
+        visiblePause.play();
     }
 
 }

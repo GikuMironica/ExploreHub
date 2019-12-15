@@ -61,7 +61,7 @@ public class ManageEventsTabController {
     private final Account admin = CurrentAccountSingleton.getInstance().getAccount();
     private final EntityManager entityManager = admin.getConnection();
     private final int longDescriptionUpLimit = 500;
-    private final int shortDescriptionUpLimit = 100;
+    private final int shortDescriptionUpLimit = 50;
     private final int longDescriptionLowLimit = 20;
     private final int shortDescriptionLowLimit = 10;
     private Image logoPic;
@@ -536,11 +536,10 @@ public class ManageEventsTabController {
         Image pic = null;
 
         FileChooser fileChooser = new FileChooser();
-        //Set extension filter
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterPNG);
-        //Show open file dialog
-        File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
 
         if(file!=null){
             imgButton.setText("Image Loaded");

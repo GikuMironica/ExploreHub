@@ -42,7 +42,7 @@ public class RememberUserDBSingleton {
     private RememberUserDBSingleton() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:SQLiteCurrentUserDB.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:CurrentUser.db");
         } catch(Exception e){
             e.printStackTrace();
         }
