@@ -5,11 +5,13 @@ import handlers.Convenience;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import models.Account;
 import models.Events;
 import models.Transactions;
 import models.User;
@@ -37,11 +39,11 @@ public class BookingController implements Initializable {
     ImageView bookingImage;
 
     @FXML
-    RadioButton cash, card;
+    RadioButton cash, card, free;
 
     private RadioButton selectedRadioBtn;
     private String toggleValue;
-    private static int paymentType = 100;
+    private static int paymentType;
 
     private List<Events> evList;
     private Events tempEvent;
@@ -49,41 +51,72 @@ public class BookingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        paymentType = 1;
+        free.setDisable(true);
+        free.setVisible(false);
 
-        //if(!(getPaymentType() == 0)) cash.setSelected(true);
-        //else cash.setSelected(true);
-        switch(getPaymentType()){
-            case 1: cash.setSelected(true); paymentType = 1; break;
-            case 0: card.setSelected(true); break;
-
-            default: cash.setSelected(true); paymentType = 1;
-        }
-
-        // Get events and sum the prices for total price
+        // Sum the prices for total price
         evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
         total = 0;
 
-        if(evList != null) {
+        if (evList != null) {
             ListIterator iterator = evList.listIterator();
             while (iterator.hasNext()) {
                 tempEvent = (Events) iterator.next();
                 total += tempEvent.getPrice();
             }
         }
-        totalPrice.setText("Total: €" + total);
 
-        if(evList.size() > 1){
+        if (total == 0) { // Events are free lock into free option
+            paymentType = 2;
+        }
+
+        switch (getPaymentType()) {
+            case 1:
+                cash.setSelected(true);
+                paymentType = 1;
+                break;
+
+            case 0:
+                card.setSelected(true);
+                break;
+
+            case 2:
+                free.setDisable(false);
+                free.setVisible(true);
+                free.setSelected(true);
+
+                paymentType = 2;
+
+                cash.setDisable(true);
+                card.setDisable(true);
+                totalPrice.setVisible(false);
+                break;
+
+            default:
+                cash.setSelected(true);
+                paymentType = 1;
+        }
+
+
+        if(total != 0) totalPrice.setText("Total: €" + total);
+
+        if (evList.size() > 1) {
             try {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
                 bookingDescription.setText(evList.get(0).getShortDescription() + " And " + evList.size() + "more event(s)...");
-            } catch (Exception e){e.printStackTrace();}
-        }
-        else {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
             try {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
                 bookingDescription.setText(evList.get(0).getShortDescription());
-            } catch (Exception e){e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**

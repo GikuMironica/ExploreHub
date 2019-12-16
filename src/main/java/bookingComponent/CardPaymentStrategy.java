@@ -6,10 +6,7 @@ import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import models.Account;
-import models.Events;
-import models.Transactions;
-import models.User;
+import models.*;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -69,6 +66,12 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.getTransaction().begin();
                         entityManager.merge(currentEvent);
                         entityManager.persist(transactions);
+                        entityManager.getTransaction().commit();
+
+
+                        Invoice invoice = new Invoice(transactions);
+                        entityManager.getTransaction().begin();
+                        entityManager.persist(invoice);
                         entityManager.getTransaction().commit();
                     } catch (Exception e) {
                         e.printStackTrace();

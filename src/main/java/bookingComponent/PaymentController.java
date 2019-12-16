@@ -67,6 +67,11 @@ public class PaymentController implements Initializable {
             }catch (IOException e){e.printStackTrace();}
         }
 
+        // Free
+        else if(BookingController.getPaymentType() == 2){
+            payment();
+        }
+
     }
 
     @FXML
@@ -84,6 +89,11 @@ public class PaymentController implements Initializable {
             CardPaymentStrategy CardPS = new CardPaymentStrategy();
             CardPS.pay();
             confirmationText = "Payment with card successful.\nWe hope you have a nice time!";
+        }
+        else if (BookingController.getPaymentType() == 2){
+            FreePaymentStrategy FreePS = new FreePaymentStrategy();
+            FreePS.pay();
+            confirmationText = "Free booking successful.\nEnjoy your trip!";
         }
 
         confirmationScene();

@@ -23,11 +23,21 @@
          </children></HBox>
       <VBox layoutX="52.0" layoutY="200.0" prefHeight="64.0" prefWidth="100.0" spacing="10.0">
          <children>
-            <RadioButton fx:id="cash" mnemonicParsing="false" onAction="#selectPayment" text="Cash">
+            <RadioButton fx:id="free" mnemonicParsing="false" text="Free" toggleGroup="$toggleGroupPayments">
                <toggleGroup>
                   <ToggleGroup fx:id="toggleGroupPayments" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="card" mnemonicParsing="false" onAction="#selectPayment" text="Card" toggleGroup="$toggleGroupPayments" />
+               </toggleGroup>
+               <font>
+                  <Font size="13.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="cash" mnemonicParsing="false" onAction="#selectPayment" text="Cash" toggleGroup="$toggleGroupPayments">
+               <font>
+                  <Font size="13.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="card" mnemonicParsing="false" onAction="#selectPayment" text="Card" toggleGroup="$toggleGroupPayments">
+               <font>
+                  <Font size="13.0" />
+               </font></RadioButton>
          </children>
       </VBox>
       <HBox alignment="BOTTOM_RIGHT" layoutX="336.0" layoutY="286.0" prefHeight="100.0" prefWidth="237.0" spacing="25.0">
