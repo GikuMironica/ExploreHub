@@ -83,12 +83,12 @@ public class PaymentController implements Initializable {
         if(BookingController.getPaymentType() == 1){
             CashPaymentStrategy CashPS = new CashPaymentStrategy();
             CashPS.pay();
-            confirmationText = "Booking successful! Visit Prittwitzstrasse campus to pay and get approved.\nWe hope you have a nice time!";
+            confirmationText = "Booking successful! Visit Prittwitzstrasse campus to pay and get approved.\nWe hope you have a nice TimeConvertor!";
         }
         else if (BookingController.getPaymentType() == 0 ) {
             CardPaymentStrategy CardPS = new CardPaymentStrategy();
             CardPS.pay();
-            confirmationText = "Payment with card successful.\nWe hope you have a nice time!";
+            confirmationText = "Payment with card successful.\nWe hope you have a nice TimeConvertor!";
         }
         else if (BookingController.getPaymentType() == 2){
             FreePaymentStrategy FreePS = new FreePaymentStrategy();

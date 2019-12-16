@@ -44,7 +44,7 @@ public class RememberUserDBSingleton {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:CurrentUser.db");
         } catch(Exception e){
-            e.printStackTrace();
+
         }
     }
 
@@ -77,7 +77,7 @@ public class RememberUserDBSingleton {
                 }
 
             } catch(Exception e){
-                e.printStackTrace();
+
             }
         }
     }
@@ -102,7 +102,7 @@ public class RememberUserDBSingleton {
                 } else{
                 }
             } catch(Exception e){
-                e.printStackTrace();
+
             }
 
     }
@@ -139,7 +139,7 @@ public class RememberUserDBSingleton {
                 loginStrategy.getAccount(lastUser, lastPass);
             }
         } catch(Exception e){
-            e.printStackTrace();
+
         }
     }
 
@@ -151,7 +151,6 @@ public class RememberUserDBSingleton {
             PreparedStatement statement1 = connection.prepareStatement("DELETE FROM tblUser;");
             statement1.execute();
         } catch(Exception e){
-            e.printStackTrace();
         }
     }
 

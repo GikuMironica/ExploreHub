@@ -28,7 +28,7 @@ public class RememberUserDBSingletonTest {
     public void init(){
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:SQLiteCurrentUserDB.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:CurrentUser.db");
             assertTrue(!(connection == null));
         } catch(Exception e){
             fail();

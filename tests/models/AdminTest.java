@@ -2,9 +2,14 @@ package models;
 
 import authentification.AdminConnectionSingleton;
 import authentification.UserConnectionSingleton;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -13,17 +18,27 @@ import static org.junit.Assert.*;
  *
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class AdminTest {
-    private AdminConnectionSingleton con = AdminConnectionSingleton.getInstance();
-    private EntityManager em = con.getManager();
+    private AdminConnectionSingleton con;
+    private EntityManager em;
     private Admin a1;
+
+    @Before
+    public void setUp(){
+        con = AdminConnectionSingleton.getInstance();
+        em = con.getManager();
+        TypedQuery<Admin> admins  = em.createNamedQuery("Admin.findAdmins", Admin.class);
+        List<Admin> adminL = new ArrayList<>();
+        adminL.addAll(admins.getResultList());
+        a1 = adminL.get(1);
+    }
 
     /**
      * Test the functionality of the {@link #getId()}
      */
     @Test
     public void getId() {
-        a1 = em.find(Admin.class, 101);
         a1.getId();
     }
 
@@ -32,52 +47,9 @@ public class AdminTest {
      */
     @Test
     public void getEmail() {
-        a1 = em.find(Admin.class, 101);
         a1.getEmail();
     }
 
-    /**
-     * Test the functionality of the {@link #getFirstname()}
-     */
-    @Test
-    public void getFirstname() {
-        a1 = em.find(Admin.class, 101);
-        a1.getFirstname();
-
-    }
-
-    /**
-     * Test the functionality of the {@link #setFirstname()}
-     */
-    @Test
-    public void setFirstname() {
-        a1 = em.find(Admin.class, 101);
-        a1.setPassword("hahahalol");
-        em.getTransaction().begin();
-        em.persist(a1);
-        em.getTransaction().commit();
-    }
-
-    /**
-     * Test the functionality of the {@link #getAccess()}
-     */
-    @Test
-    public void getAccess() {
-        a1 = em.find(Admin.class, 101);
-        a1.getAccess();
-    }
-
-    /**
-     * Test the functionality of the {@link #setAccess()}
-     */
-    @Test
-    public void setAccess() {
-        a1 = em.find(Admin.class, 101);
-        a1.getAccess();
-        em.getTransaction().begin();
-        em.persist(a1);
-        em.getTransaction().commit();
-    }
 
     /**
      * Test the functionality of the {@link #getConnection()}

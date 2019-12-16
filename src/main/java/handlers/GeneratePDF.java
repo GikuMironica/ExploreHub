@@ -115,4 +115,7 @@ public class GeneratePDF {
     public String getFilename(){
         return filename;
     }
+    public Document getDocument() {
+        return document;
+    }
 }

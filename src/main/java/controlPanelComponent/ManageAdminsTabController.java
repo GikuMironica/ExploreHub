@@ -210,7 +210,6 @@ public class ManageAdminsTabController{
      */
     protected Courses fetchCourse() {
         try{
-
             @SuppressWarnings("JpaQueryApiInspection")
             TypedQuery<Courses> tq1 = entityManager.createNamedQuery(
                     "Courses.findCourseByName",
@@ -288,12 +287,12 @@ public class ManageAdminsTabController{
     }
 
     /**
-     * This method generates a random, one time password for the newly created admin
+     * This method generates a random, one TimeConvertor password for the newly created admin
      * @return {@link String} returns the password
      */
     protected String generateString() {
         String uuid = UUID.randomUUID().toString();
-        return "uuid = " + uuid;
+        return uuid;
     }
 
     /**

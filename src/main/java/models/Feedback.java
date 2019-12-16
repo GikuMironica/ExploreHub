@@ -5,6 +5,8 @@ import models.User;
 
 import javax.persistence.*;
 
+@SuppressWarnings("JpaQlInspection")
+@NamedQuery(name="Feedback.findAllFeedbacks", query="SELECT f FROM Feedback f")
 
 @Entity
 @Table(name = "feedback")

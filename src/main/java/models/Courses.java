@@ -1,7 +1,9 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+@SuppressWarnings("JpaQlInspection")
 @NamedQueries({
         @NamedQuery(name="Courses.findCourses", query="SELECT c FROM Courses c WHERE c.Name NOT LIKE '%None%'"),
         @NamedQuery(name="Courses.findCourseByName", query="SELECT c FROM Courses c WHERE C.Name = :name")})
@@ -45,5 +47,12 @@ public class Courses {
         Name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Courses courses = (Courses) o;
+        return Id == courses.Id &&
+                Objects.equals(Name, courses.Name);
+    }
 
 }

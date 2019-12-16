@@ -3,7 +3,7 @@ package discussionComponent;
 import authentification.CurrentAccountSingleton;
 import com.sandec.mdfx.MDFXNode;
 import handlers.Convenience;
-import handlers.time;
+import handlers.TimeConvertor;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,7 +69,7 @@ public class PostListElement {
         MDFXNode mdfxNode = new MDFXNode(p.getPostContent());
         mdfxNode.getStylesheets().add("/Styles/post.css");
         postAP.getChildren().add(mdfxNode);
-        posted_time.setText(time.compareDate(p.getPostTime()));
+        posted_time.setText(TimeConvertor.compareDate(p.getPostTime()));
         posterName.setText(p.getAuthor().getFirstname());
         author_image.setImage(new Image(p.getAuthor().getPicture()));
         btnDelete.setOnMouseClicked(new EventHandler<MouseEvent>() {

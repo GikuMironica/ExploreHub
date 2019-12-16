@@ -47,6 +47,18 @@ public class Transactions {
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 
+    public Transactions(){
+
+    }
+
+    public Transactions(Date date, int completed, int paymentMethod, Events event, User user){
+        this.Date = date;
+        this.Completed = completed;
+        this.PaymentMethod = paymentMethod;
+        this.event = event;
+        this.user = user;
+    }
+
     public int getId() {
         return Id;
     }
