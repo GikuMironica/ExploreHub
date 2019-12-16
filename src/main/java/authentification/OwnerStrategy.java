@@ -6,13 +6,19 @@ import models.Owner;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+/**
+ * Class part of the strategy pattern serving as a concrete strategy to login as Owner
+ *
+ * @author Gheorghe Mironica
+ */
 public class OwnerStrategy implements Strategy {
+
     private CurrentAccountSingleton currentAccount;
     private EntityManager entityManager;
     private AdminConnectionSingleton con;
 
     /**
-     * This method is validating the credentials and resets the current Account to the owner
+     * This method is validating the credentials and resets the current Account to owner
      * @param email this is username
      * @param pass this is the password
      */

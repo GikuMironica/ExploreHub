@@ -27,12 +27,12 @@ public class Excursion extends Events {
 
     /**
      * Custom Constructor
-     * @param date {@link Date}
-     * @param Price {@link Double}
-     * @param totalPlaces {@link Integer}
-     * @param availablePlaces {@link Integer}
-     * @param shortDescription {@link String}
-     * @param longDescription {@link String}
+     * @param date {@link Date} input param
+     * @param Price {@link Double} input param
+     * @param totalPlaces {@link Integer} input param
+     * @param availablePlaces {@link Integer} input param
+     * @param shortDescription {@link String} input param
+     * @param longDescription {@link String} input param
      */
     public Excursion(java.sql.Date date, Double Price, int totalPlaces, int availablePlaces, String shortDescription, String longDescription) {
         super(date, totalPlaces, availablePlaces, shortDescription, longDescription);

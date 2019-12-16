@@ -98,6 +98,9 @@ public class EventWindowController{
 
     }
 
+    /**
+     * Method which checks if current event is in users wishlist
+     */
     private void hasItInWishlist() {
         checkIfInWishlist();
         if(isBooked()){
@@ -184,7 +187,7 @@ public class EventWindowController{
      *
      * @return
      */
-    private boolean isAvailable() {
+    protected boolean isAvailable() {
         if(currentEvent.getAvailablePlaces()==0){
             book.setText("Booked Out");
             book.setDisable(true);
@@ -214,7 +217,7 @@ public class EventWindowController{
         }
     }
 
-    private void executeOnThread(){
+    protected void executeOnThread(){
         Thread t1 = new Thread(() -> {
             consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
             Platform.runLater(() -> considering.setText(consider+" Students added it to Wishlist"));
@@ -250,7 +253,7 @@ public class EventWindowController{
             return;
         }
     }
-    private boolean isBooked(){
+    protected boolean isBooked(){
         @SuppressWarnings("JpaQueryApiInspection")
         TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
         tq1.setParameter("id", currentEvent.getId());

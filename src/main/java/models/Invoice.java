@@ -39,10 +39,18 @@ public class Invoice {
     @JoinColumn(name="TransactionID")
     private Transactions TransactionID;
 
+    /**
+     * Default Contructor
+     */
     public Invoice(){
         // ctor
     }
 
+    /**
+     * Custom Constructor
+     *
+     * @param transaction {@link Transactions} as input parameter
+     */
     public Invoice(Transactions transaction){
         this.Customer = transaction.getUser().getLastname();
         this.EventDate = transaction.getDate();
