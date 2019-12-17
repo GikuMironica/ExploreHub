@@ -11,6 +11,8 @@ public class PostListViewCell extends ListCell<Post> {
             PostListElement postListElement = new PostListElement();
             postListElement.setPostElement(tlo);
             setGraphic(postListElement.getPostElement());
+        }else{
+            setGraphic(null);
         }
     }
 }

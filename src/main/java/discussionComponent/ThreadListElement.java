@@ -1,6 +1,7 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.time;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -53,8 +54,8 @@ public class ThreadListElement {
         threadTitle.setText(tlo.getThreadTitle());
         threadLastReplyAuthor.setText(tlo.getThreadLastPost().getAuthor().getFirstname() + " " + tlo.getThreadLastPost().getAuthor().getLastname().substring(0,1));
         threadResponseCount.setText(tq1.getSingleResult() + " Replies");
-        threadLastReplyDate.setText(tlo.getThreadLastPost().getPostTime());
-        threadStartedOn.setText("Started by " + tlo.getThreadAuthor().getFirstname() + " " + tlo.getThreadAuthor().getLastname().substring(0,1) + "., " +tlo.getThreadFirstPost().getPostTime());
+        threadLastReplyDate.setText(time.compareDate(tlo.getThreadLastPost().getPostTime()));
+        threadStartedOn.setText("Started by " + tlo.getThreadAuthor().getFirstname() + " " + tlo.getThreadAuthor().getLastname().substring(0,1) + "., " + time.compareDate(tlo.getThreadFirstPost().getPostTime()));
     }
 
     @FXML

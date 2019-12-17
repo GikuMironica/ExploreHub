@@ -28,7 +28,7 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "categoryID", nullable=false)
     private ForumCategory category;
 
@@ -44,8 +44,8 @@ public class Topic {
     @JoinColumn(name = "threadFirstPost")
     private Post threadFirstPost;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-    @JoinColumn(name = "threadLastPost")
+    @OneToOne(fetch = FetchType.LAZY,cascade= CascadeType.ALL)
+    @JoinColumn(name = "threadLastPost", nullable=true)
     private Post threadLastPost;
 
     @Basic(optional=false)

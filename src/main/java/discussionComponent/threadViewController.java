@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class threadViewController implements Initializable {
 
     private ObservableList observableList = FXCollections.observableArrayList();
-    private static List<Post> postListElementSet = new ArrayList<>();
+    private List<Post> postListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
     private UserConnectionSingleton con;
@@ -74,7 +74,7 @@ public class threadViewController implements Initializable {
     private Label threadTitle;
 
     @FXML
-    private ListView threadListView;
+    public static ListView threadListView;
 
     @FXML
     private void postReply() throws IOException {
@@ -90,7 +90,7 @@ public class threadViewController implements Initializable {
         threadViewAP.setVisible(false);
     }
 
-    public void apShow(){
+    private void apShow(){
         initPostListView();
         threadViewAP.setVisible(true);
     }

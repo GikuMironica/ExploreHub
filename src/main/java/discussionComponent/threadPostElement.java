@@ -1,10 +1,9 @@
 package discussionComponent;
 
+import handlers.time;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import models.Post;
@@ -36,7 +35,7 @@ public class threadPostElement {
     public void setElement(Post post) {
         posterName.setText(post.getAuthor().getFirstname() + " " + post.getAuthor().getLastname().substring(0,1));
         postContent.setText(post.getPostContent());
-        posted_time.setText(post.getPostTime());
+        posted_time.setText(time.compareDate(post.getPostTime()));
     }
 
     public AnchorPane getListElement() {

@@ -1,19 +1,30 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
+import authentification.UserConnectionSingleton;
 import com.sandec.mdfx.MDFXNode;
+import handlers.Convenience;
+import handlers.time;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import models.Admin;
 import models.Post;
+import models.Topic;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.Optional;
 
 public class PostListElement {
     @FXML
@@ -36,6 +47,8 @@ public class PostListElement {
     @FXML
     private Button btnEdit;
 
+    private EntityManager em = UserConnectionSingleton.getInstance().getManager();
+
 
     public PostListElement(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/postObject.fxml"));
@@ -57,9 +70,39 @@ public class PostListElement {
         MDFXNode mdfxNode = new MDFXNode(p.getPostContent());
         mdfxNode.getStylesheets().add("/Styles/post.css");
         postAP.getChildren().add(mdfxNode);
-        posted_time.setText(p.getPostTime());
+        posted_time.setText(time.compareDate(p.getPostTime()));
         posterName.setText(p.getAuthor().getFirstname());
         author_image.setImage(new Image(p.getAuthor().getPicture()));
+        btnDelete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                deletePost(p);
+            }
+        });
+    }
+
+    private void deletePost(Post p){
+        Optional<ButtonType> a = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION, "Delete Post", "Delete Post Confirmation",
+                "Are you sure you would like to delete this post? This action cannot be undone.");
+        if(a.isPresent() && a.get() == ButtonType.OK){
+            em.getTransaction().begin();
+            Topic t = p.getTopic();
+            Query query = em.createQuery(
+                    "DELETE FROM Post p WHERE p.Id = :pid");
+            int deletedCount = query.setParameter("pid", p.getPostID()).executeUpdate();
+
+            Query q = em.createQuery("SELECT MAX(p.Id) FROM Post p WHERE p.topic = :tid");
+            q.setParameter("tid", t);
+            int lastPost = (Integer) q.getSingleResult();
+
+            TypedQuery<Post> qp = em.createNamedQuery("Post.getPostById", Post.class);
+            qp.setParameter("pid", lastPost);
+            t.setThreadLastPost(qp.getSingleResult());
+
+            em.getTransaction().commit();
+
+            threadViewController.threadListView.getItems().remove(p);
+        }
     }
 
     public AnchorPane getPostElement(){

@@ -72,6 +72,9 @@ public class discussionController implements Initializable {
             TypedQuery<ForumCategory> tq1 = entityManager.createNamedQuery("ForumCategory.getCategories", ForumCategory.class);
             tq1.setParameter("fname", ((User) user).getCourse().getName());
             tempList = tq1.getResultList();
+            tq1 = entityManager.createNamedQuery("ForumCategory.getCat", ForumCategory.class);
+            tq1.setParameter("sid", user);
+            tempList.addAll(tq1.getResultList());
         }else if(user instanceof Admin){
             TypedQuery<ForumCategory> tq1 = entityManager.createNamedQuery("ForumCategory._getCategories", ForumCategory.class);
             tempList = tq1.getResultList();
