@@ -3,3 +3,5 @@ out/
 target/
 iExplore.iml
 SQLiteCurrentUserDB.db
+config.ini
+ExploreHub.iml

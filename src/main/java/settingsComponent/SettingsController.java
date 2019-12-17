@@ -13,6 +13,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mainUI.MainStackPane;
 import models.Account;
 
 import javax.persistence.EntityManager;
@@ -49,7 +50,8 @@ public class SettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentAccount = CurrentAccountSingleton.getInstance().getAccount();
 
-        Image profileImage = new Image("/IMG/icon-account.png");
+        String profileImageURL = currentAccount.getPicture();
+        Image profileImage = new Image(profileImageURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
         firstNameField.setText(currentAccount.getFirstname());
@@ -66,7 +68,7 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleChangePasswordClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent,
+            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
                     getClass().getResource("/FXML/change_password.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
@@ -159,12 +161,8 @@ public class SettingsController implements Initializable {
         );
 
         if (response.isPresent() && response.get() == ButtonType.YES) {
-            try {
-                Convenience.switchScene(profilePhotoCircle, getClass().getResource("/FXML/mainUI.fxml"));
-            } catch (IOException e) {
-                Convenience.showAlert(Alert.AlertType.ERROR,
-                        "Error", "Something went wrong", "Please, try again later");
-            }
+            Convenience.closePreviousDialog();
+//            Convenience.switchScene(profilePhotoCircle, getClass().getResource("/FXML/mainUI.fxml"));
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,10 +8,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="200.0" style="-fx-background-color: #d3d3d3;" translateX="800" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
+<AnchorPane fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="200.0" translateX="780" style="-fx-background-color: #d3d3d3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#handleCloseClicked" style="-fx-cursor: hand;" text="Close" />
-      <VBox alignment="CENTER" layoutY="39.0" prefHeight="172.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="272.0">
+      <VBox alignment="CENTER" prefHeight="172.0" prefWidth="200.0" spacing="15.0">
          <children>
             <Circle fx:id="profilePhotoCircle" fill="WHITE" radius="50.0" stroke="#a8a8a8" strokeType="INSIDE" />
             <Label fx:id="usernameLabel" text="Username">
@@ -21,38 +20,48 @@
             <Separator prefWidth="200.0" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutY="208.0" prefHeight="275.0" prefWidth="200.0" spacing="15.0">
+      <VBox alignment="CENTER" layoutY="172.0" prefHeight="311.0" prefWidth="200.0">
          <children>
-            <Label onMouseClicked="#handleWishlistClicked" style="-fx-cursor: hand;" text="Wishlist">
+            <JFXButton focusTraversable="false" onMouseClicked="#handleWishlistClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Wishlist">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
-            <Label onMouseClicked="#handleSettingsClicked" style="-fx-cursor: hand;" text="Settings">
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleBookingHistoryClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Booking History">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
-            <Label onMouseClicked="#handleFAQClicked" style="-fx-cursor: hand;" text="FAQ">
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleSettingsClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Settings">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
-            <Label onMouseClicked="#handleAboutClicked" style="-fx-cursor: hand;" text="About">
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleFAQClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="FAQ">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
-            <Label onMouseClicked="#handleFeedbackClicked" style="-fx-cursor: hand;" text="Feedback">
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleAboutClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="About">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
-            <Label onMouseClicked="#handleLogOutClicked" style="-fx-cursor: hand;" text="Log out">
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleSupportClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Support">
                <font>
                   <Font size="16.0" />
                </font>
-            </Label>
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleFeedbackClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Feedback">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton focusTraversable="false" onMouseClicked="#handleLogOutClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Log out">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
          </children>
       </VBox>
    </children>

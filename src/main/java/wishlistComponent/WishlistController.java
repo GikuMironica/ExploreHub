@@ -2,6 +2,7 @@ package wishlistComponent;
 
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import handlers.Convenience;
 import javafx.collections.FXCollections;
@@ -10,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import models.Account;
 import models.Events;
 
@@ -58,6 +61,8 @@ public class WishlistController implements Initializable {
 
         try {
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/booking.fxml"));
+            Stage stage = (Stage) bookSelectedButton.getScene().getWindow();
+            stage.close();
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -71,7 +76,7 @@ public class WishlistController implements Initializable {
      * @param mouseEvent - the event that triggered the method
      */
     @FXML
-    private void handleWishlistClicked(MouseEvent mouseEvent) {
+    private void handleWishlistPressed(MouseEvent mouseEvent) {
         boolean nothingSelected = wishListView.getSelectionModel().getSelectedItems().isEmpty();
         bookSelectedButton.setDisable(nothingSelected);
     }

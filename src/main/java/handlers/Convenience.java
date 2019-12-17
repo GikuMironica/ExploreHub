@@ -1,5 +1,7 @@
 package handlers;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -21,6 +27,8 @@ import java.util.Optional;
  * @author Hidayat Rzayev
  */
 public final class Convenience {
+
+    private static JFXDialog previousDialog;
 
     /**
      * Switches the current scene to the specified scene.
@@ -139,35 +147,24 @@ public final class Convenience {
     /**
      * Pops up a new dialog window with a custom content.
      *
-     * @param owner - window on which the dialog should appear
-     * @param dialogResource - content of the dialog window
-     * @param title - title of the dialog window
+     * @param stackPane - pane on which the dialog should appear
+     * @param dialogResource - content of the dialog windowss
      * @throws IOException - may be thrown if the dialog could not be loaded
      */
-    public static void popupDialog(Window owner, URL dialogResource, String title) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(dialogResource);
+    public static void popupDialog(StackPane stackPane, URL dialogResource) throws IOException {
+        closePreviousDialog();
 
-        Dialog dialog = new Dialog();
-        dialog.setTitle(title);
-        dialog.initOwner(owner);
-        dialog.getDialogPane().setContent(loader.load());
-
-        Window dialogWindow = dialog.getDialogPane().getScene().getWindow();
-        dialogWindow.setOnCloseRequest(event -> dialogWindow.hide());
-        dialog.showAndWait();
+        Parent parent = FXMLLoader.load(dialogResource);
+        JFXDialogLayout dialogLayout = new JFXDialogLayout();
+        dialogLayout.setBody(parent);
+        JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
+        previousDialog = dialog;
+        dialog.show();
     }
 
-    /**
-     * Pops up a new dialog window after some kind of event.
-     * Calls the {@link #popupDialog(Window, URL, String)} method by passing the event's window to it.
-     *
-     * @param event - event that triggered the dialog to popup
-     * @param dialogResource - content of the dialog window
-     * @param title - title of the dialog window
-     * @throws IOException - may be thrown if the dialog could not be loaded
-     */
-    public static void popupDialog(Event event, URL dialogResource, String title) throws IOException {
-        popupDialog(getWindow(event), dialogResource, title);
+    public static void closePreviousDialog() {
+        if (previousDialog != null) {
+            previousDialog.close();
+        }
     }
 }

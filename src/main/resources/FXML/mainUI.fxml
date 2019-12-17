@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <?import javafx.scene.layout.HBox?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="982.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <VBox prefHeight="495.0" prefWidth="196.0" BorderPane.alignment="CENTER">
-          <children>
-              <fx:include source="/FXML/filter.fxml" />
-          </children>
-          <children>
-              <fx:include fx:id="mapLayout" source="/FXML/map.fxml" />
-          </children>
-         <BorderPane.margin>
-            <Insets top="10.0" />
-         </BorderPane.margin>
-      </VBox>
-   </left>
-   <center>
-      <VBox fx:id="mainBox" prefHeight="483.0" prefWidth="576.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="67.0" prefWidth="577.0">
-                <fx:include source="/FXML/navbar.fxml" />
-            </HBox>
-         </children>
-          <children>
-              <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
-          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </VBox>
-   </center>
-</BorderPane>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="982.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
+    <BorderPane fx:id="mainBorderPane"  onMousePressed="#handleMainUiPressed" >
+       <left>
+          <VBox prefHeight="495.0" prefWidth="196.0" BorderPane.alignment="CENTER">
+              <children>
+                  <fx:include source="/FXML/filter.fxml" />
+              </children>
+              <children>
+                  <fx:include fx:id="mapLayout" source="/FXML/map.fxml" />
+              </children>
+             <BorderPane.margin>
+                <Insets top="10.0" />
+             </BorderPane.margin>
+          </VBox>
+       </left>
+       <center>
+          <VBox fx:id="mainBox" prefHeight="483.0" prefWidth="576.0" BorderPane.alignment="CENTER">
+             <children>
+                <HBox prefHeight="67.0" prefWidth="577.0">
+                    <fx:include source="/FXML/navbar.fxml" />
+                </HBox>
+             </children>
+              <children>
+                  <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
+              </children>
+             <BorderPane.margin>
+                <Insets />
+             </BorderPane.margin>
+          </VBox>
+       </center>
+    </BorderPane>
+</StackPane>

@@ -2,6 +2,7 @@ package wishlistComponent;
 
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListCell;
+import handlers.CacheSingleton;
 import handlers.Convenience;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,18 +81,27 @@ public class WishlistCellController extends JFXListCell<Events> {
      */
     private void addContent(Events event) {
         EntityManager entityManager = currentAccount.getConnection();
+        CacheSingleton cache = CacheSingleton.getInstance();
 
         eventId = event.getId();
-        String logoURL = entityManager.find(Pictures.class, eventId).getLogo();
-        String city = entityManager.find(Location.class, eventId).getCity();
 
-        Image eventLogo = new Image(logoURL);
+        Image eventLogo;
+        if (cache.containsImage(eventId)) {
+            eventLogo = cache.getImage(eventId);
+        } else {
+            String logoURL = event.getPicture().getLogo();
+            eventLogo = new Image(logoURL);
+            cache.putImage(eventId, eventLogo);
+        }
         logoImageView.setImage(eventLogo);
+
+        String city = event.getLocation().getCity();
 
         titleLabel.setText(event.getShortDescription());
         locationLabel.setText(city);
         priceLabel.setText(event.getPrice().toString() + "€");
 
+        setText(null);
         setGraphic(wishlistCellAnchorPane);
     }
 

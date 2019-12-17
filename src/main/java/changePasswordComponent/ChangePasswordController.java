@@ -2,6 +2,7 @@ package changePasswordComponent;
 
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import mainUI.MainStackPane;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -49,7 +50,11 @@ public class ChangePasswordController implements Initializable {
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
+//            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+//            window.close();
+            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
+                    getClass().getResource("/FXML/settings.fxml"));
+//            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -71,7 +76,7 @@ public class ChangePasswordController implements Initializable {
         entityManager.getTransaction().begin();
         currentAccount.setPassword(newPassword);
         entityManager.getTransaction().commit();
-        showSuccess();
+        showSuccess(mouseEvent);
     }
 
     /**
@@ -154,12 +159,16 @@ public class ChangePasswordController implements Initializable {
      * Shows the dialog message to the user saying that the password has been successfully changed.
      * Once the user clicks the "OK" button, the homepage will be loaded.
      */
-    private void showSuccess() {
+    private void showSuccess(MouseEvent mouseEvent) {
         Convenience.showAlert(Alert.AlertType.INFORMATION,
                 "Information", "Password changed successfully", "Press OK to continue");
 
         try {
-            Convenience.switchScene(applyButton, getClass().getResource("/FXML/mainUI.fxml"));
+//            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+//            window.close();
+            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
+                    getClass().getResource("/FXML/settings.fxml"));
+//            Convenience.switchScene(applyButton, getClass().getResource("/FXML/mainUI.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");

@@ -2,18 +2,20 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import javafx.scene.control.DialogPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wishlistComponent.WishlistController">
-   <content>
-      <JFXListView fx:id="wishListView" focusTraversable="false" onMouseClicked="#handleWishlistClicked" />
-   </content>
-   <header>
-      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wishlistComponent.WishlistController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
          <children>
-            <JFXButton fx:id="bookSelectedButton" buttonType="RAISED" disable="true" onMouseClicked="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book selected" textFill="WHITE" />
+            <JFXButton fx:id="bookSelectedButton" buttonType="RAISED" disable="true" onAction="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book Selected" textFill="WHITE" />
          </children>
       </HBox>
-   </header>
-</DialogPane>
+      <JFXListView fx:id="wishListView" onMousePressed="#handleWishlistPressed" />
+   </children>
+</VBox>
