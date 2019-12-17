@@ -34,7 +34,6 @@ public class threadViewController implements Initializable {
     private List<Post> postListElementSet = new ArrayList<>();
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
-    private UserConnectionSingleton con;
     private EntityManager entityManager;
 
     @Override

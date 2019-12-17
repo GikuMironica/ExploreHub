@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
@@ -17,7 +18,7 @@ public class Post {
 
     public Post(Account postAuthor, String postContent, String postTime){
         this.postAuthor = postAuthor;
-        this.postContent = postContent;
+        this.postContent = postContent.getBytes();
         this.postTime = postTime;
         this.postLastEdited = postTime;
     }
@@ -35,7 +36,7 @@ public class Post {
     private Account postAuthor;
 
     @Basic(optional = false)
-    private String postContent;
+    private byte[] postContent;
 
     @Basic(optional = false)
     private String postTime;
@@ -64,12 +65,11 @@ public class Post {
         this.postAuthor = author;
     }
 
-    public String getPostContent() {
-        return postContent;
+    public String getPostContent() {  return new String(postContent, StandardCharsets.UTF_8);
     }
 
     public void setPostContent(String postContent) {
-        this.postContent = postContent;
+        this.postContent = postContent.getBytes();
     }
 
     public String getPostTime() {

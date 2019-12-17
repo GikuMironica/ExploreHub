@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
@@ -18,7 +19,7 @@ public class Topic {
 
     public Topic(ForumCategory category, String threadTitle, Account threadAuthor, int threadLocked, int threadType) {
         this.category = category;
-        this.threadTitle = threadTitle;
+        this.threadTitle = threadTitle.getBytes();
         this.threadAuthor = threadAuthor;
         this.threadLocked = threadLocked;
         this.threadType = threadType;
@@ -34,7 +35,7 @@ public class Topic {
 
 
     @Basic(optional=false)
-    private String threadTitle;
+    private byte[] threadTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "threadAuthor", nullable=false)
@@ -63,11 +64,11 @@ public class Topic {
     }
 
     public String getThreadTitle() {
-        return threadTitle;
+        return new String(threadTitle, StandardCharsets.UTF_8);
     }
 
     public void setThreadTitle(String threadTitle) {
-        this.threadTitle = threadTitle;
+        this.threadTitle = threadTitle.getBytes();
     }
 
     public Account getThreadAuthor() {

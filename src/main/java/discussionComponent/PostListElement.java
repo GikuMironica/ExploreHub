@@ -1,7 +1,6 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import com.sandec.mdfx.MDFXNode;
 import handlers.Convenience;
 import handlers.time;
@@ -47,7 +46,7 @@ public class PostListElement {
     @FXML
     private Button btnEdit;
 
-    private EntityManager em = UserConnectionSingleton.getInstance().getManager();
+    private EntityManager em = CurrentAccountSingleton.getInstance().getAccount().getConnection();
 
 
     public PostListElement(){
@@ -98,6 +97,7 @@ public class PostListElement {
             TypedQuery<Post> qp = em.createNamedQuery("Post.getPostById", Post.class);
             qp.setParameter("pid", lastPost);
             t.setThreadLastPost(qp.getSingleResult());
+            em.merge(t);
 
             em.getTransaction().commit();
 
