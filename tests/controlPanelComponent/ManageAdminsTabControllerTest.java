@@ -75,24 +75,6 @@ public class ManageAdminsTabControllerTest {
     }
 
     /**
-     * Test method for the isFormInvalid method,
-     * It checks if the fields are being validated properly by passing in random
-     * Strings as input parameters for firsname, lastname, email
-     */
-    @Test
-    public void isFormInvalid() {
-        boolean ok;
-        Faker faker = new Faker();
-
-        String firstname = faker.name().firstName();
-        String lastname = faker.name().lastName();
-        String email = EMAIL;
-
-        ok = !adminsTabController.isFormInvalid(firstname,lastname,email);
-        assertTrue(ok);
-    }
-
-    /**
      * Test method for the generateString method,
      * It checks, validates the method which is suppose to generate unique string,
      * using the PC UUID

@@ -93,7 +93,6 @@ public class FilterSingletonTest {
     public void getBackup() {
         ObservableList<Events> list = filter.getBackup();
         assertTrue(list.size() > 0);
-        assertEquals("BMW", list.get(0).getCompany());
     }
 
     @Test

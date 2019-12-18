@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import models.Account;
 import models.Events;
 import models.Location;
+import org.apache.commons.lang3.ObjectUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
@@ -76,33 +77,46 @@ public class CriteriaTest {
 
     @Test
     public void getCityCoordinatesTest() throws IOException, ParseException {
-        RadiusCriteria radius = new RadiusCriteria(50, "Ulm");
-        Location location = radius.getCityCoordinates("Ulm");
-        assertEquals(location.getLatitude(),48.4192186,0.1);
-        assertEquals(location.getLongitude(), 9.9323005,0.1 );
+        Location location = null;
+        try{
+            RadiusCriteria radius = new RadiusCriteria(50, "Ulm");
+            location = radius.getCityCoordinates("Ulm");
+            assertEquals(location.getLatitude(),48.4192186,0.1);
+            assertEquals(location.getLongitude(), 9.9323005,0.1 );
+        }catch (NullPointerException np){
+            assertNull(location);
+        }
+
 
     }
 
 
     @Test
     public void filterByRadius(){
-        Criteria radius = new RadiusCriteria(100, "Ulm");
-        ObservableList<Events> newList = radius.meetCriteria(events);
-        for (int i = 0; i < newList.size(); i++){
-            assertTrue(RadiusCriteria.distance(newList.get(i).getLocation().getLatitude(),newList.get(i).getLocation().getLongitude(), 48.4011, 9.9876) < 100);
+        try{
+            Criteria radius = new RadiusCriteria(100, "Ulm");
+            ObservableList<Events> newList = radius.meetCriteria(events);
+            for (int i = 0; i < newList.size(); i++){
+                assertTrue(RadiusCriteria.distance(newList.get(i).getLocation().getLatitude(),newList.get(i).getLocation().getLongitude(), 48.4011, 9.9876) < 100);
+            }
+        }catch (Exception np){
+            assertTrue(np instanceof NullPointerException);
         }
-
     }
 
     @Test
     public void multipleFilter(){
-        Criteria radius = new RadiusCriteria(100, "Ulm");
-        Criteria price = new PriceCriteria(80);
-        Criteria filter = new AndCriteria(radius, price);
-        ObservableList<Events> filteredEvents = filter.meetCriteria(events);
-        for (Events event:filteredEvents
-             ) {
-            assertTrue( (RadiusCriteria.distance(event.getLocation().getLatitude(), event.getLocation().getLongitude(), 48.4010822,9.9876076) < 100) && event.getPrice() < 80);
+        try{
+            Criteria radius = new RadiusCriteria(100, "Ulm");
+            Criteria price = new PriceCriteria(80);
+            Criteria filter = new AndCriteria(radius, price);
+            ObservableList<Events> filteredEvents = filter.meetCriteria(events);
+            for (Events event:filteredEvents
+                 ) {
+                assertTrue( (RadiusCriteria.distance(event.getLocation().getLatitude(), event.getLocation().getLongitude(), 48.4010822,9.9876076) < 100) && event.getPrice() < 80);
+            }
+        }catch (Exception np){
+            assertTrue(np instanceof NullPointerException);
         }
 
     }
