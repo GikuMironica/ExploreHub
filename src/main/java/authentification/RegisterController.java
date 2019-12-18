@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.Account;
 import models.Courses;
 import models.User;
 
@@ -27,6 +28,7 @@ import java.util.ResourceBundle;
  *Class that handles the registration process
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class RegisterController implements Initializable  {
     @FXML
     private TextField firstNameField, lastNameField, emailField;
@@ -73,7 +75,7 @@ public class RegisterController implements Initializable  {
 
         Courses course = fetchCourse();
 
-        if(!validateFields(firstName, lastName, email, password))
+        if(isFormInvalid(firstName, lastName, email, password))
             return;
 
         // Everything Valid, persist new user
@@ -101,6 +103,22 @@ public class RegisterController implements Initializable  {
         window.show();
     }
 
+    private Boolean isFormInvalid(String firstName, String lastName, String email, String password){
+        TypedQuery<Account> tqa = entityManager.createNamedQuery("Account.findAccountByEmail", Account.class);
+        tqa.setParameter("email",email);
+        try{
+            Account akk = tqa.getSingleResult();
+            if (!(akk == null)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "This user already exists");
+                alert.showAndWait();
+                return true;
+            }
+        }catch(Exception e){
+            // account doesnt exit, continue
+        }
+
+        return validateFields(firstName, lastName, email, password);
+    }
 
     /**
      * Method that validates the input text fields
@@ -138,7 +156,7 @@ public class RegisterController implements Initializable  {
             passwordField.setPromptText("Input a password");
             ok = false;
         }
-        return ok;
+        return !ok;
     }
 
     /**

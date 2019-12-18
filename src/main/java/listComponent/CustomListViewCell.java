@@ -74,51 +74,52 @@ public class CustomListViewCell extends JFXListCell<Events> {
 //                        "Error", "Something went wrong", "Please, try again later");
             }
 
-            try {
-                CacheSingleton cache = CacheSingleton.getInstance();
 
-                if (cache.containsEventInWishlist(id) && cache.isEventInWishlist(id)) {
-                    wishlistButton.setText("Wishlist --");
-                } else if (cache.containsEventInWishlist(id) && !cache.isEventInWishlist(id)) {
-                    wishlistButton.setText("Wishlist ++");
-                } else {
-                    boolean inWishlist = account.getEvents().contains(event);
-                    if (inWishlist) {
-                        wishlistButton.setText("Wishlist --");
-                    } else {
-                        wishlistButton.setText("Wishlist ++");
-                    }
-                    cache.putEventInWishlist(id, inWishlist);
-                }
-
-                if (account instanceof Admin) {
-                    wishlistButton.setDisable(true);
-                }
-
-                if (!(account instanceof Admin)) {
-                    if (cache.containsEventBooked(id) && cache.isEventBooked(id)) {
-                        wishlistButton.setDisable(true);
-                    } else if (cache.containsEventBooked((id)) && !cache.isEventBooked(id)) {
-                        wishlistButton.setDisable(false);
-                    } else {
-                        boolean isBooked = isBooked();
-                        wishlistButton.setDisable(isBooked);
-                        cache.putEventBooked(id, isBooked);
-                    }
-                }
-
-
-//                checkIfInWishlist();
-//                if(isBooked()|| account instanceof Admin) {
-//                    wishlistButton.setDisable(true);
-//                } else{
-//                    wishlistButton.setDisable(false);
+//            try {
+                 CacheSingleton cache = CacheSingleton.getInstance();
+//
+//                if (cache.containsEventInWishlist(id) && cache.isEventInWishlist(id)) {
+//                    wishlistButton.setText("Wishlist --");
+//                } else if (cache.containsEventInWishlist(id) && !cache.isEventInWishlist(id)) {
+//                    wishlistButton.setText("Wishlist ++");
+//                } else {
+//                    boolean inWishlist = account.getEvents().contains(event);
+//                    if (inWishlist) {
+//                        wishlistButton.setText("Wishlist --");
+//                    } else {
+//                        wishlistButton.setText("Wishlist ++");
+//                    }
+//                    cache.putEventInWishlist(id, inWishlist);
 //                }
+//
+//                if (account instanceof Admin) {
+//                    wishlistButton.setDisable(true);
+//                }
+
+             //   if (!(account instanceof Admin)) {
+            //       if (cache.containsEventBooked(id) && cache.isEventBooked(id)) {
+            //            wishlistButton.setDisable(true);
+            //        } else if (cache.containsEventBooked((id)) && !cache.isEventBooked(id)) {
+            //            wishlistButton.setDisable(false);
+            //        } else {
+            //           boolean isBooked = isBooked();
+            //            wishlistButton.setDisable(isBooked);
+            //            cache.putEventBooked(id, isBooked);
+             //       }
+             //   }
+
+            try{
+                checkIfInWishlist();
+                if(isBooked()|| account instanceof Admin) {
+                    wishlistButton.setDisable(true);
+                } else{
+                    wishlistButton.setDisable(false);
+                }
 
                 if (cache.containsImage(id)) {
                     image = cache.getImage(id);
                 } else {
-                    imageURL = entityManager.find(Pictures.class, id).getLogo();
+                    imageURL = currentEvent.getPicture().getLogo();
                     image = new Image(imageURL);
                     cache.putImage(id, image);
                 }
@@ -128,15 +129,12 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 cellLogo.setFitHeight(120);
                 cellLogo.setFitWidth(120);
             } catch (Exception e) {
-                e.printStackTrace();
-                Convenience.showAlert(Alert.AlertType.ERROR,
-                        "Error", "Something went wrong", "Please, try again later");
+              //  Convenience.showAlert(Alert.AlertType.ERROR,
+              //          "Error", "Something went wrong", "Please, try again later");
+                image = new Image("/IMG/quest.png");
+                cellLogo.setImage(image);
             }
 
-            //catch () {
-//                image = new Image("/IMG/quest.png");
-//                cellLogo.setImage(image);
-//            }
             descriptionLabel.setText(event.getShortDescription());
             locationLabel.setText(city);
             availableLabel.setText(String.valueOf(event.getAvailablePlaces()));
@@ -170,27 +168,26 @@ public class CustomListViewCell extends JFXListCell<Events> {
                     entityManager.merge(account);
                     entityManager.getTransaction().commit();
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
                 }
             });
 
             merge.start();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }
     }
 
-    protected boolean isInWishlist() {
-//        List<Events> l1 = account.getEvents();
-        return account.checkEventPresence(entityManager, currentEvent.getId());
-//        if (ok){
-//            wishlistButton.setText("Wishlist --");
-//        } else{
-//            wishlistButton.setText("Wishlist ++");
-//        }
+    protected void checkIfInWishlist(){
+        List<Events> l1 = account.getEvents();
+//        return account.checkEventPresence(entityManager, currentEvent.getId());
+        boolean ok = account.checkEventPresence(entityManager, currentEvent.getId());
+        if (ok){
+            wishlistButton.setText("Wishlist --");
+        } else{
+            wishlistButton.setText("Wishlist ++");
+        }
     }
 
     private boolean isBooked() {

@@ -34,6 +34,7 @@ import java.util.UUID;
  *
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class ManageAdminsTabController{
 
     @FXML
@@ -43,14 +44,14 @@ public class ManageAdminsTabController{
     @FXML
     private String imageURL;
     @FXML
-    private JFXButton uploadButton, deleteAdminButton;
+    private JFXButton uploadButton, deleteAdminButton, createAdminButton;
     @FXML
     private JFXListView<Admin> adminListView;
     private ObservableList<Admin> adminObservableList;
     private EntityManager entityManager;
     private Account account;
     private String NAME_PATTERN = "^[a-zA-Z]*$";
-    private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$";
+    private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@hs-ulm\\.(de)$";
     private String ADMIN_CREATED_MESSAGE = "Admin account was successfully created";
     private String PASSWORD_GENERATED = "Random password was generated, sent over email";
     private Admin selectedAdmin;
@@ -61,7 +62,7 @@ public class ManageAdminsTabController{
     @SuppressWarnings("JpaQueryApiInspection")
     public void initialize() {
         try{
-            imageURL = null;
+            imageURL = "/IMG/icon-account.png";
             account = CurrentAccountSingleton.getInstance().getAccount();
             entityManager = account.getConnection();
             if(selectedAdmin == null){
@@ -76,7 +77,7 @@ public class ManageAdminsTabController{
             adminListView.setCellFactory(customListViewCell -> new AdminCellController());
 
         }catch(Exception e){
-            e.printStackTrace();
+
 
         }
 
@@ -160,7 +161,6 @@ public class ManageAdminsTabController{
 
             if(file!=null){
                 uploadButton.setText("Image Loaded");
-                uploadButton.setStyle("-fx-text-fill: green;");
                 image = new Image(file.toURI().toString());
                 adminPicture.setImage(image);
 
@@ -186,6 +186,9 @@ public class ManageAdminsTabController{
             lastnameText.setText(selectedAdmin.getLastname());
             emailText.setText(selectedAdmin.getEmail());
             adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+            adminPicture.setFitHeight(111);
+            adminPicture.setFitWidth(111);
+            createAdminButton.setDisable(true);
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -202,6 +205,8 @@ public class ManageAdminsTabController{
         emailText.clear();
         Image tempImage = new Image("/IMG/icon-account.png");
         adminPicture.setImage(tempImage);
+        createAdminButton.setDisable(false);
+        uploadButton.setText("Upload Picture");
     }
 
     /**
@@ -231,6 +236,19 @@ public class ManageAdminsTabController{
      * @return
      */
     protected boolean isFormInvalid(String firstname, String lastname, String email) {
+        TypedQuery<Account> tqa = entityManager.createNamedQuery("Account.findAccountByEmail", Account.class);
+        tqa.setParameter("email",email);
+        try{
+            Account akk = tqa.getSingleResult();
+            if (!(akk == null)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "This Account already exists");
+                alert.showAndWait();
+                return true;
+            }
+        }catch(Exception e){
+            // account doesnt exit, continue
+        }
+
         return !areFieldsValid(firstname, lastname, email);
     }
 
@@ -297,14 +315,13 @@ public class ManageAdminsTabController{
 
     /**
      * This method switches scene to the main
-     * @param e {@link Events} Mouse click as input
+     * @param e {@link Event} Mouse click as input
      */
     @FXML
     private void goHome(Event e){
         try{
             Convenience.switchScene(e, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
-            ex.printStackTrace();
         }
     }
 }

@@ -6,7 +6,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @SuppressWarnings("JpaQlInspection")
-@NamedQuery(name= "Account.determineAccess", query = "SELECT u.Access FROM Account u WHERE u.Email = :email AND u.Password = :password")
+@NamedQueries({
+        @NamedQuery(name = "Account.determineAccess", query = "SELECT u.Access FROM Account u WHERE u.Email = :email AND u.Password = :password"),
+        @NamedQuery(name = "Account.findAccountByEmail", query = "SELECT a FROM Account a WHERE a.Email =:email")
+})
 
 @Entity
 @Table(name="users")

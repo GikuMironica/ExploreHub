@@ -38,7 +38,7 @@ public class UploadImage {
     /**
      * Uploads the images to imgur and returns the link
      *
-     * @throws Exception
+     * @throws Exception IO exception
      * @return URL String
      */
     public String upload() throws Exception {
@@ -92,6 +92,7 @@ public class UploadImage {
             return stb;
 
         } catch(Exception e){
+            e.printStackTrace();
             return stb;
         }
     }
@@ -111,7 +112,7 @@ public class UploadImage {
             conn.connect();
 
         }catch(Exception e){
-            //
+            e.printStackTrace();
         }
     }
 

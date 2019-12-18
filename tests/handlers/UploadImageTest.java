@@ -63,6 +63,7 @@ class UploadImageTest{
         try {
             String imageURL;
             imageURL = uploadImage.upload();
+            System.out.println(imageURL);
             assertTrue(imageURL.matches(IMGUR_PATTERN));
             assertFalse(img==null);
         } catch (Exception e) {
