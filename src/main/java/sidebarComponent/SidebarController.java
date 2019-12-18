@@ -3,6 +3,7 @@ package sidebarComponent;
 import authentification.CurrentAccountSingleton;
 import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
+import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import mainUI.MainStackPane;
 import javafx.animation.TranslateTransition;
@@ -17,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import models.Admin;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +40,10 @@ public class SidebarController implements Initializable {
     @FXML
     private Circle profilePhotoCircle;
 
+    @FXML
+    private JFXButton feedbackBtn;
+
+
     private boolean hidden = true;
 
     @Override
@@ -51,6 +57,9 @@ public class SidebarController implements Initializable {
         usernameLabel.setText(accountFirstName + " " + accountLastName);
         Image profileImage = new Image(profilePhotoURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
+
+        if (currentAccount.getAccount() instanceof Admin)
+            feedbackBtn.setVisible(false);
     }
 
     /**

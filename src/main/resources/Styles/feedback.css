@@ -1,0 +1,18 @@
+.feedbackButtons{
+    -fx-background-color: #0084AD;
+    -fx-text-fill: #F2F7F9;
+    -fx-text-alignment: center;
+}
+
+#feedbackText{
+    -fx-background-color: #F2F7F9;
+    /* -fx-border-color: #000022; */
+}
+
+.rating > .container > .button {
+    -fx-background-image: url("../IMG/bewertung-star-not-selected.png");
+}
+
+.rating > .container > .button.strong {
+    -fx-background-image: url("../IMG/bewertung-star-selected.png");
+}

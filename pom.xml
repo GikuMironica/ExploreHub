@@ -198,6 +198,12 @@
             <artifactId>ini4j</artifactId>
             <version>0.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.1</version>
+        </dependency>
+
 
     </dependencies>
 

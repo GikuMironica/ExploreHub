@@ -1,84 +1,76 @@
 package models;
 
+import models.Account;
+import models.User;
+
 import javax.persistence.*;
 
-/**
- * Model class which encapsulates the data of the Feedback entity and the logic to manage it
- *
- * @author Gheorghe Mironica
- */
-@SuppressWarnings("ALL")
-@NamedQueries({
-        @NamedQuery(name="Feedback.findAllFeedbacks", query="SELECT f FROM Feedback f")
-})
 
 @Entity
-@Table(name="feedback")
-public class Feedback {
+@Table(name = "feedback")
 
+public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-
+    @Column(name = "ID", nullable = false)
+    private Integer feedbackID;
+    @Column(name = "Rating", nullable = false)
+    private Double ratingScore;
+    @Column(name = "Message", length = 250)
+    private String ratingDescription;
+    /*
+     * Mapping goes here
+     */
     @OneToOne
     @JoinColumn(name="UserID")
-    private Account account;
+    private Account UserID;
 
-    @Basic(optional = false)
-    private int Rating;
-
-    @Basic(optional = false)
-    private String Message;
-
-    /**
-     * default constructor
+    /*
+     * Constructor goes here
      */
-    public Feedback(){
-        // ctor
+
+    public Feedback(Double ratingScore, String ratingDescription, Account userID) {
+        this.ratingScore = ratingScore;
+        this.ratingDescription = ratingDescription;
+        UserID = userID;
     }
 
-    /**
-     * Overloaded costructor
-     *
-     * @param akk The user who posted the feedback {@link Account}
-     * @param rating The given rating 1-5 {@link Integer}
-     * @param message The message {@link String}
+    public Feedback() {
+    }
+
+    /*
+     * Getters and Setters
      */
-    public Feedback(Account akk, int rating, String message){
-        this.account = akk;
-        this.Rating = rating;
-        this.Message = message;
+
+    public Integer getFeedbackID() {
+        return feedbackID;
     }
 
-    public int getId() {
-        return Id;
+    public void setFeedbackID(Integer feedbackID) {
+        this.feedbackID = feedbackID;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public Double getRatingScore() {
+        return ratingScore;
     }
 
-    public Account getAccount() {
-        return account;
+    public void setRatingScore(Double ratingScore) {
+        this.ratingScore = ratingScore;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public String getRatingDescription() {
+        return ratingDescription;
     }
 
-    public int getRating() {
-        return Rating;
+    public void setRatingDescription(String ratingDescription) {
+        this.ratingDescription = ratingDescription;
     }
 
-    public void setRating(int rating) {
-        Rating = rating;
+    public Account getUserID() {
+        return UserID;
     }
 
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String message) {
-        Message = message;
+    public void setUserID(Account userID) {
+        UserID = userID;
     }
 }

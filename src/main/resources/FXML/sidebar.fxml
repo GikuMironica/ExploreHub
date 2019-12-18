@@ -52,7 +52,7 @@
                   <Font size="16.0" />
                </font>
             </JFXButton>
-            <JFXButton focusTraversable="false" onMouseClicked="#handleFeedbackClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Feedback">
+            <JFXButton fx:id="feedbackBtn" focusTraversable="false" onMouseClicked="#handleFeedbackClicked" prefWidth="200.0" ripplerFill="#0084ad" style="-fx-cursor: hand;" text="Feedback">
                <font>
                   <Font size="16.0" />
                </font>

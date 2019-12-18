@@ -29,6 +29,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
 import models.Account;
+import models.Admin;
 import sidebarComponent.SidebarController;
 import sidebarComponent.SidebarState;
 
@@ -40,7 +41,7 @@ import java.util.ResourceBundle;
  * Class which controls the navigation bar (toolbar)
  * @author Hidayat Rzayev
  */
-public class NavbarController implements Initializable {
+public class  NavbarController implements Initializable {
 
     @FXML
     private AnchorPane navbarPane;
@@ -79,7 +80,7 @@ public class NavbarController implements Initializable {
     private void initPanelImageView() {
         Account currentAccount = CurrentAccountSingleton.getInstance().getAccount();
         int accessLevel = currentAccount.getAccess();
-        if (accessLevel == 1) {
+        if (currentAccount instanceof Admin) {
             panelImageView.setVisible(true);
         }
     }
