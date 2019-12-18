@@ -72,7 +72,7 @@ public class AuthentificationController implements Initializable {
     private void login(Event event) throws IOException{
 
         StrategyContext strategyContext;
-        String username = usernameField.getText();
+        String username = usernameField.getText().toLowerCase();
         String password = passwordField.getText();
 
         try {
@@ -104,7 +104,6 @@ public class AuthentificationController implements Initializable {
                     }
             );
             visiblePause.play();
-            e.printStackTrace();
             return;
         }
         alert.setVisible(false);

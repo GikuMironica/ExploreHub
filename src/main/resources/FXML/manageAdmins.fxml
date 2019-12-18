@@ -23,7 +23,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <JFXListView fx:id="adminListView" layoutX="14.0" layoutY="40.0" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="413.0" AnchorPane.topAnchor="40.0" />
+      <JFXListView fx:id="adminListView" layoutX="14.0" layoutY="36.0" onMouseClicked="#cellClicked" prefHeight="390.0" prefWidth="414.0" AnchorPane.topAnchor="36.0" />
       <Label layoutX="510.0" layoutY="201.0" prefHeight="20.0" prefWidth="74.0" text="First Name:" AnchorPane.leftAnchor="510.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="201.0">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -37,7 +37,7 @@
          </font>
       </Label>
       <JFXTextField fx:id="emailText" layoutX="600.0" layoutY="298.0" prefHeight="25.0" prefWidth="265.0" />
-      <ImageView fx:id="adminPicture" fitHeight="111.0" fitWidth="154.0" layoutX="651.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="adminPicture" fitHeight="111.0" fitWidth="111.0" layoutX="651.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../IMG/icon-account.png" />
          </image></ImageView>

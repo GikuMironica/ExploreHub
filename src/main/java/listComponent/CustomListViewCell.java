@@ -128,7 +128,6 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 cellLogo.setFitHeight(120);
                 cellLogo.setFitWidth(120);
             } catch (Exception e) {
-                e.printStackTrace();
                 Convenience.showAlert(Alert.AlertType.ERROR,
                         "Error", "Something went wrong", "Please, try again later");
             }
@@ -170,14 +169,12 @@ public class CustomListViewCell extends JFXListCell<Events> {
                     entityManager.merge(account);
                     entityManager.getTransaction().commit();
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
                 }
             });
 
             merge.start();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }

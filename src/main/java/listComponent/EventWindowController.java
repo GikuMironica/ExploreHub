@@ -212,7 +212,6 @@ public class EventWindowController{
         }catch(Exception ex){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
             alert.showAndWait();
-            ex.printStackTrace();
             return;
         }
     }

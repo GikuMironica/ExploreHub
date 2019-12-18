@@ -43,7 +43,6 @@ public class ListController implements Initializable {
             eventsObservableList = events.getEventsObservableList();
         } catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            e.printStackTrace();
         }
     }
 
@@ -81,7 +80,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-            ex.printStackTrace();
+
         }
 
     }

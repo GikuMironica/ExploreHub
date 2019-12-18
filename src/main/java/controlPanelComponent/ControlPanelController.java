@@ -98,7 +98,8 @@ public class ControlPanelController {
         TabPane tp = adminsTab.getTabPane();
         if(!(account instanceof Owner)){
             tp.getTabs().remove(adminsTab);
-            tp.setTabMinWidth(220);
+            tp.setTabMaxWidth(174);
+            tp.setTabMinWidth(174);
         }
         tp.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
     }
