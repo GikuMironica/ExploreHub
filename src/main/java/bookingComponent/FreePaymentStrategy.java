@@ -44,7 +44,7 @@ public class FreePaymentStrategy implements PaymentStrategy {
                     localDate = LocalDate.now();
                     date = Date.valueOf(localDate);
                     completed = 1;
-                    paymentMethod = 0;
+                    paymentMethod = 2;
 
                     // New Transaction entry
                     Transactions transactions = new Transactions();
