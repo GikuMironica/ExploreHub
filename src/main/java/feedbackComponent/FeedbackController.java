@@ -32,7 +32,7 @@ public class FeedbackController implements Initializable {
     @FXML private TextArea description;
 
     private double average;
-
+ 
 
     private Account user = CurrentAccountSingleton.getInstance().getAccount();
 
