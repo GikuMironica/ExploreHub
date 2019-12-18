@@ -64,41 +64,4 @@ public class ManageEventsTabControllerTest {
         assertTrue(("Lool haha haha12432").matches(ORGANISATION_PATTERN));
     }
 
-    /**
-     * This Method tests the functionality of the Delete Event button
-     */
-    @Test(expected = NoResultException.class)
-    public void deleteEvent(){
-        Query createEvent = em.createNativeQuery("INSERT INTO event " +
-                "VALUES(1000, '2021-01-03', 'Eurotour', 60, 60, 3, 'hahahah', 'hahahahaha');");
-        Query insertWishist = em.createNativeQuery("INSERT INTO wishlist" +" VALUES(20, 1000);");
-        Query inertLocation = em.createNativeQuery("INSERT INTO location VALUES(1000, 13.23423, 100.2342, 'Ulm');");
-        Query insertPicture = em.createNativeQuery("INSERT INTO pictures (EventID, Logo, Picture)\n" +
-                "VALUES (1000 ,'https://i.imgur.com/f0qP2Jx.png', 'https://i.imgur.com/2taPhGM.png');");
-        Query correctDate = em.createNativeQuery("UPDATE event\n" + "SET Date = '2020-01-29'\n" + "WHERE Id=1000;");
-        Query checkEvent = em.createNativeQuery("SELECT * FROM event WHERE Id=1000");
-        Query checkLocation = em.createNativeQuery("SELECT * FROM location WHERE EventID=1000");
-        Query checkPicture = em.createNativeQuery("SELECT * FROM pictures WHERE EventID=1000");
-        Query checkWishlist = em.createNativeQuery("SELECT * FROM wishlist WHERE EventID=1000");
-
-
-        em.getTransaction().begin();
-        createEvent.executeUpdate();
-        insertWishist.executeUpdate();
-        inertLocation.executeUpdate();
-        insertPicture.executeUpdate();
-        correctDate.executeUpdate();
-        em.getTransaction().commit();
-
-        Events e1 = em.find(Events.class, 1000);
-        em.getTransaction().begin();
-        em.remove(e1);
-        em.getTransaction().commit();
-
-        assertNull(checkEvent.getSingleResult());
-        assertNull(checkLocation.getSingleResult());
-        assertNull(checkPicture.getSingleResult());
-        assertNull(checkWishlist.getSingleResult());
-
-    }
 }

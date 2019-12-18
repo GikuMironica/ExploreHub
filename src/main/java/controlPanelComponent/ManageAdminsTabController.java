@@ -29,6 +29,11 @@ import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Class which serves as a controller for the admins management view
+ *
+ * @author Gheorghe Mironica
+ */
 public class ManageAdminsTabController{
 
     @FXML
@@ -50,6 +55,9 @@ public class ManageAdminsTabController{
     private String PASSWORD_GENERATED = "Random password was generated, sent over email";
     private Admin selectedAdmin;
 
+    /**
+     * Method which initializes the view ManageEventsTabController
+     */
     @SuppressWarnings("JpaQueryApiInspection")
     public void initialize() {
         try{
@@ -74,8 +82,12 @@ public class ManageAdminsTabController{
 
     }
 
+    /**
+     * This method handles the click on create button, it's suppose to create new User with admin privileges
+     * @param e {@link Event} mouse clicked on Create button, Event is input parameter
+     */
     @FXML
-    public void createAdmin(Event e){
+    private void createAdmin(Event e){
         String firstname = firstnameText.getText();
         String lastname = lastnameText.getText();
         String email = emailText.getText();
@@ -105,9 +117,12 @@ public class ManageAdminsTabController{
         }
     }
 
-
+    /**
+     * This method handles the click on delete button, it's suppose to selected admin from listview
+     * @param e {@link Event} mouse clicked on Delete button, Event is input parameter
+     */
     @FXML
-    public void deleteAdmin(Event e){
+    private void deleteAdmin(Event e){
         try{
             if (selectedAdmin != null) {
                 Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION, "Delete Admin", "Are you sure you want to remove: ",
@@ -128,8 +143,13 @@ public class ManageAdminsTabController{
         }
     }
 
+    /**
+     * This method handles click on upload picture button, takes as input parameter mouse click {@link Event}, is suppose
+     * to upload picture for the new admin
+     * @param e
+     */
     @FXML
-    public void uploadPicture(Event e){
+    private void uploadPicture(Event e){
         Image image;
         try{
             FileChooser fileChooser = new FileChooser();
@@ -143,6 +163,8 @@ public class ManageAdminsTabController{
                 uploadButton.setStyle("-fx-text-fill: green;");
                 image = new Image(file.toURI().toString());
                 adminPicture.setImage(image);
+
+                // move to thread
                 UploadImage uploader = new UploadImage(image);
                 imageURL = uploader.upload();
             }
@@ -151,6 +173,10 @@ public class ManageAdminsTabController{
         }
     }
 
+    /**
+     * This method handles click on the listview, parses the selected entity, fills form
+     * @param event {@link Event} Mouse click as input parameter
+     */
     @FXML
     private void cellClicked(Event event){
         try {
@@ -165,8 +191,12 @@ public class ManageAdminsTabController{
         }
     }
 
+    /**
+     * This method handles click on clear button, it's suppose to clear the view
+     * @param e {@link Event} Mouse click as input parameter
+     */
     @FXML
-    public void clearView(Event e){
+    private void clearView(Event e){
         firstnameText.clear();
         lastnameText.clear();
         emailText.clear();
@@ -174,9 +204,12 @@ public class ManageAdminsTabController{
         adminPicture.setImage(tempImage);
     }
 
-    private Courses fetchCourse() {
+    /**
+     * This method retrieves the appropriate course for new created admin (None)
+     * @return {@link Courses} returns a course
+     */
+    protected Courses fetchCourse() {
         try{
-
             @SuppressWarnings("JpaQueryApiInspection")
             TypedQuery<Courses> tq1 = entityManager.createNamedQuery(
                     "Courses.findCourseByName",
@@ -190,11 +223,25 @@ public class ManageAdminsTabController{
         }
     }
 
-    private boolean isFormInvalid(String firstname, String lastname, String email) {
+    /**
+     * This method validates the form
+     * @param firstname {@link String} firstname
+     * @param lastname {@link String} lastname
+     * @param email {@link String} email
+     * @return
+     */
+    protected boolean isFormInvalid(String firstname, String lastname, String email) {
         return !areFieldsValid(firstname, lastname, email);
     }
 
-    private boolean areFieldsValid(String firstname, String lastname, String email) {
+    /**
+     * This method validates the fields of the form
+     * @param firstname {@link String} firstname
+     * @param lastname {@link String} lastname
+     * @param email {@link String} email
+     * @return
+     */
+    protected boolean areFieldsValid(String firstname, String lastname, String email) {
         boolean valid = true;
         boolean validFirstName = (!(firstname.isEmpty())&&(firstname.matches(NAME_PATTERN)));
         boolean validLastName = (!(lastname.isEmpty())&&(lastname.matches(NAME_PATTERN)));
@@ -222,6 +269,10 @@ public class ManageAdminsTabController{
         return valid;
     }
 
+    /**
+     * This method pops up an error when field are invalid
+     * @param field {@link JFXTextField} as input parameter
+     */
     private void displayError(JFXTextField field) {
         Thread thread = new Thread(() -> {
             try {
@@ -235,13 +286,21 @@ public class ManageAdminsTabController{
         thread.start();
     }
 
-    private String generateString() {
+    /**
+     * This method generates a random, one TimeConvertor password for the newly created admin
+     * @return {@link String} returns the password
+     */
+    protected String generateString() {
         String uuid = UUID.randomUUID().toString();
-        return "uuid = " + uuid;
+        return uuid;
     }
 
+    /**
+     * This method switches scene to the main
+     * @param e {@link Events} Mouse click as input
+     */
     @FXML
-    public void goHome(Event e){
+    private void goHome(Event e){
         try{
             Convenience.switchScene(e, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){

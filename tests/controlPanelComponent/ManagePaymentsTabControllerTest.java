@@ -43,14 +43,4 @@ public class ManagePaymentsTabControllerTest {
         assertTrue(!transactionsList.isEmpty());
     }
 
-    /**
-     * Method which tries to parse date from selected event
-     */
-    @Test
-    public void fillTransactionForm() {
-        Transactions t1 = entityManager.find(Transactions.class , 1);
-        assertTrue(t1.getUser().getId()==6);
-        assertTrue(t1.getPaymentMethod()==0);
-        assertTrue(t1.getEvent().getId()==1);
-    }
 }

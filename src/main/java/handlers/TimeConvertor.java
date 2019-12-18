@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class time {
+public class TimeConvertor {
     private static DateFormat dateTime = new SimpleDateFormat("dd MMM yyyy HH:mm");
     private static DateFormat timeOnly = new SimpleDateFormat("HH:mm");
     private static DateFormat dayOnly  = new SimpleDateFormat("dd");

@@ -80,7 +80,7 @@ public class ChangePasswordController implements Initializable {
     }
 
     /**
-     * This method is invoked every time the user types in the "Current Password" field.
+     * This method is invoked every TimeConvertor the user types in the "Current Password" field.
      * Checks if all the other fields are filled and if the corresponding passwords match.
      * If so, then the "Apply" button will be enabled. Otherwise, it will be disabled.
      *
@@ -96,7 +96,7 @@ public class ChangePasswordController implements Initializable {
     }
 
     /**
-     * This method is invoked every time the user types in the "New Password" field.
+     * This method is invoked every TimeConvertor the user types in the "New Password" field.
      * Checks if all the other fields are filled and if the corresponding passwords match.
      * If so, then the "Apply" button will be enabled. Otherwise, it will be disabled.
      *
@@ -112,7 +112,7 @@ public class ChangePasswordController implements Initializable {
     }
 
     /**
-     * This method is invoked every time the user types in the "Confirm New Password" field.
+     * This method is invoked every TimeConvertor the user types in the "Confirm New Password" field.
      * Checks if all the other fields are filled and if the corresponding passwords match.
      * If so, then the "Apply" button will be enabled. Otherwise, it will be disabled.
      *

@@ -1,6 +1,6 @@
 package discussionComponent;
 
-import handlers.time;
+import handlers.TimeConvertor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -35,7 +35,7 @@ public class threadPostElement {
     public void setElement(Post post) {
         posterName.setText(post.getAuthor().getFirstname() + " " + post.getAuthor().getLastname().substring(0,1));
         postContent.setText(post.getPostContent());
-        posted_time.setText(time.compareDate(post.getPostTime()));
+        posted_time.setText(TimeConvertor.compareDate(post.getPostTime()));
     }
 
     public AnchorPane getListElement() {

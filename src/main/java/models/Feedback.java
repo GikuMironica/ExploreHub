@@ -5,6 +5,8 @@ import models.User;
 
 import javax.persistence.*;
 
+@SuppressWarnings("JpaQlInspection")
+@NamedQuery(name="Feedback.findAllFeedbacks", query="SELECT f FROM Feedback f")
 
 @Entity
 @Table(name = "feedback")
@@ -14,8 +16,10 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer feedbackID;
+
     @Column(name = "Rating", nullable = false)
     private Double ratingScore;
+
     @Column(name = "Message", length = 250)
     private String ratingDescription;
     /*

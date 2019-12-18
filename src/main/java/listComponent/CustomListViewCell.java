@@ -133,7 +133,7 @@ public class CustomListViewCell extends JFXListCell<Events> {
                         "Error", "Something went wrong", "Please, try again later");
             }
 
-             //catch () {
+            //catch () {
 //                image = new Image("/IMG/quest.png");
 //                cellLogo.setImage(image);
 //            }

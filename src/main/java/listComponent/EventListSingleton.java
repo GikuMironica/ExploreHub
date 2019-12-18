@@ -33,6 +33,9 @@ public class EventListSingleton{
         return ourInstance;
     }
 
+    /**
+     * Private Constructor
+     */
     @SuppressWarnings("JpaQueryApiInspection")
     private EventListSingleton() {
         List<Events> tempTrash = new ArrayList<Events>();
@@ -56,6 +59,10 @@ public class EventListSingleton{
         return eventsObservableList;
     }
 
+    /**
+     * setter
+     * @param eventsList {@link ObservableList} input list
+     */
     public void setEventsObservableList(ObservableList<Events> eventsList){
         this.eventsObservableList = eventsList;
     }
@@ -81,6 +88,9 @@ public class EventListSingleton{
                 tempList.removeAll(tempTrash);
     }
 
+    /**
+     * Method which refreshes the List of events
+     */
     public void refreshList() {
         Thread thread = new Thread(() -> {
             refresh();

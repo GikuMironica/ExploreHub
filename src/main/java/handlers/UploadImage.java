@@ -15,6 +15,11 @@ import java.net.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class responsible for uploading images to Imgur, and fetch the URL
+ *
+ * @author Gheorghe Mironica
+ */
 public class UploadImage {
 
     private Image image;
@@ -22,12 +27,16 @@ public class UploadImage {
     private final String IMGUR_PATTERN = "https:\\\\/\\\\/i.imgur.com\\\\/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*.png";
     private final String IMGUR_API = "https://api.imgur.com/3/image";
 
+    /**
+     * Constructor
+     * @param oneImage {@link Image} image input parameter
+     */
     public UploadImage(Image oneImage){
         image = oneImage;
     }
 
     /**
-     * Uploads the images to imugr and returns the link
+     * Uploads the images to imgur and returns the link
      *
      * @throws Exception
      * @return URL String
@@ -64,11 +73,16 @@ public class UploadImage {
         return message.replace("\\","");
     }
 
+    /**
+     * Method which reads the input stream
+     * @param wr {@link OutputStreamWriter} input parameter
+     * @param conn {@link HttpURLConnection} input parameter
+     * @return {@link StringBuilder} output
+     */
     private StringBuilder get(OutputStreamWriter wr, HttpURLConnection conn) {
         StringBuilder stb = new StringBuilder();
         try {
-            BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {
                 stb.append(line).append("\n");
@@ -82,6 +96,10 @@ public class UploadImage {
         }
     }
 
+    /**
+     * Method which configures the request to the server
+     * @param conn {@link HttpURLConnection} input param
+     */
     private void post(HttpURLConnection conn) {
         try {
             conn.setDoOutput(true);
@@ -97,6 +115,10 @@ public class UploadImage {
         }
     }
 
+    /**
+     * setter
+     * @param img {@link Image}
+     */
     public void setImage(Image img) {
         this.image = img;
     }

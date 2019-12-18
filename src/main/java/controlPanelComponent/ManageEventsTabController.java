@@ -70,7 +70,6 @@ public class ManageEventsTabController {
     /**
      * Method which initializes the view ManageEventsTabController
      */
-
     public void initialize(List<Events> eventList) {
         try{
             eventsObservableList = FXCollections.observableArrayList();
@@ -317,7 +316,7 @@ public class ManageEventsTabController {
      *
      * @return Boolean Result from {@link #validateInput(String, String, String, String, String, String, String)}
      */
-    private boolean invalidForm() {
+    protected boolean invalidForm() {
         String company = companyField.getText();
         String price = priceField.getText();
         String city = cityField.getText();
@@ -341,7 +340,7 @@ public class ManageEventsTabController {
      * @param longFieldText the long description {@link String}
      * @return boolean answer {@link Boolean}
      */
-    private boolean validateInput(String companyName, String priceValue, String cityName, String latitude, String longitude, String shortFieldText, String longFieldText){
+    protected boolean validateInput(String companyName, String priceValue, String cityName, String latitude, String longitude, String shortFieldText, String longFieldText){
         boolean ok = true;
         boolean validCompany = (!(companyName.isEmpty())&&(companyName.matches(ORGANISATION_PATTERN)));
         boolean validCity = (!(cityName.isEmpty())&&(cityName.matches(CITY_PATTERN)));
@@ -513,6 +512,7 @@ public class ManageEventsTabController {
      */
     @FXML
     private void uploadPic(Event event){
+        // move to thread
         mainPic = uploadPicture(event, picButton);
     }
 
@@ -522,6 +522,7 @@ public class ManageEventsTabController {
      */
     @FXML
     private void uploadLogo(Event event){
+        // move to thread
         logoPic = uploadPicture(event, logoButton);
     }
 
@@ -532,7 +533,7 @@ public class ManageEventsTabController {
      * @param imgButton {@link Image}
      * @return returns an image object {@link Image}
      */
-    private Image uploadPicture(Event event, Button imgButton){
+    protected Image uploadPicture(Event event, Button imgButton){
         Image pic = null;
 
         FileChooser fileChooser = new FileChooser();
@@ -550,6 +551,9 @@ public class ManageEventsTabController {
         }
     }
 
+    /**
+     * Method which handles the click on the radion button (free event)
+     */
     @FXML
     private void freeRadioSelected(){
         priceField.setText("Free");
@@ -559,6 +563,9 @@ public class ManageEventsTabController {
         companyField.setDisable(false);
     }
 
+    /**
+     * Method which handles the click on the radion button (paid event)
+     */
     @FXML
     private void paidRadioSelected(){
         priceField.setDisable(false);
@@ -568,6 +575,12 @@ public class ManageEventsTabController {
         companyField.setDisable(true);
     }
 
+    /**
+     * Method which persists the newly created event
+     * @param newEvent {@link Events} input parameter
+     * @param newLoc {@link Location} input param
+     * @param newPic {@link Pictures} input param
+     */
     private void persistEvent(Events newEvent, Location newLoc, Pictures newPic) {
 
         try {
@@ -593,9 +606,13 @@ public class ManageEventsTabController {
 
     }
 
+    /**
+     * Method which checks if pictures were uploaded
+     */
     private void checkPictures() {
         if(mainPic != null){
             try {
+                // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
                 String urlPic = uploadImg.upload();
                 selectedEvent.getPicture().setPicture(urlPic);
@@ -606,6 +623,7 @@ public class ManageEventsTabController {
         }
         if(logoPic != null){
             try{
+                // move to thread
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 String urlLogo = uploadLogo.upload();
                 selectedEvent.getPicture().setLogo(urlLogo);

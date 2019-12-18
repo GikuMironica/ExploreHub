@@ -36,11 +36,10 @@ public class AuthentificationControllerTest {
     /**
      * Test the functionality of the login method
      *
-     * @param e
-     * @throws IOException
+     * @throws IOException exception IO
      */
     @Test
-    public void login(Event e) throws IOException {
+    public void login() throws IOException {
         try {
             UserConnectionSingleton con = UserConnectionSingleton.getInstance();
             em = con.getManager();
@@ -53,9 +52,6 @@ public class AuthentificationControllerTest {
             tq2.setParameter("email", username);
             tq2.setParameter("password", password);
             User u3 = tq2.getSingleResult();
-
-            //if user is logged in successfully, open the Home page
-
 
         } catch (Exception exception){
             System.out.println(exception.getMessage());

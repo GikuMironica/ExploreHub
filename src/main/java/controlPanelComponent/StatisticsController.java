@@ -26,6 +26,7 @@ import java.util.*;
  *
  * @author Aleksejs Marmiss
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class StatisticsController {
 
     public StackPane stackpane;
@@ -169,13 +170,12 @@ public class StatisticsController {
         } else {
             feedbacks.setPageCount(feedbackList.size());
         }
-        System.out.println(feedbackList.size());
         try {
             messageContent.setText(
-                            "From: " + feedbackList.get(pageIndex).getAccount().getFirstname()
-                            + " " + feedbackList.get(pageIndex).getAccount().getLastname() + "\n" +
-                            "Rating: " + feedbackList.get(pageIndex).getRating() + "\n" +
-                            feedbackList.get(pageIndex).getMessage());
+                            "From: " + feedbackList.get(pageIndex).getUserID().getFirstname()
+                            + " " + feedbackList.get(pageIndex).getUserID().getLastname() + "\n" +
+                            "Rating: " + feedbackList.get(pageIndex).getRatingScore() + "\n" +
+                            feedbackList.get(pageIndex).getRatingDescription());
         }catch (IndexOutOfBoundsException ioe){
             messageContent.setText("No feedbacks at the moment....");
         }

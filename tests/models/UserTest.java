@@ -1,6 +1,7 @@
 package models;
 
 import authentification.UserConnectionSingleton;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -13,9 +14,16 @@ import static org.junit.Assert.*;
  * @author Gheorghe Mironica
  */
 public class UserTest {
-    private UserConnectionSingleton con = UserConnectionSingleton.getInstance();
-    private EntityManager em = con.getManager();
+
+    private UserConnectionSingleton con;
+    private EntityManager em;
     private User u1;
+
+    @Before
+    public void setUp() throws Exception {
+        con = UserConnectionSingleton.getInstance();
+        em = con.getManager();
+    }
 
     /**
      * Test the functionality of the {@link #getId()}

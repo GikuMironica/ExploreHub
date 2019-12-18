@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 
 /**
  * Class responsible for generating PDF files for invoices
+ *
  * @author Gheorghe Mironica
  */
 public class GeneratePDF {
@@ -27,6 +28,12 @@ public class GeneratePDF {
     private String ITEM1 = " Excursion";
     private String BILLINGTO = "Billing To:";
 
+    /**
+     * Explicit constructor
+     * @param customer {@link Account} input parameter, the customer
+     * @param item {@link Transactions} input parameter, the transaction
+     * @throws Exception I/O exception
+     */
     public GeneratePDF(Account customer, Transactions item) throws Exception {
         this.filename = "Invoice_"+item.getUser().getLastname()+"_"+item.getId()+".pdf";
 
@@ -39,7 +46,13 @@ public class GeneratePDF {
         document.close();
     }
 
-    private void addItem(Document document, Transactions bookeditem) throws DocumentException {
+    /**
+     * Method which adds booked item in the pdf
+     * @param document {@link Document} input parameter
+     * @param bookeditem {@link Transactions} input transaction
+     * @throws DocumentException I/O exception
+     */
+    protected void addItem(Document document, Transactions bookeditem) throws DocumentException {
         Paragraph item = new Paragraph();
         item.add(new Paragraph( BOOKED_ITEM, boldFont));
         item.add(new Paragraph(bookeditem.getEvent().getCompany()+ITEM1));
@@ -49,7 +62,13 @@ public class GeneratePDF {
         document.add(item);
     }
 
-    private void addCustomer(Document document, Account customer) throws DocumentException {
+    /**
+     * Method which adds the customer details to the pdf
+     * @param document {@link Document} input parameter
+     * @param customer {@link Transactions} input transaction
+     * @throws DocumentException
+     */
+    protected void addCustomer(Document document, Account customer) throws DocumentException {
         Paragraph client = new Paragraph();
         client.add(new Paragraph(BILLINGTO, boldFont));
         client.add(new Paragraph(customer.getFirstname()));
@@ -59,7 +78,13 @@ public class GeneratePDF {
         document.add(client);
     }
 
-    private void addCompanyName(Document document, String title) throws DocumentException {
+    /**
+     * Method which adds the Company details to the pdf
+     * @param document
+     * @param title
+     * @throws DocumentException
+     */
+    protected void addCompanyName(Document document, String title) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
         preface.add(new Paragraph(title, titleFont));
@@ -72,13 +97,25 @@ public class GeneratePDF {
         document.add(preface);
     }
 
-    private void addEmptyLine(Paragraph paragraph, int number) {
+    /**
+     * Method which adds empty line to the pdf
+     * @param paragraph {@link Paragraph} input parameter
+     * @param number input parameter integer
+     */
+    protected void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
     }
 
+    /**
+     * Method which returns the file name
+     * @return {@link String} output
+     */
     public String getFilename(){
         return filename;
+    }
+    public Document getDocument() {
+        return document;
     }
 }
