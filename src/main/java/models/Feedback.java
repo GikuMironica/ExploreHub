@@ -7,6 +7,10 @@ import javax.persistence.*;
  *
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("ALL")
+@NamedQueries({
+        @NamedQuery(name="Feedback.findAllFeedbacks", query="SELECT f FROM Feedback f")
+})
 
 @Entity
 @Table(name="feedback")

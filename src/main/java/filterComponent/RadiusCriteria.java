@@ -43,7 +43,7 @@ public class RadiusCriteria implements Criteria {
             Location location = getCityCoordinates(city);
             predicate = event -> distance(event.getLocation().getLatitude(),event.getLocation().getLongitude(), location.getLatitude(), location.getLongitude()) < radius;
         }else if(radius == 0 && city != null){
-            predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city);
+            predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city.strip());
         }else {return events;}
             return FXCollections.observableList(events.stream()
                 .filter( predicate )
@@ -58,7 +58,7 @@ public class RadiusCriteria implements Criteria {
      * @param lon2 longitude of second place. Must be double.
      * @return distance in km as double.
      */
-    public static double distance(double lat1, double lon1, double lat2, double lon2) {
+    static double distance(double lat1, double lon1, double lat2, double lon2) {
         if ((lat1 == lat2) && (lon1 == lon2)) {
             return 0;
         }
@@ -77,7 +77,7 @@ public class RadiusCriteria implements Criteria {
      * @param name name of the city as String.
      * @return json Object which contains the information about the city.
      */
-    private Location getCityCoordinates (String name) {
+    Location getCityCoordinates (String name) {
         ObservableList<Location> locations = FXCollections.observableArrayList();
         EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Location> locationQuery;

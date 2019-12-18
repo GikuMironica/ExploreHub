@@ -1,9 +1,11 @@
 package filterComponent;
 
-import authentification.AdminConnectionSingleton;
+import authentification.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import models.Account;
 import models.Events;
+import models.Location;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
@@ -20,8 +22,15 @@ public class CriteriaTest {
 
     @Before
     public void setUp() throws Exception {
-        AdminConnectionSingleton connection = AdminConnectionSingleton.getInstance();
-        EntityManager entityManager = connection.getManager();
+        StrategyContext strategyContext;
+        String username = "Gleaves@hs-ulm.de";
+        String password = "user85";
+        strategyContext = new StrategyContext(new UserStrategy());
+        strategyContext.executeStrategy(username, password);
+
+
+        Account connection = CurrentAccountSingleton.getInstance().getAccount();
+        EntityManager entityManager = connection.getConnection();
         TypedQuery getEvents = entityManager.createNamedQuery(
                 "Events.findAllEvents",
                 Events.class);
@@ -61,15 +70,16 @@ public class CriteriaTest {
         filteredEvents = price.meetCriteria(events);
         for (Events event:filteredEvents
         ) {
-            assertTrue(event.getPrice() < 0);
+            assertTrue(event.getPrice() <= 0);
         }
     }
 
     @Test
     public void getCityCoordinatesTest() throws IOException, ParseException {
-//        RadiusCriteria radius = new RadiusCriteria(50, "Ulm");
-//        JSONObject jsonObject = radius.getCityCoordinates("Ulm");
-//        assertTrue(jsonObject.get("city").toString().equalsIgnoreCase("Ulm"));
+        RadiusCriteria radius = new RadiusCriteria(50, "Ulm");
+        Location location = radius.getCityCoordinates("Ulm");
+        assertEquals(location.getLatitude(),48.4192186,0.1);
+        assertEquals(location.getLongitude(), 9.9323005,0.1 );
 
     }
 
@@ -78,14 +88,8 @@ public class CriteriaTest {
     public void filterByRadius(){
         Criteria radius = new RadiusCriteria(100, "Ulm");
         ObservableList<Events> newList = radius.meetCriteria(events);
-        List<String> companies = new ArrayList<>();
-        companies.add("BMW");
-        companies.add("Daimler");
-        companies.add("Elektrobit");
-        companies.add("Hochschule Ulm");
-        companies.add("Transporeon");
         for (int i = 0; i < newList.size(); i++){
-            assertEquals(newList.get(i).getCompany(), companies.get(i));
+            assertTrue(RadiusCriteria.distance(newList.get(i).getLocation().getLatitude(),newList.get(i).getLocation().getLongitude(), 48.4011, 9.9876) < 100);
         }
 
     }

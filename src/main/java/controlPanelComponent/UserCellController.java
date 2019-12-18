@@ -15,6 +15,11 @@ import models.User;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Class that extends ListCell class.
+ *
+ * @author Aleksejs Marmiss
+ */
 public class UserCellController extends ListCell<User> {
 
     private FXMLLoader loader;
@@ -27,7 +32,11 @@ public class UserCellController extends ListCell<User> {
     public HBox userCell;
     private final Account admin = CurrentAccountSingleton.getInstance().getAccount();
 
-
+    /**
+     * Method which is continuously called to update list cell
+     * @param user User object.
+     * @param empty boolean that stores the status of the cell.
+     */
     @Override
     public void updateItem(User user, boolean empty) {
         super.updateItem(user, empty);

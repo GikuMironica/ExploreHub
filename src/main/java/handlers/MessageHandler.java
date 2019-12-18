@@ -1,4 +1,4 @@
-package authentification;
+package handlers;
 
 import java.util.*;
 import javax.activation.DataHandler;

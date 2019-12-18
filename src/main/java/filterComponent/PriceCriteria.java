@@ -30,7 +30,7 @@ public class PriceCriteria implements Criteria {
      */
     @Override
     public ObservableList<Events> meetCriteria(ObservableList<Events> events) {
-        Predicate<Events> predicate = event-> event.getPrice() < price;
+        Predicate<Events> predicate = event-> event.getPrice() <= price;
 
         return FXCollections.observableList(events.stream()
                 .filter( predicate )

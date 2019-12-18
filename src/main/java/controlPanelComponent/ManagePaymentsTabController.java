@@ -1,31 +1,26 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.MessageHandler;
+import handlers.MessageHandler;
 import handlers.Convenience;
 import handlers.GeneratePDF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import models.Events;
 import models.Invoice;
 import models.Transactions;
 import models.User;
 
-import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 /**
  * Controller class for the managePaymentsTab view

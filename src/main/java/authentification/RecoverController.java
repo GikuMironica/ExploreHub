@@ -1,16 +1,14 @@
 package authentification;
 
+import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 import models.User;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
@@ -28,6 +26,8 @@ import java.util.UUID;
  *
  */
 public class RecoverController implements Initializable {
+    @FXML
+    private JFXButton cancelButton;
     @FXML
     private TextField confirmationCode;
     @FXML
@@ -203,6 +203,19 @@ public class RecoverController implements Initializable {
             confirmationCodeButton.setDisable(false);
             notifyUser.setText("Wrong confirmation code");
         });
+
+    }
+
+    /**
+     * Method that switches to the log-in page.
+     */
+    public void handleCancelClicked(MouseEvent mouseEvent) {
+        try {
+            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/authentification.fxml") );
+        } catch (IOException e) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
 
     }
 }

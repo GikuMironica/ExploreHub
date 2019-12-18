@@ -12,6 +12,12 @@
           </AnchorPane>
         </content>
       </Tab>
+       <Tab text="Communication">
+       <content>
+           <AnchorPane fx:id="communication" minHeight="0.0" minWidth="0.0">
+           </AnchorPane>
+       </content>
+       </Tab>
       <Tab text="Users">
         <content>
             <AnchorPane fx:id="manageUsers" minHeight="0.0" minWidth="0.0">

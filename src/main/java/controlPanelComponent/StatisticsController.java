@@ -1,50 +1,31 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.MessageHandler;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.sun.javafx.scene.shape.LineHelper;
 import handlers.Convenience;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import models.Account;
-import models.Events;
-import models.Transactions;
-import models.User;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import models.*;
 
-import javax.mail.*;
-import javax.mail.internet.ContentType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMultipart;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 
+/**
+ * Class which is responsible for controlling the Statistics tab.
+ *
+ * @author Aleksejs Marmiss
+ */
 public class StatisticsController {
 
     public StackPane stackpane;
@@ -74,17 +55,20 @@ public class StatisticsController {
     private CategoryAxis x;
     @FXML
     private LineChart<?,?> linechart;
-
     @FXML
-    private Pagination mails;
-    private Message[] messages;
+    private Pagination feedbacks;
     private final Account admin = CurrentAccountSingleton.getInstance().getAccount();
     private List<Transactions> transactionsList;
     private List<User> usersList;
     private List<Events> eventsList;
+    private List<Feedback> feedbackList;
 
-
-
+    /**
+     * Method that initializes the Statisticcs tab.
+     * @param eventsList List of events taken from the database.
+     * @param usersList List of users taken from the database.
+     * @param transactionsList List of transactions taken from the database.
+     */
     public void initialize(List<Events> eventsList, List<User> usersList,List<Transactions> transactionsList) {
 
         this.eventsList = eventsList;
@@ -132,176 +116,76 @@ public class StatisticsController {
         ) {
             Calendar eventDate = Calendar.getInstance();
             eventDate.setTime(event.getDate());
-            if (eventDate.after(todayDate)) {
+            if (todayDate.after(eventDate)) {
                 pastEventsList.add(event);
             }
         }
         pastEvents.setText(String.valueOf(pastEventsList.size()));
-        check();
-
-
+        loadFeedbacks();
+        feedbacks.setPageFactory(this::createPage);
     }
 
-
-    public void openHomepage(MouseEvent mouseEvent) throws IOException {
-        Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml"));
-    }
-
-    public void check()
-    {
+    /**
+     * Method which opens the homepage.
+     * @param mouseEvent Mouse event triggered by the click of the button.
+     * @throws IOException
+     */
+    public void openHomepage(MouseEvent mouseEvent)  {
         try {
-            String username = "iexplore.confirmation@gmail.com";// change accordingly
-            String password = "cts5-2019";// change accordingly
-            String host = "IMAP.gmail.com";// change accordingly
-            Properties properties = new Properties();
-
-            properties.put("mail.pop3.host", host);
-            properties.put("mail.pop3.port", "993");
-            properties.put("mail.pop3.starttls.enable", "true");
-            Session emailSession = Session.getDefaultInstance(properties);
-            Store store = emailSession.getStore("imaps");
-            store.connect(host, username, password);
-            Folder emailFolder = store.getFolder("Inbox");
-            emailFolder.open(Folder.READ_ONLY);
-            messages = emailFolder.getMessages();
-            mails.setPageFactory(this::createPage);
-           // emailFolder.close(false);
-           // store.close();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Method that loads the feedback from database.
+     */
+    private void loadFeedbacks(){
+        EntityManager entityManager = admin.getConnection();
+        TypedQuery<Feedback> feedbackQuery;
+        feedbackQuery = entityManager.createNamedQuery(
+                "Feedback.findAllFeedbacks",
+                Feedback.class);
+        feedbackList = new ArrayList<>(feedbackQuery.getResultList());
+    }
+
+    /**
+     * Method which populates a page in pagination.
+     * @param pageIndex index of the page which has to be populated.
+     * @return VBox with content.
+     */
     private VBox createPage(int pageIndex){
-
-
         VBox pageBox = new VBox();
         TextArea messageContent = new TextArea();
         messageContent.setWrapText(true);
         messageContent.setMaxWidth(940);
+        messageContent.setMinHeight(100);
+        messageContent.setMaxHeight(100);
         messageContent.setEditable(false);
-        try {
-            mails.setPageCount(messages.length);
-            Message message = messages[(messages.length-1)-pageIndex];
-            messageContent.setText("FROM: " + Arrays.toString(messages[(messages.length-1)-pageIndex].getFrom()) + "\n" +
-                    "SUBJECT: " + messages[(messages.length-1)-pageIndex].getSubject() + "\n" +
-                    "DATE: " + messages[(messages.length-1)-pageIndex].getSentDate() + "\n" +
-                    getTextFromMessage(message) + "\n");
-
-        }catch (IOException ioe){
-            //
-        }catch (MessagingException me){
-            ///
+        int size = feedbackList.size();
+        if(size < 1) {
+            feedbacks.setPageCount(1);
+        } else {
+            feedbacks.setPageCount(feedbackList.size());
         }
+        System.out.println(feedbackList.size());
+        try {
+            messageContent.setText(
+                            "From: " + feedbackList.get(pageIndex).getAccount().getFirstname()
+                            + " " + feedbackList.get(pageIndex).getAccount().getLastname() + "\n" +
+                            "Rating: " + feedbackList.get(pageIndex).getRating() + "\n" +
+                            feedbackList.get(pageIndex).getMessage());
+        }catch (IndexOutOfBoundsException ioe){
+            messageContent.setText("No feedbacks at the moment....");
+        }
+        messageContent.setFont(Font.font("Serif", FontWeight.BOLD, 16));
 
         pageBox.getChildren().add(messageContent);
-
         return pageBox;
     }
 
 
-    private String getTextFromMessage(Message message) throws IOException, MessagingException {
-        String result = "";
-        if (message.isMimeType("text/plain")) {
-            result = message.getContent().toString();
-        } else if (message.isMimeType("multipart/*")) {
-            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
-            result = getTextFromMimeMultipart(mimeMultipart);
-        }
-        return result;
-    }
-
-
-    private String getTextFromBodyPart(BodyPart bodyPart) throws IOException, MessagingException {
-        String result = "";
-        if (bodyPart.isMimeType("text/plain")) {
-            result = (String) bodyPart.getContent();
-        } else if (bodyPart.isMimeType("text/html")) {
-            String html = (String) bodyPart.getContent();
-            result = org.jsoup.Jsoup.parse(html).text();
-        } else if (bodyPart.getContent() instanceof MimeMultipart){
-            result = getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
-        }
-        return result;
-    }
-
-    private String getTextFromMimeMultipart(
-            MimeMultipart mimeMultipart) throws IOException, MessagingException {
-
-        int count = mimeMultipart.getCount();
-        if (count == 0)
-            throw new MessagingException("Multipart with no body parts not supported.");
-        boolean multipartAlt = new ContentType(mimeMultipart.getContentType()).match("multipart/alternative");
-        if (multipartAlt)
-            // alternatives appear in an order of increasing
-            // faithfulness to the original content. Customize as req'd.
-            return getTextFromBodyPart(mimeMultipart.getBodyPart(count - 1));
-        String result = "";
-        for (int i = 0; i < count; i++) {
-            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-            result += getTextFromBodyPart(bodyPart);
-        }
-        return result;
-    }
-
-    public void replyButton(MouseEvent mouseEvent) {
-        int mailSelected = (mails.getPageCount()-1) - mails.currentPageIndexProperty().intValue();
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Your message"));
-        TextArea textArea = new TextArea();
-        textArea.setPromptText("Please input your message....");
-        content.setBody(textArea);
-        JFXDialog dialog = new JFXDialog(stackpane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton button = new JFXButton("Send");
-        button.setOnAction(actionEvent -> {
-            try {
-                Address[] replyTo = messages[mailSelected].getFrom();
-                String subject = messages[mailSelected].getSubject();
-                MessageHandler messageHandler = MessageHandler.getMessageHandler();
-                String email = replyTo == null ? null : ((InternetAddress) replyTo[0]).getAddress();
-                messageHandler.sendEmail(textArea.getText(), subject, email);
-                dialog.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        });
-        content.setActions(button);
-        dialog.show();
-
-
-    }
-
-//    public void loadUserStatistics(){
-//        EntityManager entityManager = admin.getConnection();
-//        TypedQuery<User> usersQuery;
-//        usersQuery = entityManager.createNamedQuery(
-//                "User.findAllUser",
-//                User.class);
-//        usersList = new ArrayList<>(usersQuery.getResultList());
-//
-//    }
-//
-//    public void loadTransactionStatistics(){
-//        EntityManager entityManager = admin.getConnection();
-//        TypedQuery<Transactions> transactionsQuery;
-//        transactionsQuery = entityManager.createNamedQuery(
-//                "Transactions.findAllTransactions",
-//                Transactions.class);
-//        transactionsList = new ArrayList<>(transactionsQuery.getResultList());
-//
-//    }
-//
-//    public void loadEventStatistics(){
-//        EntityManager entityManager = admin.getConnection();
-//        TypedQuery<Events> eventsQuery;
-//        eventsQuery = entityManager.createNamedQuery(
-//                "Events.findAllEvents",
-//                Events.class);
-//        eventsList = new ArrayList<>(eventsQuery.getResultList());
-//
-//    }
 
 }
 

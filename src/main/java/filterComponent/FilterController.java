@@ -97,7 +97,7 @@ public class FilterController implements Initializable {
      */
         public void onSliderChanged() {
             double price = choicePrice.getValue();
-            DecimalFormat numberFormat = new DecimalFormat("#.00");
+            DecimalFormat numberFormat = new DecimalFormat("#0.00");
             money.setText(numberFormat.format(price) + " €");
             filter.setPriceValue(choicePrice.getValue());
 
@@ -159,7 +159,7 @@ public class FilterController implements Initializable {
     public void restoreFilter(){
 
         choicePrice.setValue(filter.getPriceValue());
-        DecimalFormat numberFormat = new DecimalFormat("#.00");
+        DecimalFormat numberFormat = new DecimalFormat("#0.00");
         money.setText(numberFormat.format(filter.getPriceValue()) + " €");
 
         choiceCity.getSelectionModel().select(filter.getCityValue());

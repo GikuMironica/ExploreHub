@@ -1,15 +1,13 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import models.Account;
 import models.Transactions;
@@ -18,6 +16,7 @@ import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.swing.text.html.ImageView;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
@@ -94,5 +93,14 @@ public class ManageUsersTabController implements Initializable {
         this.users.setAll(listOfUsers);
         this.listOfUsers.setItems(users);
         this.listOfUsers.setCellFactory(userCellController -> new UserCellController());
+    }
+
+    public void openHomepage(MouseEvent mouseEvent) {
+        try {
+            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml") );
+        } catch (IOException e) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 }

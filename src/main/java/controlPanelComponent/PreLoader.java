@@ -25,6 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Preloader class which makes database requests while displaying loading screen.
+ *
+ * @author Aleksejs Marmiss
+ */
 public class PreLoader implements Initializable {
 
     public StackPane stackrPane;
@@ -37,6 +42,12 @@ public class PreLoader implements Initializable {
     private Scene scene;
     private Parent root;
     private FXMLLoader loader = new FXMLLoader();
+
+    /**
+     * Method which initializes preloader.
+     * @param url Uniform Resource Locator.
+     * @param resourceBundle contains locale-specific objects.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadingScreen.setImage(new Image("/IMG/explorehubBW.jpg", 345,240, false, false));
@@ -65,13 +76,13 @@ public class PreLoader implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
         });
         thread.start();
     }
 
+    /**
+     * Method which loads users from database.
+     */
     public void loadUserStatistics(){
         EntityManager entityManager = admin.getConnection();
         TypedQuery<User> usersQuery;
@@ -81,7 +92,9 @@ public class PreLoader implements Initializable {
         usersList = new ArrayList<>(usersQuery.getResultList());
 
     }
-
+    /**
+     * Method which loads transactionjs from database.
+     */
     public void loadTransactionStatistics(){
         EntityManager entityManager = admin.getConnection();
         TypedQuery<Transactions> transactionsQuery;
@@ -91,7 +104,9 @@ public class PreLoader implements Initializable {
         transactionsList = new ArrayList<>(transactionsQuery.getResultList());
 
     }
-
+    /**
+     * Method which loads events from database.
+     */
     public void loadEventStatistics(){
         EntityManager entityManager = admin.getConnection();
         TypedQuery<Events> eventsQuery;
@@ -102,7 +117,10 @@ public class PreLoader implements Initializable {
 
     }
 
-
+    /**
+     * Method that allows to set the scene from the outside of the controller.
+     * @param scene scene which has to be used by a instance of controller.
+     */
     public void setScene(Scene scene){
         this.scene = scene;
         stage = (Stage)scene.getWindow();

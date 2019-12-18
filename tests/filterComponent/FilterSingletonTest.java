@@ -1,6 +1,7 @@
 package filterComponent;
 
 
+import authentification.*;
 import javafx.collections.ObservableList;
 import models.Events;
 import org.junit.Before;
@@ -14,6 +15,11 @@ public class FilterSingletonTest {
 
     @Before
     public void setUp() throws Exception {
+        StrategyContext strategyContext;
+        String username = "Gleaves@hs-ulm.de";
+        String password = "user85";
+        strategyContext = new StrategyContext(new UserStrategy());
+        strategyContext.executeStrategy(username, password);
         filter = FilterSingleton.getInstance();
     }
 
@@ -86,7 +92,7 @@ public class FilterSingletonTest {
     @Test
     public void getBackup() {
         ObservableList<Events> list = filter.getBackup();
-        assertEquals(18, list.size());
+        assertTrue(list.size() > 0);
         assertEquals("BMW", list.get(0).getCompany());
     }
 
@@ -109,17 +115,18 @@ public class FilterSingletonTest {
     }
 
     @Test
-    public void filterItems() {
-        filter.filterItems();
-    }
-
-    @Test
     public void resetFilter() {
         filter.resetFilter();
         assertNull(filter.getCityValue());
         assertEquals(100.00, filter.getPriceValue(), 0.01);
         assertEquals(-1,filter.getMinPersSelected());
         assertEquals(-1,filter.getRadiusSelected());
+    }
+
+    @Test
+    public void filterItems() {
+        filter.resetFilter();
+        filter.filterItems();
     }
 
 }

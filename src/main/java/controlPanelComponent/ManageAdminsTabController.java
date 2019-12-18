@@ -2,9 +2,7 @@ package controlPanelComponent;
 
 
 import authentification.CurrentAccountSingleton;
-import authentification.MessageHandler;
-import com.jfoenix.animation.alert.JFXAlertAnimation;
-import com.jfoenix.controls.JFXAlert;
+import handlers.MessageHandler;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
@@ -18,15 +16,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import models.Account;
 import models.Admin;
 import models.Courses;
-import models.Events;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

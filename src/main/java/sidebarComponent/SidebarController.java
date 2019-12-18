@@ -125,7 +125,12 @@ public class SidebarController implements Initializable {
 
     @FXML
     private void handleSupportClicked(MouseEvent mouseEvent) {
-        // TODO: show support
+        try {
+            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),getClass().getResource("/FXML/contactForm.fxml"));
+        } catch (IOException e) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 
     /**
