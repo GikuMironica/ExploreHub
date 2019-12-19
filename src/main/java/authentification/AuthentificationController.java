@@ -108,6 +108,7 @@ public class AuthentificationController implements Initializable {
         }
         alert.setVisible(false);
         checkRememberBox(username, password);
+
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
 
     }

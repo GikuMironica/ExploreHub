@@ -6,6 +6,9 @@ import com.jfoenix.controls.JFXListCell;
 import handlers.CacheSingleton;
 import handlers.Convenience;
 import handlers.LRUCache;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -61,7 +65,6 @@ public class CustomListViewCell extends JFXListCell<Events> {
 
         } else {
             id = event.getId();
-            currentEvent = event;
 
             if (loader == null) {
                 loader = new FXMLLoader(getClass().getResource("/FXML/listcell.fxml"));
@@ -70,43 +73,11 @@ public class CustomListViewCell extends JFXListCell<Events> {
             try {
                 loader.load();
             } catch (Exception e) {
-//                Convenience.showAlert(Alert.AlertType.ERROR,
-//                        "Error", "Something went wrong", "Please, try again later");
+
             }
 
-
-//            try {
-                 CacheSingleton cache = CacheSingleton.getInstance();
-//
-//                if (cache.containsEventInWishlist(id) && cache.isEventInWishlist(id)) {
-//                    wishlistButton.setText("Wishlist --");
-//                } else if (cache.containsEventInWishlist(id) && !cache.isEventInWishlist(id)) {
-//                    wishlistButton.setText("Wishlist ++");
-//                } else {
-//                    boolean inWishlist = account.getEvents().contains(event);
-//                    if (inWishlist) {
-//                        wishlistButton.setText("Wishlist --");
-//                    } else {
-//                        wishlistButton.setText("Wishlist ++");
-//                    }
-//                    cache.putEventInWishlist(id, inWishlist);
-//                }
-//
-//                if (account instanceof Admin) {
-//                    wishlistButton.setDisable(true);
-//                }
-
-             //   if (!(account instanceof Admin)) {
-            //       if (cache.containsEventBooked(id) && cache.isEventBooked(id)) {
-            //            wishlistButton.setDisable(true);
-            //        } else if (cache.containsEventBooked((id)) && !cache.isEventBooked(id)) {
-            //            wishlistButton.setDisable(false);
-            //        } else {
-            //           boolean isBooked = isBooked();
-            //            wishlistButton.setDisable(isBooked);
-            //            cache.putEventBooked(id, isBooked);
-             //       }
-             //   }
+            CacheSingleton cache = CacheSingleton.getInstance();
+            currentEvent = event;
 
             try{
                 checkIfInWishlist();
@@ -124,13 +95,11 @@ public class CustomListViewCell extends JFXListCell<Events> {
                     cache.putImage(id, image);
                 }
 
-                city = entityManager.find(Location.class, id).getCity();
+                city = event.getLocation().getCity();
                 cellLogo.setImage(image);
                 cellLogo.setFitHeight(120);
                 cellLogo.setFitWidth(120);
             } catch (Exception e) {
-              //  Convenience.showAlert(Alert.AlertType.ERROR,
-              //          "Error", "Something went wrong", "Please, try again later");
                 image = new Image("/IMG/quest.png");
                 cellLogo.setImage(image);
             }
@@ -143,9 +112,14 @@ public class CustomListViewCell extends JFXListCell<Events> {
             if (event.getPrice() == 0) {
                 priceLabel.setText("FREE");
             } else priceLabel.setText(String.valueOf(event.getPrice()));
+
         }
     }
 
+    /**
+     * This method handles the click on the add / remove wishlist button
+     * @param e {@link Events} method trigger
+     */
     @FXML
     public void wishlistAction(Event e) {
         try {
@@ -160,28 +134,52 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 l1.remove(currentEvent);
                 account.setEvents(l1);
             }
-            Thread merge = new Thread(() -> {
-                CountDownLatch latch = new CountDownLatch(1);
-                try {
-                    latch.await();
-                    entityManager.getTransaction().begin();
-                    entityManager.merge(account);
-                    entityManager.getTransaction().commit();
-                } catch (InterruptedException ex) {
-                }
-            });
-
-            merge.start();
+            wishlistButton.setDisable(true);
+            persist();
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }
     }
 
+    /**
+     * This method persists the result after user adds / removes event from wishlist,
+     * prevents request forgery attack
+     */
+    private void persist(){
+        Thread t1 = new Thread(()-> {
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(account);
+                entityManager.getTransaction().commit();
+            }catch(Exception ex1){
+                entityManager.merge(account);
+            }
+
+            Platform.runLater(() -> {
+                PauseTransition visiblePause = new PauseTransition(
+                        Duration.seconds(1)
+                );
+                visiblePause.setOnFinished(
+                        (ActionEvent ev) -> {
+                            wishlistButton.setDisable(false);
+                        }
+                );
+                visiblePause.play();
+            });
+        });
+        t1.start();
+    }
+
+    /**
+     * This method checks whether the user has current event in wishlist or not.
+     * Data is fetched from Database through a namedquery instead of the local cache
+     * Since for this kind of commitment, we need the most up to date data, thus
+     * we preventing leading the database into an inconsistent state!
+     */
     protected void checkIfInWishlist(){
-        List<Events> l1 = account.getEvents();
-//        return account.checkEventPresence(entityManager, currentEvent.getId());
         boolean ok = account.checkEventPresence(entityManager, currentEvent.getId());
         if (ok){
             wishlistButton.setText("Wishlist --");
@@ -190,6 +188,11 @@ public class CustomListViewCell extends JFXListCell<Events> {
         }
     }
 
+    /**
+     * This method checks whether current event is already booked by user,
+     * if so, then disable add to wishlist button
+     * @return
+     */
     private boolean isBooked() {
         @SuppressWarnings("JpaQueryApiInspection")
         TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);

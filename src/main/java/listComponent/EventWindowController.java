@@ -3,7 +3,10 @@ package listComponent;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.HandleNet;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,14 +21,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.lang.Thread;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import static handlers.HandleNet.hasNetConnection;
 
 /**
  * This is the controller class for the selected event from the ListView
@@ -138,13 +147,21 @@ public class EventWindowController{
      * Method which checks if user has current event in wishlist
      */
     protected void checkIfInWishlist(){
-        List<Events> l1 = (account).getEvents();
-        boolean ok = (account).checkEventPresence(entityManager, currentEvent.getId());
-           if (ok){
-               wishList.setText("Remove From Wishlist");
-           } else{
-               wishList.setText("Add to Wishlist");
-           }
+        try {
+            boolean ok = (account).checkEventPresence(entityManager, currentEvent.getId());
+            if (ok) {
+                wishList.setText("Remove From Wishlist");
+            } else {
+                wishList.setText("Add to Wishlist");
+            }
+        }catch(Exception e){
+            if(!hasNetConnection()){
+                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                return;
+            }
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
+            return;
+        }
     }
 
     /**
@@ -157,26 +174,25 @@ public class EventWindowController{
         try {
             if (wishList.getText().matches("Add to Wishlist")) {
                 wishList.setText("Remove From Wishlist");
-                List<Events> l1 = ((User) (account)).getEvents();
+                List<Events> l1 = ((account)).getEvents();
                 l1.add(currentEvent);
                 (account).setEvents(l1);
-                entityManager.getTransaction().begin();
-                entityManager.merge(account);
-                entityManager.getTransaction().commit();
-                executeOnThread();
             } else {
                 wishList.setText("Add to Wishlist");
-                List<Events> l1 = ((User) (account)).getEvents();
+                List<Events> l1 = ((account)).getEvents();
                 l1.remove(currentEvent);
                (account).setEvents(l1);
-                entityManager.getTransaction().begin();
-                entityManager.merge(account);
-                entityManager.getTransaction().commit();
-                executeOnThread();
             }
+            wishList.setDisable(true);
+            persist();
 
         }catch(Exception e){
             e.printStackTrace();
+            wishList.setDisable(false);
+            if(!HandleNet.hasNetConnection()){
+                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                return;
+            }
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }
@@ -216,10 +232,40 @@ public class EventWindowController{
         }
     }
 
-    protected void executeOnThread(){
-        Thread t1 = new Thread(() -> {
-            consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
-            Platform.runLater(() -> considering.setText(consider+" Students added it to Wishlist"));
+    /**
+     * This method persists the result after user adds / removes event from wishlist,
+     * prevents request forgery attack
+     */
+    protected void persist(){
+        Thread t1 = new Thread(()-> {
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(account);
+                entityManager.getTransaction().commit();
+                consider = currentEvent.getCheckedIN(entityManager, currentEvent.getId());
+            }catch(Exception ex1){
+                if(!HandleNet.hasNetConnection()){
+                    Platform.runLater(()->{
+                        Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                        wishList.setDisable(false);
+
+                    });
+                    return;
+                }
+                entityManager.merge(account);
+            }
+            Platform.runLater(() -> {
+                PauseTransition visiblePause = new PauseTransition(
+                        Duration.seconds(0.5)
+                );
+                visiblePause.setOnFinished(
+                        (ActionEvent ev) -> {
+                            wishList.setDisable(false);
+                            considering.setText(consider+" Students added it to Wishlist");
+                        }
+                );
+                visiblePause.play();
+            });
         });
         t1.start();
     }
@@ -238,7 +284,10 @@ public class EventWindowController{
 
         try{
             Convenience.switchScene(event, getClass().getResource(("/FXML/booking.fxml")));
-        }catch(IOException e){e.printStackTrace();}
+        }catch(IOException e){
+            e.printStackTrace();
+
+        }
     }
 
     /**
@@ -253,12 +302,21 @@ public class EventWindowController{
         }
     }
     protected boolean isBooked(){
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
-        tq1.setParameter("id", currentEvent.getId());
-        tq1.setParameter("userId", account.getId());
-        int size = tq1.getResultList().size();
-
+        int size=0;
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
+            tq1.setParameter("id", currentEvent.getId());
+            tq1.setParameter("userId", account.getId());
+            size = tq1.getResultList().size();
+        }catch(Exception e){
+            if(!HandleNet.hasNetConnection()){
+                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                book.setDisable(true);
+            }
+        }
         return size>0;
     }
+
+
 }

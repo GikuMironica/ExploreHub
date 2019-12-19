@@ -96,6 +96,7 @@ public class RegisterController implements Initializable  {
 
         AuthentificationController.initiliaseApp();
 
+
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
