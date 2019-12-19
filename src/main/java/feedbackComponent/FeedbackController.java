@@ -138,7 +138,7 @@ public class FeedbackController implements Initializable {
 
 
     /**
-     * Average getters and setters
+     * Average getter
      *
      * @return
      */
@@ -146,9 +146,6 @@ public class FeedbackController implements Initializable {
         return Average;
     }
 
-    public void setAverage(double Average) {
-        this.Average = Average;
-    }
 
 
    private void successAlert(){
