@@ -2,32 +2,42 @@ package models;
 
 import models.Account;
 import models.User;
+import org.eclipse.persistence.annotations.TypeConverter;
 
 import javax.persistence.*;
 
-@SuppressWarnings("JpaQlInspection")
-@NamedQuery(name="Feedback.findAllFeedbacks", query="SELECT f FROM Feedback f")
+/**
+ * Model class which encapsulates access to feedbacks
+ * @author Diaae Bakri
+ */
 
 @Entity
 @Table(name = "feedback")
+@NamedQueries({
+
+        @NamedQuery(name = "Feedback.findAllFeedbacks", query = "SELECT feedB from Feedback feedB"),
+        @NamedQuery(name = "Feedback.checkUsers", query = "SELECT COUNT (u) FROM Feedback u WHERE u.UserID.Id = :UserID"),
+        @NamedQuery(name = "Feedback.getUserFeedback", query = "SELECT f FROM Feedback f WHERE f.UserID.Id = :UserID"),
+        @NamedQuery(name = "Feedback.getAverage", query = "SELECT AVG (u.ratingScore) FROM Feedback u")
+
+})
 
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer feedbackID;
-
     @Column(name = "Rating", nullable = false)
     private Double ratingScore;
-
     @Column(name = "Message", length = 250)
     private String ratingDescription;
     /*
      * Mapping goes here
      */
     @OneToOne
-    @JoinColumn(name="UserID")
+    @JoinColumn(name="UserID", unique = true)
     private Account UserID;
+
 
     /*
      * Constructor goes here
@@ -70,11 +80,7 @@ public class Feedback {
         this.ratingDescription = ratingDescription;
     }
 
-    public Account getUserID() {
-        return UserID;
-    }
+    public Account getUserID() { return UserID; }
 
-    public void setUserID(Account userID) {
-        UserID = userID;
-    }
+    public void setUserID(Account userID) { UserID = userID; }
 }
