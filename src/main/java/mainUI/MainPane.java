@@ -1,21 +1,24 @@
 package mainUI;
 
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
 /**
  * A singleton class that keeps the reference to the root StackPane of the main UI.
  * @author Aleksejs Marmiss
  */
-public class MainStackPane {
+public class MainPane {
 
-    private static MainStackPane instance;
+    private static MainPane instance;
+
     private StackPane stackPane;
+    private BorderPane borderPane;
 
-    private MainStackPane() {}
+    private MainPane() {}
 
-    public static MainStackPane getInstance() {
+    public static MainPane getInstance() {
         if (instance == null) {
-            instance = new MainStackPane();
+            instance = new MainPane();
         }
         return instance;
     }
@@ -26,5 +29,13 @@ public class MainStackPane {
 
     public StackPane getStackPane() {
         return stackPane;
+    }
+
+    public void setBorderPane(BorderPane borderPane) {
+        this.borderPane = borderPane;
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
     }
 }

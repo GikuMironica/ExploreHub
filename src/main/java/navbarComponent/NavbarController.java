@@ -79,7 +79,6 @@ public class  NavbarController implements Initializable {
 
     private void initPanelImageView() {
         Account currentAccount = CurrentAccountSingleton.getInstance().getAccount();
-        int accessLevel = currentAccount.getAccess();
         if (currentAccount instanceof Admin) {
             panelImageView.setVisible(true);
         }

@@ -34,7 +34,7 @@
             </HBox>
             <ImageView fx:id="panelImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handlePanelClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" visible="false">
                <image>
-                  <Image url="@../IMG/settings.png" />
+                  <Image url="@../IMG/control-panel.png" />
                </image>
             </ImageView>
             <ImageView fx:id="refreshImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleRefreshClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
@@ -52,7 +52,7 @@
                   <Image url="@../IMG/home.png" />
                </image>
             </ImageView>
-            <JFXHamburger fx:id="menuHamburger" maxHeight="-Infinity" minWidth="28.0" onMouseClicked="#handleMenuClicked" prefHeight="25.0" style="-fx-cursor: hand;" />
+            <JFXHamburger fx:id="menuHamburger" maxHeight="-Infinity" minWidth="24.0" onMouseClicked="#handleMenuClicked" prefHeight="24.0" style="-fx-cursor: hand;" />
          </children>
          <padding>
             <Insets right="25.0" />

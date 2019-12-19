@@ -23,11 +23,11 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
      * This method is internally being called when calling the {@link LinkedHashMap} class's
      * put() method.
      *
-     * It indicates whether or not the least recently used image should be removed from the cache.
+     * It indicates whether or not the least recently used entry should be removed from the cache.
      * If the current size of the cache is greater than the specified maximum size, then the
-     * LRU image will be removed before a new image can be inserted into the cache.
+     * LRU entry will be removed before a new entry can be inserted into the cache.
      *
-     * @param eldest - the least recently used image
+     * @param eldest - the least recently used entry
      * @return {@code true} if the eldest entry should be removed
      *         from the cache; {@code false} if it should be retained.
      */

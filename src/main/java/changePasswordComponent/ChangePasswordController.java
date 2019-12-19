@@ -2,7 +2,7 @@ package changePasswordComponent;
 
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
-import mainUI.MainStackPane;
+import mainUI.MainPane;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -50,11 +50,8 @@ public class ChangePasswordController implements Initializable {
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
         try {
-//            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-//            window.close();
-            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
                     getClass().getResource("/FXML/settings.fxml"));
-//            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -164,11 +161,8 @@ public class ChangePasswordController implements Initializable {
                 "Information", "Password changed successfully", "Press OK to continue");
 
         try {
-//            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-//            window.close();
-            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
                     getClass().getResource("/FXML/settings.fxml"));
-//            Convenience.switchScene(applyButton, getClass().getResource("/FXML/mainUI.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");

@@ -19,7 +19,8 @@ public class MainUiController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MainStackPane.getInstance().setStackPane(mainStackPane);
+        MainPane.getInstance().setStackPane(mainStackPane);
+        MainPane.getInstance().setBorderPane(mainBorderPane);
     }
 
     /**
@@ -32,10 +33,6 @@ public class MainUiController implements Initializable {
     @FXML
     private void handleMainUiPressed(MouseEvent mouseEvent) {
         mainBorderPane.requestFocus();
-    }
-
-    public BorderPane getMainBorderPane() {
-        return mainBorderPane;
     }
 }
 

@@ -5,7 +5,7 @@ import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
-import mainUI.MainStackPane;
+import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,9 +69,9 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleWishlistClicked(MouseEvent mouseEvent) {
-        MainStackPane mainStackPane = MainStackPane.getInstance();
+        MainPane mainPane = MainPane.getInstance();
         try {
-            Convenience.popupDialog(mainStackPane.getStackPane(), getClass().getResource("/FXML/wishlist.fxml"));
+            Convenience.popupDialog(mainPane.getStackPane(), getClass().getResource("/FXML/wishlist.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -94,7 +94,7 @@ public class SidebarController implements Initializable {
     private void handleSettingsClicked(MouseEvent mouseEvent) throws IOException {
 //        Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
         try {
-            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
@@ -135,7 +135,7 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleSupportClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.popupDialog(MainStackPane.getInstance().getStackPane(),getClass().getResource("/FXML/contactForm.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(),getClass().getResource("/FXML/contactForm.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -180,17 +180,6 @@ public class SidebarController implements Initializable {
     }
 
     /**
-     * Hides the sidebar
-     *
-     * @param mouseEvent - the event which triggered the method
-     */
-    @FXML
-    private void handleCloseClicked(MouseEvent mouseEvent) {
-        hide();
-        SidebarState.saveStateHidden(hidden);
-    }
-
-    /**
      * Slides the sidebar to the left to show it.
      * Calls the {@link #slide(int)} method with a specific position on the x-axis,
      * at which it will be visible to the user.
@@ -224,7 +213,7 @@ public class SidebarController implements Initializable {
     /**
      * Pops up a dialog window to ask the user if he/she really wants to log out.
      *
-     * @return true, if the user presses the YES button. Otherwise, false.
+     * @return {@code true}, if the user presses the YES button. Otherwise, {@code false}.
      */
     private boolean userConfirmsLogOut() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(

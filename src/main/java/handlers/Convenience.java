@@ -9,13 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import mainUI.MainPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -154,14 +152,23 @@ public final class Convenience {
     public static void popupDialog(StackPane stackPane, URL dialogResource) throws IOException {
         closePreviousDialog();
 
+        BorderPane mainBorderPane = MainPane.getInstance().getBorderPane();
+        BoxBlur blur = new BoxBlur(3, 3, 3);
+
         Parent parent = FXMLLoader.load(dialogResource);
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setBody(parent);
         JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
-        previousDialog = dialog;
+        dialog.setOnDialogClosed(event -> mainBorderPane.setEffect(null));
+        dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
         dialog.show();
+
+        previousDialog = dialog;
     }
 
+    /**
+     * Closes the previously opened dialog.
+     */
     public static void closePreviousDialog() {
         if (previousDialog != null) {
             previousDialog.close();
