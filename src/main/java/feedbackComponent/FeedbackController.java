@@ -9,22 +9,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import models.Account;
 import models.Feedback;
-import models.User;
 import org.controlsfx.control.Rating;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
-
 import javafx.scene.control.*;
-import org.eclipse.persistence.exceptions.EclipseLinkException;
-import org.eclipse.persistence.jpa.config.Id;
-
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -44,6 +35,12 @@ public class FeedbackController implements Initializable {
 
     @FXML
     private JFXButton sendFeedback;
+
+    @FXML
+    private Label thankYou;
+
+    @FXML
+    private Label feedbackOnce;
 
     private double Average;
 
@@ -76,6 +73,8 @@ public class FeedbackController implements Initializable {
                 description.setDisable(true);
                 sendFeedback.setVisible(false);
                 rating.setDisable(true);
+                thankYou.setText("Thank you for your feedback");
+                feedbackOnce.setText("You can only give a feedback once.");
 
             }
             // Calculate average
@@ -105,6 +104,8 @@ public class FeedbackController implements Initializable {
             description.setDisable(true);
             sendFeedback.setVisible(false);
             rating.setDisable(true);
+            thankYou.setText("Thank you for your feedback");
+            feedbackOnce.setText("You can only give a feedback once.");
 
             successAlert();
 
@@ -147,14 +148,12 @@ public class FeedbackController implements Initializable {
     }
 
 
+    /**
+     *
+     */
+    private void successAlert(){
 
-   private void successAlert(){
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Feedback");
-        alert.setHeaderText(null);
-        alert.setContentText("Thank you for your feedback ");
-
-        alert.showAndWait();
+       Convenience.showAlert(Alert.AlertType.INFORMATION,
+               "Feedback",null, "Thank you for your feedback");
    }
 }

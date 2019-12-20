@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.Rating?>
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/feedback.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="feedbackComponent.FeedbackController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0084ad" height="88.0" stroke="TRANSPARENT" strokeType="INSIDE" width="600.0" />
@@ -29,12 +31,12 @@
             <Font name="Ayuthaya" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="31.0" layoutY="113.0" text="How was your last experience" textFill="#000022">
+      <Label fx:id="thankYou" layoutX="31.0" layoutY="113.0" text="How was your last experience" textFill="#000022">
          <font>
             <Font name="Baghdad Regular" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="33.0" layoutY="138.0" text="using our application ?" textFill="#000022">
+      <Label fx:id="feedbackOnce" layoutX="33.0" layoutY="138.0" text="using our application ?" textFill="#000022">
          <font>
             <Font name="Baghdad Regular" size="18.0" />
          </font>

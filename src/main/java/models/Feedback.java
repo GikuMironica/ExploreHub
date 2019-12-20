@@ -1,9 +1,5 @@
 package models;
 
-import models.Account;
-import models.User;
-import org.eclipse.persistence.annotations.TypeConverter;
-
 import javax.persistence.*;
 
 /**
