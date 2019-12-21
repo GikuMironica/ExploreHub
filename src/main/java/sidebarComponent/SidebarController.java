@@ -154,6 +154,7 @@ public class SidebarController implements Initializable {
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
+            e.printStackTrace();
         }
     }
 
