@@ -54,8 +54,9 @@ public class Main{
         try {
             AnchorPane contentPane = FXMLLoader.load(getClass().getResource("/FXML/discussion/contentPane.fxml"));
             contentPaneParent.getChildren().add(contentPane);
+            System.out.println("This works");
         }catch (IOException ioe){
-
+            ioe.printStackTrace();
         }
     }
 
