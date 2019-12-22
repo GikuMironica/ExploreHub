@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -14,29 +13,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackpane" prefHeight="471.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
-   <AnchorPane prefHeight="471.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackpane" maxWidth="950.0" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
+   <AnchorPane prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
       <children>
-         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="471.0" prefWidth="190.0" text="User Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="User Statistics">
                  <content>
-                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0" />
-                           <Label layoutX="14.0" layoutY="195.0" maxWidth="170.0" text="Average amount of money spent by user" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="200.0" />
+                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
+                           <Label layoutX="14.0" layoutY="195.0" maxWidth="170.0" text="Average amount of money spent by user" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
                            <Label fx:id="nrOfUsers" layoutX="14.0" layoutY="66.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
+                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="moneySpent" layoutX="14.0" layoutY="232.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="240.0">
+                           <Label fx:id="moneySpent" layoutX="14.0" layoutY="232.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -46,11 +45,11 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="10.0">
+         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="10.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="471.0" prefWidth="190.0" text="Event Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Event Statistics">
                   <content>
-                     <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="28.0" text="Number of Events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
                            <Label fx:id="nrOfEvents" layoutX="14.0" layoutY="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
@@ -58,14 +57,14 @@
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label layoutX="14.0" layoutY="112.0" text="Past events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0" />
-                           <Label layoutX="19.0" layoutY="184.0" maxWidth="175.0" text="Average number of  bookings per event" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="200.0" />
-                           <Label fx:id="pastEvents" layoutX="14.0" layoutY="143.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
+                           <Label layoutX="14.0" layoutY="112.0" text="Past events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
+                           <Label layoutX="19.0" layoutY="184.0" maxWidth="175.0" text="Average number of  bookings per event" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
+                           <Label fx:id="pastEvents" layoutX="14.0" layoutY="143.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOfBookingsPerEvent" layoutX="19.0" layoutY="219.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="235.0">
+                           <Label fx:id="nrOfBookingsPerEvent" layoutX="19.0" layoutY="219.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -75,26 +74,26 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="10.0">
+         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="10.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="471.0" prefWidth="190.0" text="Payment Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Payment Statistics">
                   <content>
-                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="14.0" text="Number of bookings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="45.0" text="Number of pending orders" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0" />
-                           <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="200.0" />
+                           <Label layoutX="14.0" layoutY="45.0" text="Number of pending orders" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
+                           <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
                            <Label fx:id="nrBook" layoutX="160.0" layoutY="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrPend" layoutX="181.0" layoutY="45.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
+                           <Label fx:id="nrPend" layoutX="181.0" layoutY="45.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="230.0">
+                           <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -104,9 +103,9 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox alignment="CENTER" layoutX="650.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <VBox alignment="CENTER" layoutX="650.0" prefHeight="200.0" prefWidth="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-               <AnchorPane>
+               <AnchorPane prefHeight="220.0">
                   <children>
                      <LineChart fx:id="linechart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                        <xAxis>
@@ -120,22 +119,32 @@
                <Separator prefHeight="13.0" />
                <AnchorPane>
                   <children>
-                     <JFXButton mnemonicParsing="false" onMouseClicked="#openHomepage" prefWidth="100.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Home" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="15.0" />
+                     <Label layoutX="14.0" layoutY="6.0" text="Average rating:" textFill="#32a4ba">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font></Label>
+                     <Label fx:id="averageRating" layoutX="108.0" layoutY="7.0" textFill="#32a4ba">
+                        <font>
+                           <Font name="Calisto MT Bold" size="12.0" />
+                        </font></Label>
                   </children>
                </AnchorPane>
             </children>
          </VBox>
-         <HBox layoutY="371.0" maxWidth="950.0" prefHeight="150.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <HBox layoutY="371.0" maxHeight="135.0" maxWidth="950.0" prefHeight="135.0" prefWidth="100.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
             <children>
-               <AnchorPane maxWidth="150.0" prefHeight="150.0" prefWidth="950.0">
+               <AnchorPane maxHeight="130.0" maxWidth="150.0" prefHeight="130.0" prefWidth="950.0">
                   <children>
-                     <StackPane alignment="CENTER" prefWidth="950.0" AnchorPane.leftAnchor="5.0">
-                        <children>
-                           <Pagination fx:id="feedbacks" prefHeight="150.0" prefWidth="950.0" />
-                        </children></StackPane>
+                     <Pagination fx:id="feedbacks" prefHeight="130.0" prefWidth="950.0" AnchorPane.leftAnchor="5.0" />
                   </children></AnchorPane>
             </children>
          </HBox>
+         <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" prefWidth="950.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="450.0">
+            <font>
+               <Font name="System Bold" size="15.0" />
+            </font>
+         </Label>
       </children>
    </AnchorPane>
 </StackPane>

@@ -1,6 +1,8 @@
 package navbarComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -19,15 +21,18 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
+import mainUI.MainPane;
 import models.Account;
 import models.Admin;
 import sidebarComponent.SidebarController;
@@ -132,20 +137,23 @@ public class  NavbarController implements Initializable {
      */
     @FXML
     private void handlePanelClicked(MouseEvent mouseEvent) throws IOException{
-        //Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/PreLoader.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/PreLoader.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/FXML/PreLoader.fxml"));
+        JFXDialogLayout dialogLayout = new JFXDialogLayout();
+        dialogLayout.setMaxHeight(200);
+        dialogLayout.setMaxWidth(200);
         Parent root = (Parent) loader.load();
         PreLoader controller = (PreLoader) loader.getController();
-        controller.setScene(((Node) mouseEvent.getSource()).getScene());
-        Stage stage = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        Stage window = new Stage();
-        window.setScene(scene);
-        window.initStyle(StageStyle.UNDECORATED);
-        window.setTitle("Loading");
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.show();
-       // stage.hide();
+        dialogLayout.setBody(root);
+        BorderPane mainBorderPane = MainPane.getInstance().getBorderPane();
+        BoxBlur blur = new BoxBlur(6, 6, 6);
+        JFXDialog dialog = new JFXDialog(MainPane.getInstance().getStackPane(), dialogLayout, JFXDialog.DialogTransition.CENTER);
+        dialog.setOnDialogClosed(event -> mainBorderPane.setEffect(null));
+        dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
+        dialog.setOverlayClose(false);
+        controller.setLoading(dialog);
+        controller.initialization();
+        dialog.show();
     }
 
     /**

@@ -1,18 +1,16 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXSpinner;
+import handlers.HandleNet;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Account;
 import models.Events;
@@ -20,62 +18,46 @@ import models.Transactions;
 import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * Preloader class which makes database requests while displaying loading screen.
  *
  * @author Aleksejs Marmiss
  */
-public class PreLoader implements Initializable {
+public class PreLoader {
 
     public StackPane stackrPane;
-    public ImageView loadingScreen;
     private List<Transactions> transactionsList;
     private List<User> usersList;
     private List<Events> eventsList;
     private final Account admin = CurrentAccountSingleton.getInstance().getAccount();
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private FXMLLoader loader = new FXMLLoader();
+    private JFXDialog dialog;
+    @FXML
+    private JFXSpinner progress;
+    private ControlPanelController controlPanelController;
 
     /**
      * Method which initializes preloader.
-     * @param url Uniform Resource Locator.
-     * @param resourceBundle contains locale-specific objects.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadingScreen.setImage(new Image("/IMG/explorehubBW.jpg", 345,240, false, false));
+    public void initialization() {
         loader.setLocation(getClass().getResource("/FXML/controlPanel.fxml"));
+
+        setProgress(0.05);
         try {
-            root = loader.load();
+            loader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Thread thread = new Thread(() -> {
-
+            controlPanelController = (ControlPanelController) loader.getController();
+            startAnimation();
             loadTransactionStatistics();
             loadUserStatistics();
             loadEventStatistics();
-
-            try {
-                ControlPanelController controlPanelController = (ControlPanelController) loader.getController();
-                Scene scene = new Scene(root);
-                Platform.runLater(() -> {
-                    stage.hide();
-                    stage.setScene(scene);
-                });
-                Stage loadingStage = (Stage)loadingScreen.getScene().getWindow();
-                controlPanelController.initialize(eventsList,transactionsList,usersList, stage, loadingStage);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            controlPanelController.initialize(eventsList,transactionsList,usersList, this);
         });
         thread.start();
     }
@@ -89,6 +71,9 @@ public class PreLoader implements Initializable {
         usersQuery = entityManager.createNamedQuery(
                 "User.findAllUser",
                 User.class);
+        if(!HandleNet.hasNetConnection()){
+            //TODO
+        }
         usersList = new ArrayList<>(usersQuery.getResultList());
 
     }
@@ -101,6 +86,9 @@ public class PreLoader implements Initializable {
         transactionsQuery = entityManager.createNamedQuery(
                 "Transactions.findAllTransactions",
                 Transactions.class);
+        if(!HandleNet.hasNetConnection()){
+            //TODO
+        }
         transactionsList = new ArrayList<>(transactionsQuery.getResultList());
 
     }
@@ -113,17 +101,42 @@ public class PreLoader implements Initializable {
         eventsQuery = entityManager.createNamedQuery(
                 "Events.findAllEvents",
                 Events.class);
+        if(!HandleNet.hasNetConnection()){
+            //TODO
+        }
         eventsList = new ArrayList<>(eventsQuery.getResultList());
-
     }
 
     /**
-     * Method that allows to set the scene from the outside of the controller.
-     * @param scene scene which has to be used by a instance of controller.
+     * Method that allows to set the loading dialog from the outside of the controller.
+     * @param dialog dialog which has to be used by a instance of controller.
      */
-    public void setScene(Scene scene){
-        this.scene = scene;
-        stage = (Stage)scene.getWindow();
+    public void setLoading(JFXDialog dialog){
+        this.dialog = dialog;
+    }
+
+    /**
+     * Method that allows to set the loading progress from the outside of the controller.
+     * @param value loading progress.
+     */
+    public void setProgress(double value){
+        Platform.runLater(() -> {
+           progress.progressProperty().set(value);
+        });
+    }
+
+  synchronized private void startAnimation(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(progress.progressProperty(), 0)),
+                new KeyFrame(Duration.millis(2500),
+                        new KeyValue(progress.progressProperty(), 0.5)),
+                new KeyFrame(Duration.millis(5000),
+                        new KeyValue(progress.progressProperty(), 1)));
+
+        timeline.setCycleCount(1);
+        timeline.play();
+        timeline.setOnFinished(event -> controlPanelController.setAnimationFinished(true));
     }
 
 }

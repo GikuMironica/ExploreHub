@@ -1,14 +1,16 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXDialog;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.*;
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
  * @author Aleksejs Marmiss
  */
 public class ControlPanelController {
-
+    public TabPane tabPane;
     public AnchorPane manageUsers;
     public AnchorPane managePayments;
     public AnchorPane manageEvents;
@@ -31,6 +33,8 @@ public class ControlPanelController {
     private FXMLLoader manageEventsLoader = new FXMLLoader();
     private FXMLLoader manageAdminsLoader = new FXMLLoader();
     private FXMLLoader communicationLoader = new FXMLLoader();
+    private boolean animationFinished = false;
+    private boolean loadingFinished = false;
     @FXML
     private AnchorPane statisticsTab;
     @FXML
@@ -41,10 +45,9 @@ public class ControlPanelController {
      * @param eventsList list of Events objects.
      * @param transactionsList list of transactions objects.
      * @param usersList list of user objects.
-     * @param stage stage to be used used by a class.
-     * @param loadingStage loading stage initialized by Preloader class.
+     * @param preloader link to the preloader controller.
      */
-    public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, Stage stage, Stage loadingStage) {
+    synchronized public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, PreLoader preloader) {
         statisticsLoader.setLocation(getClass().getResource("/FXML/statisticsTab.fxml"));
         manageUsersLoader.setLocation(getClass().getResource("/FXML/manageUsersTab.fxml"));
         managePaymentsLoader.setLocation(getClass().getResource("/FXML/managePaymentsTab.fxml"));
@@ -76,17 +79,27 @@ public class ControlPanelController {
             manageUsersTabController.setUsers(usersList);
             manageadminsTabController.initialize();
             communicationTabController.initialize();
-            statisticsTab.getChildren().setAll(statisticsContent);
-            manageUsers.getChildren().setAll(manageUsersContent);
-            managePayments.getChildren().setAll(managePaymentsContent);
-            manageEvents.getChildren().setAll(manageEventsContent);
-            manageAdmins.getChildren().setAll(manageAdminsContent);
-            communication.getChildren().setAll(communicationContent);
-            setTabVisible();
-            Platform.runLater(() -> {
-                    stage.show();
-                    loadingStage.close();
-            });
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    loadingFinished = true;
+                    setLoadingFinished();
+                }
+
+                @Override
+                protected Void call(){
+                    statisticsTab.getChildren().setAll(statisticsContent);
+                    manageUsers.getChildren().setAll(manageUsersContent);
+                    managePayments.getChildren().setAll(managePaymentsContent);
+                    manageEvents.getChildren().setAll(manageEventsContent);
+                    manageAdmins.getChildren().setAll(manageAdminsContent);
+                    communication.getChildren().setAll(communicationContent);
+                    return null;
+                }
+            };
+            task.run();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,5 +117,17 @@ public class ControlPanelController {
         tp.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
     }
 
+     public void setLoadingFinished(){
+       if (animationFinished && loadingFinished) {
+           Platform.runLater(() -> {
+               MainPane.getInstance().getStackPane().getChildren().setAll(tabPane);
+               setTabVisible();
+           });
+       }
+    }
 
+    public void setAnimationFinished(boolean animationFinished) {
+        this.animationFinished = animationFinished;
+        setLoadingFinished();
+    }
 }
