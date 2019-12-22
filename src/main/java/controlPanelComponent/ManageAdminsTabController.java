@@ -160,17 +160,30 @@ public class ManageAdminsTabController{
             File file = fileChooser.showOpenDialog(((Node) e.getSource()).getScene().getWindow());
 
             if(file!=null){
-                uploadButton.setText("Image Loaded");
                 image = new Image(file.toURI().toString());
-                adminPicture.setImage(image);
-
-                // move to thread
-                UploadImage uploader = new UploadImage(image);
-                imageURL = uploader.upload();
+                uploadPicture(image);
             }
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * This method uploads the picture to IMGUR in a separate thread
+     * using the UploadImage class.
+     * @param image {@link Image} input param
+     */
+    private void uploadPicture(Image image){
+        Thread thread1 = new Thread(()->{
+            try {
+                UploadImage uploader = new UploadImage(image);
+                imageURL = uploader.upload();
+            }catch(Exception e){
+                Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","This image can't be uploaded","");
+            }
+        });
+        thread1.start();
+        adminPicture.setImage(image);
     }
 
     /**
@@ -188,6 +201,7 @@ public class ManageAdminsTabController{
             adminPicture.setImage(new Image(selectedAdmin.getPicture()));
             adminPicture.setFitHeight(111);
             adminPicture.setFitWidth(111);
+            uploadButton.setDisable(true);
             createAdminButton.setDisable(true);
         } catch(Exception e){
             e.printStackTrace();
@@ -202,6 +216,7 @@ public class ManageAdminsTabController{
     private void clearView(Event e){
         firstnameText.clear();
         lastnameText.clear();
+        uploadButton.setDisable(false);
         emailText.clear();
         Image tempImage = new Image("/IMG/icon-account.png");
         adminPicture.setImage(tempImage);

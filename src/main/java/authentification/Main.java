@@ -16,6 +16,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
+        primaryStage.setTitle("ExploreHub");
+        primaryStage.setResizable(false);
 
         // checks if remember me was ticked
         if(userDB.okState()) {
@@ -30,9 +32,6 @@ public class Main extends Application {
             StackPane mainRoot = new StackPane();
             BorderPane root = new BorderPane();
             mainRoot.getChildren().addAll(root);
-
-            primaryStage.setTitle("ExploreHub");
-            primaryStage.setResizable(false);
 
             Convenience.switchScene(primaryStage, getClass().getResource("/FXML/authentification.fxml"));
         }

@@ -12,12 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -64,17 +66,16 @@ public class CustomListViewCell extends JFXListCell<Events> {
             entityManager = account.getConnection();
 
         } else {
+            setText(null);
             id = event.getId();
 
-            if (loader == null) {
-                loader = new FXMLLoader(getClass().getResource("/FXML/listcell.fxml"));
-                loader.setController(this);
-            }
             try {
+                if (loader == null) {
+                    loader = new FXMLLoader(getClass().getResource("/FXML/listcell.fxml"));
+                    loader.setController(this);
+                }
                 loader.load();
-            } catch (Exception e) {
-
-            }
+            } catch (Exception e) { }
 
             CacheSingleton cache = CacheSingleton.getInstance();
             currentEvent = event;
@@ -99,20 +100,25 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 cellLogo.setImage(image);
                 cellLogo.setFitHeight(120);
                 cellLogo.setFitWidth(120);
-            } catch (Exception e) {
-                image = new Image("/IMG/quest.png");
-                cellLogo.setImage(image);
-            }
 
             descriptionLabel.setText(event.getShortDescription());
             locationLabel.setText(city);
             availableLabel.setText(String.valueOf(event.getAvailablePlaces()));
-            setText(null);
             setGraphic(boxLayout);
             if (event.getPrice() == 0) {
                 priceLabel.setText("FREE");
             } else priceLabel.setText(String.valueOf(event.getPrice()));
 
+            } catch (Exception e) {
+                image = new Image("/IMG/quest.png");
+                cellLogo.setImage(image);
+                try {
+                    // to be fixed
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception exc){
+                    //
+                }
+            }
         }
     }
 
@@ -180,7 +186,7 @@ public class CustomListViewCell extends JFXListCell<Events> {
      * we preventing leading the database into an inconsistent state!
      */
     protected void checkIfInWishlist(){
-        boolean ok = account.checkEventPresence(entityManager, currentEvent.getId());
+        boolean ok = account.getEvents().contains(currentEvent);
         if (ok){
             wishlistButton.setText("Wishlist --");
         } else{

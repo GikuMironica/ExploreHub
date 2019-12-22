@@ -113,7 +113,7 @@ public class BookingController implements Initializable {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
                 bookingDescription.setText(evList.get(0).getShortDescription());
             } catch (Exception e) {
-                e.printStackTrace();
+                bookingImage.setImage(new Image("/IMG/quest.png"));
             }
         }
 

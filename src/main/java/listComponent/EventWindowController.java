@@ -72,11 +72,8 @@ public class EventWindowController{
 
         // get picture associated with this event
         int id = currentEvent.getId();
-        String imageURL = entityManager.find(Pictures.class, id).getPicture();
-        image = new Image(imageURL);
-        imageView.setImage(image);
-        imageView.setFitHeight(333.0);
-        imageView.setFitWidth(464.0);
+
+        setPicture(event);
 
         longDescription.getChildren().add(new Text(currentEvent.getLongDescription()));
         title.setText(currentEvent.getShortDescription());
@@ -105,6 +102,22 @@ public class EventWindowController{
         placesData.setText(available+"/"+total);
         considering.setText(consider+" Students added it to Wishlist");
 
+    }
+
+    /**
+     * Set event main picture
+     * @param event {@link Events} current event
+     */
+    private void setPicture(Events event){
+        try {
+            String imageURL = event.getPicture().getPicture();
+            image = new Image(imageURL);
+        }catch(Exception e){
+            image = new Image("/IMG/quest.png");
+        }
+        imageView.setImage(image);
+        imageView.setFitHeight(333.0);
+        imageView.setFitWidth(464.0);
     }
 
     /**
