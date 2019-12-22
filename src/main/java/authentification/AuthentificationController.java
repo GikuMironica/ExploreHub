@@ -3,17 +3,21 @@ package authentification;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
+import mainUI.MainPane;
 import models.Account;
 import models.Owner;
 
@@ -90,21 +94,27 @@ public class AuthentificationController implements Initializable {
             GuestConnectionSingleton.getInstance().closeConnection();
 
         }catch(Exception e){
-            alert.setText("Invalid Email or Password");
-            alert.setVisible(true);
-            usernameField.clear();
-            passwordField.clear();
+            if(!HandleNet.hasNetConnection()){
+                StackPane stackPane = FXMLLoader.load(getClass().getResource("/FXML/authentification.fxml"));
+                // to be fixed
+                Convenience.popupDialog(stackPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }else {
+                alert.setText("Invalid Email or Password");
+                alert.setVisible(true);
+                usernameField.clear();
+                passwordField.clear();
 
-            PauseTransition visiblePause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            visiblePause.setOnFinished(
-                    (ActionEvent ev) -> {
-                        alert.setVisible(false);
-                    }
-            );
-            visiblePause.play();
-            return;
+                PauseTransition visiblePause = new PauseTransition(
+                        Duration.seconds(3)
+                );
+                visiblePause.setOnFinished(
+                        (ActionEvent ev) -> {
+                            alert.setVisible(false);
+                        }
+                );
+                visiblePause.play();
+                return;
+            }
         }
         alert.setVisible(false);
         checkRememberBox(username, password);
@@ -190,8 +200,9 @@ public class AuthentificationController implements Initializable {
         try {
             Convenience.switchScene(event, getClass().getResource("/FXML/register.fxml"));
         } catch(Error e){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
+            StackPane stackPane = FXMLLoader.load(getClass().getResource("/FXML/authentification.fxml"));
+            // to be fixed
+            Convenience.popupDialog(stackPane, getClass().getResource("/FXML/noInternet.fxml"));
             return;
         }
     }

@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.Account;
 import models.Courses;
 import models.User;
@@ -90,8 +91,9 @@ public class RegisterController implements Initializable  {
             GuestConnectionSingleton.getInstance().closeConnection();
             
         }catch(Exception ex){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex1){}
         }
 
         AuthentificationController.initiliaseApp();
@@ -175,8 +177,9 @@ public class RegisterController implements Initializable  {
             tq1.setParameter("name", courseName);
             return tq1.getSingleResult();
         }catch(Exception er){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception e){}
             return new Courses();
         }
     }

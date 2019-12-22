@@ -67,9 +67,7 @@ public class ListController implements Initializable {
     private void cellClicked(Event event){
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
 
-
         try {
-            entityManager.refresh(selectedEvent);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/FXML/eventwindow.fxml"));
             ScrollPane root = loader.load();
@@ -80,7 +78,7 @@ public class ListController implements Initializable {
             window.setScene(scene);
             window.show();
         } catch(Exception ex){
-
+            ex.printStackTrace();
         }
 
     }
