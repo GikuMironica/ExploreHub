@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0"
+            AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+            fx:controller="sample.Controller" fx:id="contentPane"/>
