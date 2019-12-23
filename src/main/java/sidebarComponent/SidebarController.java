@@ -151,7 +151,7 @@ public class SidebarController implements Initializable {
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
-    private void handleFeedbackClicked(MouseEvent mouseEvent) {
+    private void handleFeedbackClicked(MouseEvent mouseEvent) throws IOException {
         try {
             if (HandleNet.hasNetConnection()) {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
@@ -166,9 +166,8 @@ public class SidebarController implements Initializable {
             e.printStackTrace();
         }
         catch (CommunicationException e1){
-            Convenience.showAlert(Alert.AlertType.ERROR, "Connectivity error",
-                    "Connection lost",
-                    "It seems you have no Internet connectivity, please check with your network administrator");
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
         }
     }
 
