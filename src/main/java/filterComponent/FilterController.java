@@ -1,12 +1,15 @@
 package filterComponent;
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import mainUI.MainPane;
 import models.Location;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -53,19 +56,14 @@ public class FilterController implements Initializable {
         }
 
     /**
-     *Method that applies the filter.
-     */
-        public void applyFilter() {
-            filter.filterItems();
-        }
-
-    /**
      *Method sets the value (city) to filter.
      */
         public void onValueChanged() {
             if (!choiceCity.getSelectionModel().isSelected(-1)) {
                 choiceRadius.setDisable(false);
                 filter.setCityValue(choiceCity.getValue());
+                filter.filterItems();
+                filter.applySort();
             }
         }
 
@@ -81,6 +79,13 @@ public class FilterController implements Initializable {
             locationQuery = entityManager.createNamedQuery(
                     "Location.findAllLocation",
                     Location.class);
+            if(!HandleNet.hasNetConnection()){
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception exc){
+                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                }
+            }
             locations.addAll(locationQuery.getResultList());
             for (Location city:locations) {
                 if(!cities.contains(city.getCity())) {
@@ -100,6 +105,8 @@ public class FilterController implements Initializable {
             DecimalFormat numberFormat = new DecimalFormat("#0.00");
             money.setText(numberFormat.format(price) + " €");
             filter.setPriceValue(choicePrice.getValue());
+            filter.filterItems();
+            filter.applySort();
 
         }
 
@@ -110,6 +117,8 @@ public class FilterController implements Initializable {
             if (!choiceRadius.getSelectionModel().isSelected(-1)) {
                 filter.setRadiusValue(Integer.valueOf(choiceRadius.getValue()));
                 filter.setRadiusSelected(choiceRadius.getSelectionModel().getSelectedIndex());
+                filter.filterItems();
+                filter.applySort();
             }
         }
 
@@ -120,6 +129,8 @@ public class FilterController implements Initializable {
             if (!choiceMinPers.getSelectionModel().isSelected(-1)) {
                 filter.setMinPersValue(Integer.valueOf(choiceMinPers.getValue()));
                 filter.setMinPersSelected(choiceMinPers.getSelectionModel().getSelectedIndex());
+                filter.filterItems();
+                filter.applySort();
             }
         }
 

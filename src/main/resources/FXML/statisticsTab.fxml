@@ -16,7 +16,7 @@
 <StackPane fx:id="stackpane" maxWidth="950.0" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
    <AnchorPane prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
       <children>
-         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="User Statistics">
                  <content>
@@ -45,7 +45,7 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="10.0">
+         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0">
             <children>
                <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Event Statistics">
                   <content>
@@ -74,7 +74,7 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="10.0">
+         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0">
             <children>
                <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Payment Statistics">
                   <content>
@@ -119,11 +119,11 @@
                <Separator prefHeight="13.0" />
                <AnchorPane>
                   <children>
-                     <Label layoutX="14.0" layoutY="6.0" text="Average rating:" textFill="#32a4ba">
+                     <Label layoutX="14.0" layoutY="6.0" text="Average rating:" textFill="#32a4ba" AnchorPane.topAnchor="3.0">
                         <font>
                            <Font name="System Bold" size="12.0" />
                         </font></Label>
-                     <Label fx:id="averageRating" layoutX="108.0" layoutY="7.0" textFill="#32a4ba">
+                     <Label fx:id="averageRating" layoutX="108.0" layoutY="7.0" textFill="#32a4ba" AnchorPane.topAnchor="3.0">
                         <font>
                            <Font name="Calisto MT Bold" size="12.0" />
                         </font></Label>

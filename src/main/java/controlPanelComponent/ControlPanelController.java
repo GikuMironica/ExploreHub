@@ -1,11 +1,12 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
-import com.jfoenix.controls.JFXDialog;
+import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -101,7 +102,13 @@ public class ControlPanelController {
             task.run();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                }
+            });
+
         }
 
     }
@@ -117,6 +124,9 @@ public class ControlPanelController {
         tp.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
     }
 
+    /**
+     * Method which substitutes the content of a MainUI with a Tabpane.
+     */
      public void setLoadingFinished(){
        if (animationFinished && loadingFinished) {
            Platform.runLater(() -> {
@@ -126,6 +136,10 @@ public class ControlPanelController {
        }
     }
 
+    /**
+     * Method that allows to notify the controller that loading animation has finished.
+     * @param animationFinished boolean that stores the state of animation.
+     */
     public void setAnimationFinished(boolean animationFinished) {
         this.animationFinished = animationFinished;
         setLoadingFinished();

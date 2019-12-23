@@ -74,7 +74,11 @@ public class CommunicationTabController {
             messages = emailFolder.getMessages();
             mails.setPageFactory(this::createPage);
         } catch (Exception e) {
-                //TODO
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
         }
     }
 
@@ -130,7 +134,11 @@ public class CommunicationTabController {
                 surname.setPromptText("Please enter surname");
             }
         }catch (Exception e){
-            //TODO
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
         }
         pageBox.getChildren().add(messageContent);
         return pageBox;
@@ -143,7 +151,7 @@ public class CommunicationTabController {
      * @throws IOException
      * @throws MessagingException
      */
-    private String getTextFromMessage(Message message) throws IOException, MessagingException {
+        private String getTextFromMessage(Message message) throws IOException, MessagingException {
         String result = "";
         if (message.isMimeType("text/plain")) {
             result = message.getContent().toString();
@@ -238,7 +246,7 @@ public class CommunicationTabController {
                 messageHandler.sendEmail(textArea.getText(), subject, email.getText());
                 dialog.close();
             } catch (MessagingException e) {
-                e.printStackTrace();
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
             }
         });
         content.setActions(button);
@@ -254,6 +262,7 @@ public class CommunicationTabController {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
     }
 }

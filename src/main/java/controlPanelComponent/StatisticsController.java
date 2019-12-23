@@ -3,6 +3,7 @@ package controlPanelComponent;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -14,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -143,6 +145,13 @@ public class StatisticsController {
         feedbackQuery = entityManager.createNamedQuery(
                 "Feedback.findAllFeedbacks",
                 Feedback.class);
+        if(!HandleNet.hasNetConnection()){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
+        }
         feedbackList = new ArrayList<>(feedbackQuery.getResultList());
     }
 
@@ -189,6 +198,7 @@ public class StatisticsController {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
     }
 

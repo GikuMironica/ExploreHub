@@ -3,6 +3,7 @@ package controlPanelComponent;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSpinner;
+import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -10,8 +11,10 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.Transactions;
@@ -38,71 +41,82 @@ public class PreLoader {
     @FXML
     private JFXSpinner progress;
     private ControlPanelController controlPanelController;
+    private Timeline timeline;
 
     /**
      * Method which initializes preloader.
      */
     public void initialization() {
         loader.setLocation(getClass().getResource("/FXML/controlPanel.fxml"));
-
-        setProgress(0.05);
         try {
             loader.load();
         } catch (Exception e) {
-            e.printStackTrace();
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
         Thread thread = new Thread(() -> {
             controlPanelController = (ControlPanelController) loader.getController();
             startAnimation();
-            loadTransactionStatistics();
-            loadUserStatistics();
-            loadEventStatistics();
+            if(HandleNet.hasNetConnection()) {
+                try {
+                    loadTransactionStatistics();
+                    loadUserStatistics();
+                    loadEventStatistics();
+                }catch (Exception internetLost){
+                    throwNoInternetAlert();
+                    return;
+                }
+            }else{
+                throwNoInternetAlert();
+                return;
+            }
             controlPanelController.initialize(eventsList,transactionsList,usersList, this);
         });
         thread.start();
+        progress.progressProperty().set(1);
     }
 
     /**
      * Method which loads users from database.
      */
-    public void loadUserStatistics(){
+    public void loadUserStatistics() throws Exception{
         EntityManager entityManager = admin.getConnection();
         TypedQuery<User> usersQuery;
         usersQuery = entityManager.createNamedQuery(
                 "User.findAllUser",
                 User.class);
         if(!HandleNet.hasNetConnection()){
-            //TODO
+            throw new Exception("Internet Connection lost");
         }
         usersList = new ArrayList<>(usersQuery.getResultList());
-
     }
     /**
      * Method which loads transactionjs from database.
      */
-    public void loadTransactionStatistics(){
+    public void loadTransactionStatistics() throws Exception{
         EntityManager entityManager = admin.getConnection();
         TypedQuery<Transactions> transactionsQuery;
         transactionsQuery = entityManager.createNamedQuery(
                 "Transactions.findAllTransactions",
                 Transactions.class);
         if(!HandleNet.hasNetConnection()){
-            //TODO
+            throw new Exception("Internet Connection lost");
         }
         transactionsList = new ArrayList<>(transactionsQuery.getResultList());
+
+
 
     }
     /**
      * Method which loads events from database.
      */
-    public void loadEventStatistics(){
+    public void loadEventStatistics() throws Exception{
         EntityManager entityManager = admin.getConnection();
         TypedQuery<Events> eventsQuery;
         eventsQuery = entityManager.createNamedQuery(
                 "Events.findAllEvents",
                 Events.class);
         if(!HandleNet.hasNetConnection()){
-            //TODO
+            throw new Exception("Internet Connection lost");
         }
         eventsList = new ArrayList<>(eventsQuery.getResultList());
     }
@@ -115,28 +129,36 @@ public class PreLoader {
         this.dialog = dialog;
     }
 
-    /**
-     * Method that allows to set the loading progress from the outside of the controller.
-     * @param value loading progress.
-     */
-    public void setProgress(double value){
-        Platform.runLater(() -> {
-           progress.progressProperty().set(value);
-        });
-    }
-
   synchronized private void startAnimation(){
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(progress.progressProperty(), 0)),
                 new KeyFrame(Duration.millis(2500),
                         new KeyValue(progress.progressProperty(), 0.5)),
                 new KeyFrame(Duration.millis(5000),
-                        new KeyValue(progress.progressProperty(), 1)));
+                        new KeyValue(progress.progressProperty(), 0.99)));
 
         timeline.setCycleCount(1);
         timeline.play();
         timeline.setOnFinished(event -> controlPanelController.setAnimationFinished(true));
     }
+
+    private void throwNoInternetAlert(){
+           Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
+                   try {
+                       timeline.stop();
+                       dialog.close();
+                       Convenience.closePreviousDialog();
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                   }catch(Exception exc){
+                       Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    }
+               }
+           });
+
+    }
+
 
 }
