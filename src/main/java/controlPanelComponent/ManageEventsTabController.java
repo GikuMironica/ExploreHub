@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -178,7 +179,10 @@ public class ManageEventsTabController {
             entityManager.merge(selectedEvent);
             entityManager.getTransaction().commit();
         } catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc) { /**/ }
             return;
         }
 
@@ -212,7 +216,13 @@ public class ManageEventsTabController {
         // Normal
         Double price = 0.0;
         int totalSelected = placesCombo.getSelectionModel().getSelectedIndex()+1;
-        Date actualDate = Date.valueOf(localDate);
+        Date actualDate = null;
+        try {
+             actualDate = Date.valueOf(dateField.getValue());
+        }catch(Exception e){
+            Convenience.showAlert(Alert.AlertType.ERROR, "Choose a day", "Choose a day after tomorrow again please!","");
+            return;
+        }
         Double latitude = Double.valueOf(latitudeField.getText());
         Double longitude = Double.valueOf(longitudeField.getText());
         Events newEvent = null;
@@ -229,12 +239,17 @@ public class ManageEventsTabController {
         Location newLoc = new Location(Double.valueOf(latitude), Double.valueOf(longitude), cityField.getText());
         Pictures newPic = new Pictures(urlLogo, urlPic);
 
-        persistEvent(newEvent, newLoc, newPic);
-
-        clearForm(event);
-        mainPic = null;
-        logoPic = null;
-        Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Created", "Event was successfully created", "");
+        if(isPersistedOk(newEvent, newLoc, newPic)) {
+            clearForm(event);
+            mainPic = null;
+            logoPic = null;
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Created", "Event was successfully created", "");
+        }else{
+            clearForm(event);
+            mainPic = null;
+            logoPic = null;
+            return;
+        }
     }
 
 
@@ -247,11 +262,15 @@ public class ManageEventsTabController {
     private String uploadIMG(Image img) {
         UploadImage uploadImg = new UploadImage(img);
         try {
-            return uploadImg.upload();
+            String url = uploadImg.upload();
+            return url;
         } catch (Exception e) {
             e.printStackTrace();
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-            return null;
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc) { /**/ }
+            return "/IMG/quest.png";
         }
     }
 
@@ -273,13 +292,21 @@ public class ManageEventsTabController {
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
+            try {
+                Events ev = entityManager.find(Events.class, selectedEvent.getId());
+                entityManager.getTransaction().begin();
+                entityManager.remove(ev);
+                entityManager.getTransaction().commit();
+                eventsObservableList.remove(selectedEvent);
+                Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Deleted", "Event was successfully deleted", "");
+            }catch(Exception exc){
+                exc.printStackTrace();
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception e) { /**/ }
+            }
             clearForm(event);
-            Events ev = entityManager.find(Events.class, selectedEvent.getId());
-            entityManager.getTransaction().begin();
-            entityManager.remove(ev);
-            entityManager.getTransaction().commit();
-            eventsObservableList.remove(selectedEvent);
-            Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Deleted", "Event was successfully deleted", "");
         }
     }
 
@@ -342,13 +369,16 @@ public class ManageEventsTabController {
      */
     protected boolean validateInput(String companyName, String priceValue, String cityName, String latitude, String longitude, String shortFieldText, String longFieldText){
         boolean ok = true;
+        boolean validPrice = true;
         boolean validCompany = (!(companyName.isEmpty())&&(companyName.matches(ORGANISATION_PATTERN)));
         boolean validCity = (!(cityName.isEmpty())&&(cityName.matches(CITY_PATTERN)));
         boolean validShortDescription = (!(shortFieldText.isEmpty())&&(shortFieldText.length()>shortDescriptionLowLimit)&&(shortFieldText.length()<=shortDescriptionUpLimit));
         boolean validLongDescription = (!(longFieldText.isEmpty())&&(longFieldText.length()>longDescriptionLowLimit)&&(longFieldText.length()<=longDescriptionUpLimit));
         boolean validLatitude = (!(latitude.isEmpty()))&&(latitude.matches(LATITUDE_PATTERN));
         boolean validLongitude = (!(longitude.isEmpty()))&&(longitude.matches(LONGITUDE_PATTERN));
-        boolean validPrice = (!(priceValue.isEmpty()))&&(priceValue.matches(PRICE_PATTERN));
+        if(paidRadio.isSelected()) {
+            validPrice = (!(priceValue.isEmpty())) && (priceValue.matches(PRICE_PATTERN));
+        }
 
         // check which are wrong
         if(!validCompany){
@@ -503,7 +533,14 @@ public class ManageEventsTabController {
      */
     @FXML
     private void goHome(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        try {
+            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception e){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex) { /**/ }
+        }
     }
 
     /**
@@ -581,7 +618,7 @@ public class ManageEventsTabController {
      * @param newLoc {@link Location} input param
      * @param newPic {@link Pictures} input param
      */
-    private void persistEvent(Events newEvent, Location newLoc, Pictures newPic) {
+    private boolean isPersistedOk(Events newEvent, Location newLoc, Pictures newPic) {
 
         try {
             entityManager.getTransaction().begin();
@@ -598,10 +635,13 @@ public class ManageEventsTabController {
             entityManager.getTransaction().commit();
             eventsObservableList.add(newEvent);
 
+            return true;
         } catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-            e.printStackTrace();
-            return;
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+                return false;
+            }catch(Exception xe) { return false; }
         }
 
     }
@@ -617,8 +657,10 @@ public class ManageEventsTabController {
                 String urlPic = uploadImg.upload();
                 selectedEvent.getPicture().setPicture(urlPic);
             }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception xe) { /**/ }
             }
         }
         if(logoPic != null){
@@ -628,8 +670,10 @@ public class ManageEventsTabController {
                 String urlLogo = uploadLogo.upload();
                 selectedEvent.getPicture().setLogo(urlLogo);
             }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception xe) { /**/ }
             }
         }
     }

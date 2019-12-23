@@ -44,7 +44,10 @@ public class ListController implements Initializable {
             EventListSingleton events = EventListSingleton.getInstance();
             eventsObservableList = events.getEventsObservableList();
         } catch(Exception e){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex) { /**/ }
         }
     }
 
@@ -75,7 +78,7 @@ public class ListController implements Initializable {
                     getClass().getResource("/FXML/eventwindow.fxml"));
             eventWindowController.initModel(selectedEvent);
         } catch(Exception ex){
-            ex.printStackTrace();
+
         }
 
     }
