@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
@@ -34,6 +35,10 @@ import java.util.ResourceBundle;
  */
 public class AuthentificationController implements Initializable {
 
+    @FXML
+    private StackPane authStackPane;
+    @FXML
+    private AnchorPane authAnchorPane;
     @FXML
     private JFXCheckBox rememberBox;
     @FXML
@@ -95,9 +100,7 @@ public class AuthentificationController implements Initializable {
 
         }catch(Exception e){
             if(!HandleNet.hasNetConnection()){
-                StackPane stackPane = FXMLLoader.load(getClass().getResource("/FXML/authentification.fxml"));
-                // to be fixed
-                Convenience.popupDialog(stackPane, getClass().getResource("/FXML/noInternet.fxml"));
+                Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
             }else {
                 alert.setText("Invalid Email or Password");
                 alert.setVisible(true);
@@ -120,7 +123,6 @@ public class AuthentificationController implements Initializable {
         checkRememberBox(username, password);
 
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
-
     }
 
     /**
@@ -198,12 +200,9 @@ public class AuthentificationController implements Initializable {
     private void register(Event event) throws IOException {
 
         try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/register.fxml"));
+            Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/register.fxml"));
         } catch(Error e){
-            StackPane stackPane = FXMLLoader.load(getClass().getResource("/FXML/authentification.fxml"));
-            // to be fixed
-            Convenience.popupDialog(stackPane, getClass().getResource("/FXML/noInternet.fxml"));
-            return;
+            Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
         }
     }
 
@@ -224,7 +223,7 @@ public class AuthentificationController implements Initializable {
      */
     @FXML
     private void recover(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/recover.fxml"));
+        Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/recover.fxml"));
     }
 
 

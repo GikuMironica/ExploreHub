@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<StackPane fx:id="authentificationPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
+<StackPane fx:id="authStackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.AuthentificationController">
    <children>
-      <AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles/login.css">
+      <AnchorPane fx:id="authAnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles/login.css">
          <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Image url="@../IMG/login-hero.jpg" />
          </ImageView>

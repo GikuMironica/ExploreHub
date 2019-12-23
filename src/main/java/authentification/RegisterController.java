@@ -12,6 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import mainUI.MainPane;
 import models.Account;
@@ -31,6 +33,11 @@ import java.util.ResourceBundle;
  */
 @SuppressWarnings("JpaQueryApiInspection")
 public class RegisterController implements Initializable  {
+
+    @FXML
+    private StackPane registerStackPane;
+    @FXML
+    private AnchorPane registerAnchorPane;
     @FXML
     private TextField firstNameField, lastNameField, emailField;
     @FXML
@@ -92,7 +99,7 @@ public class RegisterController implements Initializable  {
             
         }catch(Exception ex){
             try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
             }catch(Exception ex1){}
         }
 
@@ -178,7 +185,7 @@ public class RegisterController implements Initializable  {
             return tq1.getSingleResult();
         }catch(Exception er){
             try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
             }catch(Exception e){}
             return new Courses();
         }
@@ -222,6 +229,6 @@ public class RegisterController implements Initializable  {
      */
     @FXML
     private void goBack(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/authentification.fxml"));
+        Convenience.closePreviousDialog();
     }
 }

@@ -127,12 +127,7 @@ public class FeedbackController implements Initializable {
 
     @FXML
     private void back(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
-        } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-        }
+        Convenience.closePreviousDialog();
     }
 
 

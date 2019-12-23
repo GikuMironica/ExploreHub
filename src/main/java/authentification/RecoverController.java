@@ -112,12 +112,7 @@ public class RecoverController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Convenience.switchScene(event, getClass().getResource("/authentification/authentification.fxml"));
-                        }catch (IOException ioe){
-                            Convenience.showAlert(Alert.AlertType.ERROR,
-                                    "Error", "Something went wrong", "Please, try again later");
-                        }
+                        Convenience.closePreviousDialog();
                     }
                 });
 
@@ -210,12 +205,6 @@ public class RecoverController implements Initializable {
      * Method that switches to the log-in page.
      */
     public void handleCancelClicked(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/authentification.fxml") );
-        } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-        }
-
+        Convenience.closePreviousDialog();
     }
 }

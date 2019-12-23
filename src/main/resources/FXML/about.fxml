@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" />
       <Label alignment="CENTER" layoutX="181.0" layoutY="14.0" text="ExploreHub" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="160.0">

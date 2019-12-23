@@ -50,7 +50,7 @@ public class ChangePasswordController implements Initializable {
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
@@ -161,7 +161,7 @@ public class ChangePasswordController implements Initializable {
                 "Information", "Password changed successfully", "Press OK to continue");
 
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
