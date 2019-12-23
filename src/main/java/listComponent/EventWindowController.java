@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -232,17 +233,7 @@ public class EventWindowController{
      */
     @FXML
     private void goBack(Event event){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
-            Scene scene = new Scene(root);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        }catch(Exception ex){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
-            return;
-        }
+        Convenience.closePreviousDialog();
     }
 
     /**
@@ -296,10 +287,10 @@ public class EventWindowController{
         book.setText("Booked");
 
         try{
-            Convenience.switchScene(event, getClass().getResource(("/FXML/booking.fxml")));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource(("/FXML/booking.fxml")));
         }catch(IOException e){
             e.printStackTrace();
-
         }
     }
 

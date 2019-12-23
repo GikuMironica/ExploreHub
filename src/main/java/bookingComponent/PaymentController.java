@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import mainUI.MainPane;
 import models.Events;
 import models.User;
 
@@ -103,24 +105,28 @@ public class PaymentController implements Initializable {
     @FXML
     public void goBack(Event event){
         try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/booking.fxml"));
-        }catch(IOException e){e.printStackTrace();}
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/booking.fxml"));
+        }catch(IOException e){
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 
     @FXML
     public void cancelBooking(Event event){ // Once user presses Cancel button - cancel the booking
         BookingController.setPaymentTypeValue(100);
-        try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
-        }catch(IOException e){e.printStackTrace();}
+        Convenience.closePreviousDialog();
     }
 
     public void confirmationScene(){
         try {
-            container.getChildren().clear();
-            newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentConfirmation.fxml"));
-            container.getChildren().add(newPane);
-        }catch (IOException e){e.printStackTrace();}
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/paymentConfirmation.fxml"));
+        } catch (IOException e) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 
     public void disablePayBtn(){

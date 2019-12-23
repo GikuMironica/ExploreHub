@@ -2,6 +2,7 @@ package listComponent;
 
 
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.User;
@@ -68,15 +70,10 @@ public class ListController implements Initializable {
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
 
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/FXML/eventwindow.fxml"));
-            ScrollPane root = loader.load();
-            Scene scene = new Scene(root);
-            EventWindowController eventWindowController = loader.getController();
+            EventWindowController eventWindowController = Convenience.popupDialog(
+                    MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/eventwindow.fxml"));
             eventWindowController.initModel(selectedEvent);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
         } catch(Exception ex){
             ex.printStackTrace();
         }
