@@ -4,7 +4,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane fx:id="tabPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="950.0" tabMaxWidth="143.0" tabMinWidth="143.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
+<?import com.jfoenix.controls.JFXTabPane?>
+<JFXTabPane fx:id="tabPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="950.0" tabMaxWidth="143.0" tabMinWidth="143.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
    <tabs>
       <Tab text="Statistics">
         <content>
@@ -43,4 +44,4 @@
         </content>
       </Tab>
    </tabs>
-</TabPane>
+</JFXTabPane>

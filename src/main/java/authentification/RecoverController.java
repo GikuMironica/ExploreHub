@@ -2,6 +2,7 @@ package authentification;
 
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -9,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import mainUI.MainPane;
 import models.User;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
@@ -26,6 +30,8 @@ import java.util.UUID;
  *
  */
 public class RecoverController implements Initializable {
+    public StackPane stackPane;
+    public AnchorPane anchorpane;
     @FXML
     private JFXButton cancelButton;
     @FXML
@@ -43,6 +49,7 @@ public class RecoverController implements Initializable {
     private List<User> users;
     private GuestConnectionSingleton connection;
     private EntityManager entityManager;
+    private Thread thread = null;
 
 
     @Override
@@ -61,8 +68,27 @@ public class RecoverController implements Initializable {
     private void generateConfirmCode(Event event){
         recoveryEmail.setDisable(true);
         sendEmailButton.setDisable(true);
-        Thread thread = new Thread(() -> {
-            if (checkUser(recoveryEmail.getText())) {
+
+        thread = new Thread(() -> {
+            boolean userExists = false;
+            try {
+                userExists = checkUser(recoveryEmail.getText());
+            }catch (Exception internetConnection){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!HandleNet.hasNetConnection()) {
+                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "It looks like internet connection has been lost. Please try again later.");
+                        }else {
+                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                        }
+                    }
+                });
+                Thread.currentThread().interrupt();
+                return;
+            }
+            System.out.println("Here");
+            if (userExists) {
                 String key = UUID.randomUUID().toString();
                 generatedKey = key;
                 MessageHandler messageHandler = MessageHandler.getMessageHandler();
@@ -128,14 +154,22 @@ public class RecoverController implements Initializable {
      * @param email user email as a String.
      * @return  true if user exists and false if does not exist.
      */
-    private boolean checkUser(String email){
+    private boolean checkUser(String email) throws Exception{
         connection = GuestConnectionSingleton.getInstance();
         entityManager = connection.getManager();
         checkUserQuery = entityManager.createNamedQuery(
                 "User.findUserbyEmail",
                 User.class);
         checkUserQuery.setParameter("email", email);
-        users = checkUserQuery.getResultList();
+        if(!HandleNet.hasNetConnection()){
+            throw new Exception("Internet Connection lost");
+        }
+        try {
+            users = checkUserQuery.getResultList();
+        }catch (Exception internetConnection){
+            throw new Exception("Internet Connection lost");
+        }
+
         return users.size() == 1;
     }
 

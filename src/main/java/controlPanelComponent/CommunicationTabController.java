@@ -1,24 +1,19 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.*;
+import handlers.HandleNet;
 import handlers.MessageHandler;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import javax.mail.*;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
@@ -26,11 +21,12 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.text.Font;
+import mainUI.MainPane;
 import models.Account;
 
 
 public class CommunicationTabController {
+    public AnchorPane anchorPane;
     @FXML
     private JFXTextField name;
     @FXML
@@ -48,7 +44,7 @@ public class CommunicationTabController {
     Account account = CurrentAccountSingleton.getInstance().getAccount();
 
 
-    public void initialize() {
+    public void initialize() throws Exception{
 
         checkForEmails();
     }
@@ -57,7 +53,7 @@ public class CommunicationTabController {
     /**
      *Method which loads the emails from gmail.
      */
-    public void checkForEmails()
+    public void checkForEmails() throws Exception
     {
         try {
             String username = "explorehub.help@gmail.com";
@@ -75,10 +71,8 @@ public class CommunicationTabController {
             emailFolder.open(Folder.READ_ONLY);
             messages = emailFolder.getMessages();
             mails.setPageFactory(this::createPage);
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Internet Connection lost");
         }
     }
 
@@ -93,12 +87,13 @@ public class CommunicationTabController {
         email.clear();
 
         VBox pageBox = new VBox();
-        TextArea messageContent = new TextArea();
+        JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
-        messageContent.setMaxWidth(900);
-        messageContent.setMinHeight(300);
-        messageContent.setMaxHeight(300);
+        messageContent.setMaxWidth(940);
+        messageContent.setMinHeight(250);
+        messageContent.setMaxHeight(250);
         messageContent.setEditable(false);
+        messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         try {
             mails.setPageCount(messages.length);
             Message message = messages[(messages.length-1)-pageIndex];
@@ -122,7 +117,6 @@ public class CommunicationTabController {
                     "SUBJECT: " +subject + "\n" +"\n" +
                     "DATE: " + messages[(messages.length-1)-pageIndex].getSentDate() + "\n" + "\n" +
                     getTextFromMessage(message) + "\n";
-            messageContent.setFont(Font.font("Serif", FontWeight.BOLD, 16));
             messageContent.setText(text);
 
             if (m.find()){
@@ -134,7 +128,19 @@ public class CommunicationTabController {
                 surname.setPromptText("Please enter surname");
             }
         }catch (Exception e){
-           e.printStackTrace();
+           if (!HandleNet.hasNetConnection()) {
+               try {
+                   Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+               } catch (Exception exc) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }else {
+               try {
+                   checkForEmails();
+               } catch (Exception e1) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }
         }
         pageBox.getChildren().add(messageContent);
         return pageBox;
@@ -147,7 +153,7 @@ public class CommunicationTabController {
      * @throws IOException
      * @throws MessagingException
      */
-    private String getTextFromMessage(Message message) throws IOException, MessagingException {
+        private String getTextFromMessage(Message message) throws IOException, MessagingException {
         String result = "";
         if (message.isMimeType("text/plain")) {
             result = message.getContent().toString();
@@ -212,15 +218,20 @@ public class CommunicationTabController {
         int mailSelected = (mails.getPageCount()-1) - mails.currentPageIndexProperty().intValue();
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Your message"));
-        TextArea textArea = new TextArea();
+        JFXTextArea textArea = new JFXTextArea();
+        textArea.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         textArea.setMinHeight(250);
         textArea.setMinWidth(500);
         String text = "Dear " + name.getText() + " " + surname.getText() +",\n"
-                    + "Thank you for your email!\n"
-                    + "\n"
-                    + "\n"
-                    + "\n"
-                    + "\n"
+                + "Thank you for your email!\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
                 + "Best Regards,\n"
                 + account.getFirstname() + " " + account.getLastname() + "\n"
                 + "Your ExploreHub Team.";
@@ -228,6 +239,8 @@ public class CommunicationTabController {
         content.setBody(textArea);
         JFXDialog dialog = new JFXDialog(stackpane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("Send");
+        button.setButtonType(JFXButton.ButtonType.RAISED);
+        button.setStyle("-fx-background-color: #32a4ba");
         button.setOnAction(actionEvent -> {
             try {
                 String subject = messages[mailSelected].getSubject();
@@ -235,19 +248,23 @@ public class CommunicationTabController {
                 messageHandler.sendEmail(textArea.getText(), subject, email.getText());
                 dialog.close();
             } catch (MessagingException e) {
-                e.printStackTrace();
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
             }
         });
         content.setActions(button);
         dialog.show();
     }
 
-    public void openHomepage(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml") );
-        } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+
+    /**
+     * Method which opens the homepage.
+     * @param mouseEvent Mouse event triggered by the click of the button.
+     */
+    public void goHome(MouseEvent mouseEvent) {
+        try{
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
     }
 }

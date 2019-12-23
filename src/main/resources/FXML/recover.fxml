@@ -8,95 +8,101 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" prefHeight="402.0" prefWidth="500.0" minWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RecoverController">
-    <children>
-        <VBox alignment="CENTER" layoutX="37.0" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-            <children>
-                <Label alignment="CENTER" text="Password recovery!" textAlignment="JUSTIFY">
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
-                    <font>
-                        <Font name="Impact" size="32.0" />
-                    </font>
-                </Label>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                <VBox.margin>
-                    <Insets left="20.0" right="20.0" />
-                </VBox.margin>
-                <children>
-                  <Label fx:id="notifyUser" />
-               </children>
-            </HBox>
-                <HBox alignment="CENTER">
-                    <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                    </VBox.margin>
-                    <children>
-                        <TextField fx:id="recoveryEmail" alignment="CENTER">
-                            <padding>
-                                <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                            </padding>
-                        </TextField>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER">
-                    <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                    </VBox.margin>
-                    <children>
-                        <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#generateConfirmCode" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Send email">
-                            <font>
-                                <Font name="Impact" size="15.0" />
-                            </font>
-                        </JFXButton>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <HBox alignment="CENTER">
-                    <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                    </VBox.margin>
-                    <children>
-                        <TextField fx:id="confirmationCode" alignment="CENTER">
-                            <padding>
-                                <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                            </padding>
-                        </TextField>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER">
-                    <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                    </VBox.margin>
-                    <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <ButtonBar maxWidth="150.0" minWidth="175.0" prefHeight="40.0" prefWidth="175.0">
-                          <buttons>
-                                    <JFXButton fx:id="confirmationCodeButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#confirmButton" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Confirm">
-                                        <font>
-                                            <Font name="Impact" size="15.0" />
-                                        </font>
-                                    </JFXButton>
-                              <JFXButton fx:id="cancelButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Cancel">
-                                 <font>
-                                    <Font name="Impact" size="15.0" />
-                                 </font>
-                              </JFXButton>
-                          </buttons>
-                        </ButtonBar>
+
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RecoverController">
+   <children>
+      <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" minWidth="500.0" prefHeight="402.0" prefWidth="500.0">
+          <children>
+              <VBox alignment="CENTER" layoutX="37.0" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                  <children>
+                      <Label alignment="CENTER" text="Password recovery!" textAlignment="JUSTIFY">
+                          <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                          </VBox.margin>
+                          <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                          </padding>
+                          <font>
+                              <Font name="Impact" size="32.0" />
+                          </font>
+                      </Label>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                      <VBox.margin>
+                          <Insets left="20.0" right="20.0" />
+                      </VBox.margin>
+                      <children>
+                        <Label fx:id="notifyUser" />
                      </children>
-                  </AnchorPane>
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
-    </children>
-</AnchorPane>
+                  </HBox>
+                      <HBox alignment="CENTER">
+                          <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                          </VBox.margin>
+                          <children>
+                              <TextField fx:id="recoveryEmail" alignment="CENTER">
+                                  <padding>
+                                      <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
+                                  </padding>
+                              </TextField>
+                          </children>
+                      </HBox>
+                      <HBox alignment="CENTER">
+                          <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                          </VBox.margin>
+                          <children>
+                              <JFXButton fx:id="sendEmailButton" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#generateConfirmCode" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Send email">
+                                  <font>
+                                      <Font name="Impact" size="15.0" />
+                                  </font>
+                              </JFXButton>
+                          </children>
+                      </HBox>
+                      <Separator prefWidth="200.0" />
+                      <HBox alignment="CENTER">
+                          <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                          </VBox.margin>
+                          <children>
+                              <TextField fx:id="confirmationCode" alignment="CENTER">
+                                  <padding>
+                                      <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
+                                  </padding>
+                              </TextField>
+                          </children>
+                      </HBox>
+                      <HBox alignment="CENTER">
+                          <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                          </VBox.margin>
+                          <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ButtonBar maxWidth="150.0" minWidth="175.0" prefHeight="40.0" prefWidth="175.0">
+                                <buttons>
+                                          <JFXButton fx:id="confirmationCodeButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#confirmButton" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Confirm">
+                                              <font>
+                                                  <Font name="Impact" size="15.0" />
+                                              </font>
+                                          </JFXButton>
+                                    <JFXButton fx:id="cancelButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba;" text="Cancel">
+                                       <font>
+                                          <Font name="Impact" size="15.0" />
+                                       </font>
+                                    </JFXButton>
+                                </buttons>
+                              </ButtonBar>
+                           </children>
+                        </AnchorPane>
+                          </children>
+                      </HBox>
+                  </children>
+              </VBox>
+          </children>
+      </AnchorPane>
+   </children>
+</StackPane>

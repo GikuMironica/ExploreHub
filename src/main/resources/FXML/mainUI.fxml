@@ -7,7 +7,7 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="982.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
+<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="982.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
     <BorderPane fx:id="mainBorderPane"  onMousePressed="#handleMainUiPressed" >
        <left>
           <VBox prefHeight="495.0" prefWidth="196.0" BorderPane.alignment="CENTER">

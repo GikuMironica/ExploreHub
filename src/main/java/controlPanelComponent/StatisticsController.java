@@ -1,7 +1,9 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -9,10 +11,12 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -28,8 +32,12 @@ import java.util.*;
  */
 @SuppressWarnings("JpaQueryApiInspection")
 public class StatisticsController {
-
-    public StackPane stackpane;
+    @FXML
+    private StackPane stackpane;
+    @FXML
+    private Label averageRating;
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private Button reply;
     @FXML
@@ -106,7 +114,7 @@ public class StatisticsController {
         ) {
             total += event.getPrice();
         }
-        moneySpent.setText(df.format(total / usersList.size()));
+        moneySpent.setText(df.format(total / usersList.size()) + " €");
         nrOfEvents.setText(String.valueOf(eventsList.size()));
         nrOfBookingsPerEvent.setText(df.format(transactionsList.size() / eventsList.size()));
         Calendar todayDate = Calendar.getInstance();
@@ -123,20 +131,13 @@ public class StatisticsController {
         }
         pastEvents.setText(String.valueOf(pastEventsList.size()));
         loadFeedbacks();
-        feedbacks.setPageFactory(this::createPage);
-    }
-
-    /**
-     * Method which opens the homepage.
-     * @param mouseEvent Mouse event triggered by the click of the button.
-     * @throws IOException
-     */
-    public void openHomepage(MouseEvent mouseEvent)  {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        double average = 0;
+        for (Feedback feedback : feedbackList) {
+            average += feedback.getRatingScore();
         }
+        average = average/feedbackList.size();
+        averageRating.setText(String.valueOf(average));
+        feedbacks.setPageFactory(this::createPage);
     }
 
     /**
@@ -148,6 +149,13 @@ public class StatisticsController {
         feedbackQuery = entityManager.createNamedQuery(
                 "Feedback.findAllFeedbacks",
                 Feedback.class);
+        if(!HandleNet.hasNetConnection()){
+            try {
+                throw new Exception("Internet Connection lost");
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
+        }
         feedbackList = new ArrayList<>(feedbackQuery.getResultList());
     }
 
@@ -158,12 +166,13 @@ public class StatisticsController {
      */
     private VBox createPage(int pageIndex){
         VBox pageBox = new VBox();
-        TextArea messageContent = new TextArea();
+        JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
         messageContent.setMaxWidth(940);
         messageContent.setMinHeight(100);
         messageContent.setMaxHeight(100);
         messageContent.setEditable(false);
+        messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         int size = feedbackList.size();
         if(size < 1) {
             feedbacks.setPageCount(1);
@@ -174,7 +183,7 @@ public class StatisticsController {
             messageContent.setText(
                             "From: " + feedbackList.get(pageIndex).getUserID().getFirstname()
                             + " " + feedbackList.get(pageIndex).getUserID().getLastname() + "\n" +
-                            "Rating: " + feedbackList.get(pageIndex).getRatingScore() + "\n" +
+                            "Rating: " + feedbackList.get(pageIndex).getRatingScore() + "\n" + "\n" +
                             feedbackList.get(pageIndex).getRatingDescription());
         }catch (IndexOutOfBoundsException ioe){
             messageContent.setText("No feedbacks at the moment....");
@@ -185,7 +194,17 @@ public class StatisticsController {
         return pageBox;
     }
 
-
+    /**
+     * Method which opens the homepage.
+     * @param mouseEvent Mouse event triggered by the click of the button.
+     */
+    public void goHome(MouseEvent mouseEvent) {
+        try{
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+        }
+    }
 
 }
 

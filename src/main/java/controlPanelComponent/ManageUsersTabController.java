@@ -2,6 +2,7 @@ package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -9,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import mainUI.MainPane;
 import models.Account;
 import models.Transactions;
 import models.User;
@@ -22,8 +25,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Public class that controls the manage users tab.
+ *
+ * @author Aleksejs Marmiss
+ */
 public class ManageUsersTabController implements Initializable {
 
+    public AnchorPane anchorPane;
     @FXML
     private TextField studentLastName, studentName, studentEmail;
     @FXML
@@ -43,10 +52,13 @@ public class ManageUsersTabController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        listOfBookings.setDisable(true);
     }
 
-
+    /**
+     * Method which is invoked when the cell is clicked. This method populates another listview by events booked bz the selected user.
+     * @param event Event which was triggered by the click on list cell.
+     */
     @FXML
     private void cellClicked(Event event){
         transactions = FXCollections.observableArrayList();
@@ -57,17 +69,33 @@ public class ManageUsersTabController implements Initializable {
         EntityManager entityManager = admin.getConnection();
         TypedQuery<Transactions> usersEventsQuery;
         usersEventsQuery = entityManager.createNamedQuery(
-               "Transactions.findTransactionsById",
+               "Transactions.findTransactionsByUserId",
                    Transactions.class);
         usersEventsQuery.setParameter("id", selectedUser.getId());
+        if(!HandleNet.hasNetConnection()){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(),anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
+        }
         transactions.addAll(usersEventsQuery.getResultList());
         listOfBookings.setItems(transactions);
         listOfBookings.setCellFactory(userBookingsCellController -> new UserBookingsCellController());
         company.setText("");
         city.setText("");
         description.setText("");
+        if (transactions.size() != 0){
+            listOfBookings.setDisable(false);
+        }else {
+            listOfBookings.setDisable(true);
+        }
     }
 
+    /**
+     * Method which displazd the info about the particular event.
+     * @param event Event which was triggered by the click on list cell.
+     */
     @FXML
     private void cellCompanyClicked(Event event){
         Transactions selectedBooking = listOfBookings.getSelectionModel().getSelectedItem();
@@ -77,7 +105,10 @@ public class ManageUsersTabController implements Initializable {
 
     }
 
-
+    /**
+     * Method that allows to delete a user from the database.
+     * @param mouseEvent Event which was triggered by the click on button.
+     */
     public void deleteUser(MouseEvent mouseEvent) {
         User selectedUser = listOfUsers.getSelectionModel().getSelectedItem();
         EntityManager entityManager = admin.getConnection();
@@ -88,6 +119,10 @@ public class ManageUsersTabController implements Initializable {
         users.remove(userToRemove);
     }
 
+    /**
+     * Method which allows to set a list of users to be used by the instance from the outside of the controller.
+     * @param listOfUsers list of User objects.
+     */
     public void setUsers(List<User> listOfUsers){
         users = FXCollections.observableArrayList();
         this.users.setAll(listOfUsers);
@@ -95,12 +130,16 @@ public class ManageUsersTabController implements Initializable {
         this.listOfUsers.setCellFactory(userCellController -> new UserCellController());
     }
 
-    public void openHomepage(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml") );
-        } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+
+    /**
+     * Method which opens the homepage.
+     * @param mouseEvent Mouse event triggered by the click of the button.
+     */
+    public void goHome(MouseEvent mouseEvent) {
+        try{
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
     }
 }
