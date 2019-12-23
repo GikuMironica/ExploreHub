@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="460.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
+<AnchorPane fx:id="anchorPane" prefHeight="460.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
    <children>
       <JFXListView fx:id="listOfUsers" layoutX="14.0" layoutY="14.0" onMouseClicked="#cellClicked" prefHeight="430.0" prefWidth="311.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="20.0" />
       <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="367.0" layoutY="121.0" onMouseClicked="#deleteUser" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Delete user" textFill="WHITE" />
@@ -26,8 +26,8 @@
       <Label fx:id="city" layoutX="756.0" layoutY="210.0" />
       <Label layoutX="637.0" layoutY="271.0" text="Description" />
       <Label fx:id="description" layoutX="637.0" layoutY="298.0" />
-      <Separator layoutX="-50.0" layoutY="451.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="HomeLabel" layoutX="469.0" layoutY="450.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="454.0">
+      <Separator layoutX="-50.0" layoutY="451.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="HomeLabel" layoutX="469.0" layoutY="450.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="454.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

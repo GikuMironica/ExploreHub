@@ -81,7 +81,7 @@ public class FilterController implements Initializable {
                     Location.class);
             if(!HandleNet.hasNetConnection()){
                 try {
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                 }catch(Exception exc){
                     Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
                 }

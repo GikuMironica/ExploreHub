@@ -11,6 +11,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -31,9 +32,12 @@ import java.util.*;
  */
 @SuppressWarnings("JpaQueryApiInspection")
 public class StatisticsController {
-
-    public StackPane stackpane;
-    public Label averageRating;
+    @FXML
+    private StackPane stackpane;
+    @FXML
+    private Label averageRating;
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private Button reply;
     @FXML
@@ -147,7 +151,7 @@ public class StatisticsController {
                 Feedback.class);
         if(!HandleNet.hasNetConnection()){
             try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                throw new Exception("Internet Connection lost");
             }catch(Exception exc){
                 Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
             }

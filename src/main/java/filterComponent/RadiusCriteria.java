@@ -50,7 +50,7 @@ public class RadiusCriteria implements Criteria {
                 location = getCityCoordinates(city);
             }catch (Exception noInternet){
                 try {
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                     return FXCollections.observableList(new ArrayList<Events>());
                 }catch(Exception exc){
                     Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");

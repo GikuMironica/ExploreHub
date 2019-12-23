@@ -63,13 +63,15 @@ public class PreLoader {
                     loadEventStatistics();
                 }catch (Exception internetLost){
                     throwNoInternetAlert();
+                    internetLost.printStackTrace();
+                    Thread.currentThread().interrupt();
                     return;
                 }
             }else{
                 throwNoInternetAlert();
                 return;
             }
-            controlPanelController.initialize(eventsList,transactionsList,usersList, this);
+            controlPanelController.initialize(eventsList,transactionsList,usersList, dialog);
         });
         thread.start();
         progress.progressProperty().set(1);
@@ -150,8 +152,7 @@ public class PreLoader {
                    try {
                        timeline.stop();
                        dialog.close();
-                       Convenience.closePreviousDialog();
-                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                    }catch(Exception exc){
                        Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
                     }

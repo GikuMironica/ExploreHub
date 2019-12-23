@@ -2,20 +2,18 @@ package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
+import handlers.HandleNet;
 import handlers.MessageHandler;
 import handlers.Convenience;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import javax.mail.*;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
@@ -23,12 +21,12 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.text.Font;
 import mainUI.MainPane;
 import models.Account;
 
 
 public class CommunicationTabController {
+    public AnchorPane anchorPane;
     @FXML
     private JFXTextField name;
     @FXML
@@ -46,7 +44,7 @@ public class CommunicationTabController {
     Account account = CurrentAccountSingleton.getInstance().getAccount();
 
 
-    public void initialize() {
+    public void initialize() throws Exception{
 
         checkForEmails();
     }
@@ -55,7 +53,7 @@ public class CommunicationTabController {
     /**
      *Method which loads the emails from gmail.
      */
-    public void checkForEmails()
+    public void checkForEmails() throws Exception
     {
         try {
             String username = "explorehub.help@gmail.com";
@@ -74,11 +72,7 @@ public class CommunicationTabController {
             messages = emailFolder.getMessages();
             mails.setPageFactory(this::createPage);
         } catch (Exception e) {
-            try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception exc){
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
-            }
+            throw new Exception("Internet Connection lost");
         }
     }
 
@@ -134,11 +128,19 @@ public class CommunicationTabController {
                 surname.setPromptText("Please enter surname");
             }
         }catch (Exception e){
-            try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception exc){
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
-            }
+           if (!HandleNet.hasNetConnection()) {
+               try {
+                   Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+               } catch (Exception exc) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }else {
+               try {
+                   checkForEmails();
+               } catch (Exception e1) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }
         }
         pageBox.getChildren().add(messageContent);
         return pageBox;

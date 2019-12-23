@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackpane" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.CommunicationTabController">
-   <AnchorPane prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <AnchorPane fx:id="anchorPane" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
       <children>
          <HBox layoutY="371.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -37,8 +37,8 @@
                            <Font name="System Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Separator layoutX="18.0" layoutY="442.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="450.0">
+                     <Separator layoutX="18.0" layoutY="442.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="450.0">
                         <font>
                            <Font name="System Bold" size="15.0" />
                         </font>

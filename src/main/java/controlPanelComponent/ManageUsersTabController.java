@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import mainUI.MainPane;
 import models.Account;
 import models.Transactions;
 import models.User;
@@ -30,6 +32,7 @@ import java.util.ResourceBundle;
  */
 public class ManageUsersTabController implements Initializable {
 
+    public AnchorPane anchorPane;
     @FXML
     private TextField studentLastName, studentName, studentEmail;
     @FXML
@@ -70,7 +73,11 @@ public class ManageUsersTabController implements Initializable {
                    Transactions.class);
         usersEventsQuery.setParameter("id", selectedUser.getId());
         if(!HandleNet.hasNetConnection()){
-            //TODO
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(),anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
         }
         transactions.addAll(usersEventsQuery.getResultList());
         listOfBookings.setItems(transactions);
@@ -132,6 +139,7 @@ public class ManageUsersTabController implements Initializable {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
     }
 }

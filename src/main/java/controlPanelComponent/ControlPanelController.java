@@ -1,7 +1,9 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXDialog;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -46,9 +48,9 @@ public class ControlPanelController {
      * @param eventsList list of Events objects.
      * @param transactionsList list of transactions objects.
      * @param usersList list of user objects.
-     * @param preloader link to the preloader controller.
+     * @param dialog link to the loading dialog.
      */
-    synchronized public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, PreLoader preloader) {
+    synchronized public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, JFXDialog dialog) {
         statisticsLoader.setLocation(getClass().getResource("/FXML/statisticsTab.fxml"));
         manageUsersLoader.setLocation(getClass().getResource("/FXML/manageUsersTab.fxml"));
         managePaymentsLoader.setLocation(getClass().getResource("/FXML/managePaymentsTab.fxml"));
@@ -101,11 +103,20 @@ public class ControlPanelController {
             };
             task.run();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    if (!HandleNet.hasNetConnection()) {
+                        try {
+                            dialog.close();
+                            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                        } catch (IOException e1) {
+                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                        }
+                    } else{
+                        Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    }
                 }
             });
 

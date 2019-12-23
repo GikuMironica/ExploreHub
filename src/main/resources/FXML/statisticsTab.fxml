@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackpane" maxWidth="950.0" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
-   <AnchorPane prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <AnchorPane fx:id="anchorPane" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
       <children>
          <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -131,7 +131,7 @@
                </AnchorPane>
             </children>
          </VBox>
-         <HBox layoutY="371.0" maxHeight="135.0" maxWidth="950.0" prefHeight="135.0" prefWidth="100.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
+         <HBox layoutY="371.0" maxHeight="135.0" maxWidth="950.0" prefHeight="135.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
             <children>
                <AnchorPane maxHeight="130.0" maxWidth="150.0" prefHeight="130.0" prefWidth="950.0">
                   <children>
@@ -139,8 +139,8 @@
                   </children></AnchorPane>
             </children>
          </HBox>
-         <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" prefWidth="950.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="450.0">
+         <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" prefWidth="950.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="450.0">
             <font>
                <Font name="System Bold" size="15.0" />
             </font>
