@@ -28,9 +28,7 @@ public class PaymentConfirmationController implements Initializable {
 
     @FXML
     public void goToHomepage(Event event){
-        try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
-        }catch(IOException e){e.printStackTrace();}
+        Convenience.closePreviousDialog();
     }
 
     //public static void setConfirmationText(Label text){confirmationText.setText(text);}

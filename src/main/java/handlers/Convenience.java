@@ -1,5 +1,6 @@
 package handlers;
 
+import authentification.Main;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.event.Event;
@@ -14,7 +15,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import listComponent.EventWindowController;
 import mainUI.MainPane;
+import models.Events;
 
 import java.io.IOException;
 import java.net.URL;
@@ -151,12 +154,15 @@ public final class Convenience {
      * @param dialogResource - content of the dialog windows
      * @throws IOException - may be thrown if the dialog could not be loaded
      */
-    public static void popupDialog(StackPane stackPane, Pane paneToBlur, URL dialogResource) throws IOException {
+    public static <T> T popupDialog(StackPane stackPane, Pane paneToBlur, URL dialogResource) throws IOException {
         closePreviousDialog();
 
         BoxBlur blur = new BoxBlur(3, 3, 3);
 
-        Parent parent = FXMLLoader.load(dialogResource);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(dialogResource);
+        Parent parent = loader.load();
+
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setBody(parent);
         JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
@@ -165,7 +171,17 @@ public final class Convenience {
         dialog.show();
 
         previousDialog = dialog;
+
+        return loader.getController();
     }
+
+//    public static void popupEventDialog(Events event, URL dialogResource) throws IOException {
+//        EventWindowController eventWindowController = popupDialog(
+//                MainPane.getInstance().getStackPane(),
+//                MainPane.getInstance().getBorderPane(),
+//                dialogResource);
+//        eventWindowController.initModel(event);
+//    }
 
     /**
      * Closes the previously opened dialog.

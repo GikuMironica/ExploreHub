@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -120,7 +121,8 @@ public class WishlistCellController extends JFXListCell<Events> {
         currentAccount.setBookedEvents(bookedEvents);
 
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/booking.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/booking.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");

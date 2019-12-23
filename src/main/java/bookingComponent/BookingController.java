@@ -6,11 +6,13 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.Transactions;
@@ -127,8 +129,12 @@ public class BookingController implements Initializable {
     private void proceedToPayment(Event event) {
         // Once user presses next go to Payment FXML window (must pass the paymentType to load the right component!)
         try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/payment.fxml"));
-        } catch (IOException e){e.printStackTrace();}
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/payment.fxml"));
+        } catch (IOException e){
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 
     /**
@@ -151,9 +157,7 @@ public class BookingController implements Initializable {
     private void cancelBooking(Event event){
         // User changed their mind and pressed the Cancel button
         setPaymentTypeValue(100);
-        try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
-        }catch(IOException e){e.printStackTrace();}
+        Convenience.closePreviousDialog();
 
     }
 
