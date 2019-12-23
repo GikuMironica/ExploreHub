@@ -191,4 +191,7 @@ public final class Convenience {
             previousDialog.close();
         }
     }
+    public static JFXDialog getDialog(){
+        return previousDialog;
+    }
 }

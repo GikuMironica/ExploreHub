@@ -3,6 +3,7 @@ package authentification;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import handlers.EntityManagerEditor;
 import handlers.HandleNet;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -21,6 +22,8 @@ import listComponent.EventListSingleton;
 import mainUI.MainPane;
 import models.Account;
 import models.Owner;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.sessions.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -97,6 +100,13 @@ public class AuthentificationController implements Initializable {
             strategyContext.executeStrategy(username, password);
             initiliaseApp();
             GuestConnectionSingleton.getInstance().closeConnection();
+
+            // connection attempts
+            Account account = CurrentAccountSingleton.getInstance().getAccount();
+            EntityManager newManager = account.getConnection();
+            Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
+            EntityManagerEditor customizer = new EntityManagerEditor();
+            customizer.customize(session);
 
         }catch(Exception e){
             if(!HandleNet.hasNetConnection()){

@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import mainUI.MainPane;
 import models.*;
+import org.apache.commons.lang.ObjectUtils;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.naming.CommunicationException;
@@ -117,20 +118,8 @@ public class CustomListViewCell extends JFXListCell<Events> {
             } catch (Exception c){
                 image = new Image("/IMG/quest.png");
                 cellLogo.setImage(image);
-                handleConnection();
             }
         }
-    }
-
-    public void handleConnection(){
-          if(!HandleNet.hasNetConnection()){
-              System.out.println("no internet");
-              try {
-                  Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                          getClass().getResource("/FXML/noInternet.fxml"));
-              }catch(Exception e) { /**/ }
-          }
-
     }
 
     /**
@@ -210,12 +199,38 @@ public class CustomListViewCell extends JFXListCell<Events> {
      * if so, then disable add to wishlist button
      * @return
      */
-    private boolean isBooked() throws UnknownHostException, CommunicationsException, DatabaseException{
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
-        tq1.setParameter("id", currentEvent.getId());
-        tq1.setParameter("userId", account.getId());
-        int size = tq1.getResultList().size();
-        return size > 0;
+    private boolean isBooked(){
+        boolean nullExc = false;
+        boolean exception = false;
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
+            tq1.setParameter("id", currentEvent.getId());
+            tq1.setParameter("userId", account.getId());
+            int size = tq1.getResultList().size();
+            return size > 0;
+        }catch(NullPointerException ex){
+            nullExc = true;
+            return true;
+        }catch(Exception ex) {
+            exception  = true;
+            return true;
+        }finally {
+            if((!nullExc)&&(exception)) {
+                handleConnection();
+            }
+        }
     }
+
+    /**
+     * This method handles the loss of internet connection
+     * delegating it to NoInternet controller
+     */
+    public synchronized void handleConnection(){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception e) { /**/ }
+        }
+
 }
