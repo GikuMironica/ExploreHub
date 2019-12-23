@@ -3,6 +3,7 @@ package listComponent;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
+import com.mysql.jdbc.CommunicationsException;
 import handlers.CacheSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
@@ -22,10 +23,14 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import mainUI.MainPane;
 import models.*;
+import org.apache.commons.lang.ObjectUtils;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
+import javax.naming.CommunicationException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.lang.Thread;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -67,6 +72,7 @@ public class CustomListViewCell extends JFXListCell<Events> {
             entityManager = account.getConnection();
 
         } else {
+            boolean isConnecting = true;
             setText(null);
             id = event.getId();
 
@@ -109,17 +115,9 @@ public class CustomListViewCell extends JFXListCell<Events> {
             if (event.getPrice() == 0) {
                 priceLabel.setText("FREE");
             } else priceLabel.setText(String.valueOf(event.getPrice()));
-
-            } catch (Exception e) {
+            } catch (Exception c){
                 image = new Image("/IMG/quest.png");
                 cellLogo.setImage(image);
-                try {
-                    // to be fixed
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                            getClass().getResource("/FXML/noInternet.fxml"));
-                }catch(Exception exc){
-                    //
-                }
             }
         }
     }
@@ -201,12 +199,38 @@ public class CustomListViewCell extends JFXListCell<Events> {
      * if so, then disable add to wishlist button
      * @return
      */
-    private boolean isBooked() {
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
-        tq1.setParameter("id", currentEvent.getId());
-        tq1.setParameter("userId", account.getId());
-        int size = tq1.getResultList().size();
-        return size > 0;
+    private boolean isBooked(){
+        boolean nullExc = false;
+        boolean exception = false;
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
+            tq1.setParameter("id", currentEvent.getId());
+            tq1.setParameter("userId", account.getId());
+            int size = tq1.getResultList().size();
+            return size > 0;
+        }catch(NullPointerException ex){
+            nullExc = true;
+            return true;
+        }catch(Exception ex) {
+            exception  = true;
+            return true;
+        }finally {
+            if((!nullExc)&&(exception)) {
+                handleConnection();
+            }
+        }
     }
+
+    /**
+     * This method handles the loss of internet connection
+     * delegating it to NoInternet controller
+     */
+    public synchronized void handleConnection(){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception e) { /**/ }
+        }
+
 }

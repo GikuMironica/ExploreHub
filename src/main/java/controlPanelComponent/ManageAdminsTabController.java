@@ -19,6 +19,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import mainUI.MainPane;
 import models.Account;
 import models.Admin;
 import models.Courses;
@@ -108,7 +109,7 @@ public class ManageAdminsTabController{
             adminObservableList.add(newAdmin);
             Convenience.showAlert(Alert.AlertType.INFORMATION,"Admin Created", ADMIN_CREATED_MESSAGE, PASSWORD_GENERATED);
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
 
         try{
@@ -140,7 +141,7 @@ public class ManageAdminsTabController{
                 }
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
     }
 
@@ -164,7 +165,7 @@ public class ManageAdminsTabController{
                 uploadPicture(image);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
     }
 
@@ -198,7 +199,11 @@ public class ManageAdminsTabController{
             firstnameText.setText(selectedAdmin.getFirstname());
             lastnameText.setText(selectedAdmin.getLastname());
             emailText.setText(selectedAdmin.getEmail());
-            adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+            try {
+                adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+            } catch(Exception ex) {
+                adminPicture.setImage(new Image("/IMG/icon-account.png"));
+            }
             adminPicture.setFitHeight(111);
             adminPicture.setFitWidth(111);
             uploadButton.setDisable(true);
@@ -222,6 +227,7 @@ public class ManageAdminsTabController{
         adminPicture.setImage(tempImage);
         createAdminButton.setDisable(false);
         uploadButton.setText("Upload Picture");
+
     }
 
     /**
@@ -337,6 +343,18 @@ public class ManageAdminsTabController{
         try{
             Convenience.switchScene(e, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
+            handleConnection();
         }
+    }
+
+    /**
+     * This method handles the loss of internet connection
+     * delegating it to NoInternet controller
+     */
+    public synchronized void handleConnection(){
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        }catch(Exception e) { /**/ }
     }
 }

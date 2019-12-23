@@ -2,7 +2,9 @@ package listComponent;
 
 
 import authentification.CurrentAccountSingleton;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,8 +20,10 @@ import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.User;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityManager;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,7 +48,10 @@ public class ListController implements Initializable {
             EventListSingleton events = EventListSingleton.getInstance();
             eventsObservableList = events.getEventsObservableList();
         } catch(Exception e){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex) { /**/ }
         }
     }
 
@@ -68,14 +75,19 @@ public class ListController implements Initializable {
     @FXML
     private void cellClicked(Event event){
         selectedEvent = EventList.getSelectionModel().getSelectedItem();
-
         try {
-            EventWindowController eventWindowController = Convenience.popupDialog(
-                    MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/eventwindow.fxml"));
-            eventWindowController.initModel(selectedEvent);
-        } catch(Exception ex){
-            ex.printStackTrace();
+            if(HandleNet.hasNetConnection()) {
+                EventWindowController eventWindowController = Convenience.popupDialog(
+                        MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/eventwindow.fxml"));
+                eventWindowController.initModel(selectedEvent);
+            } else {
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception e) { /**/ }
+            }
+        } catch (Exception e) {
         }
 
     }
