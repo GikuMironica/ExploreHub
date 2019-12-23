@@ -111,7 +111,7 @@
                               <Image url="@/IMG/logo-letterbox.png" />
                            </image>
                         </ImageView>
-                        <JFXButton buttonType="RAISED" text="Back to Application">
+                        <JFXButton buttonType="RAISED" onMouseClicked="#backToAppClicked" text="Back to Application">
                            <font>
                               <Font size="14.0" />
                            </font>

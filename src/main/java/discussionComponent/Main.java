@@ -1,11 +1,13 @@
 package discussionComponent;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -94,6 +96,22 @@ public class Main{
     private void closeWindow(){
         Stage stage = (Stage) closeWindowButton.getScene().getWindow();
         stage.close();
+    }
+
+    /**
+     * Loads the homepage
+     *
+     * @param mouseEvent - the even which triggered the method
+     */
+    @FXML
+    private void backToAppClicked(MouseEvent mouseEvent) {
+        try {
+            Convenience.switchScene(new Stage(),getClass().getResource("/FXML/mainUI.fxml"));
+            discussionWindowStage.close();
+        } catch (IOException ioe) {
+            Convenience.showAlert(Alert.AlertType.ERROR,
+                    "Error", "Something went wrong", "Please, try again later");
+        }
     }
 
     private void setStageAndScene(Stage stage, Scene scene){
