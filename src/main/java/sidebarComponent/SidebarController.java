@@ -5,6 +5,7 @@ import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import models.Admin;
 
+import javax.naming.CommunicationException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -149,14 +151,23 @@ public class SidebarController implements Initializable {
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
-    private void handleFeedbackClicked(MouseEvent mouseEvent) {
+    private void handleFeedbackClicked(MouseEvent mouseEvent) throws IOException {
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/feedback.fxml"));
+            if (HandleNet.hasNetConnection()) {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/feedback.fxml"));
+            }
+            else {
+                throw new CommunicationException("No Internet");
+            }
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
             e.printStackTrace();
+        }
+        catch (CommunicationException e1){
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
         }
     }
 
