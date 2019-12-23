@@ -80,7 +80,7 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleChangePasswordClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/change_password.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,

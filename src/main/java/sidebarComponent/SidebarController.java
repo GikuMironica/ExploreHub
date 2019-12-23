@@ -69,9 +69,9 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleWishlistClicked(MouseEvent mouseEvent) {
-        MainPane mainPane = MainPane.getInstance();
         try {
-            Convenience.popupDialog(mainPane.getStackPane(), getClass().getResource("/FXML/wishlist.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/wishlist.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -92,9 +92,8 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleSettingsClicked(MouseEvent mouseEvent) throws IOException {
-//        Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
@@ -125,7 +124,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleAboutClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/about.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/about.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -135,7 +135,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleSupportClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),getClass().getResource("/FXML/contactForm.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/contactForm.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -150,7 +151,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleFeedbackClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/feedback.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/feedback.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -229,6 +231,4 @@ public class SidebarController implements Initializable {
     public boolean isHidden() {
         return hidden;
     }
-
-
 }

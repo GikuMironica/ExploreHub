@@ -11,120 +11,124 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/register.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
-   <children>
-      <VBox alignment="CENTER" layoutX="37.0" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-         <children>
-            <Label alignment="CENTER" text="Register!" textAlignment="JUSTIFY">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <font>
-                  <Font name="Impact" size="32.0" />
-               </font>
-            </Label>
-            <HBox alignment="CENTER">
-               <children>
-                  <JFXTextField fx:id="firstNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#fNameClick">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
-                  </JFXTextField>
-                  <JFXTextField fx:id="lastNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#lNameClick">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </JFXTextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
-               </VBox.margin></HBox>
-            <HBox alignment="CENTER">
-               <children>
-                   <JFXTextField fx:id="emailField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#emailClick" prefWidth="500.0">
-                     <padding>
-                        <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                   </JFXTextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-             <HBox alignment="CENTER">
-                 <children>
-                     <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#73c2fb" prefWidth="500.0">
-                         <padding>
-                             <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                         </padding>
-                         <HBox.margin>
-                             <Insets />
-                         </HBox.margin>
-                     </JFXPasswordField>
-                 </children>
-                 <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" right="20.0" />
-                 </VBox.margin>
-             </HBox>
-             <HBox alignment="CENTER">
-                 <VBox.margin>
-                     <Insets bottom="5.0" left="20.0" right="20.0" />
-                 </VBox.margin>
-               <children>
-                  <Label text="Course:" textAlignment="JUSTIFY">
-                     <font>
-                        <Font name="Impact" size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ChoiceBox fx:id="courseChoiceBox" prefWidth="150.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </HBox.margin>
-                  </ChoiceBox>
-               </children>
-             </HBox>
-             <HBox alignment="CENTER">
-                 <VBox.margin>
-                     <Insets left="20.0" right="20.0" />
-                 </VBox.margin>
-               <children>
-                  <JFXButton fx:id="registerBack" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="80.0" text="Back">
-                      <font>
-                          <Font name="Impact" size="15.0" />
-                      </font>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton mnemonicParsing="false" onAction="#register" prefHeight="30.0" prefWidth="80.0" text="Register">
-                     <font>
-                        <Font name="Impact" size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
-               </children>
-             </HBox>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
-   </children>
-</AnchorPane>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="registerStackPane" prefHeight="300.0" maxHeight="250.0" prefWidth="450.0" minWidth="450.0" stylesheets="@../Styles/register.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
+    <AnchorPane fx:id="registerAnchorPane">
+        <children>
+            <VBox alignment="CENTER" layoutX="37.0" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                <children>
+                    <Label alignment="CENTER" text="Register!" textAlignment="JUSTIFY">
+                        <VBox.margin>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </VBox.margin>
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </padding>
+                        <font>
+                            <Font name="Impact" size="32.0" />
+                        </font>
+                    </Label>
+                    <HBox alignment="CENTER">
+                        <children>
+                            <JFXTextField fx:id="firstNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#fNameClick">
+                                <HBox.margin>
+                                    <Insets right="20.0" />
+                                </HBox.margin>
+                                <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                </padding>
+                            </JFXTextField>
+                            <JFXTextField fx:id="lastNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#lNameClick">
+                                <padding>
+                                    <Insets bottom="10.0" top="10.0" />
+                                </padding>
+                                <HBox.margin>
+                                    <Insets left="20.0" />
+                                </HBox.margin>
+                            </JFXTextField>
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="10.0" left="20.0" right="20.0" />
+                        </VBox.margin></HBox>
+                    <HBox alignment="CENTER">
+                        <children>
+                            <JFXTextField fx:id="emailField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#emailClick" prefWidth="500.0">
+                                <padding>
+                                    <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
+                                </padding>
+                                <HBox.margin>
+                                    <Insets />
+                                </HBox.margin>
+                            </JFXTextField>
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="10.0" left="20.0" right="20.0" />
+                        </VBox.margin>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <children>
+                            <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#73c2fb" prefWidth="500.0">
+                                <padding>
+                                    <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
+                                </padding>
+                                <HBox.margin>
+                                    <Insets />
+                                </HBox.margin>
+                            </JFXPasswordField>
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="10.0" left="20.0" right="20.0" />
+                        </VBox.margin>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="20.0" right="20.0" />
+                        </VBox.margin>
+                        <children>
+                            <Label text="Course:" textAlignment="JUSTIFY">
+                                <font>
+                                    <Font name="Impact" size="15.0" />
+                                </font>
+                                <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <ChoiceBox fx:id="courseChoiceBox" prefWidth="150.0">
+                                <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                </HBox.margin>
+                            </ChoiceBox>
+                        </children>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <VBox.margin>
+                            <Insets left="20.0" right="20.0" />
+                        </VBox.margin>
+                        <children>
+                            <JFXButton fx:id="registerBack" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="80.0" text="Back">
+                                <font>
+                                    <Font name="Impact" size="15.0" />
+                                </font>
+                                <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </HBox.margin>
+                            </JFXButton>
+                            <JFXButton mnemonicParsing="false" onAction="#register" prefHeight="30.0" prefWidth="80.0" text="Register">
+                                <font>
+                                    <Font name="Impact" size="15.0" />
+                                </font>
+                                <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                </HBox.margin>
+                            </JFXButton>
+                        </children>
+                    </HBox>
+                </children>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+            </VBox>
+        </children>
+    </AnchorPane>
+</StackPane>
+

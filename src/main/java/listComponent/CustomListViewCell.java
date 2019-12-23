@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import handlers.CacheSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.LRUCache;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -114,7 +115,8 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 cellLogo.setImage(image);
                 try {
                     // to be fixed
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
                 }catch(Exception exc){
                     //
                 }

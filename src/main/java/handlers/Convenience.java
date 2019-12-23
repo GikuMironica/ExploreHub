@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import mainUI.MainPane;
@@ -146,21 +147,21 @@ public final class Convenience {
      * Pops up a new dialog window with a custom content.
      *
      * @param stackPane - pane on which the dialog should appear
-     * @param dialogResource - content of the dialog windowss
+     * @param paneToBlur - pane on which the blur effect should appear
+     * @param dialogResource - content of the dialog windows
      * @throws IOException - may be thrown if the dialog could not be loaded
      */
-    public static void popupDialog(StackPane stackPane, URL dialogResource) throws IOException {
+    public static void popupDialog(StackPane stackPane, Pane paneToBlur, URL dialogResource) throws IOException {
         closePreviousDialog();
 
-        BorderPane mainBorderPane = MainPane.getInstance().getBorderPane();
         BoxBlur blur = new BoxBlur(3, 3, 3);
 
         Parent parent = FXMLLoader.load(dialogResource);
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setBody(parent);
         JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
-        dialog.setOnDialogClosed(event -> mainBorderPane.setEffect(null));
-        dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
+        dialog.setOnDialogClosed(event -> paneToBlur.setEffect(null));
+        dialog.setOnDialogOpened(event -> paneToBlur.setEffect(blur));
         dialog.show();
 
         previousDialog = dialog;
