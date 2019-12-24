@@ -9,8 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ContentController implements Initializable {
@@ -19,7 +21,6 @@ public class ContentController implements Initializable {
     private FXMLLoader loader;
 
     @FXML AnchorPane contentPane;
-    @FXML VBox categoryObject;
 
 
     @Override
@@ -28,13 +29,13 @@ public class ContentController implements Initializable {
         if(childCountIdx == 0){
             try{
                 loader = new FXMLLoader(getClass().getResource("/FXML/discussion/categoryObject.fxml"));
-                categoryObject = loader.load();
+                loader.setControllerFactory(c -> new CategoryListController(contentPane));
+                VBox categories = loader.load();
+
+                contentPane.getChildren().add(categories);
             }catch (IOException e){
                 e.printStackTrace();
             }
-            Text categoryType = (Text) categoryObject.lookup("#categoryType");
-            categoryType.setText("General");
-            contentPane.getChildren().add(categoryObject);
 
         }
     }
