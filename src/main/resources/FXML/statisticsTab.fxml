@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -81,23 +82,20 @@
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="14.0" text="Number of bookings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="45.0" text="Number of pending orders" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
                            <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
-                           <Label fx:id="nrBook" layoutX="160.0" layoutY="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
-                              <font>
-                                 <Font size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="nrPend" layoutX="181.0" layoutY="45.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
-                              <font>
-                                 <Font size="14.0" />
-                              </font>
-                           </Label>
+                           <Label fx:id="nrBookVal" layoutX="160.0" layoutY="14.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="45.0" />
                            <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
+                           <Label layoutX="24.0" layoutY="36.0" text="Validated:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0" />
+                           <Label layoutX="24.0" layoutY="65.0" text="Pending:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
+                           <Label layoutX="24.0" layoutY="49.0" text="Canceled:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="70.0" />
+                           <Label fx:id="nrBookCanc" layoutX="90.0" layoutY="50.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="70.0" />
+                           <Label fx:id="nrBookPend" layoutX="100.0" layoutY="60.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="95.0" />
+                           <Label layoutX="34.0" layoutY="75.0" text="Rejected:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="120.0" />
+                           <Label fx:id="nrBookReject" layoutX="110.0" layoutY="70.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="120.0" />
                         </children></AnchorPane>
                   </content>
                </TitledPane>
@@ -127,6 +125,7 @@
                         <font>
                            <Font name="Calisto MT Bold" size="12.0" />
                         </font></Label>
+                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#calculateStatistics" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
                   </children>
                </AnchorPane>
             </children>
