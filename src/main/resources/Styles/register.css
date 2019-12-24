@@ -3,6 +3,17 @@
     -fx-focus-color: black;
 }
 
-.button{
-    -fx-background-color: #73C2FB;
+#registerRectangle{
+    -fx-border-style: solid;
+    -fx-border-color: #0084AD;
+    -fx-border-width: 2px;
+}
+
+.registerButtons{
+    -fx-background-color: #F2F7F9;
+    -fx-text-fill: #0084AD;
+}
+
+#majorBox{
+    -fx-background-color: #F2F7F9;
 }
