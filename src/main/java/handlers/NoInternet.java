@@ -1,4 +1,4 @@
-package listComponent;
+package handlers;
 
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXSpinner;

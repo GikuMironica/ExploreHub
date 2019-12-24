@@ -210,7 +210,7 @@ public class AuthentificationController implements Initializable {
     private void register(Event event) throws IOException {
 
         try {
-            Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/register.fxml"));
+            Convenience.switchScene(event, getClass().getResource("/FXML/register.fxml"));
         } catch(Error e){
             Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
         }

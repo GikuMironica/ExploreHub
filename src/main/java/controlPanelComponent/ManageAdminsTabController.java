@@ -78,8 +78,7 @@ public class ManageAdminsTabController{
             adminListView.setCellFactory(customListViewCell -> new AdminCellController());
 
         }catch(Exception e){
-
-
+            handleConnection();
         }
 
     }
