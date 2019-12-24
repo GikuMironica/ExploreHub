@@ -58,10 +58,10 @@ public class RegisterController implements Initializable  {
     public void initialize(URL location, ResourceBundle resources) {
         entityManager = GuestConnectionSingleton.getInstance().getManager();
 
-        firstNameField.setPromptText("First Name");
+        /*firstNameField.setPromptText("First Name");
         lastNameField.setPromptText("Last Name");
         emailField.setPromptText("emailField");
-        passwordField.setPromptText("New passwordField");
+        passwordField.setPromptText("New passwordField");*/
 
         //noinspection JpaQueryApiInspection
         tq1 = entityManager.createNamedQuery(
