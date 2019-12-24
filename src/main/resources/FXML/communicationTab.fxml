@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
@@ -18,7 +19,7 @@
                <AnchorPane prefHeight="477.0" prefWidth="950.0">
                   <children>
                      <Pagination fx:id="mails" prefHeight="340.0" prefWidth="950.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0" />
-                     <JFXButton fx:id="sendButton" buttonType="RAISED" layoutX="53.0" layoutY="357.0" onMouseClicked="#handleReplyClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Reply" textFill="WHITE" AnchorPane.bottomAnchor="80.0" />
+                     <JFXButton fx:id="sendButton" buttonType="RAISED" layoutX="53.0" layoutY="357.0" onMouseClicked="#handleReplyClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Reply" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="50.0" />
                      <JFXTextField fx:id="name" layoutX="271.0" layoutY="377.0" promptText="Name" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="270.0" />
                      <JFXTextField fx:id="surname" layoutX="500.0" layoutY="381.0" promptText="Surname" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="500.0" />
                      <JFXTextField fx:id="email" layoutX="745.0" layoutY="383.0" promptText="E-mail" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="710.0" />
@@ -43,6 +44,8 @@
                            <Font name="System Bold" size="15.0" />
                         </font>
                      </Label>
+                     <JFXComboBox fx:id="folder" layoutX="53.0" layoutY="313.0" onHidden="#changeFolder" promptText="Folder" AnchorPane.leftAnchor="50.0" />
+                     <JFXButton fx:id="moveToFolder" buttonType="RAISED" layoutX="836.0" layoutY="313.0" onMouseClicked="#moveToFolder" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Move to Processed" textFill="WHITE" AnchorPane.rightAnchor="14.0" />
                   </children></AnchorPane>
             </children>
          </HBox>

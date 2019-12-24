@@ -6,7 +6,13 @@ import handlers.HandleNet;
 import handlers.MessageHandler;
 import handlers.Convenience;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
 import javafx.scene.input.MouseEvent;
@@ -26,7 +32,12 @@ import models.Account;
 
 
 public class CommunicationTabController {
-    public AnchorPane anchorPane;
+    @FXML
+    private JFXButton moveToFolder;
+    @FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private JFXComboBox folder;
     @FXML
     private JFXTextField name;
     @FXML
@@ -41,11 +52,17 @@ public class CommunicationTabController {
     private Pagination mails;
     @FXML
     private Message[] messages;
+    private VBox pageBox;
     Account account = CurrentAccountSingleton.getInstance().getAccount();
+    private  Properties properties;
+    private String username = "explorehub.help@gmail.com";
+    private String password = "cts5-2019";
+    private String host = "IMAP.gmail.com";
 
 
     public void initialize() throws Exception{
-
+        folder.setItems(FXCollections.observableArrayList("Inbox", "Processed"));
+        folder.getSelectionModel().select(0);
         checkForEmails();
     }
 
@@ -56,10 +73,14 @@ public class CommunicationTabController {
     public void checkForEmails() throws Exception
     {
         try {
-            String username = "explorehub.help@gmail.com";
-            String password = "cts5-2019";
-            String host = "IMAP.gmail.com";
-            Properties properties = new Properties();
+            String folderName = folder.getSelectionModel().getSelectedItem().toString();
+            if(folderName.equals("Inbox")){
+                moveToFolder.setText("Move to Processed");
+            }else {
+                moveToFolder.setText("Move to Inbox");
+            }
+
+            properties = new Properties();
 
             properties.put("mail.pop3.host", host);
             properties.put("mail.pop3.port", "993");
@@ -67,8 +88,8 @@ public class CommunicationTabController {
             Session emailSession = Session.getDefaultInstance(properties);
             Store store = emailSession.getStore("imaps");
             store.connect(host, username, password);
-            Folder emailFolder = store.getFolder("Inbox");
-            emailFolder.open(Folder.READ_ONLY);
+            Folder emailFolder = store.getFolder(folderName);
+            emailFolder.open(Folder.READ_WRITE);
             messages = emailFolder.getMessages();
             mails.setPageFactory(this::createPage);
         } catch (Exception e) {
@@ -86,7 +107,8 @@ public class CommunicationTabController {
         surname.clear();
         email.clear();
 
-        VBox pageBox = new VBox();
+        pageBox = new VBox();
+        pageBox.alignmentProperty().setValue(Pos.CENTER);
         JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
         messageContent.setMaxWidth(940);
@@ -142,6 +164,7 @@ public class CommunicationTabController {
                }
            }
         }
+        pageBox.getChildren().clear();
         pageBox.getChildren().add(messageContent);
         return pageBox;
     }
@@ -266,5 +289,58 @@ public class CommunicationTabController {
         }catch(Exception ex){
             Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
+    }
+
+    public void moveToFolder(MouseEvent mouseEvent) throws Exception {
+        moveToFolder.setDisable(true);
+        pageBox.getChildren().clear();
+        pageBox.getChildren().add(new JFXProgressBar());
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception{
+                String folderName = folder.getSelectionModel().getSelectedItem().toString();
+                int mailSelected = (mails.getPageCount() - 1) - mails.currentPageIndexProperty().intValue();
+                if (folderName.equals("Inbox")) {
+                    move("Processed", mailSelected);
+                } else {
+                    move("Inbox", mailSelected);
+                }
+                return null;
+                }
+
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                try{
+                    checkForEmails();
+                    moveToFolder.setDisable(false);
+                }catch(Exception ex){
+                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                }
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    private void move(String folder, int mailSelected) throws Exception{
+        Session emailSession = Session.getDefaultInstance(properties);
+        Store store = emailSession.getStore("imaps");
+        store.connect(host, username, password);
+        Folder emailFolder = store.getFolder(folder);
+        emailFolder.open(Folder.READ_WRITE);
+        emailFolder.appendMessages(new Message[] {messages[mailSelected]} );
+        messages[mailSelected].setFlags(new Flags(Flags.Flag.DELETED), true);
+        emailFolder.close(true);
+        store.close();
+    }
+
+
+    public void changeFolder(Event event) {
+            try {
+                checkForEmails();
+            }catch(Exception ex){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
     }
 }

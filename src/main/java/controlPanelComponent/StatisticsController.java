@@ -33,6 +33,12 @@ import java.util.*;
 @SuppressWarnings("JpaQueryApiInspection")
 public class StatisticsController {
     @FXML
+    private Label nrBookReject;
+    @FXML
+    private Label nrBookCanc;
+    @FXML
+    private Label nrBookPend;
+    @FXML
     private StackPane stackpane;
     @FXML
     private Label averageRating;
@@ -53,9 +59,7 @@ public class StatisticsController {
     @FXML
     private Label moneySpent;
     @FXML
-    private Label nrBook;
-    @FXML
-    private Label nrPend;
+    private Label nrBookVal;
     @FXML
     private Label nrOver;
     @FXML
@@ -83,61 +87,7 @@ public class StatisticsController {
         this.eventsList = eventsList;
         this.usersList = usersList;
         this.transactionsList = transactionsList;
-        XYChart.Series series = new XYChart.Series();
-        for (int i = 0; i < transactionsList.size(); i++) {
-            series.getData().add(new XYChart.Data(transactionsList.get(i).getDate().toString(), i));
-        }
-        linechart.getData().addAll(series);
-        nrBook.setText(String.valueOf(transactionsList.size()));
-        List<Transactions> listPend = new ArrayList<>();
-        List<Transactions> listOver = new ArrayList<>();
-        for (Transactions transaction : transactionsList
-        ) {
-            if (transaction.getCompleted() == 0) {
-                listPend.add(transaction);
-            }
-            Calendar transDate = Calendar.getInstance();
-            Calendar eventDate = Calendar.getInstance();
-            transDate.setTime(transaction.getDate());
-            eventDate.setTime(transaction.getEvent().getDate());
-            if (transDate.after(eventDate)) {
-                listOver.add(transaction);
-            }
-        }
-        nrPend.setText(String.valueOf(listPend.size()));
-        nrOver.setText(String.valueOf(listOver.size()));
-        nrOfUsers.setText(String.valueOf(usersList.size()));
-        DecimalFormat df = new DecimalFormat("0.00");
-        nrOfBookingsPerUser.setText(df.format(Double.valueOf(transactionsList.size()) / Double.valueOf(usersList.size())));
-        double total = 0;
-        for (Events event : eventsList
-        ) {
-            total += event.getPrice();
-        }
-        moneySpent.setText(df.format(total / usersList.size()) + " €");
-        nrOfEvents.setText(String.valueOf(eventsList.size()));
-        nrOfBookingsPerEvent.setText(df.format(transactionsList.size() / eventsList.size()));
-        Calendar todayDate = Calendar.getInstance();
-        Date date = new Date();
-        todayDate.setTime(date);
-        List<Events> pastEventsList = new ArrayList<>();
-        for (Events event : eventsList
-        ) {
-            Calendar eventDate = Calendar.getInstance();
-            eventDate.setTime(event.getDate());
-            if (todayDate.after(eventDate)) {
-                pastEventsList.add(event);
-            }
-        }
-        pastEvents.setText(String.valueOf(pastEventsList.size()));
-        loadFeedbacks();
-        double average = 0;
-        for (Feedback feedback : feedbackList) {
-            average += feedback.getRatingScore();
-        }
-        average = average/feedbackList.size();
-        averageRating.setText(String.valueOf(average));
-        feedbacks.setPageFactory(this::createPage);
+        calculateStatistics();
     }
 
     /**
@@ -204,6 +154,79 @@ public class StatisticsController {
         }catch(Exception ex){
             Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
+    }
+
+    public void calculateStatistics(){
+        XYChart.Series series = new XYChart.Series();
+        for (int i = 0; i < transactionsList.size(); i++) {
+            series.getData().add(new XYChart.Data(transactionsList.get(i).getDate().toString(), i));
+        }
+        linechart.getData().clear();
+        linechart.getData().addAll(series);
+        Calendar todayDate = Calendar.getInstance();
+        Date date = new Date();
+        todayDate.setTime(date);
+        List<Transactions> listPend = new ArrayList<>();
+        List<Transactions> listOver = new ArrayList<>();
+        List<Transactions> listAccept = new ArrayList<>();
+        List<Transactions> listCanceled = new ArrayList<>();
+        List<Transactions> listRejected = new ArrayList<>();
+        for (Transactions transaction : transactionsList
+        ) {
+            if (transaction.getCompleted() == 0) {
+                listPend.add(transaction);
+            }else if(transaction.getCompleted() == 1){
+                listAccept.add(transaction);
+            }else if(transaction.getCompleted() == 3){
+                listCanceled.add(transaction);
+            }else if(transaction.getCompleted() == 2){
+                listRejected.add(transaction);
+            }
+
+            Calendar transDate = Calendar.getInstance();
+            Calendar eventDate = Calendar.getInstance();
+            transDate.setTime(transaction.getDate());
+            eventDate.setTime(transaction.getEvent().getDate());
+            if (todayDate.after(eventDate) && transaction.getCompleted() != 1) {
+                listOver.add(transaction);
+            }
+        }
+        nrBookVal.setText(String.valueOf(listAccept.size()));
+        nrBookPend.setText(String.valueOf(listPend.size()));
+        nrBookCanc.setText(String.valueOf(listCanceled.size()));
+        nrBookReject.setText(String.valueOf(listRejected.size()));
+        nrOver.setText(String.valueOf(listOver.size()));
+        nrOfUsers.setText(String.valueOf(usersList.size()));
+        DecimalFormat df = new DecimalFormat("0.00");
+        nrOfBookingsPerUser.setText(df.format(Double.valueOf(transactionsList.size()) / Double.valueOf(usersList.size())));
+        double total = 0;
+        for (Transactions transaction : transactionsList
+        ) {
+            if(transaction.getCompleted() == 1) {
+                total += transaction.getEvent().getPrice();
+            }
+        }
+        moneySpent.setText(df.format(total / usersList.size()) + " €");
+        nrOfEvents.setText(String.valueOf(eventsList.size()));
+        nrOfBookingsPerEvent.setText(df.format(transactionsList.size() / eventsList.size()));
+        List<Events> pastEventsList = new ArrayList<>();
+        for (Events event : eventsList
+        ) {
+            Calendar eventDate = Calendar.getInstance();
+            eventDate.setTime(event.getDate());
+            if (todayDate.after(eventDate)) {
+                pastEventsList.add(event);
+            }
+        }
+        pastEvents.setText(String.valueOf(pastEventsList.size()));
+        loadFeedbacks();
+        double average = 0;
+        for (Feedback feedback : feedbackList) {
+            average += feedback.getRatingScore();
+        }
+        average = average/feedbackList.size();
+        averageRating.setText(String.valueOf(average));
+        feedbacks.setPageFactory(this::createPage);
     }
 
 }
