@@ -1,5 +1,7 @@
 package authentification;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
 import handlers.MessageHandler;
 import javafx.event.Event;
@@ -40,11 +42,11 @@ public class RegisterController implements Initializable  {
     @FXML
     private AnchorPane registerAnchorPane;
     @FXML
-    private TextField firstNameField, lastNameField, emailField;
+    private JFXTextField firstNameField, lastNameField, emailField;
     @FXML
     private PasswordField passwordField;
     @FXML
-    private ChoiceBox courseChoiceBox;
+    private JFXComboBox courseChoiceBox;
     private TypedQuery<Courses> tq1;
     private EntityManager entityManager;
     private String NAME_PATTERN = "^[a-zA-Z]*$";
