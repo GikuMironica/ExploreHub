@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="registerStackPane" maxHeight="500.0" maxWidth="600.0" stylesheets="@../Styles/register.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
-    <AnchorPane fx:id="registerAnchorPane">
+    <AnchorPane fx:id="anchorpane" maxHeight="500.0" maxWidth="600.0">
         <children>
             <Label layoutX="210.0" layoutY="14.0" text="ExploreHub" textFill="#0084ad">
                 <font>
@@ -25,19 +25,22 @@
                 </font>
             </Label>
             <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="84.0" layoutY="108.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
-            <Label layoutX="320.0" layoutY="79.0" text="Last Name">
+            <Label layoutX="320.0" layoutY="79.0" text="Last Name" textFill="#000022">
                 <font>
                     <Font name="Baghdad Regular" size="13.0" />
                 </font>
             </Label>
             <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="320.0" layoutY="108.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
-            <Label layoutX="86.0" layoutY="157.0" text="Email" />
+            <Label layoutX="86.0" layoutY="157.0" text="Email" textFill="#000022">
+            <font>
+               <Font name="Baghdad Regular" size="13.0" />
+            </font></Label>
             <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="85.0" layoutY="184.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
                 <font>
                     <Font size="11.0" />
                 </font>
             </JFXTextField>
-            <Label layoutX="86.0" layoutY="228.0" text="Password" />
+            <Label layoutX="86.0" layoutY="228.0" text="Password" textFill="#000022" />
             <JFXPasswordField fx:id="passwordField" focusColor="#0084ad" layoutX="84.0" layoutY="255.0" prefHeight="27.0" prefWidth="432.0" promptText="  ········" unFocusColor="#0084ad">
                 <font>
                     <Font size="14.0" />
