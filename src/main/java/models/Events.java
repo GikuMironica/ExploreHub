@@ -99,13 +99,13 @@ public abstract class Events implements Serializable {
     abstract public String getCompany();
 
     public void setCompany(String company) {
-        System.out.println("This is a hochschule excursion, can't reset it");
+      //
     }
 
     abstract public Double getPrice();
 
-    public void setPrice(Double price) {
-        System.out.println("This is a free excursion, can't set price");
+    public void setPrice(Double price){
+        //
     }
 
     public int getTotalPlaces() {

@@ -2,6 +2,7 @@ package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.UploadImage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -172,7 +173,9 @@ public class ManageEventsTabController {
         selectedEvent.setTotalPlaces(totalSelected);
         selectedEvent.setAvailablePlaces(av);
 
-       checkPictures();
+        if(!arePicturesValid()) {
+            return;
+        }
 
         try {
             entityManager.getTransaction().begin();
@@ -213,6 +216,18 @@ public class ManageEventsTabController {
         String urlLogo = uploadIMG(mainPic);
         String urlPic = uploadIMG(logoPic);
 
+
+        // if imgur threw http 400, too large img, invalid content
+        if(urlLogo == null || urlPic == null){
+            return;
+        }
+        if(urlLogo.isBlank() || urlPic.isBlank()) {
+            clearPictureButton();
+            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            return;
+        }
+
+
         // Normal
         Double price = 0.0;
         int totalSelected = placesCombo.getSelectionModel().getSelectedIndex()+1;
@@ -251,29 +266,6 @@ public class ManageEventsTabController {
             return;
         }
     }
-
-
-    /**
-     * Method which delegates uploading picture task to {@link UploadImage}
-     *
-     * @param img {@link Image}
-     * @return {@link String}
-     */
-    private String uploadIMG(Image img) {
-        UploadImage uploadImg = new UploadImage(img);
-        try {
-            String url = uploadImg.upload();
-            return url;
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                        getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception exc) { /**/ }
-            return "/IMG/quest.png";
-        }
-    }
-
 
     /**
      * Method which deletes the selected event
@@ -589,6 +581,31 @@ public class ManageEventsTabController {
     }
 
     /**
+     * Method which delegates uploading picture task to {@link UploadImage}
+     *
+     * @param img {@link Image}
+     * @return {@link String}
+     */
+    private String uploadIMG(Image img) {
+        UploadImage uploadImg = new UploadImage(img);
+        try {
+            String url = uploadImg.upload();
+            return url;
+        } catch (Exception e) {
+            clearPictureButton();
+            e.printStackTrace();
+            try {
+                if(!HandleNet.hasNetConnection())
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+                else
+                    Convenience.showAlert(Alert.AlertType.WARNING,"Server Unreachable", "Currently, the server is unavailable","try later...");
+            } catch (Exception exc) { /**/ }
+            return null;
+        }
+    }
+
+    /**
      * Method which handles the click on the radion button (free event)
      */
     @FXML
@@ -649,33 +666,60 @@ public class ManageEventsTabController {
     /**
      * Method which checks if pictures were uploaded
      */
-    private void checkPictures() {
+    private boolean arePicturesValid() {
+        boolean ok = true;
+        String urlPic = null;
+        String urlLogo = null;
         if(mainPic != null){
             try {
                 // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
-                String urlPic = uploadImg.upload();
-                selectedEvent.getPicture().setPicture(urlPic);
+                urlPic = uploadImg.upload();
             }catch(Exception e){
                 try {
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                            getClass().getResource("/FXML/noInternet.fxml"));
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                getClass().getResource("/FXML/noInternet.fxml"));
+                    }
+                    return false;
                 }catch(Exception xe) { /**/ }
             }
         }
         if(logoPic != null){
             try{
-                // move to thread
                 UploadImage uploadLogo = new UploadImage(logoPic);
-                String urlLogo = uploadLogo.upload();
-                selectedEvent.getPicture().setLogo(urlLogo);
+                urlLogo = uploadLogo.upload();
             }catch(Exception e){
+                ok = false;
                 try {
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                            getClass().getResource("/FXML/noInternet.fxml"));
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                getClass().getResource("/FXML/noInternet.fxml"));
+                    }
+                    return false;
                 }catch(Exception xe) { /**/ }
             }
         }
+        if(urlPic.isBlank() || urlLogo.isBlank()){
+            clearPictureButton();
+            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            return false;
+        }else {
+            selectedEvent.getPicture().setPicture(urlPic);
+            selectedEvent.getPicture().setLogo(urlLogo);
+        }
+        return ok;
+    }
+
+    /**
+     * this method resets the text on the
+     * upload picture buttons
+     */
+    public void clearPictureButton(){
+        logoButton.setText("Upload Logo");
+        picButton.setText("Upload Picture");
+        logoButton.setStyle("-fx-text-fill: red;");
+        picButton.setStyle("-fx-text-fill: red;");
     }
 }
 
