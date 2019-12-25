@@ -82,7 +82,7 @@ public class FeedbackController implements Initializable {
 
             } else {
                 // Set rating value by default to 5.
-                rating.setRating(5);
+                rating.setRating(1);
             }
 
     }
