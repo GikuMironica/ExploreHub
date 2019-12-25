@@ -1,6 +1,7 @@
 package authentification;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.MessageHandler;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import mainUI.MainPane;
 import models.User;
 import javax.mail.MessagingException;
@@ -30,20 +32,27 @@ import java.util.UUID;
  *
  */
 public class RecoverController implements Initializable {
-    public StackPane stackPane;
-    public AnchorPane anchorpane;
+    @FXML
+    private StackPane stackPane;
+    @FXML
+    private AnchorPane anchorpane;
     @FXML
     private JFXButton cancelButton;
     @FXML
-    private TextField confirmationCode;
+    private JFXTextField confirmationCode;
     @FXML
-    private TextField recoveryEmail;
+    private JFXTextField recoveryEmail;
     @FXML
-    private Button confirmationCodeButton;
+    private JFXButton confirmationCodeButton;
     @FXML
-    private Button sendEmailButton;
+    private JFXButton sendEmailButton;
     @FXML
     private Label notifyUser;
+    @FXML
+    private Text firstRecoveryText;
+    @FXML
+    private Text secondRecoveryText;
+
     private String generatedKey = null;
     private TypedQuery<User> checkUserQuery;
     private List<User> users;
@@ -55,6 +64,8 @@ public class RecoverController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recoveryEmail.setPromptText("Please enter your email.");
+        firstRecoveryText.setText("Enter the email address associated with your account,");
+        secondRecoveryText.setText("then choose a new password for your account");
         confirmationCode.setDisable(true);
         confirmationCodeButton.setDisable(true);
     }
@@ -218,7 +229,7 @@ public class RecoverController implements Initializable {
         Platform.runLater(() -> {
             confirmationCode.setDisable(false);
             confirmationCodeButton.setDisable(false);
-            notifyUser.setText("Confirmation code has been sent on your email.");
+            notifyUser.setText("Confirmation code has been sent to your email.");
         });
 
     }
