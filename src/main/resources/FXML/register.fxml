@@ -11,54 +11,54 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="registerStackPane" maxHeight="500.0" maxWidth="600.0" stylesheets="@../Styles/register.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
-    <AnchorPane fx:id="anchorpane" maxHeight="500.0" maxWidth="600.0">
+<StackPane fx:id="registerStackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
+    <AnchorPane fx:id="anchorpane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles/register.css">
         <children>
-            <Label layoutX="210.0" layoutY="14.0" text="ExploreHub" textFill="#0084ad">
+            <Label layoutX="287.0" layoutY="43.0" prefHeight="70.0" prefWidth="226.0" text="ExploreHub" textFill="#0084ad">
                 <font>
-                    <Font name="Ayuthaya" size="30.0" />
+                    <Font name="Ayuthaya" size="36.0" />
                 </font>
             </Label>
-            <Label layoutX="87.0" layoutY="79.0" text="First Name" textFill="#000022">
-                <font>
-                    <Font name="Baghdad Regular" size="13.0" />
-                </font>
-            </Label>
-            <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="84.0" layoutY="108.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
-            <Label layoutX="320.0" layoutY="79.0" text="Last Name" textFill="#000022">
+            <Label layoutX="189.0" layoutY="195.0" text="First Name" textFill="#000022">
                 <font>
                     <Font name="Baghdad Regular" size="13.0" />
                 </font>
             </Label>
-            <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="320.0" layoutY="108.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
-            <Label layoutX="86.0" layoutY="157.0" text="Email" textFill="#000022">
+            <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="186.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <Label layoutX="422.0" layoutY="195.0" text="Last Name" textFill="#000022">
+                <font>
+                    <Font name="Baghdad Regular" size="13.0" />
+                </font>
+            </Label>
+            <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="422.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <Label layoutX="187.0" layoutY="273.0" text="Email" textFill="#000022">
             <font>
                <Font name="Baghdad Regular" size="13.0" />
             </font></Label>
-            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="85.0" layoutY="184.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
+            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
                 <font>
                     <Font size="11.0" />
                 </font>
             </JFXTextField>
-            <Label layoutX="86.0" layoutY="228.0" text="Password" textFill="#000022" />
-            <JFXPasswordField fx:id="passwordField" focusColor="#0084ad" layoutX="84.0" layoutY="255.0" prefHeight="27.0" prefWidth="432.0" promptText="  ········" unFocusColor="#0084ad">
+            <Label layoutX="186.0" layoutY="373.0" text="Password" textFill="#000022" />
+            <JFXPasswordField fx:id="passwordField" focusColor="#0084ad" layoutX="184.0" layoutY="400.0" prefHeight="27.0" prefWidth="432.0" promptText="  ········" unFocusColor="#0084ad">
                 <font>
                     <Font size="14.0" />
                 </font>
             </JFXPasswordField>
-            <Rectangle id="registerRectangle" fill="#0084ad" height="80.0" layoutY="323.0" stroke="TRANSPARENT" strokeType="INSIDE" width="600.0" />
-            <JFXButton layoutX="146.0" layoutY="342.0" onAction="#register" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Sign Up">
+            <Rectangle id="registerRectangle" fill="#0084ad" height="80.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="802.0" />
+            <JFXButton layoutX="136.0" layoutY="539.0" onAction="#register" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Sign Up">
                 <font>
                     <Font name="Baghdad Regular" size="15.0" />
                 </font>
             </JFXButton>
-            <JFXComboBox id="majorBox" fx:id="courseChoiceBox" focusColor="#0084ad" layoutX="368.0" layoutY="348.0" prefHeight="37.0" prefWidth="218.0" promptText="Choose your major" />
-            <JFXButton layoutX="22.0" layoutY="342.0" onMouseClicked="#goBack" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Back">
+            <JFXComboBox id="majorBox" fx:id="courseChoiceBox" focusColor="#0084ad" layoutX="570.0" layoutY="544.0" prefHeight="37.0" prefWidth="218.0" promptText="Choose your major" />
+            <JFXButton layoutX="14.0" layoutY="539.0" onMouseClicked="#goBack" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Back">
                 <font>
                     <Font name="Baghdad Regular" size="15.0" />
                 </font>
             </JFXButton>
-            <Line endX="498.0" fill="#000022" layoutX="102.0" layoutY="69.0" startX="-102.0" stroke="#000022" strokeWidth="0.5" />
+            <Line endX="599.0" fill="#000022" layoutX="202.0" layoutY="139.0" startX="-202.0" stroke="#000022" strokeWidth="0.5" />
         </children>
     </AnchorPane>
 </StackPane>
