@@ -1,6 +1,7 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.*;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.UploadImage;
@@ -37,23 +38,23 @@ public class ManageEventsTabController {
     private Events selectedEvent;
 
     @FXML
-    private RadioButton freeRadio, paidRadio;
+    private JFXRadioButton freeRadio, paidRadio;
     @FXML
     private Label longCharsRemaining, shortCharsRemaining, priceLabel;
     @FXML
-    private Button saveButton, deleteButton, picButton, logoButton;
+    private JFXButton saveButton, deleteButton, picButton, logoButton;
     @FXML
-    private TextArea shortField, longField;
+    private JFXTextArea shortField, longField;
     @FXML
-    private TextField companyField, priceField, cityField, latitudeField, longitudeField;
+    private JFXTextField companyField, priceField, cityField, latitudeField, longitudeField;
     @FXML
-    private DatePicker dateField;
+    private JFXDatePicker dateField;
     private ObservableList<Events> eventsObservableList;
     @FXML
-    private ListView<Events> mEventsList;
+    private JFXListView<Events> mEventsList;
     private LocalDate localDate;
     @FXML
-    private ComboBox placesCombo;
+    private JFXComboBox placesCombo;
     private List<Integer> comboList;
     private final String LATITUDE_PATTERN="^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,7})?))$";
     private final String LONGITUDE_PATTERN="^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,7})?))$";

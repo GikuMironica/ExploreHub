@@ -77,7 +77,7 @@ public class RegisterController implements Initializable  {
     /**
      * Method that handles the registration process
      * @param e pressed button triggers event
-     * @throws IOException
+     * @throws IOException thrown exception
      */
     @FXML
     private void register(Event e) throws IOException, InterruptedException {
@@ -107,7 +107,7 @@ public class RegisterController implements Initializable  {
         }catch(Exception ex){
             try {
                 Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception ex1){}
+            }catch(Exception ex1){/**/}
         }
         try{
             MessageHandler messageHandler = MessageHandler.getMessageHandler();
@@ -203,7 +203,7 @@ public class RegisterController implements Initializable  {
         }catch(Exception er){
             try {
                 Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception e){}
+            }catch(Exception e){/**/}
             return new Courses();
         }
     }
