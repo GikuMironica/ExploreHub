@@ -48,6 +48,8 @@ public class Transactions {
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 
+    // one to one with invoice
+
     public Transactions(){
 
     }

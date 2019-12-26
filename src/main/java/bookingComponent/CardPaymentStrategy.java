@@ -68,7 +68,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
 
-
+                        // append invoice to transaction -> persist transaction only
                         Invoice invoice = new Invoice(transactions);
                         entityManager.getTransaction().begin();
                         entityManager.persist(invoice);

@@ -7,6 +7,7 @@ import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
+import handlers.LogOutHandler;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
 
@@ -177,11 +179,9 @@ public class SidebarController implements Initializable {
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userConfirmsLogOut()) {
             resetUserStatus();
-            GuestConnectionSingleton.getInstance();
-            RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
-            userDB.cleanDB();
 
             SidebarState.saveStateHidden(true);
+            MainUiController.shutDownTasks();
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
@@ -192,14 +192,9 @@ public class SidebarController implements Initializable {
      * resets the system.
      */
     private void resetUserStatus(){
-        Account akk = CurrentAccountSingleton.getInstance().getAccount();
-        EntityManager entityManager = akk.getConnection();
-        entityManager.getTransaction().begin();
-        entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, akk.getId()).executeUpdate();
-        entityManager.getTransaction().commit();
-        CurrentAccountSingleton.getInstance().getAccount().closeConnection();
-        CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
-        currentAccount.setAccount(null);
+        Account account = CurrentAccountSingleton.getInstance().getAccount();
+        LogOutHandler logOutHandler = new LogOutHandler(account);
+        logOutHandler.handleLogOutProcess();
     }
 
     /**
