@@ -94,6 +94,56 @@ LOCK TABLES `event` WRITE;
 INSERT INTO `event` VALUES (9,'2020-03-13','Hochschule Ulm',45,35,22,'Trip to Neuschwanstein Castle','Witness the fairy tale castle of Neuschwanstein and Linderhof, created by Germany’’s 19th-century King Ludwig II, on a day trip from Ulm. With its snow-white limestone facade and fanciful turrets peeking out from the forested mountain tops of the Hohenschwangau valley, Neuschwanstein Castle could easily have been lifted from the pages of a fairy tale. In a way, it has—the German castle famously inspired Disney\'s Sleeping Beauty castle.','EXCURSION'),(10,'2020-05-10','Hochschule Ulm',65,30,19,'Tour of one of the largest palaces.',' The New Palace is an 18th-century Baroque palace and is one of the last large city palaces built in Southern Germany. It is located in the center of Stuttgart. Once a historic residence of the Kings of Württemberg, the New Palace derives its name from its commissioning by Duke Carl Eugen of Württemberg to replace the Old Castle in the early years of his reign. Join us in a tour of the palace and surrounding areas.','EXCURSION'),(11,'2020-05-10','Hochschule Ulm',45,25,19,'Excursion to one of Germany\'s best parks!','The Olympic Park Munich in Munich, Germany, is an Olympic Park which was constructed for the 1972 Summer Olympics. Located in the Oberwiesenfeld neighborhood of Munich, the Park continues to serve as a venue for cultural, social, and religious events. The plan is to go around the whole park and if there is time do some sightseeing. ','EXCURSION'),(13,'2020-05-10','Hochschule Ulm',35,20,17,'Johann Sebastian Bach\'s workplace.','St. Thomas Church is located in Leipzig, Germany. It is a well-known church, mainly because of Johann Sebastian Bach who worked here as a music director from 1723 until his death in 1750. Today, the church also holds his remains. Although rebuilt over the centuries, the church today retains the character of a late-Gothic hall church. The church has offered us a tour of the inside facility and a brief presentation on the history of the church.','EXCURSION'),(14,'2020-05-10','Hochschule Ulm',40,30,27,'Germany\'s largest art galleries.','The Hamburger Kunsthalle was founded in 1850, consists of three connected buildings and is one of the largest museums in the country. The art gallery houses one of the few art collections in Germany that covers seven centuries of European art, from the Middle Ages to the present day.We will be taking a tour of the entire museum and we have the pleasure of seeing of all the fascinating paintings and art','EXCURSION'),(1007,'2020-05-11','Hochschule Ulm',70,30,16,'Best Excursion',' The New Palace is an 18th-century Baroque palace and is one of the last large city palaces built in Southern Germany. It is located in the center of Stuttgart. Once a historic residence of the Kings of Württemberg, the New Palace derives its name from its commissioning by Duke Carl Eugen of Württemberg to replace the Old Castle in the early years of his reign. Join us in a tour of the palace and surrounding areas.','EXCURSION');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`swprodb`@`%`*/ /*!50003 TRIGGER create_discussion
+AFTER INSERT
+ON `iexplore`.`event`
+FOR EACH ROW
+BEGIN 
+    
+    INSERT INTO category(Name,type)
+    VALUES(NEW.shortDescription, 'event');
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`swprodb`@`%`*/ /*!50003 TRIGGER update_discussion
+AFTER UPDATE
+ON `iexplore`.`event`
+FOR EACH ROW
+BEGIN     
+    UPDATE category SET Name=NEW.shortDescription
+    WHERE Name=OLD.shortDescription;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
 
 --
 -- Table structure for table `feedback`
@@ -364,6 +414,521 @@ LOCK TABLES `wishlist` WRITE;
 INSERT INTO `wishlist` VALUES (6,10),(8,9),(10,13),(10,14);
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'iexplore'
+--
+/*!50106 SET @save_time_zone= @@TIME_ZONE */ ;
+/*!50106 DROP EVENT IF EXISTS `backup_database` */;
+DELIMITER ;;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;;
+/*!50003 SET character_set_client  = utf8 */ ;;
+/*!50003 SET character_set_results = utf8 */ ;;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
+/*!50003 SET sql_mode              = '' */ ;;
+/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
+/*!50003 SET time_zone             = 'SYSTEM' */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`swprodb`@`%`*/ /*!50106 EVENT `backup_database` ON SCHEDULE EVERY 1 DAY STARTS '2019-12-13 23:59:59' ON COMPLETION NOT PRESERVE ENABLE DO CALL backup_db() */ ;;
+/*!50003 SET time_zone             = @saved_time_zone */ ;;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;;
+/*!50003 SET character_set_results = @saved_cs_results */ ;;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;;
+DELIMITER ;
+/*!50106 SET TIME_ZONE= @save_time_zone */ ;
+
+--
+-- Dumping routines for database 'iexplore'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `backup_db` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `backup_db`()
+BEGIN
+
+DROP DATABASE IF EXISTS iexplore_backup;
+CREATE DATABASE iexplore_backup;
+
+CALL copyCourses();
+CALL copyUsers();
+CALL copyFeedback();
+CALL copyEvents();
+CALL copyPicturesAndLocation();
+CALL copyWishlist();
+CALL copyTransactions();
+CALL copyInvoices();
+CALL copyCategory();
+CALL copyThreads();
+CALL copyPosts();
+
+INSERT INTO iexplore_backup.courses
+SELECT *
+FROM iexplore.courses;
+
+INSERT INTO iexplore_backup.users
+SELECT *
+FROM iexplore.users;
+
+INSERT INTO iexplore_backup.feedback
+SELECT *
+FROM iexplore.feedback;
+
+INSERT INTO iexplore_backup.event
+SELECT *
+FROM iexplore.event;
+
+INSERT INTO iexplore_backup.location
+SELECT *
+FROM iexplore.location;
+
+INSERT INTO iexplore_backup.pictures
+SELECT *
+FROM iexplore.pictures;
+
+INSERT INTO iexplore_backup.wishlist
+SELECT *
+FROM iexplore.wishlist;
+
+INSERT INTO iexplore_backup.transactions
+SELECT *
+FROM iexplore.transactions;
+
+INSERT INTO iexplore_backup.invoice
+SELECT *
+FROM iexplore.invoice;
+
+INSERT INTO iexplore_backup.category
+SELECT *
+FROM iexplore.category;
+
+INSERT INTO iexplore_backup.thread
+SELECT *
+FROM iexplore.thread;
+
+INSERT INTO iexplore_backup.post
+SELECT *
+FROM iexplore.post;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyCategory` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyCategory`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`category`;
+CREATE TABLE `iexplore_backup`.`category` (
+  `Id` int(11) NOT NULL,
+  `Name` varchar(155) NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Id`,`Name`)
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyCourses` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyCourses`()
+BEGIN
+DROP TABLE IF EXISTS `iexplore_backup`.`courses`;
+CREATE TABLE `iexplore_backup`.`courses` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) NOT NULL,
+  PRIMARY KEY (`Id`)
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyEvents` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyEvents`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`event`;
+CREATE TABLE `iexplore_backup`.`event` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` date DEFAULT '2020-04-19',
+  `Company` varchar(45) DEFAULT 'Hochschule Ulm',
+  `Price` double DEFAULT '0',
+  `TotalPlaces` int(11) DEFAULT NULL,
+  `AvailablePlaces` int(11) DEFAULT NULL,
+  `ShortDescription` varchar(100) DEFAULT NULL,
+  `LongDescription` text,
+  `EVENT_TYPE` varchar(45) NOT NULL DEFAULT 'COMPANY_EXCURSION',
+  PRIMARY KEY (`Id`)
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyFeedback` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyFeedback`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`feedback`;
+CREATE TABLE `iexplore_backup`.`feedback` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) NOT NULL,
+  `Rating` int(1) DEFAULT NULL,
+  `Message` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `UserIDFK` (`UserID`),
+  CONSTRAINT `UserIDFK12` FOREIGN KEY (`UserID`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyInvoices` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyInvoices`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`invoice`;
+CREATE TABLE `iexplore_backup`.`invoice` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomerName` varchar(100) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `Ammount` double DEFAULT NULL,
+  `EventName` varchar(100) DEFAULT NULL,
+  `Company` varchar(100) DEFAULT NULL,
+  `TransactionID` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`Id`),
+  KEY `transactionfk_idx` (`TransactionID`),
+  CONSTRAINT `transactionfk` FOREIGN KEY (`TransactionID`) REFERENCES `transactions` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyPicturesAndLocation` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyPicturesAndLocation`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`pictures`;
+CREATE TABLE `iexplore_backup`.`pictures` (
+  `EventID` int(11) NOT NULL,
+  `Logo` varchar(45) NOT NULL,
+  `Picture` varchar(45) NOT NULL,
+  PRIMARY KEY (`EventID`),
+  CONSTRAINT `EventID_fk` FOREIGN KEY (`EventID`) REFERENCES `event` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS `iexplore_backup`.`location`;
+CREATE TABLE `iexplore_backup`.`location` (
+  `EventID` int(11) NOT NULL,
+  `Latitude` double DEFAULT NULL,
+  `Longitude` double DEFAULT NULL,
+  `City` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`EventID`),
+  CONSTRAINT `EventID3kk` FOREIGN KEY (`EventID`) REFERENCES `event` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyPosts` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyPosts`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`post`;
+CREATE TABLE `iexplore_backup`.`post` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `threadID` int(11) NOT NULL,
+  `postAuthor` int(11) NOT NULL,
+  `postContent` text NOT NULL,
+  `postTime` varchar(20) NOT NULL,
+  `postLastEdited` varchar(20) NOT NULL,
+  PRIMARY KEY (`Id`,`threadID`,`postAuthor`),
+  KEY `postAuthor_idx` (`postAuthor`),
+  KEY `threadID_idx` (`threadID`),
+  CONSTRAINT `postAuthor` FOREIGN KEY (`postAuthor`) REFERENCES `users` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `threadID` FOREIGN KEY (`threadID`) REFERENCES `thread` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyThreads` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyThreads`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`thread`;
+CREATE TABLE `iexplore_backup`.`thread` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryID` int(11) NOT NULL,
+  `threadTitle` varchar(45) NOT NULL,
+  `threadAuthor` int(11) NOT NULL,
+  `threadFirstPost` int(11) DEFAULT NULL,
+  `threadLastPost` int(11) DEFAULT NULL,
+  `threadLocked` int(11) NOT NULL DEFAULT '0',
+  `threadType` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Id`,`categoryID`,`threadAuthor`),
+  KEY `categoryID_idx` (`categoryID`),
+  KEY `author_idx` (`threadAuthor`),
+  CONSTRAINT `author` FOREIGN KEY (`threadAuthor`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `categoryID` FOREIGN KEY (`categoryID`) REFERENCES `category` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyTransactions` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyTransactions`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`transactions`;
+CREATE TABLE `iexplore_backup`.`transactions` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `StudentID` int(11) NOT NULL,
+  `Date` date NOT NULL,
+  `Completed` int(11) DEFAULT NULL,
+  `EventID` int(11) NOT NULL,
+  `PaymentMethod` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Id`),
+  KEY `StudentID_idx` (`StudentID`),
+  KEY `EventID_idx` (`EventID`),
+  CONSTRAINT `EventID4` FOREIGN KEY (`EventID`) REFERENCES `event` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `StudentID2` FOREIGN KEY (`StudentID`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyUsers` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyUsers`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`users`;
+CREATE TABLE `iexplore_backup`.`users` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Email` varchar(45) NOT NULL,
+  `FirstName` varchar(45) NOT NULL,
+  `LastName` varchar(45) NOT NULL,
+  `AccessLevel` int(1) unsigned zerofill NOT NULL DEFAULT '0',
+  `CourseID` int(11) DEFAULT '5',
+  `Password` varchar(45) NOT NULL,
+  `Picture` varchar(100) DEFAULT 'https://i.imgur.com/KQ5pb3s.png',
+  PRIMARY KEY (`Id`),
+  KEY `Id_idx` (`CourseID`),
+  CONSTRAINT `Idfxk` FOREIGN KEY (`CourseID`) REFERENCES `courses` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `copyWishlist` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `copyWishlist`()
+BEGIN
+
+DROP TABLE IF EXISTS `iexplore_backup`.`wishlist`;
+CREATE TABLE `iexplore_backup`.`wishlist` (
+  `StudentID` int(11) NOT NULL,
+  `EventID` int(11) NOT NULL,
+  PRIMARY KEY (`EventID`,`StudentID`),
+  KEY `StudentID_idx` (`StudentID`),
+  CONSTRAINT `EventID` FOREIGN KEY (`EventID`) REFERENCES `event` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `StudentID` FOREIGN KEY (`StudentID`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `createCourses` */;
+ALTER DATABASE `iexplore` CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`swprodb`@`%` PROCEDURE `createCourses`()
+BEGIN
+DROP TABLE IF EXISTS `iexplore_backup`.`courses`;
+CREATE TABLE `iexplore_backup`.`courses` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) NOT NULL,
+  PRIMARY KEY (`Id`)
+);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `iexplore` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -374,4 +939,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-26 16:35:13
+-- Dump completed on 2019-12-26 16:42:16
