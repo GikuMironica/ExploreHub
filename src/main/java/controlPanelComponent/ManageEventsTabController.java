@@ -2,6 +2,7 @@ package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
+import handlers.CacheSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.UploadImage;
@@ -690,6 +691,8 @@ public class ManageEventsTabController {
             try{
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 urlLogo = uploadLogo.upload();
+                selectedEvent.getPicture().setLogo(urlLogo);
+                CacheSingleton.getInstance().putImage(selectedEvent.getId(), new Image(urlLogo));
             }catch(Exception e){
                 ok = false;
                 try {

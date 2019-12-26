@@ -3,22 +3,21 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
+<AnchorPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
    <children>
-      <Label layoutX="14.0" layoutY="20.0" onMouseClicked="#handleTitleClicked" style="-fx-cursor: hand;" text="iExplore">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER_RIGHT" layoutX="100.0" layoutY="1.0" prefHeight="70.0" prefWidth="500.0" spacing="25.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="100.0" layoutY="1.0" prefHeight="70.0" prefWidth="500.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <ImageView fitHeight="50.0" fitWidth="231.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../IMG/logo-letterbox.png" />
+               </image>
+            </ImageView>
             <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="224.0" spacing="2.0">
                <children>
                   <ImageView fx:id="searchImageView" fitHeight="24.0" fitWidth="24.0" onMouseEntered="#handleSearchEntered" onMouseExited="#handleSearchExited" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
@@ -45,11 +44,6 @@
             <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleDiscussionClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../IMG/discussion.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleHomeClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../IMG/home.png" />
                </image>
             </ImageView>
             <JFXHamburger fx:id="menuHamburger" maxHeight="-Infinity" minWidth="24.0" onMouseClicked="#handleMenuClicked" prefHeight="24.0" style="-fx-cursor: hand;" />

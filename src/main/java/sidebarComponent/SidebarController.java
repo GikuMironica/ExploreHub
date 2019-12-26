@@ -47,7 +47,6 @@ public class SidebarController implements Initializable {
     @FXML
     private JFXButton feedbackBtn;
 
-
     private boolean hidden = true;
 
     @Override
@@ -215,7 +214,7 @@ public class SidebarController implements Initializable {
      * at which it will be visible to the user.
      */
     public void show() {
-        slide(580);
+        slide(680);
         hidden = false;
     }
 
@@ -225,7 +224,7 @@ public class SidebarController implements Initializable {
      * at which it will be hidden from the user.
      */
     public void hide() {
-        slide(780);
+        slide(880);
         hidden = true;
     }
 
