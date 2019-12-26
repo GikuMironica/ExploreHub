@@ -19,9 +19,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import models.Account;
 import models.Admin;
 
 import javax.naming.CommunicationException;
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -181,16 +183,30 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userConfirmsLogOut()) {
-            CurrentAccountSingleton.getInstance().getAccount().closeConnection();
-            CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
-            currentAccount.setAccount(null);
+            resetUserStatus();
             GuestConnectionSingleton.getInstance();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();
+
             SidebarState.saveStateHidden(true);
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
+    }
+
+    /**
+     * This method changes the user status from logged in -> logged out,
+     * resets the system.
+     */
+    private void resetUserStatus(){
+        Account akk = CurrentAccountSingleton.getInstance().getAccount();
+        EntityManager entityManager = akk.getConnection();
+        entityManager.getTransaction().begin();
+        entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, akk.getId()).executeUpdate();
+        entityManager.getTransaction().commit();
+        CurrentAccountSingleton.getInstance().getAccount().closeConnection();
+        CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
+        currentAccount.setAccount(null);
     }
 
     /**

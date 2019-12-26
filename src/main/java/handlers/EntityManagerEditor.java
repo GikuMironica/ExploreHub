@@ -9,7 +9,6 @@ public class EntityManagerEditor implements SessionCustomizer {
     public void customize(Session session) {
         DatabaseLogin login = (DatabaseLogin)session.getDatasourceLogin();
         login.setQueryRetryAttemptCount(0);
-        System.out.println("query attempt setted to 1");
     }
 
 }

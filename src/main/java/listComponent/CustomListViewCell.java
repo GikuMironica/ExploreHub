@@ -145,6 +145,10 @@ public class CustomListViewCell extends JFXListCell<Events> {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            if(!HandleNet.hasNetConnection()){
+                handleConnection();
+                return;
+            }
             Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
             return;
         }
@@ -220,6 +224,15 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 handleConnection();
             }
         }
+//        for(Transactions transaction : account.getTransactions()){
+//            if(transaction.getEvent().getId()==currentEvent.getId()){
+//                if(transaction.getCompleted()==1 || transaction.getCompleted()==0) {
+//                    System.out.println("this evennt is booked"+"  "+currentEvent.getShortDescription());
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
     }
 
     /**

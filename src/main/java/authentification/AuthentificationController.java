@@ -2,6 +2,7 @@ package authentification;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.cells.editors.IntegerTextFieldEditorBuilder;
 import handlers.Convenience;
 import handlers.EntityManagerEditor;
 import handlers.HandleNet;
@@ -27,6 +28,7 @@ import org.eclipse.persistence.sessions.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +38,7 @@ import java.util.ResourceBundle;
  *
  * @author Gheorghe Mironica, Tonislav Tachev
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class AuthentificationController implements Initializable {
 
     @FXML
@@ -86,6 +89,7 @@ public class AuthentificationController implements Initializable {
         StrategyContext strategyContext;
         String username = usernameField.getText().toLowerCase();
         String password = passwordField.getText();
+        int active = 0;
 
         try {
             int accessLvl = getUserAccessLvl(username, password);
@@ -98,11 +102,23 @@ public class AuthentificationController implements Initializable {
             }
 
             strategyContext.executeStrategy(username, password);
-            initiliaseApp();
+            Account account = CurrentAccountSingleton.getInstance().getAccount();
+
+            Query activeQuery = entityManager.createNamedQuery("Account.getStatusById", Account.class)
+                    .setParameter("Id",account.getId());
+            active = (int)activeQuery.getSingleResult();
+
+            if(active==1) {
+                Convenience.showAlert(Alert.AlertType.WARNING, "Already logged in", "This user is already logged in", "Log out from the other application first");
+                return;
+            }
+
+            checkRememberBox(username, password);
             GuestConnectionSingleton.getInstance().closeConnection();
 
+            initiliaseApp();
+
             // connection attempts
-            Account account = CurrentAccountSingleton.getInstance().getAccount();
             EntityManager newManager = account.getConnection();
             Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
             EntityManagerEditor customizer = new EntityManagerEditor();
@@ -130,10 +146,9 @@ public class AuthentificationController implements Initializable {
             }
         }
         alert.setVisible(false);
-        checkRememberBox(username, password);
-
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
     }
+
 
     /**
      * Method which checks if user exists, returns access level
