@@ -185,9 +185,6 @@ public class CustomListViewCell extends JFXListCell<Events> {
 
     /**
      * This method checks whether the user has current event in wishlist or not.
-     * Data is fetched from Database through a namedquery instead of the local cache
-     * Since for this kind of commitment, we need the most up to date data, thus
-     * we preventing leading the database into an inconsistent state!
      */
     protected void checkIfInWishlist(){
         boolean ok = account.getEvents().contains(currentEvent);

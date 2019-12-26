@@ -85,6 +85,8 @@ public class CriteriaTest {
             assertEquals(location.getLongitude(), 9.9323005,0.1 );
         }catch (NullPointerException np){
             assertNull(location);
+        }catch(Exception e){
+            fail();
         }
 
 

@@ -1,6 +1,7 @@
 package controlPanelComponent;
 
 import authentification.UserConnectionSingleton;
+import com.jfoenix.controls.JFXListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -16,7 +17,7 @@ import javax.persistence.EntityManager;
  *
  * @author Gheorghe Mironica
  */
-public class EventListViewCell extends ListCell<Events> {
+public class EventListViewCell extends JFXListCell<Events> {
 
     private FXMLLoader loader;
     private UserConnectionSingleton con;

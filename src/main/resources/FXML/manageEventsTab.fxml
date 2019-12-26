@@ -15,20 +15,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXListView?>
 <AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageEventsTabController">
    <children>
       <VBox layoutX="444.0" layoutY="3.0" prefHeight="378.0" prefWidth="508.0" spacing="10.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="444.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0">
          <children>
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="508.0" spacing="20.0">
                <children>
-                  <RadioButton fx:id="freeRadio" mnemonicParsing="false" onMouseClicked="#freeRadioSelected" text="Free Excursion">
+                  <JFXRadioButton fx:id="freeRadio" mnemonicParsing="false" onMouseClicked="#freeRadioSelected" text="Free Excursion">
                      <font>
                         <Font size="11.0" />
-                     </font></RadioButton>
-                  <RadioButton fx:id="paidRadio" mnemonicParsing="false" onMouseClicked="#paidRadioSelected" text="Paid Excursion">
+                     </font></JFXRadioButton>
+                  <JFXRadioButton fx:id="paidRadio" mnemonicParsing="false" onMouseClicked="#paidRadioSelected" text="Paid Excursion">
                      <font>
                         <Font size="11.0" />
-                     </font></RadioButton>
+                     </font></JFXRadioButton>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="424.0" spacing="10.0">
@@ -37,59 +44,59 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Label>
-                  <TextField fx:id="companyField" prefHeight="28.0" prefWidth="77.0">
+                  <JFXTextField fx:id="companyField" prefHeight="28.0" prefWidth="77.0">
                      <HBox.margin>
                         <Insets right="-0.0" />
-                     </HBox.margin></TextField>
+                     </HBox.margin></JFXTextField>
                   <Label fx:id="priceLabel" text="Price:">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceField" prefHeight="20.0" prefWidth="70.0">
+                  <JFXTextField fx:id="priceField" prefHeight="20.0" prefWidth="70.0">
                      <HBox.margin>
                         <Insets />
-                     </HBox.margin></TextField>
+                     </HBox.margin></JFXTextField>
                   <Label text="Date:">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="dateField" prefHeight="31.0" prefWidth="160.0" />
+                  <JFXDatePicker fx:id="dateField" prefHeight="31.0" prefWidth="160.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="424.0" spacing="10.0">
                <children>
                   <Label text="City:" />
-                  <TextField fx:id="cityField" prefHeight="31.0" prefWidth="84.0" />
+                  <JFXTextField fx:id="cityField" prefHeight="31.0" prefWidth="84.0" />
                   <Label text="Places:">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Label>
-                  <ComboBox fx:id="placesCombo" prefHeight="31.0" prefWidth="62.0" />
-                  <Button fx:id="picButton" mnemonicParsing="false" onAction="#uploadPic" prefHeight="31.0" prefWidth="112.0" text="Upload Picture">
+                  <JFXComboBox fx:id="placesCombo" prefHeight="31.0" prefWidth="62.0" />
+                  <JFXButton fx:id="picButton" mnemonicParsing="false" onAction="#uploadPic" prefHeight="31.0" prefWidth="112.0" text="Upload Picture" textFill="red" >
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                      <font>
                         <Font size="14.0" />
                      </font>
-                  </Button>
-                  <Button fx:id="logoButton" mnemonicParsing="false" onAction="#uploadLogo" prefHeight="31.0" prefWidth="102.0" text="Upload Logo">
+                  </JFXButton>
+                  <JFXButton fx:id="logoButton" mnemonicParsing="false" onAction="#uploadLogo" prefHeight="31.0" prefWidth="102.0" text="Upload Logo" textFill="red">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                      <font>
                         <Font size="14.0" />
                      </font>
-                  </Button>
+                  </JFXButton>
                </children></HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="424.0" spacing="10.0">
                <children>
                   <Label text="Latitude" />
-                  <TextField fx:id="latitudeField" prefHeight="31.0" prefWidth="172.0" />
+                  <JFXTextField fx:id="latitudeField" prefHeight="31.0" prefWidth="172.0" />
                   <Label text="Longitude" />
-                  <TextField fx:id="longitudeField" prefHeight="31.0" prefWidth="172.0" />
+                  <JFXTextField fx:id="longitudeField" prefHeight="31.0" prefWidth="172.0" />
                </children>
             </HBox>
             <HBox prefHeight="52.0" prefWidth="508.0">
@@ -114,7 +121,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <TextArea fx:id="shortField" prefHeight="54.0" prefWidth="343.0" />
+                  <JFXTextArea fx:id="shortField" prefHeight="54.0" prefWidth="343.0" />
                </children>
             </HBox>
             <HBox prefHeight="116.0" prefWidth="508.0">
@@ -140,34 +147,34 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <TextArea fx:id="longField" prefHeight="97.0" prefWidth="337.0" />
+                  <JFXTextArea fx:id="longField" prefHeight="97.0" prefWidth="337.0" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <ListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      <JFXListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
       <HBox alignment="CENTER" layoutX="512.0" layoutY="381.0" prefHeight="29.0" prefWidth="394.0" spacing="10.0">
          <children>
-            <Button fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" text="Clear">
+            <JFXButton fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Clear" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
-            </Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="29.0" prefWidth="100.0" text="Delete Event">
+            </JFXButton>
+            <JFXButton fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Delete Event" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="100.0" text="Create Event" textAlignment="JUSTIFY">
+            </JFXButton>
+            <JFXButton mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Create Event" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
-            </Button>
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#updateEvent" prefHeight="29.0" prefWidth="120.0" text="Update Event">
+            </JFXButton>
+            <JFXButton fx:id="saveButton" mnemonicParsing="false" onAction="#updateEvent" prefHeight="29.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Update Event" textFill="WHITE" >
                <font>
                   <Font size="13.0" />
                </font>
-            </Button>
+            </JFXButton>
          </children>
       </HBox>
       <Separator layoutX="377.0" layoutY="435.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
