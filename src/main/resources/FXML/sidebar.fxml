@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="200.0" translateX="780" style="-fx-background-color: #d3d3d3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
+<AnchorPane fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="200.0" translateX="880" style="-fx-background-color: #d3d3d3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
    <children>
       <VBox alignment="CENTER" prefHeight="172.0" prefWidth="200.0" spacing="15.0">
          <children>

@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import listComponent.EventListSingleton;
 import mainUI.MainPane;
 import models.Events;
 import models.User;
@@ -99,7 +100,7 @@ public class PaymentController implements Initializable {
         }
 
         confirmationScene();
-
+        EventListSingleton.getInstance().refreshList();
     }
 
     @FXML

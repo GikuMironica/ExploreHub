@@ -1,11 +1,11 @@
 package listComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import filterComponent.FilterSingleton;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import models.CompanyExcursion;
 import models.Events;
 import models.Excursion;
@@ -28,6 +28,7 @@ public class EventListSingleton{
     private static List<Events> tempList;
     private static String NATIVE_QUERY="SELECT * FROM event;";
     private static ObservableList<Events> eventsObservableList;
+    private static ListView<Events> eventsListView;
 
     public static EventListSingleton getInstance() {
         return ourInstance;
@@ -103,5 +104,13 @@ public class EventListSingleton{
             });
         });
         thread.start();
+    }
+
+    public void setEventsListView(ListView<Events> listView) {
+        eventsListView = listView;
+    }
+
+    public void refreshListView() {
+        eventsListView.refresh();
     }
 }

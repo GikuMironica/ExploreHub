@@ -2,28 +2,18 @@ package listComponent;
 
 
 import authentification.CurrentAccountSingleton;
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.stage.Stage;
 import mainUI.MainPane;
 import models.Account;
 import models.Events;
-import models.User;
-import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityManager;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -66,6 +56,7 @@ public class ListController implements Initializable {
         EventList.setCellFactory(customListViewCell -> new CustomListViewCell());
         account = CurrentAccountSingleton.getInstance().getAccount();
         entityManager = account.getConnection();
+        EventListSingleton.getInstance().setEventsListView(EventList);
     }
 
     /**

@@ -1,6 +1,5 @@
 package handlers;
 
-import authentification.Main;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.event.Event;
@@ -11,13 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import listComponent.EventWindowController;
-import mainUI.MainPane;
-import models.Events;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +35,7 @@ public final class Convenience {
      * @throws IOException - may be thrown if the scene could not be loaded
      */
     public static void switchScene(Stage window, URL resource) throws IOException {
+        window.close();
         Parent root = FXMLLoader.load(resource);
         Scene scene = new Scene(root);
         window.setScene(scene);
@@ -165,6 +161,7 @@ public final class Convenience {
 
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setBody(parent);
+
         JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
         dialog.setOnDialogClosed(event -> paneToBlur.setEffect(null));
         dialog.setOnDialogOpened(event -> paneToBlur.setEffect(blur));
@@ -175,14 +172,6 @@ public final class Convenience {
         return loader.getController();
     }
 
-//    public static void popupEventDialog(Events event, URL dialogResource) throws IOException {
-//        EventWindowController eventWindowController = popupDialog(
-//                MainPane.getInstance().getStackPane(),
-//                MainPane.getInstance().getBorderPane(),
-//                dialogResource);
-//        eventWindowController.initModel(event);
-//    }
-
     /**
      * Closes the previously opened dialog.
      */
@@ -191,6 +180,7 @@ public final class Convenience {
             previousDialog.close();
         }
     }
+
     public static JFXDialog getDialog(){
         return previousDialog;
     }
