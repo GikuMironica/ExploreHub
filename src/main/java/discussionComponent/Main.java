@@ -1,5 +1,7 @@
 package discussionComponent;
 
+import alerts.CustomAlertType;
+import authentification.CurrentAccountSingleton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import handlers.Convenience;
 import javafx.application.Platform;
@@ -8,12 +10,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class Main{
@@ -21,6 +28,8 @@ public class Main{
     @FXML FontAwesomeIconView hideWindowButton;
     @FXML FontAwesomeIconView expandWindowButton;
     @FXML AnchorPane titleBar, contentPaneParent;
+    @FXML Text userName;
+    @FXML Circle userImgCircle;
 
     private Stage discussionWindowStage;
     private Scene discussionWindowScene;
@@ -38,6 +47,9 @@ public class Main{
             setStageAndScene(stage, scene);
         });
 
+        userName.setText(CurrentAccountSingleton.getInstance().getAccount().getFirstname());
+        Image userImage = new Image(CurrentAccountSingleton.getInstance().getAccount().getPicture());
+        userImgCircle.setFill(new ImagePattern(userImage));
         titleBar.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -108,8 +120,7 @@ public class Main{
             Convenience.switchScene(new Stage(),getClass().getResource("/FXML/mainUI.fxml"));
             discussionWindowStage.close();
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR,"");
         }
     }
 

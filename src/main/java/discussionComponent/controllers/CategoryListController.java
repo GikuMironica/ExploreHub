@@ -61,7 +61,8 @@ public class CategoryListController implements Initializable {
 
             }
         });
-        Platform.runLater(()-> catVbox.getScene().getWindow().widthProperty().addListener((observable, oldValue, newValue) -> {
+        Platform.runLater(()->
+                catVbox.getScene().getWindow().widthProperty().addListener((observable, oldValue, newValue) -> {
             for(Node n : catVbox.getChildren()){
                 if(n instanceof ListView){
                     ((ListView) n).refresh();

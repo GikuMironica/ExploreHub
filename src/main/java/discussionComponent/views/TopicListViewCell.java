@@ -9,7 +9,7 @@ public class TopicListViewCell extends ListCell<Topic> {
         super.updateItem(topic, empty);
         if(topic != null){
             TopicNode topicNode = new TopicNode(topic);
-
+            topicNode.apply();
             setGraphic(topicNode.getTopicNode());
         }else{
             setGraphic(null);
