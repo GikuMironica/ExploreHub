@@ -27,12 +27,14 @@ public class Admin extends Account{
     }
     public Admin(String firstname, String lastname, String email, String password, Courses course) {
         super(firstname, lastname, email, password, course);
+        super.Active = 0;
     }
 
     public Admin(String firstname, String lastname, String email, int access, String password, Courses course, String picture) {
         super(firstname, lastname, email, password, course);
         setAccess(access);
         super.picture = picture;
+        super.Active = 0;
     }
 
     public void setAccess(int i ){

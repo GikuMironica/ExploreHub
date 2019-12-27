@@ -19,6 +19,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import mainUI.MainPane;
 import models.Account;
 import models.Admin;
 import models.Courses;
@@ -77,8 +78,7 @@ public class ManageAdminsTabController{
             adminListView.setCellFactory(customListViewCell -> new AdminCellController());
 
         }catch(Exception e){
-
-
+            handleConnection();
         }
 
     }
@@ -108,7 +108,7 @@ public class ManageAdminsTabController{
             adminObservableList.add(newAdmin);
             Convenience.showAlert(Alert.AlertType.INFORMATION,"Admin Created", ADMIN_CREATED_MESSAGE, PASSWORD_GENERATED);
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
 
         try{
@@ -140,7 +140,7 @@ public class ManageAdminsTabController{
                 }
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
     }
 
@@ -160,17 +160,30 @@ public class ManageAdminsTabController{
             File file = fileChooser.showOpenDialog(((Node) e.getSource()).getScene().getWindow());
 
             if(file!=null){
-                uploadButton.setText("Image Loaded");
                 image = new Image(file.toURI().toString());
-                adminPicture.setImage(image);
-
-                // move to thread
-                UploadImage uploader = new UploadImage(image);
-                imageURL = uploader.upload();
+                uploadPicture(image);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            handleConnection();
         }
+    }
+
+    /**
+     * This method uploads the picture to IMGUR in a separate thread
+     * using the UploadImage class.
+     * @param image {@link Image} input param
+     */
+    private void uploadPicture(Image image){
+        Thread thread1 = new Thread(()->{
+            try {
+                UploadImage uploader = new UploadImage(image);
+                imageURL = uploader.upload();
+            }catch(Exception e){
+                Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","This image can't be uploaded","");
+            }
+        });
+        thread1.start();
+        adminPicture.setImage(image);
     }
 
     /**
@@ -185,9 +198,14 @@ public class ManageAdminsTabController{
             firstnameText.setText(selectedAdmin.getFirstname());
             lastnameText.setText(selectedAdmin.getLastname());
             emailText.setText(selectedAdmin.getEmail());
-            adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+            try {
+                adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+            } catch(Exception ex) {
+                adminPicture.setImage(new Image("/IMG/icon-account.png"));
+            }
             adminPicture.setFitHeight(111);
             adminPicture.setFitWidth(111);
+            uploadButton.setDisable(true);
             createAdminButton.setDisable(true);
         } catch(Exception e){
             e.printStackTrace();
@@ -202,11 +220,13 @@ public class ManageAdminsTabController{
     private void clearView(Event e){
         firstnameText.clear();
         lastnameText.clear();
+        uploadButton.setDisable(false);
         emailText.clear();
         Image tempImage = new Image("/IMG/icon-account.png");
         adminPicture.setImage(tempImage);
         createAdminButton.setDisable(false);
         uploadButton.setText("Upload Picture");
+
     }
 
     /**
@@ -322,6 +342,18 @@ public class ManageAdminsTabController{
         try{
             Convenience.switchScene(e, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
+            handleConnection();
         }
+    }
+
+    /**
+     * This method handles the loss of internet connection
+     * delegating it to NoInternet controller
+     */
+    public synchronized void handleConnection(){
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        }catch(Exception e) { /**/ }
     }
 }

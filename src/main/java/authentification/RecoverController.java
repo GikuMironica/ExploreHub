@@ -1,7 +1,9 @@
 package authentification;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -9,6 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import mainUI.MainPane;
 import models.User;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
@@ -27,27 +33,39 @@ import java.util.UUID;
  */
 public class RecoverController implements Initializable {
     @FXML
+    private StackPane stackPane;
+    @FXML
+    private AnchorPane anchorpane;
+    @FXML
     private JFXButton cancelButton;
     @FXML
-    private TextField confirmationCode;
+    private JFXTextField confirmationCode;
     @FXML
-    private TextField recoveryEmail;
+    private JFXTextField recoveryEmail;
     @FXML
-    private Button confirmationCodeButton;
+    private JFXButton confirmationCodeButton;
     @FXML
-    private Button sendEmailButton;
+    private JFXButton sendEmailButton;
     @FXML
     private Label notifyUser;
+    @FXML
+    private Text firstRecoveryText;
+    @FXML
+    private Text secondRecoveryText;
+
     private String generatedKey = null;
     private TypedQuery<User> checkUserQuery;
     private List<User> users;
     private GuestConnectionSingleton connection;
     private EntityManager entityManager;
+    private Thread thread = null;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recoveryEmail.setPromptText("Please enter your email.");
+        firstRecoveryText.setText("Enter the email address associated with your account,");
+        secondRecoveryText.setText("then choose a new password for your account");
         confirmationCode.setDisable(true);
         confirmationCodeButton.setDisable(true);
     }
@@ -61,8 +79,27 @@ public class RecoverController implements Initializable {
     private void generateConfirmCode(Event event){
         recoveryEmail.setDisable(true);
         sendEmailButton.setDisable(true);
-        Thread thread = new Thread(() -> {
-            if (checkUser(recoveryEmail.getText())) {
+
+        thread = new Thread(() -> {
+            boolean userExists = false;
+            try {
+                userExists = checkUser(recoveryEmail.getText());
+            }catch (Exception internetConnection){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!HandleNet.hasNetConnection()) {
+                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "It looks like internet connection has been lost. Please try again later.");
+                        }else {
+                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                        }
+                    }
+                });
+                Thread.currentThread().interrupt();
+                return;
+            }
+            System.out.println("Here");
+            if (userExists) {
                 String key = UUID.randomUUID().toString();
                 generatedKey = key;
                 MessageHandler messageHandler = MessageHandler.getMessageHandler();
@@ -112,12 +149,7 @@ public class RecoverController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Convenience.switchScene(event, getClass().getResource("/authentification/authentification.fxml"));
-                        }catch (IOException ioe){
-                            Convenience.showAlert(Alert.AlertType.ERROR,
-                                    "Error", "Something went wrong", "Please, try again later");
-                        }
+                        Convenience.closePreviousDialog();
                     }
                 });
 
@@ -133,14 +165,22 @@ public class RecoverController implements Initializable {
      * @param email user email as a String.
      * @return  true if user exists and false if does not exist.
      */
-    private boolean checkUser(String email){
+    private boolean checkUser(String email) throws Exception{
         connection = GuestConnectionSingleton.getInstance();
         entityManager = connection.getManager();
         checkUserQuery = entityManager.createNamedQuery(
                 "User.findUserbyEmail",
                 User.class);
         checkUserQuery.setParameter("email", email);
-        users = checkUserQuery.getResultList();
+        if(!HandleNet.hasNetConnection()){
+            throw new Exception("Internet Connection lost");
+        }
+        try {
+            users = checkUserQuery.getResultList();
+        }catch (Exception internetConnection){
+            throw new Exception("Internet Connection lost");
+        }
+
         return users.size() == 1;
     }
 
@@ -189,7 +229,7 @@ public class RecoverController implements Initializable {
         Platform.runLater(() -> {
             confirmationCode.setDisable(false);
             confirmationCodeButton.setDisable(false);
-            notifyUser.setText("Confirmation code has been sent on your email.");
+            notifyUser.setText("Confirmation code has been sent to your email.");
         });
 
     }
@@ -210,12 +250,6 @@ public class RecoverController implements Initializable {
      * Method that switches to the log-in page.
      */
     public void handleCancelClicked(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/authentification.fxml") );
-        } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-        }
-
+        Convenience.closePreviousDialog();
     }
 }

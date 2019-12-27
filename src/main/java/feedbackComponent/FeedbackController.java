@@ -3,6 +3,7 @@ package feedbackComponent;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -10,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import models.Account;
 import models.Feedback;
 import org.controlsfx.control.Rating;
+
+import javax.naming.CommunicationException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
@@ -60,10 +63,11 @@ public class FeedbackController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-            entityManager = user.getConnection();
-            int countUser = ((Number) entityManager.createNamedQuery("Feedback.checkUsers").
-                    setParameter("UserID", user.getId()).getSingleResult()).intValue();
+         entityManager = user.getConnection();
 
+         int countUser = ((Number) entityManager.createNamedQuery("Feedback.checkUsers").
+                    setParameter("UserID", user.getId()).getSingleResult()).intValue();
+         // If the user has already given a feedback before.
             if (countUser != 0) {
                 TypedQuery<Feedback> userFeedback = entityManager.createNamedQuery("Feedback.getUserFeedback", Feedback.class);
                 userFeedback.setParameter("UserID", user.getId());
@@ -74,11 +78,12 @@ public class FeedbackController implements Initializable {
                 sendFeedback.setVisible(false);
                 rating.setDisable(true);
                 thankYou.setText("Thank you for your feedback");
-                feedbackOnce.setText("You can only give a feedback once.");
+                feedbackOnce.setText("You can submit a feedback only once.");
 
+            } else {
+                // Set rating value by default to 5.
+                rating.setRating(1);
             }
-            // Calculate average
-            Average = ((Number) entityManager.createNamedQuery("Feedback.getAverage").getSingleResult()).doubleValue();
 
     }
 
@@ -94,27 +99,48 @@ public class FeedbackController implements Initializable {
     @FXML
     private void submitFeedback(MouseEvent mouseEvent) {
 
-        Feedback feedback = new Feedback(rating.getRating(), description.getText(), user);
-
         try {
             entityManager = user.getConnection();
-            entityManager.getTransaction().begin();
-            entityManager.persist(feedback);
-            entityManager.getTransaction().commit();
-            description.setDisable(true);
-            sendFeedback.setVisible(false);
-            rating.setDisable(true);
-            thankYou.setText("Thank you for your feedback");
-            feedbackOnce.setText("You can only give a feedback once.");
+            try {
+                //Check internet connection
+                if (HandleNet.hasNetConnection()) {
+                    Feedback feedback = new Feedback(rating.getRating(), description.getText(), user);
+                    if (description.getText().isEmpty()){
+                        Convenience.showAlert(Alert.AlertType.WARNING,
+                                "Warning", "Empty feedback",
+                                "You can't submit an empty feedback, please write a feedback");
+                        return;
+                    }
+                    entityManager.getTransaction().begin();
+                    entityManager.persist(feedback);
+                    entityManager.getTransaction().commit();
+                    description.setDisable(true);
+                    sendFeedback.setVisible(false);
+                    rating.setDisable(true);
+                    thankYou.setText("Thank you for your feedback");
+                    feedbackOnce.setText("You can submit a feedback only once.");
 
-            successAlert();
+                    successAlert();
 
-
+                    // Calculate average
+                    Average = ((Number) entityManager.createNamedQuery("Feedback.getAverage").getSingleResult()).doubleValue();
+                }
+                else {
+                    throw new CommunicationException("No internet");
+                }
+            }catch(CommunicationException e){
+                Convenience.showAlert(Alert.AlertType.ERROR, "Connectivity error",
+                        "Connection lost",
+                        "It seems you have no Internet connectivity, please check with your network administrator");
+                //Clear the persistence context
+                entityManager.clear();
+            }
 
         } catch (PersistenceException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again");
         }
+
     }
 
 
@@ -128,8 +154,13 @@ public class FeedbackController implements Initializable {
     @FXML
     private void back(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
-        } catch (IOException ioe) {
+            if (HandleNet.hasNetConnection()) {
+                Convenience.closePreviousDialog();
+            }
+            else {
+                throw new CommunicationException("No internet");
+            }
+        } catch (CommunicationException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
         }

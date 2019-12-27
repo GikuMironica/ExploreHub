@@ -1,130 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/register.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
-   <children>
-      <VBox alignment="CENTER" layoutX="37.0" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-         <children>
-            <Label alignment="CENTER" text="Register!" textAlignment="JUSTIFY">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-               <font>
-                  <Font name="Impact" size="32.0" />
-               </font>
+<StackPane fx:id="registerStackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="authentification.RegisterController">
+    <AnchorPane fx:id="anchorpane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles/register.css">
+        <children>
+            <Label layoutX="287.0" layoutY="43.0" prefHeight="70.0" prefWidth="226.0" text="ExploreHub" textFill="#0084ad">
+                <font>
+                    <Font name="Ayuthaya" size="36.0" />
+                </font>
             </Label>
-            <HBox alignment="CENTER">
-               <children>
-                  <JFXTextField fx:id="firstNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#fNameClick">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
-                  </JFXTextField>
-                  <JFXTextField fx:id="lastNameField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#lNameClick">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </JFXTextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
-               </VBox.margin></HBox>
-            <HBox alignment="CENTER">
-               <children>
-                   <JFXTextField fx:id="emailField" alignment="CENTER" focusColor="#73c2fb" onMouseClicked="#emailClick" prefWidth="500.0">
-                     <padding>
-                        <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                   </JFXTextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-             <HBox alignment="CENTER">
-                 <children>
-                     <JFXPasswordField fx:id="passwordField" alignment="CENTER" focusColor="#73c2fb" prefWidth="500.0">
-                         <padding>
-                             <Insets bottom="10.0" left="90.0" right="90.0" top="10.0" />
-                         </padding>
-                         <HBox.margin>
-                             <Insets />
-                         </HBox.margin>
-                     </JFXPasswordField>
-                 </children>
-                 <VBox.margin>
-                     <Insets bottom="10.0" left="20.0" right="20.0" />
-                 </VBox.margin>
-             </HBox>
-             <HBox alignment="CENTER">
-                 <VBox.margin>
-                     <Insets bottom="5.0" left="20.0" right="20.0" />
-                 </VBox.margin>
-               <children>
-                  <Label text="Course:" textAlignment="JUSTIFY">
-                     <font>
-                        <Font name="Impact" size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ChoiceBox fx:id="courseChoiceBox" prefWidth="150.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </HBox.margin>
-                  </ChoiceBox>
-               </children>
-             </HBox>
-             <HBox alignment="CENTER">
-                 <VBox.margin>
-                     <Insets left="20.0" right="20.0" />
-                 </VBox.margin>
-               <children>
-                  <JFXButton fx:id="registerBack" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="80.0" text="Back">
-                      <font>
-                          <Font name="Impact" size="15.0" />
-                      </font>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton mnemonicParsing="false" onAction="#register" prefHeight="30.0" prefWidth="80.0" text="Register">
-                     <font>
-                        <Font name="Impact" size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
-               </children>
-             </HBox>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
-   </children>
-</AnchorPane>
+            <Label layoutX="189.0" layoutY="195.0" text="First Name" textFill="#000022">
+                <font>
+                    <Font name="Baghdad Regular" size="13.0" />
+                </font>
+            </Label>
+            <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="186.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <Label layoutX="422.0" layoutY="195.0" text="Last Name" textFill="#000022">
+                <font>
+                    <Font name="Baghdad Regular" size="13.0" />
+                </font>
+            </Label>
+            <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="422.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <Label layoutX="187.0" layoutY="273.0" text="Email" textFill="#000022">
+            <font>
+               <Font name="Baghdad Regular" size="13.0" />
+            </font></Label>
+            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
+                <font>
+                    <Font size="11.0" />
+                </font>
+            </JFXTextField>
+            <Label layoutX="186.0" layoutY="373.0" text="Password" textFill="#000022" />
+            <JFXPasswordField fx:id="passwordField" focusColor="#0084ad" layoutX="184.0" layoutY="400.0" prefHeight="27.0" prefWidth="432.0" promptText="  ········" unFocusColor="#0084ad">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </JFXPasswordField>
+            <Rectangle id="registerRectangle" fill="#0084ad" height="80.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="802.0" />
+            <JFXButton layoutX="136.0" layoutY="539.0" onAction="#register" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Sign Up">
+                <font>
+                    <Font name="Baghdad Regular" size="15.0" />
+                </font>
+            </JFXButton>
+            <JFXComboBox id="majorBox" fx:id="courseChoiceBox" focusColor="#0084ad" layoutX="570.0" layoutY="544.0" prefHeight="37.0" prefWidth="218.0" promptText="Choose your major" />
+            <JFXButton layoutX="14.0" layoutY="539.0" onMouseClicked="#goBack" prefHeight="47.0" prefWidth="103.0" styleClass="registerButtons" text="Back">
+                <font>
+                    <Font name="Baghdad Regular" size="15.0" />
+                </font>
+            </JFXButton>
+            <Line endX="599.0" fill="#000022" layoutX="202.0" layoutY="139.0" startX="-202.0" stroke="#000022" strokeWidth="0.5" />
+        </children>
+    </AnchorPane>
+</StackPane>

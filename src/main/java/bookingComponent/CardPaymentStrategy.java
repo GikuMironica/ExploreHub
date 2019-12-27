@@ -104,7 +104,6 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
     @SuppressWarnings("Duplicates")
     public void updateInterestList(List<Events> eventList){
-
         interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();
 
         List<Events> bookedEvents = new ArrayList<>(eventList); // Makes the list modifiable
@@ -112,26 +111,8 @@ public class CardPaymentStrategy implements PaymentStrategy {
         interestList.removeAll(bookedEvents);
         bookedEvents.clear();
 
-        CurrentAccountSingleton.getInstance().getAccount().setEvents(interestList);
-        CurrentAccountSingleton.getInstance().getAccount().setBookedEvents(bookedEvents);
-
-        entityManager = user.getConnection();
         entityManager.getTransaction().begin();
         entityManager.merge(user);
         entityManager.getTransaction().commit();
-
-       /* if(interestList != null) {
-            ListIterator iterator = interestList.listIterator();
-
-            while (iterator.hasNext()) {
-
-                interestListEvent = (Events) iterator.next();
-
-                if(event.getId() == interestListEvent.getId()){
-                    iterator.remove();
-                }
-            }
-
-        }*/
     }
 }

@@ -4,11 +4,11 @@
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="listLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="577.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.ListController">
+<VBox fx:id="listLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.ListController">
    <effect>
       <ColorAdjust />
    </effect>
    <children>
-      <ListView fx:id="EventList" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="577.0" />
+      <ListView fx:id="EventList" focusTraversable="false" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="677.0" />
    </children>
 </VBox>

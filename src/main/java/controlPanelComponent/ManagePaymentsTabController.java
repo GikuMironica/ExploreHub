@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import mainUI.MainPane;
 import models.Events;
 import models.Invoice;
 import models.Transactions;
@@ -67,7 +68,6 @@ public class ManagePaymentsTabController {
         transactionsListView.setItems(transactionsList);
 
         messageHandler = MessageHandler.getMessageHandler();
-
     }
 
     /**
@@ -87,7 +87,7 @@ public class ManagePaymentsTabController {
             // fill the form with selected data
             fillTransactionForm();
         } catch(Exception e){
-            //
+            handleConnection();
         }
     }
 
@@ -101,10 +101,14 @@ public class ManagePaymentsTabController {
         radioOpen.setSelected(false);
         radioProcessed.setSelected(false);
 
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllTransactions", Transactions.class);
-        transactionsList.clear();
-        transactionsList.addAll(tQuery.getResultList());
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllTransactions", Transactions.class);
+            transactionsList.clear();
+            transactionsList.addAll(tQuery.getResultList());
+        }catch(Exception e){
+            handleConnection();
+        }
     }
 
     /**
@@ -117,10 +121,14 @@ public class ManagePaymentsTabController {
         radioAll.setSelected(false);
         radioProcessed.setSelected(false);
 
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllActiveTransactions", Transactions.class);
-        transactionsList.clear();
-        transactionsList.addAll(tQuery.getResultList());
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllActiveTransactions", Transactions.class);
+            transactionsList.clear();
+            transactionsList.addAll(tQuery.getResultList());
+        }catch(Exception e){
+            handleConnection();
+        }
     }
 
     /**
@@ -133,10 +141,14 @@ public class ManagePaymentsTabController {
         radioAll.setSelected(false);
         radioOpen.setSelected(false);
 
-        @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllProcessedTransactions", Transactions.class);
-        transactionsList.clear();
-        transactionsList.addAll(tQuery.getResultList());
+        try {
+            @SuppressWarnings("JpaQueryApiInspection")
+            TypedQuery<Transactions> tQuery = entityManager.createNamedQuery("Transactions.findAllProcessedTransactions", Transactions.class);
+            transactionsList.clear();
+            transactionsList.addAll(tQuery.getResultList());
+        }catch(Exception e){
+            handleConnection();
+        }
     }
 
     /**
@@ -175,23 +187,32 @@ public class ManagePaymentsTabController {
         } else {
             String message= "The payment for one of your booked event has been approved";
             selectedTransaction.setCompleted(1);
-            entityManager.getTransaction().begin();
-            entityManager.merge(selectedTransaction);
-            Invoice invoice = new Invoice(selectedTransaction);
-            entityManager.persist(invoice);
-            entityManager.getTransaction().commit();
-
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(selectedTransaction);
+                Invoice invoice = new Invoice(selectedTransaction);
+                entityManager.persist(invoice);
+                entityManager.getTransaction().commit();
+            }catch(Exception exc){
+                handleConnection();
+                return;
+            }
             GeneratePDF pdf;
             String newFile = "";
             try {
                 pdf = new GeneratePDF(selectedUser, selectedTransaction);
                 newFile = pdf.getFilename();
-                messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
                 clearView();
                 Path fileToDeletePath = Paths.get(newFile);
                 Files.delete(fileToDeletePath);
             }catch(Exception e){
-                e.printStackTrace();
+                //
+            }
+
+            try{
+                messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
+            } catch(Exception e){
+                // this email doesn't exist
             }
 
             openRadioEnabled();
@@ -218,7 +239,7 @@ public class ManagePaymentsTabController {
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();
             } catch (Exception e) {
-                //
+               // email doesn't exist
             }
         }
     }
@@ -245,7 +266,7 @@ public class ManagePaymentsTabController {
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();
             } catch (Exception e) {
-               //
+               // email doesn't exist
             }
         }
     }
@@ -304,13 +325,17 @@ public class ManagePaymentsTabController {
      * @param status transaction status {@link int}
      * @throws Exception Connection exception {@link Exception}
      */
-    private void startTransaction(int status) throws Exception{
-        selectedTransaction.setCompleted(status);
-        selectedEvent.setAvailablePlaces(selectedEvent.getAvailablePlaces()+1);
-        entityManager.getTransaction().begin();
-        entityManager.merge(selectedEvent);
-        entityManager.merge(selectedTransaction);
-        entityManager.getTransaction().commit();
+    private void startTransaction(int status){
+        try {
+            selectedTransaction.setCompleted(status);
+            selectedEvent.setAvailablePlaces(selectedEvent.getAvailablePlaces() + 1);
+            entityManager.getTransaction().begin();
+            entityManager.merge(selectedEvent);
+            entityManager.merge(selectedTransaction);
+            entityManager.getTransaction().commit();
+        }catch(Exception e){
+            handleConnection();
+        }
     }
 
     /**
@@ -335,5 +360,16 @@ public class ManagePaymentsTabController {
         statusLabel.setText("");
         paymethodLabel.setText("");
         companyLabel.setText("");
+    }
+
+    /**
+     * This method handles the loss of internet connection
+     * delegating it to NoInternet controller
+     */
+    public synchronized void handleConnection(){
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        }catch(Exception e) { /**/ }
     }
 }

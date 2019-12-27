@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
+<AnchorPane fx:id="anchorPane" prefHeight="460.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
    <children>
-      <ListView fx:id="listOfUsers" layoutX="14.0" layoutY="14.0" onMouseClicked="#cellClicked" prefHeight="430.0" prefWidth="311.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="20.0" />
+      <JFXListView fx:id="listOfUsers" layoutX="14.0" layoutY="14.0" onMouseClicked="#cellClicked" prefHeight="430.0" prefWidth="311.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="20.0" />
       <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="367.0" layoutY="121.0" onMouseClicked="#deleteUser" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Delete user" textFill="WHITE" />
-      <ListView fx:id="listOfBookings" layoutX="367.0" layoutY="180.0" onMouseClicked="#cellCompanyClicked" prefHeight="270.0" prefWidth="240.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="367.0" AnchorPane.topAnchor="180.0" />
+      <ListView fx:id="listOfBookings" layoutX="367.0" layoutY="180.0" onMouseClicked="#cellCompanyClicked" prefHeight="270.0" prefWidth="240.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="367.0" AnchorPane.topAnchor="180.0" />
       <Label layoutX="360.0" layoutY="45.0" text="Name " />
       <Label layoutX="540.0" layoutY="45.0" text="Last name" />
       <Label layoutX="742.0" layoutY="45.0" text="E-mail" />
-      <TextField fx:id="studentName" layoutX="360.0" layoutY="67.0" />
-      <TextField fx:id="studentLastName" layoutX="540.0" layoutY="67.0" />
-      <TextField fx:id="studentEmail" layoutX="742.0" layoutY="67.0" />
+      <JFXTextField fx:id="studentName" layoutX="360.0" layoutY="67.0" />
+      <JFXTextField fx:id="studentLastName" layoutX="540.0" layoutY="67.0" />
+      <JFXTextField fx:id="studentEmail" layoutX="742.0" layoutY="67.0" />
       <Label layoutX="637.0" layoutY="180.0" text="Company" />
       <Label layoutX="759.0" layoutY="180.0" text="City" />
       <Label fx:id="company" layoutX="637.0" layoutY="210.0" />
       <Label fx:id="city" layoutX="756.0" layoutY="210.0" />
       <Label layoutX="637.0" layoutY="271.0" text="Description" />
       <Label fx:id="description" layoutX="637.0" layoutY="298.0" />
-      <JFXButton layoutX="817.0" layoutY="425.0" mnemonicParsing="false" onMouseClicked="#openHomepage" prefWidth="100.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Home" textFill="WHITE" />
+      <Separator layoutX="-50.0" layoutY="451.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="HomeLabel" layoutX="469.0" layoutY="450.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="454.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

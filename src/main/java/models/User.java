@@ -30,11 +30,13 @@ public class User extends Account{
     }
     public User(String firstname, String lastname, String email, String password, Courses course) {
         super(firstname, lastname, email, password, course);
+        super.Active = 0;
     }
 
     public User(String firstname, String lastname, String email, String password, Courses course, String picture) {
         super(firstname, lastname, email, password, course);
         super.picture = picture;
+        super.Active = 0;
     }
 
     /**

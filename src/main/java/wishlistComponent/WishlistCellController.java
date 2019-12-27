@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import listComponent.EventListSingleton;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -46,7 +48,7 @@ public class WishlistCellController extends JFXListCell<Events> {
     private FXMLLoader loader;
     private Account currentAccount;
 
-    private int eventId;
+    private Events event;
 
     @Override
     protected void updateItem(Events event, boolean empty) {
@@ -83,7 +85,8 @@ public class WishlistCellController extends JFXListCell<Events> {
         EntityManager entityManager = currentAccount.getConnection();
         CacheSingleton cache = CacheSingleton.getInstance();
 
-        eventId = event.getId();
+        this.event = event;
+        int eventId = event.getId();
 
         Image eventLogo;
         if (cache.containsImage(eventId)) {
@@ -112,15 +115,13 @@ public class WishlistCellController extends JFXListCell<Events> {
      */
     @FXML
     private void handleBookClicked(MouseEvent mouseEvent) {
-        EntityManager entityManager = currentAccount.getConnection();
-        Events bookedEvent = entityManager.find(Events.class, eventId);
-
         List<Events> bookedEvents = new ArrayList<>();
-        bookedEvents.add(bookedEvent);
+        bookedEvents.add(event);
         currentAccount.setBookedEvents(bookedEvents);
 
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/booking.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/booking.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -135,13 +136,13 @@ public class WishlistCellController extends JFXListCell<Events> {
     @FXML
     private void handleRemoveClicked(MouseEvent mouseEvent) {
         EntityManager entityManager = currentAccount.getConnection();
-        Events selectedEvent = entityManager.find(Events.class, eventId);
 
-        currentAccount.getEvents().remove(selectedEvent);
+        currentAccount.getEvents().remove(event);
         entityManager.getTransaction().begin();
         entityManager.merge(currentAccount);
         entityManager.getTransaction().commit();
 
-        this.getListView().getItems().remove(selectedEvent);
+        this.getListView().getItems().remove(event);
+        EventListSingleton.getInstance().refreshList();
     }
 }

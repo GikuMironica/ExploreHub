@@ -5,6 +5,7 @@ import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -18,8 +19,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import models.Account;
 import models.Admin;
 
+import javax.naming.CommunicationException;
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -42,7 +46,6 @@ public class SidebarController implements Initializable {
 
     @FXML
     private JFXButton feedbackBtn;
-
 
     private boolean hidden = true;
 
@@ -69,9 +72,9 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleWishlistClicked(MouseEvent mouseEvent) {
-        MainPane mainPane = MainPane.getInstance();
         try {
-            Convenience.popupDialog(mainPane.getStackPane(), getClass().getResource("/FXML/wishlist.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/wishlist.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -92,9 +95,8 @@ public class SidebarController implements Initializable {
      */
     @FXML
     private void handleSettingsClicked(MouseEvent mouseEvent) throws IOException {
-//        Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/settings.fxml"));
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(Alert.AlertType.ERROR,
@@ -125,7 +127,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleAboutClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/about.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/about.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -135,7 +138,8 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleSupportClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(),getClass().getResource("/FXML/contactForm.fxml"));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/contactForm.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
@@ -148,12 +152,23 @@ public class SidebarController implements Initializable {
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
-    private void handleFeedbackClicked(MouseEvent mouseEvent) {
+    private void handleFeedbackClicked(MouseEvent mouseEvent) throws IOException {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/feedback.fxml"));
+            if (HandleNet.hasNetConnection()) {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/feedback.fxml"));
+            }
+            else {
+                throw new CommunicationException("No Internet");
+            }
         } catch (IOException e) {
             Convenience.showAlert(Alert.AlertType.ERROR,
                     "Error", "Something went wrong", "Please, try again later");
+            e.printStackTrace();
+        }
+        catch (CommunicationException e1){
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
         }
     }
 
@@ -167,16 +182,30 @@ public class SidebarController implements Initializable {
     @FXML
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userConfirmsLogOut()) {
-            CurrentAccountSingleton.getInstance().getAccount().closeConnection();
-            CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
-            currentAccount.setAccount(null);
+            resetUserStatus();
             GuestConnectionSingleton.getInstance();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();
+
             SidebarState.saveStateHidden(true);
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
+    }
+
+    /**
+     * This method changes the user status from logged in -> logged out,
+     * resets the system.
+     */
+    private void resetUserStatus(){
+        Account akk = CurrentAccountSingleton.getInstance().getAccount();
+        EntityManager entityManager = akk.getConnection();
+        entityManager.getTransaction().begin();
+        entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, akk.getId()).executeUpdate();
+        entityManager.getTransaction().commit();
+        CurrentAccountSingleton.getInstance().getAccount().closeConnection();
+        CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
+        currentAccount.setAccount(null);
     }
 
     /**
@@ -185,7 +214,7 @@ public class SidebarController implements Initializable {
      * at which it will be visible to the user.
      */
     public void show() {
-        slide(580);
+        slide(680);
         hidden = false;
     }
 
@@ -195,7 +224,7 @@ public class SidebarController implements Initializable {
      * at which it will be hidden from the user.
      */
     public void hide() {
-        slide(780);
+        slide(880);
         hidden = true;
     }
 
@@ -228,6 +257,4 @@ public class SidebarController implements Initializable {
     public boolean isHidden() {
         return hidden;
     }
-
-
 }

@@ -1,7 +1,10 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.*;
+import handlers.CacheSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.UploadImage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -13,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
@@ -35,23 +39,23 @@ public class ManageEventsTabController {
     private Events selectedEvent;
 
     @FXML
-    private RadioButton freeRadio, paidRadio;
+    private JFXRadioButton freeRadio, paidRadio;
     @FXML
     private Label longCharsRemaining, shortCharsRemaining, priceLabel;
     @FXML
-    private Button saveButton, deleteButton, picButton, logoButton;
+    private JFXButton saveButton, deleteButton, picButton, logoButton;
     @FXML
-    private TextArea shortField, longField;
+    private JFXTextArea shortField, longField;
     @FXML
-    private TextField companyField, priceField, cityField, latitudeField, longitudeField;
+    private JFXTextField companyField, priceField, cityField, latitudeField, longitudeField;
     @FXML
-    private DatePicker dateField;
+    private JFXDatePicker dateField;
     private ObservableList<Events> eventsObservableList;
     @FXML
-    private ListView<Events> mEventsList;
+    private JFXListView<Events> mEventsList;
     private LocalDate localDate;
     @FXML
-    private ComboBox placesCombo;
+    private JFXComboBox placesCombo;
     private List<Integer> comboList;
     private final String LATITUDE_PATTERN="^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,7})?))$";
     private final String LONGITUDE_PATTERN="^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,7})?))$";
@@ -171,14 +175,19 @@ public class ManageEventsTabController {
         selectedEvent.setTotalPlaces(totalSelected);
         selectedEvent.setAvailablePlaces(av);
 
-       checkPictures();
+        if(!arePicturesValid()) {
+            return;
+        }
 
         try {
             entityManager.getTransaction().begin();
             entityManager.merge(selectedEvent);
             entityManager.getTransaction().commit();
         } catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception exc) { /**/ }
             return;
         }
 
@@ -209,10 +218,28 @@ public class ManageEventsTabController {
         String urlLogo = uploadIMG(mainPic);
         String urlPic = uploadIMG(logoPic);
 
+
+        // if imgur threw http 400, too large img, invalid content
+        if(urlLogo == null || urlPic == null){
+            return;
+        }
+        if(urlLogo.isBlank() || urlPic.isBlank()) {
+            clearPictureButton();
+            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            return;
+        }
+
+
         // Normal
         Double price = 0.0;
         int totalSelected = placesCombo.getSelectionModel().getSelectedIndex()+1;
-        Date actualDate = Date.valueOf(localDate);
+        Date actualDate = null;
+        try {
+             actualDate = Date.valueOf(dateField.getValue());
+        }catch(Exception e){
+            Convenience.showAlert(Alert.AlertType.ERROR, "Choose a day", "Choose a day after tomorrow again please!","");
+            return;
+        }
         Double latitude = Double.valueOf(latitudeField.getText());
         Double longitude = Double.valueOf(longitudeField.getText());
         Events newEvent = null;
@@ -229,32 +256,18 @@ public class ManageEventsTabController {
         Location newLoc = new Location(Double.valueOf(latitude), Double.valueOf(longitude), cityField.getText());
         Pictures newPic = new Pictures(urlLogo, urlPic);
 
-        persistEvent(newEvent, newLoc, newPic);
-
-        clearForm(event);
-        mainPic = null;
-        logoPic = null;
-        Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Created", "Event was successfully created", "");
-    }
-
-
-    /**
-     * Method which delegates uploading picture task to {@link UploadImage}
-     *
-     * @param img {@link Image}
-     * @return {@link String}
-     */
-    private String uploadIMG(Image img) {
-        UploadImage uploadImg = new UploadImage(img);
-        try {
-            return uploadImg.upload();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-            return null;
+        if(isPersistedOk(newEvent, newLoc, newPic)) {
+            clearForm(event);
+            mainPic = null;
+            logoPic = null;
+            Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Created", "Event was successfully created", "");
+        }else{
+            clearForm(event);
+            mainPic = null;
+            logoPic = null;
+            return;
         }
     }
-
 
     /**
      * Method which deletes the selected event
@@ -273,13 +286,21 @@ public class ManageEventsTabController {
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
+            try {
+                Events ev = entityManager.find(Events.class, selectedEvent.getId());
+                entityManager.getTransaction().begin();
+                entityManager.remove(ev);
+                entityManager.getTransaction().commit();
+                eventsObservableList.remove(selectedEvent);
+                Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Deleted", "Event was successfully deleted", "");
+            }catch(Exception exc){
+                exc.printStackTrace();
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }catch(Exception e) { /**/ }
+            }
             clearForm(event);
-            Events ev = entityManager.find(Events.class, selectedEvent.getId());
-            entityManager.getTransaction().begin();
-            entityManager.remove(ev);
-            entityManager.getTransaction().commit();
-            eventsObservableList.remove(selectedEvent);
-            Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Deleted", "Event was successfully deleted", "");
         }
     }
 
@@ -342,13 +363,16 @@ public class ManageEventsTabController {
      */
     protected boolean validateInput(String companyName, String priceValue, String cityName, String latitude, String longitude, String shortFieldText, String longFieldText){
         boolean ok = true;
+        boolean validPrice = true;
         boolean validCompany = (!(companyName.isEmpty())&&(companyName.matches(ORGANISATION_PATTERN)));
         boolean validCity = (!(cityName.isEmpty())&&(cityName.matches(CITY_PATTERN)));
         boolean validShortDescription = (!(shortFieldText.isEmpty())&&(shortFieldText.length()>shortDescriptionLowLimit)&&(shortFieldText.length()<=shortDescriptionUpLimit));
         boolean validLongDescription = (!(longFieldText.isEmpty())&&(longFieldText.length()>longDescriptionLowLimit)&&(longFieldText.length()<=longDescriptionUpLimit));
         boolean validLatitude = (!(latitude.isEmpty()))&&(latitude.matches(LATITUDE_PATTERN));
         boolean validLongitude = (!(longitude.isEmpty()))&&(longitude.matches(LONGITUDE_PATTERN));
-        boolean validPrice = (!(priceValue.isEmpty()))&&(priceValue.matches(PRICE_PATTERN));
+        if(paidRadio.isSelected()) {
+            validPrice = (!(priceValue.isEmpty())) && (priceValue.matches(PRICE_PATTERN));
+        }
 
         // check which are wrong
         if(!validCompany){
@@ -503,7 +527,14 @@ public class ManageEventsTabController {
      */
     @FXML
     private void goHome(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        try {
+            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception e){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex) { /**/ }
+        }
     }
 
     /**
@@ -552,6 +583,31 @@ public class ManageEventsTabController {
     }
 
     /**
+     * Method which delegates uploading picture task to {@link UploadImage}
+     *
+     * @param img {@link Image}
+     * @return {@link String}
+     */
+    private String uploadIMG(Image img) {
+        UploadImage uploadImg = new UploadImage(img);
+        try {
+            String url = uploadImg.upload();
+            return url;
+        } catch (Exception e) {
+            clearPictureButton();
+            e.printStackTrace();
+            try {
+                if(!HandleNet.hasNetConnection())
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+                else
+                    Convenience.showAlert(Alert.AlertType.WARNING,"Server Unreachable", "Currently, the server is unavailable","try later...");
+            } catch (Exception exc) { /**/ }
+            return null;
+        }
+    }
+
+    /**
      * Method which handles the click on the radion button (free event)
      */
     @FXML
@@ -581,7 +637,7 @@ public class ManageEventsTabController {
      * @param newLoc {@link Location} input param
      * @param newPic {@link Pictures} input param
      */
-    private void persistEvent(Events newEvent, Location newLoc, Pictures newPic) {
+    private boolean isPersistedOk(Events newEvent, Location newLoc, Pictures newPic) {
 
         try {
             entityManager.getTransaction().begin();
@@ -598,10 +654,13 @@ public class ManageEventsTabController {
             entityManager.getTransaction().commit();
             eventsObservableList.add(newEvent);
 
+            return true;
         } catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-            e.printStackTrace();
-            return;
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+                return false;
+            }catch(Exception xe) { return false; }
         }
 
     }
@@ -609,29 +668,62 @@ public class ManageEventsTabController {
     /**
      * Method which checks if pictures were uploaded
      */
-    private void checkPictures() {
+    private boolean arePicturesValid() {
+        boolean ok = true;
+        String urlPic = null;
+        String urlLogo = null;
         if(mainPic != null){
             try {
                 // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
-                String urlPic = uploadImg.upload();
-                selectedEvent.getPicture().setPicture(urlPic);
+                urlPic = uploadImg.upload();
             }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
+                try {
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                getClass().getResource("/FXML/noInternet.fxml"));
+                    }
+                    return false;
+                }catch(Exception xe) { /**/ }
             }
         }
         if(logoPic != null){
             try{
-                // move to thread
                 UploadImage uploadLogo = new UploadImage(logoPic);
-                String urlLogo = uploadLogo.upload();
+                urlLogo = uploadLogo.upload();
                 selectedEvent.getPicture().setLogo(urlLogo);
+                CacheSingleton.getInstance().putImage(selectedEvent.getId(), new Image(urlLogo));
             }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Looks like you have problems with the internet connection"," try later");
-                return;
+                ok = false;
+                try {
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                getClass().getResource("/FXML/noInternet.fxml"));
+                    }
+                    return false;
+                }catch(Exception xe) { /**/ }
             }
         }
+        if(urlPic.isBlank() || urlLogo.isBlank()){
+            clearPictureButton();
+            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            return false;
+        }else {
+            selectedEvent.getPicture().setPicture(urlPic);
+            selectedEvent.getPicture().setLogo(urlLogo);
+        }
+        return ok;
+    }
+
+    /**
+     * this method resets the text on the
+     * upload picture buttons
+     */
+    public void clearPictureButton(){
+        logoButton.setText("Upload Logo");
+        picButton.setText("Upload Picture");
+        logoButton.setStyle("-fx-text-fill: red;");
+        picButton.setStyle("-fx-text-fill: red;");
     }
 }
 

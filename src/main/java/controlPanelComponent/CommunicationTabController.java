@@ -1,24 +1,25 @@
 package controlPanelComponent;
 
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.*;
+import handlers.HandleNet;
 import handlers.MessageHandler;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import javax.mail.*;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
@@ -26,11 +27,17 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.text.Font;
+import mainUI.MainPane;
 import models.Account;
 
 
 public class CommunicationTabController {
+    @FXML
+    private JFXButton moveToFolder;
+    @FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private JFXComboBox folder;
     @FXML
     private JFXTextField name;
     @FXML
@@ -45,11 +52,17 @@ public class CommunicationTabController {
     private Pagination mails;
     @FXML
     private Message[] messages;
+    private VBox pageBox;
     Account account = CurrentAccountSingleton.getInstance().getAccount();
+    private  Properties properties;
+    private String username = "explorehub.help@gmail.com";
+    private String password = "cts5-2019";
+    private String host = "IMAP.gmail.com";
 
 
-    public void initialize() {
-
+    public void initialize() throws Exception{
+        folder.setItems(FXCollections.observableArrayList("Inbox", "Processed"));
+        folder.getSelectionModel().select(0);
         checkForEmails();
     }
 
@@ -57,13 +70,17 @@ public class CommunicationTabController {
     /**
      *Method which loads the emails from gmail.
      */
-    public void checkForEmails()
+    public void checkForEmails() throws Exception
     {
         try {
-            String username = "explorehub.help@gmail.com";
-            String password = "cts5-2019";
-            String host = "IMAP.gmail.com";
-            Properties properties = new Properties();
+            String folderName = folder.getSelectionModel().getSelectedItem().toString();
+            if(folderName.equals("Inbox")){
+                moveToFolder.setText("Move to Processed");
+            }else {
+                moveToFolder.setText("Move to Inbox");
+            }
+
+            properties = new Properties();
 
             properties.put("mail.pop3.host", host);
             properties.put("mail.pop3.port", "993");
@@ -71,14 +88,12 @@ public class CommunicationTabController {
             Session emailSession = Session.getDefaultInstance(properties);
             Store store = emailSession.getStore("imaps");
             store.connect(host, username, password);
-            Folder emailFolder = store.getFolder("Inbox");
-            emailFolder.open(Folder.READ_ONLY);
+            Folder emailFolder = store.getFolder(folderName);
+            emailFolder.open(Folder.READ_WRITE);
             messages = emailFolder.getMessages();
             mails.setPageFactory(this::createPage);
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Internet Connection lost");
         }
     }
 
@@ -92,13 +107,15 @@ public class CommunicationTabController {
         surname.clear();
         email.clear();
 
-        VBox pageBox = new VBox();
-        TextArea messageContent = new TextArea();
+        pageBox = new VBox();
+        pageBox.alignmentProperty().setValue(Pos.CENTER);
+        JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
-        messageContent.setMaxWidth(900);
-        messageContent.setMinHeight(300);
-        messageContent.setMaxHeight(300);
+        messageContent.setMaxWidth(940);
+        messageContent.setMinHeight(250);
+        messageContent.setMaxHeight(250);
         messageContent.setEditable(false);
+        messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         try {
             mails.setPageCount(messages.length);
             Message message = messages[(messages.length-1)-pageIndex];
@@ -122,7 +139,6 @@ public class CommunicationTabController {
                     "SUBJECT: " +subject + "\n" +"\n" +
                     "DATE: " + messages[(messages.length-1)-pageIndex].getSentDate() + "\n" + "\n" +
                     getTextFromMessage(message) + "\n";
-            messageContent.setFont(Font.font("Serif", FontWeight.BOLD, 16));
             messageContent.setText(text);
 
             if (m.find()){
@@ -134,8 +150,21 @@ public class CommunicationTabController {
                 surname.setPromptText("Please enter surname");
             }
         }catch (Exception e){
-           e.printStackTrace();
+           if (!HandleNet.hasNetConnection()) {
+               try {
+                   Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+               } catch (Exception exc) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }else {
+               try {
+                   checkForEmails();
+               } catch (Exception e1) {
+                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+               }
+           }
         }
+        pageBox.getChildren().clear();
         pageBox.getChildren().add(messageContent);
         return pageBox;
     }
@@ -147,7 +176,7 @@ public class CommunicationTabController {
      * @throws IOException
      * @throws MessagingException
      */
-    private String getTextFromMessage(Message message) throws IOException, MessagingException {
+        private String getTextFromMessage(Message message) throws IOException, MessagingException {
         String result = "";
         if (message.isMimeType("text/plain")) {
             result = message.getContent().toString();
@@ -212,15 +241,20 @@ public class CommunicationTabController {
         int mailSelected = (mails.getPageCount()-1) - mails.currentPageIndexProperty().intValue();
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Your message"));
-        TextArea textArea = new TextArea();
+        JFXTextArea textArea = new JFXTextArea();
+        textArea.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         textArea.setMinHeight(250);
         textArea.setMinWidth(500);
         String text = "Dear " + name.getText() + " " + surname.getText() +",\n"
-                    + "Thank you for your email!\n"
-                    + "\n"
-                    + "\n"
-                    + "\n"
-                    + "\n"
+                + "Thank you for your email!\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "\n"
                 + "Best Regards,\n"
                 + account.getFirstname() + " " + account.getLastname() + "\n"
                 + "Your ExploreHub Team.";
@@ -228,6 +262,8 @@ public class CommunicationTabController {
         content.setBody(textArea);
         JFXDialog dialog = new JFXDialog(stackpane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("Send");
+        button.setButtonType(JFXButton.ButtonType.RAISED);
+        button.setStyle("-fx-background-color: #32a4ba");
         button.setOnAction(actionEvent -> {
             try {
                 String subject = messages[mailSelected].getSubject();
@@ -235,19 +271,76 @@ public class CommunicationTabController {
                 messageHandler.sendEmail(textArea.getText(), subject, email.getText());
                 dialog.close();
             } catch (MessagingException e) {
-                e.printStackTrace();
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
             }
         });
         content.setActions(button);
         dialog.show();
     }
 
-    public void openHomepage(MouseEvent mouseEvent) {
-        try {
-            Convenience.switchScene(mouseEvent,getClass().getResource("/FXML/mainUI.fxml") );
-        } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+
+    /**
+     * Method which opens the homepage.
+     * @param mouseEvent Mouse event triggered by the click of the button.
+     */
+    public void goHome(MouseEvent mouseEvent) {
+        try{
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+        }catch(Exception ex){
+            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
         }
+    }
+
+    public void moveToFolder(MouseEvent mouseEvent) throws Exception {
+        moveToFolder.setDisable(true);
+        pageBox.getChildren().clear();
+        pageBox.getChildren().add(new JFXProgressBar());
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception{
+                String folderName = folder.getSelectionModel().getSelectedItem().toString();
+                int mailSelected = (mails.getPageCount() - 1) - mails.currentPageIndexProperty().intValue();
+                if (folderName.equals("Inbox")) {
+                    move("Processed", mailSelected);
+                } else {
+                    move("Inbox", mailSelected);
+                }
+                return null;
+                }
+
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                try{
+                    checkForEmails();
+                    moveToFolder.setDisable(false);
+                }catch(Exception ex){
+                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                }
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    private void move(String folder, int mailSelected) throws Exception{
+        Session emailSession = Session.getDefaultInstance(properties);
+        Store store = emailSession.getStore("imaps");
+        store.connect(host, username, password);
+        Folder emailFolder = store.getFolder(folder);
+        emailFolder.open(Folder.READ_WRITE);
+        emailFolder.appendMessages(new Message[] {messages[mailSelected]} );
+        messages[mailSelected].setFlags(new Flags(Flags.Flag.DELETED), true);
+        emailFolder.close(true);
+        store.close();
+    }
+
+
+    public void changeFolder(Event event) {
+            try {
+                checkForEmails();
+            }catch(Exception ex){
+                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            }
     }
 }

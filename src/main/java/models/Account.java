@@ -8,7 +8,9 @@ import java.util.List;
 @SuppressWarnings("JpaQlInspection")
 @NamedQueries({
         @NamedQuery(name = "Account.determineAccess", query = "SELECT u.Access FROM Account u WHERE u.Email = :email AND u.Password = :password"),
-        @NamedQuery(name = "Account.findAccountByEmail", query = "SELECT a FROM Account a WHERE a.Email =:email")
+        @NamedQuery(name = "Account.findAccountByEmail", query = "SELECT a FROM Account a WHERE a.Email =:email"),
+        @NamedQuery(name = "Account.getStatusById", query="SELECT a.Active FROM Account a WHERE a.Id = :Id"),
+        @NamedQuery(name = "Account.findNrActive", query="SELECT COUNT(a) FROM Account a WHERE a.Active = 1")
 })
 
 @Entity
@@ -47,6 +49,10 @@ public abstract class Account{
     @Column(name="AccessLevel")
     protected int Access;
 
+    @Basic(optional=false)
+    @Column(length = 1)
+    protected int Active;
+
     @Transient
     protected List<Events> bookedEvents;
 
@@ -81,6 +87,14 @@ public abstract class Account{
     public Account(String firstname, String lastname, String email, String password, Courses course, String picture) {
         this(firstname, lastname, email, password, course);
         this.picture = picture;
+    }
+
+    public int getActive() {
+        return Active;
+    }
+
+    public void setActive(int active) {
+        Active = active;
     }
 
     /**

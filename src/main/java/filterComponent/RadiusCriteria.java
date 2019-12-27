@@ -2,12 +2,17 @@ package filterComponent;
 
 import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
+import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import mainUI.MainPane;
 import models.Events;
 import models.Location;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -20,6 +25,7 @@ public class RadiusCriteria implements Criteria {
 
     private int radius;
     private String city;
+    private Location location;
 
     /**
      * Constructor fro Radius Criteria.
@@ -40,7 +46,17 @@ public class RadiusCriteria implements Criteria {
     public ObservableList<Events> meetCriteria(ObservableList<Events> events) {
         Predicate<Events> predicate;
         if(radius != 0 && city != null) {
-            Location location = getCityCoordinates(city);
+            try {
+                location = getCityCoordinates(city);
+            }catch (Exception noInternet){
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                    return FXCollections.observableList(new ArrayList<Events>());
+                }catch(Exception exc){
+                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                }
+            }
+
             predicate = event -> distance(event.getLocation().getLatitude(),event.getLocation().getLongitude(), location.getLatitude(), location.getLongitude()) < radius;
         }else if(radius == 0 && city != null){
             predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city.strip());
@@ -77,13 +93,16 @@ public class RadiusCriteria implements Criteria {
      * @param name name of the city as String.
      * @return json Object which contains the information about the city.
      */
-    Location getCityCoordinates (String name) {
+    Location getCityCoordinates (String name) throws Exception{
         ObservableList<Location> locations = FXCollections.observableArrayList();
         EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         TypedQuery<Location> locationQuery;
         locationQuery = entityManager.createNamedQuery(
                 "Location.findAllLocation",
                 Location.class);
+        if(!HandleNet.hasNetConnection()){
+           throw new Exception("Internet Connection lost");
+        }
         locations.addAll(locationQuery.getResultList());
         for (Location location:locations
              ) {

@@ -89,18 +89,13 @@ public class CashPaymentStrategy implements PaymentStrategy {
 
     @SuppressWarnings("Duplicates")
     public void updateInterestList(List<Events> eventList) {
-
         interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();
 
         List<Events> bookedEvents = new ArrayList<>(eventList); // Makes the list modifiable
 
-           interestList.removeAll(bookedEvents);
-           bookedEvents.clear();
+        interestList.removeAll(bookedEvents);
+        bookedEvents.clear();
 
-        CurrentAccountSingleton.getInstance().getAccount().setEvents(interestList);
-        CurrentAccountSingleton.getInstance().getAccount().setBookedEvents(bookedEvents);
-
-        entityManager = user.getConnection();
         entityManager.getTransaction().begin();
         entityManager.merge(user);
         entityManager.getTransaction().commit();

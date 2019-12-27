@@ -107,6 +107,16 @@ public class RememberUserDBSingleton {
 
     }
 
+    public ResultSet getUser(){
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM tblUser;");
+            ResultSet result = statement.executeQuery();
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * Method which captures the reference of the current logged in user into a unique singleton class {@link CurrentAccountSingleton}
      */

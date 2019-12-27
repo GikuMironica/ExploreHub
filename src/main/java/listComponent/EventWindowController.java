@@ -9,28 +9,20 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.lang.Thread;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,11 +64,8 @@ public class EventWindowController{
 
         // get picture associated with this event
         int id = currentEvent.getId();
-        String imageURL = entityManager.find(Pictures.class, id).getPicture();
-        image = new Image(imageURL);
-        imageView.setImage(image);
-        imageView.setFitHeight(333.0);
-        imageView.setFitWidth(464.0);
+
+        setPicture(event);
 
         longDescription.getChildren().add(new Text(currentEvent.getLongDescription()));
         title.setText(currentEvent.getShortDescription());
@@ -105,6 +94,22 @@ public class EventWindowController{
         placesData.setText(available+"/"+total);
         considering.setText(consider+" Students added it to Wishlist");
 
+    }
+
+    /**
+     * Set event main picture
+     * @param event {@link Events} current event
+     */
+    private void setPicture(Events event){
+        try {
+            String imageURL = event.getPicture().getPicture();
+            image = new Image(imageURL);
+        }catch(Exception e){
+            image = new Image("/IMG/quest.png");
+        }
+        imageView.setImage(image);
+        imageView.setFitHeight(333.0);
+        imageView.setFitWidth(464.0);
     }
 
     /**
@@ -219,17 +224,7 @@ public class EventWindowController{
      */
     @FXML
     private void goBack(Event event){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
-            Scene scene = new Scene(root);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        }catch(Exception ex){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
-            return;
-        }
+        Convenience.closePreviousDialog();
     }
 
     /**
@@ -262,6 +257,7 @@ public class EventWindowController{
                         (ActionEvent ev) -> {
                             wishList.setDisable(false);
                             considering.setText(consider+" Students added it to Wishlist");
+                            EventListSingleton.getInstance().refreshListView();
                         }
                 );
                 visiblePause.play();
@@ -283,10 +279,10 @@ public class EventWindowController{
         book.setText("Booked");
 
         try{
-            Convenience.switchScene(event, getClass().getResource(("/FXML/booking.fxml")));
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource(("/FXML/booking.fxml")));
         }catch(IOException e){
             e.printStackTrace();
-
         }
     }
 

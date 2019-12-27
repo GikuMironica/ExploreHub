@@ -8,6 +8,7 @@
 .credentialsText{
     -fx-text-fill: #F2F7F9;
     -fx-opacity: 80%;
+    -fx-prompt-text-fill: #F2F7F9;
 }
 
 #registerBtn{
@@ -25,3 +26,4 @@
     -fx-border-color: #F2F7F9;
     -fx-border-radius: 0px 54px 54px 54px;
 }
+

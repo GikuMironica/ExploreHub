@@ -1,6 +1,9 @@
 package authentification;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
+import handlers.MessageHandler;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +15,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 import models.Account;
 import models.Courses;
 import models.User;
@@ -30,25 +36,32 @@ import java.util.ResourceBundle;
  */
 @SuppressWarnings("JpaQueryApiInspection")
 public class RegisterController implements Initializable  {
+
     @FXML
-    private TextField firstNameField, lastNameField, emailField;
+    private StackPane registerStackPane;
+    @FXML
+    private AnchorPane registerAnchorPane;
+    @FXML
+    private JFXTextField firstNameField, lastNameField, emailField;
     @FXML
     private PasswordField passwordField;
     @FXML
-    private ChoiceBox courseChoiceBox;
+    private JFXComboBox courseChoiceBox;
     private TypedQuery<Courses> tq1;
     private EntityManager entityManager;
     private String NAME_PATTERN = "^[a-zA-Z]*$";
     private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$";
+    private final String EMAIL_SUBBJECT = "Registration Confirmation";
+    private final String EMAIL_LETTER = "Your have successfully registered to Explore Hub";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         entityManager = GuestConnectionSingleton.getInstance().getManager();
 
-        firstNameField.setPromptText("First Name");
+        /*firstNameField.setPromptText("First Name");
         lastNameField.setPromptText("Last Name");
         emailField.setPromptText("emailField");
-        passwordField.setPromptText("New passwordField");
+        passwordField.setPromptText("New passwordField");*/
 
         //noinspection JpaQueryApiInspection
         tq1 = entityManager.createNamedQuery(
@@ -64,7 +77,7 @@ public class RegisterController implements Initializable  {
     /**
      * Method that handles the registration process
      * @param e pressed button triggers event
-     * @throws IOException
+     * @throws IOException thrown exception
      */
     @FXML
     private void register(Event e) throws IOException, InterruptedException {
@@ -79,31 +92,44 @@ public class RegisterController implements Initializable  {
             return;
 
         // Everything Valid, persist new user
+        if(isFormInvalid(firstName, lastName, email, password))
+            return;
+
+        // Everything Valid, persist new user
         try {
-            User user = new User(firstName, lastName, email, password, course);
+            User user = new User(firstName, lastName, email, password, course, "/IMG/icon-account.png");
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
             CurrentAccountSingleton currentUser = CurrentAccountSingleton.getInstance();
             currentUser.setAccount(user);
 
-            GuestConnectionSingleton.getInstance().closeConnection();
-            
         }catch(Exception ex){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
+            try {
+                Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception ex1){/**/}
+        }
+        try{
+            MessageHandler messageHandler = MessageHandler.getMessageHandler();
+            String Email = CurrentAccountSingleton.getInstance().getAccount().getEmail();
+            messageHandler.sendEmail(EMAIL_LETTER,EMAIL_SUBBJECT,Email);
+        }catch(Exception exc){
+            // unexistent email
         }
 
-        AuthentificationController.initiliaseApp();
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/mainUI.fxml"));
-        Scene scene = new Scene(root);
-        Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        //Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/successRegister.fxml"));
+        Convenience.showAlert(Alert.AlertType.CONFIRMATION,"Registration Confirmation","You are successfully registered","");
+        Convenience.switchScene(e, getClass().getResource("/FXML/authentification.fxml"));
     }
 
+    /**
+     * Method which validates the form
+     * @param firstName {@link String} first name
+     * @param lastName {@link String} last name
+     * @param email {@link String} email
+     * @param password {@link String} password
+     * @return {@link Boolean} true / false
+     */
     private Boolean isFormInvalid(String firstName, String lastName, String email, String password){
         TypedQuery<Account> tqa = entityManager.createNamedQuery("Account.findAccountByEmail", Account.class);
         tqa.setParameter("email",email);
@@ -175,8 +201,9 @@ public class RegisterController implements Initializable  {
             tq1.setParameter("name", courseName);
             return tq1.getSingleResult();
         }catch(Exception er){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
+            try {
+                Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }catch(Exception e){/**/}
             return new Courses();
         }
     }

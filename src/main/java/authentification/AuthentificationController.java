@@ -2,23 +2,33 @@ package authentification;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.cells.editors.IntegerTextFieldEditorBuilder;
 import handlers.Convenience;
+import handlers.EntityManagerEditor;
+import handlers.HandleNet;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
+import mainUI.MainPane;
 import models.Account;
 import models.Owner;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.sessions.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,8 +38,13 @@ import java.util.ResourceBundle;
  *
  * @author Gheorghe Mironica, Tonislav Tachev
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class AuthentificationController implements Initializable {
 
+    @FXML
+    private StackPane authStackPane;
+    @FXML
+    private AnchorPane authAnchorPane;
     @FXML
     private JFXCheckBox rememberBox;
     @FXML
@@ -74,6 +89,7 @@ public class AuthentificationController implements Initializable {
         StrategyContext strategyContext;
         String username = usernameField.getText().toLowerCase();
         String password = passwordField.getText();
+        int active = 0;
 
         try {
             int accessLvl = getUserAccessLvl(username, password);
@@ -86,32 +102,53 @@ public class AuthentificationController implements Initializable {
             }
 
             strategyContext.executeStrategy(username, password);
-            initiliaseApp();
+            Account account = CurrentAccountSingleton.getInstance().getAccount();
+
+            Query activeQuery = entityManager.createNamedQuery("Account.getStatusById", Account.class)
+                    .setParameter("Id",account.getId());
+            active = (int)activeQuery.getSingleResult();
+
+            if(active==1) {
+                Convenience.showAlert(Alert.AlertType.WARNING, "Already logged in", "This user is already logged in", "Log out from the other application first");
+                return;
+            }
+
+            checkRememberBox(username, password);
             GuestConnectionSingleton.getInstance().closeConnection();
 
-        }catch(Exception e){
-            alert.setText("Invalid Email or Password");
-            alert.setVisible(true);
-            usernameField.clear();
-            passwordField.clear();
+            initiliaseApp();
 
-            PauseTransition visiblePause = new PauseTransition(
-                    Duration.seconds(3)
-            );
-            visiblePause.setOnFinished(
-                    (ActionEvent ev) -> {
-                        alert.setVisible(false);
-                    }
-            );
-            visiblePause.play();
-            return;
+            // connection attempts
+            EntityManager newManager = account.getConnection();
+            Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
+            EntityManagerEditor customizer = new EntityManagerEditor();
+            customizer.customize(session);
+
+        }catch(Exception e){
+            if(!HandleNet.hasNetConnection()){
+                Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            }else {
+                alert.setText("Invalid Email or Password");
+                alert.setVisible(true);
+                usernameField.clear();
+                passwordField.clear();
+
+                PauseTransition visiblePause = new PauseTransition(
+                        Duration.seconds(3)
+                );
+                visiblePause.setOnFinished(
+                        (ActionEvent ev) -> {
+                            alert.setVisible(false);
+                        }
+                );
+                visiblePause.play();
+                return;
+            }
         }
         alert.setVisible(false);
-        checkRememberBox(username, password);
-
         Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
-
     }
+
 
     /**
      * Method which checks if user exists, returns access level
@@ -190,9 +227,7 @@ public class AuthentificationController implements Initializable {
         try {
             Convenience.switchScene(event, getClass().getResource("/FXML/register.fxml"));
         } catch(Error e){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Check the internet connection...");
-            alert.showAndWait();
-            return;
+            Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));
         }
     }
 
@@ -213,7 +248,7 @@ public class AuthentificationController implements Initializable {
      */
     @FXML
     private void recover(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/recover.fxml"));
+        Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/recover.fxml"));
     }
 
 
