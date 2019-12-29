@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXDialog;
 import handlers.Convenience;
@@ -112,10 +113,10 @@ public class ControlPanelController {
                             dialog.close();
                             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                         } catch (IOException e1) {
-                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                         }
                     } else{
-                        Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                        Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                     }
                 }
             });

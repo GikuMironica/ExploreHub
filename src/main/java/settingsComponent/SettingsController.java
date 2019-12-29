@@ -1,5 +1,6 @@
 package settingsComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.UploadImage;
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -30,6 +32,8 @@ import java.util.ResourceBundle;
  * @author Hidayat Rzayev
  */
 public class SettingsController implements Initializable {
+
+    public static final String DEFAULT_PROFILE_PHOTO_URL = "https://i.imgur.com/EK2R1rn.jpg";
 
     @FXML
     private TextField firstNameField;
@@ -51,7 +55,6 @@ public class SettingsController implements Initializable {
 
     private Account currentAccount;
     private boolean profilePhotoChanged;
-    private String defaultProfilePhotoURL = "https://i.imgur.com/EK2R1rn.jpg";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,7 +65,7 @@ public class SettingsController implements Initializable {
         Image profileImage = new Image(profileImageURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
-        if (profileImageURL.equals(defaultProfilePhotoURL)) {
+        if (profileImageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
             removePhotoLabel.setDisable(true);
         }
 
@@ -83,8 +86,7 @@ public class SettingsController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/change_password.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 
@@ -119,8 +121,8 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.CONFIRMATION,
-                "Confirmation", "Unsaved changes will be lost", "Do you want to continue?",
+                CustomAlertType.CONFIRMATION,
+                "Any unsaved changes will be lost. Do you want to continue?",
                 ButtonType.YES, ButtonType.CANCEL
         );
 
@@ -151,7 +153,7 @@ public class SettingsController implements Initializable {
     @FXML
     private void handleRemovePhotoClicked(MouseEvent mouseEvent) {
         if (userConfirmsRemovePhoto()) {
-            changeProfilePhoto(defaultProfilePhotoURL);
+            changeProfilePhoto(DEFAULT_PROFILE_PHOTO_URL);
         }
     }
 
@@ -196,15 +198,14 @@ public class SettingsController implements Initializable {
             UploadImage imageUploader = new UploadImage(profileImage);
 
             try {
-                if (!imageURL.equals(defaultProfilePhotoURL)) {
+                if (!imageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
                     String profileImageURL = imageUploader.upload();
                     currentAccount.setPicture(profileImageURL);
                 } else {
-                    currentAccount.setPicture(defaultProfilePhotoURL);
+                    currentAccount.setPicture(DEFAULT_PROFILE_PHOTO_URL);
                 }
             } catch (Exception e) {
-                Convenience.showAlert(Alert.AlertType.ERROR,
-                        "Error", "Something went wrong", "Please, try again later");
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
             }
 
             entityManager.getTransaction().commit();
@@ -217,19 +218,13 @@ public class SettingsController implements Initializable {
      */
     private void showSuccess() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.INFORMATION,
-                "Information", "Your changes have been saved!", "Return to homepage?",
+                CustomAlertType.SUCCESS,
+                "Your changes have been saved! Return to homepage?",
                 ButtonType.YES, ButtonType.CANCEL
         );
 
         if (response.isPresent() && response.get() == ButtonType.YES) {
             Convenience.closePreviousDialog();
-            try {
-                Convenience.switchScene(profilePhotoCircle, getClass().getResource("/FXML/mainUI.fxml"));
-            } catch (IOException ioe) {
-                Convenience.showAlert(Alert.AlertType.ERROR,
-                        "Error", "Something went wrong", "Please, try again later");
-            }
         }
     }
 
@@ -242,7 +237,7 @@ public class SettingsController implements Initializable {
         Image profilePhoto = new Image(imageURL);
         profilePhotoCircle.setFill(new ImagePattern(profilePhoto));
 
-        if (imageURL.equals(defaultProfilePhotoURL)) {
+        if (imageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
             removePhotoLabel.setDisable(true);
         } else {
             removePhotoLabel.setDisable(false);
@@ -258,8 +253,8 @@ public class SettingsController implements Initializable {
      */
     private boolean userConfirmsRemovePhoto() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.CONFIRMATION,
-                "Confirmation", "Are you sure you want to remove your profile picture?", "",
+                CustomAlertType.CONFIRMATION,
+                "Are you sure you want to remove your profile picture?",
                 ButtonType.YES, ButtonType.CANCEL
         );
 

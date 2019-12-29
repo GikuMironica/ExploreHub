@@ -1,7 +1,11 @@
 package changePasswordComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import handlers.Convenience;
+import javafx.scene.layout.StackPane;
 import mainUI.MainPane;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,22 +28,23 @@ import java.util.ResourceBundle;
 public class ChangePasswordController implements Initializable {
 
     @FXML
-    private PasswordField currentPasswordField;
+    private JFXPasswordField currentPasswordField;
 
     @FXML
-    private PasswordField newPasswordField;
+    private JFXPasswordField newPasswordField;
 
     @FXML
-    private PasswordField confirmPasswordField;
+    private JFXPasswordField confirmPasswordField;
 
     @FXML
-    private Button applyButton;
+    private JFXButton applyButton;
 
     private Account currentAccount;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentAccount = CurrentAccountSingleton.getInstance().getAccount();
+        currentPasswordField.requestFocus();
     }
 
     /**
@@ -53,8 +58,7 @@ public class ChangePasswordController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 
@@ -157,15 +161,13 @@ public class ChangePasswordController implements Initializable {
      * Once the user clicks the "OK" button, the homepage will be loaded.
      */
     private void showSuccess(MouseEvent mouseEvent) {
-        Convenience.showAlert(Alert.AlertType.INFORMATION,
-                "Information", "Password changed successfully", "Press OK to continue");
+        Convenience.showAlert(CustomAlertType.SUCCESS, "Your password has been successfully changed!");
 
         try {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 }

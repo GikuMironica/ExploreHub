@@ -1,5 +1,6 @@
 package listComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
@@ -149,7 +150,7 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 handleConnection();
                 return;
             }
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
+            Convenience.showAlert(CustomAlertType.WARNING, "This event is currently unavailable or deleted.");
             return;
         }
     }

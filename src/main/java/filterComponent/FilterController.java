@@ -1,5 +1,6 @@
 package filterComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
@@ -83,7 +84,7 @@ public class FilterController implements Initializable {
                 try {
                     Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                 }catch(Exception exc){
-                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    Convenience.showAlert(CustomAlertType.ERROR, "Ooops, something went wrong. Please, try again later.");
                 }
             }
             locations.addAll(locationQuery.getResultList());

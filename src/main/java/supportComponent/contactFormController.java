@@ -1,5 +1,6 @@
 package supportComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.MessageHandler;
 import com.jfoenix.controls.JFXButton;
@@ -33,8 +34,7 @@ public class contactFormController {
             try{
                 messageHandler.sendEmail(body,subject , "ExploreHub.help@gmail.com");
             }catch (Exception e){
-                Convenience.showAlert(Alert.AlertType.ERROR,
-                        "Error", "Something went wrong", "Please, try again later");
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
             }
         });
         Convenience.closePreviousDialog();
