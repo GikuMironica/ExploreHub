@@ -1,5 +1,6 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
@@ -118,7 +119,7 @@ public class RegisterController implements Initializable  {
         }
 
         //Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/successRegister.fxml"));
-        Convenience.showAlert(Alert.AlertType.CONFIRMATION,"Registration Confirmation","You are successfully registered","");
+        Convenience.showAlert(CustomAlertType.SUCCESS,"You have successfully registered for ExploreHub! Welcome on board!");
         Convenience.switchScene(e, getClass().getResource("/FXML/authentification.fxml"));
     }
 

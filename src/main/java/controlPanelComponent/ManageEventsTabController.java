@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
 import handlers.CacheSingleton;
@@ -194,7 +195,7 @@ public class ManageEventsTabController {
         clearForm(event);
         mainPic = null;
         logoPic = null;
-        Convenience.showAlert(Alert.AlertType.INFORMATION,"Event Updated", "Event was successfully updated", "");
+        Convenience.showAlert(CustomAlertType.SUCCESS, "The event has been successfully updated!");
     }
 
 
@@ -211,7 +212,7 @@ public class ManageEventsTabController {
         }
 
         if(logoPic==null || mainPic == null){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Missing Images", "Insert images for the main event picture and company Logo","");
+            Convenience.showAlert(CustomAlertType.WARNING, "Please, insert the main picture for the event as well as the company logo.");
             return;
         }
 
@@ -225,7 +226,7 @@ public class ManageEventsTabController {
         }
         if(urlLogo.isBlank() || urlPic.isBlank()) {
             clearPictureButton();
-            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
         }
 
@@ -237,7 +238,7 @@ public class ManageEventsTabController {
         try {
              actualDate = Date.valueOf(dateField.getValue());
         }catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.ERROR, "Choose a day", "Choose a day after tomorrow again please!","");
+            Convenience.showAlert(CustomAlertType.WARNING, "Please, choose a day after tomorrow again.");
             return;
         }
         Double latitude = Double.valueOf(latitudeField.getText());
@@ -260,7 +261,7 @@ public class ManageEventsTabController {
             clearForm(event);
             mainPic = null;
             logoPic = null;
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Created", "Event was successfully created", "");
+            Convenience.showAlert(CustomAlertType.SUCCESS, "The event has been successfully created!");
         }else{
             clearForm(event);
             mainPic = null;
@@ -278,11 +279,12 @@ public class ManageEventsTabController {
     @FXML
     private void deleteEvent(Event event){
         if(selectedEvent == null){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Delete Event", "Select an Event to be deleted ", "");
+            Convenience.showAlert(CustomAlertType.WARNING, "Please, select an event to be deleted.");
             return;
         }
-        Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.INFORMATION, "Delete Event", "This event is going to be deleted from Database",
-                "Are you sure you want to proceed?", ButtonType.YES, ButtonType.CANCEL);
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                "This event is going to be deleted from the database. Are you sure you want to proceed?",
+                ButtonType.YES, ButtonType.CANCEL);
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
         } else {
@@ -292,7 +294,7 @@ public class ManageEventsTabController {
                 entityManager.remove(ev);
                 entityManager.getTransaction().commit();
                 eventsObservableList.remove(selectedEvent);
-                Convenience.showAlert(Alert.AlertType.INFORMATION, "Event Deleted", "Event was successfully deleted", "");
+                Convenience.showAlert(CustomAlertType.SUCCESS, "The event has been successfully deleted!");
             }catch(Exception exc){
                 exc.printStackTrace();
                 try {
@@ -424,11 +426,11 @@ public class ManageEventsTabController {
 
         if(localDate.isEqual(today) || localDate.isBefore(today)) {
             ok = false;
-            Convenience.showAlert(Alert.AlertType.ERROR, "Invalid date", "Choose a day after tomorrow","");
+            Convenience.showAlert(CustomAlertType.WARNING, "Invalid date. Please, choose a day after tomorrow.");
         }
         if((!freeRadio.isSelected())&&(!paidRadio.isSelected())){
             ok = false;
-            Convenience.showAlert(Alert.AlertType.ERROR, "Invalid Event Type", "Choose an Event type","");
+            Convenience.showAlert(CustomAlertType.WARNING, "Please, choose a type of the event you want to place.");
         }
         return ok;
     }
@@ -601,7 +603,7 @@ public class ManageEventsTabController {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                         getClass().getResource("/FXML/noInternet.fxml"));
                 else
-                    Convenience.showAlert(Alert.AlertType.WARNING,"Server Unreachable", "Currently, the server is unavailable","try later...");
+                    Convenience.showAlert(CustomAlertType.WARNING,"Currently, the server is unreachable. Please, try again later.");
             } catch (Exception exc) { /**/ }
             return null;
         }
@@ -706,7 +708,7 @@ public class ManageEventsTabController {
         }
         if(urlPic.isBlank() || urlLogo.isBlank()){
             clearPictureButton();
-            Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","One of the pictures is too wide or contains inapropriate content","Choose another picture");
+            Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return false;
         }else {
             selectedEvent.getPicture().setPicture(urlPic);

@@ -1,5 +1,6 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.cells.editors.IntegerTextFieldEditorBuilder;
@@ -109,7 +110,8 @@ public class AuthentificationController implements Initializable {
             active = (int)activeQuery.getSingleResult();
 
             if(active==1) {
-                Convenience.showAlert(Alert.AlertType.WARNING, "Already logged in", "This user is already logged in", "Log out from the other application first");
+                Convenience.showAlert(CustomAlertType.WARNING,
+                        "This user is already logged in. Log out from the other application first.");
                 return;
             }
 

@@ -1,5 +1,6 @@
 package filterComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import authentification.UserConnectionSingleton;
 import handlers.Convenience;
@@ -53,7 +54,7 @@ public class RadiusCriteria implements Criteria {
                     Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                     return FXCollections.observableList(new ArrayList<Events>());
                 }catch(Exception exc){
-                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    Convenience.showAlert(CustomAlertType.ERROR, "Ooops, something went wrong. Please, try again later.");
                 }
             }
 

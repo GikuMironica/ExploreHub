@@ -1,5 +1,6 @@
 package discussionComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.sandec.mdfx.MDFXNode;
 import handlers.Convenience;
@@ -81,8 +82,8 @@ public class PostListElement {
     }
 
     private void deletePost(Post p){
-        Optional<ButtonType> a = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION, "Delete Post", "Delete Post Confirmation",
-                "Are you sure you would like to delete this post? This action cannot be undone.");
+        Optional<ButtonType> a = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                "Are you sure you want to delete this post? This action cannot be undone.");
         if(a.isPresent() && a.get() == ButtonType.OK){
             em.getTransaction().begin();
             Topic t = p.getTopic();

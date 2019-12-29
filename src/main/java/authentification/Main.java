@@ -1,5 +1,6 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import handlers.Convenience;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
@@ -31,7 +32,8 @@ public class Main extends Application {
         if(userDB.okState()) {
             userDB.setUser();
             if(isLoggedIn()){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Already logged in","This user is already logged in","Log out from the other application first");
+                Convenience.showAlert(CustomAlertType.WARNING,
+                        "This user is already logged in. Log out from the other application first.");
                 userDB.cleanDB();
                 jumpLogin(primaryStage);
                 return;

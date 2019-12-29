@@ -1,5 +1,6 @@
 package wishlistComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListCell;
 import handlers.CacheSingleton;
@@ -66,8 +67,7 @@ public class WishlistCellController extends JFXListCell<Events> {
                 try {
                     loader.load();
                 } catch (IOException ioe) {
-                    Convenience.showAlert(Alert.AlertType.ERROR,
-                            "Error", "Something went wrong", "Please, try again later");
+                    Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
                 }
             }
 
@@ -123,8 +123,7 @@ public class WishlistCellController extends JFXListCell<Events> {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/booking.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 

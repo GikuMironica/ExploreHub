@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
@@ -103,7 +104,7 @@ public class StatisticsController {
             try {
                 throw new Exception("Internet Connection lost");
             }catch(Exception exc){
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
             }
         }
         feedbackList = new ArrayList<>(feedbackQuery.getResultList());
@@ -152,7 +153,7 @@ public class StatisticsController {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
-            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
         }
     }
 

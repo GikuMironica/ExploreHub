@@ -1,5 +1,6 @@
 package sidebarComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import authentification.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
@@ -76,9 +77,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/wishlist.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-            ioe.printStackTrace();
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -99,8 +98,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -114,8 +112,7 @@ public class SidebarController implements Initializable {
         try {
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/faq.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -130,8 +127,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/about.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -141,8 +137,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/contactForm.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -162,8 +157,7 @@ public class SidebarController implements Initializable {
                 throw new CommunicationException("No Internet");
             }
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
             e.printStackTrace();
         }
         catch (CommunicationException e1){
@@ -246,8 +240,8 @@ public class SidebarController implements Initializable {
      */
     private boolean userConfirmsLogOut() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.CONFIRMATION, "Confirmation",
-                "Confirm Logout", "Are you sure you want to log out?",
+                CustomAlertType.CONFIRMATION,
+                "Are you sure you want to log out from your account?",
                 ButtonType.YES, ButtonType.CANCEL
         );
 

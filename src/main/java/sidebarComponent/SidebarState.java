@@ -1,5 +1,6 @@
 package sidebarComponent;
 
+import alerts.CustomAlertType;
 import handlers.Convenience;
 import handlers.IniHandler;
 import javafx.scene.control.Alert;
@@ -23,8 +24,7 @@ public class SidebarState {
         try {
             iniHandler.updateSection("sidebar", "hidden", isHidden);
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 

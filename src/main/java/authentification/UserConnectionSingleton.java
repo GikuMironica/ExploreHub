@@ -1,5 +1,6 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import handlers.Convenience;
 import javafx.scene.control.Alert;
 
@@ -34,8 +35,8 @@ public class UserConnectionSingleton {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
             em = factory.createEntityManager();
         }catch(Exception e){
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Internet Connection", "Oops, looks like you have no internet connection","Try later.");
-            return;
+            Convenience.showAlert(CustomAlertType.ERROR,
+                    "Oops, looks like you have no internet connection. Try again later.");
         }
     }
     // fetch ze manager
