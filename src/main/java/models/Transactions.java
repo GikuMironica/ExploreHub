@@ -27,23 +27,26 @@ import java.util.List;
 public class Transactions {
 
     @Id
+    @Column(length = 5)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int Id;
 
     @Basic(optional=false)
     private Date Date;
 
+    @Column(length = 1)
     @Basic(optional=false)
     private int Completed;
 
     @Basic(optional=false)
-    @Column(name="PaymentMethod")
+    @Column(name="PaymentMethod", length = 1)
     private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 
+    @Column(length = 5)
     @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;

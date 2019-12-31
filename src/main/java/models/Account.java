@@ -30,23 +30,25 @@ public abstract class Account{
     protected Query query;
 
     @Id
+    @Column(length=5)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Basic(optional=false)
     protected int Id;
 
+    @Column(length=45)
     @Basic(optional=false)
     protected String Email;
 
     @Basic(optional=false)
-    @Column(name="FirstName")
+    @Column(name="FirstName", length = 45)
     protected String Firstname;
 
     @Basic(optional=false)
-    @Column(name="LastName")
+    @Column(name="LastName", length = 45)
     protected String Lastname;
 
     @Basic(optional=false)
-    @Column(name="AccessLevel")
+    @Column(name="AccessLevel", length = 1)
     protected int Access;
 
     @Basic(optional=false)
@@ -57,9 +59,10 @@ public abstract class Account{
     protected List<Events> bookedEvents;
 
     @Basic(optional=false)
+    @Column(length=45)
     protected String Password;
 
-    @Column(name="Picture")
+    @Column(name="Picture", length = 45)
     protected String picture;
 
     @ManyToOne

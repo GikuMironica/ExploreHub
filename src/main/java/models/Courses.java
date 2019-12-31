@@ -17,9 +17,11 @@ import java.util.Objects;
 public class Courses {
 
     @Id
+    @Column(length=2)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int Id;
 
+    @Column(length=45)
     @Basic(optional=false)
     private String Name;
 
