@@ -35,7 +35,7 @@ public class Invoice {
     @Basic(optional=false)
     private String Company;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TransactionID")
     private Transactions TransactionID;
 

@@ -49,6 +49,8 @@ public class Transactions {
     private User user;
 
     // one to one with invoice
+    @OneToOne(mappedBy = "TransactionID", cascade = CascadeType.ALL)
+    private Invoice invoice;
 
     public Transactions(){
 
@@ -60,6 +62,14 @@ public class Transactions {
         this.PaymentMethod = paymentMethod;
         this.event = event;
         this.user = user;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     public int getId() {

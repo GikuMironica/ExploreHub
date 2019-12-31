@@ -190,10 +190,10 @@ public class ManagePaymentsTabController {
             String message= "The payment for one of your booked event has been approved";
             selectedTransaction.setCompleted(1);
             try {
-                entityManager.getTransaction().begin();
-                entityManager.merge(selectedTransaction);
                 Invoice invoice = new Invoice(selectedTransaction);
-                entityManager.persist(invoice);
+                entityManager.getTransaction().begin();
+                selectedTransaction.setInvoice(invoice);
+                entityManager.merge(selectedTransaction);
                 entityManager.getTransaction().commit();
             }catch(Exception exc){
                 handleConnection();
