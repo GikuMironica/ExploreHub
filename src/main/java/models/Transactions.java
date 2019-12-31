@@ -46,7 +46,6 @@ public class Transactions {
     @JoinColumn(name="EventID", nullable=false)
     private Events event;
 
-    @Column(length = 5)
     @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;

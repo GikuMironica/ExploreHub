@@ -132,7 +132,6 @@ public class MainUiController implements Initializable {
                         entityManager.getTransaction().commit();
                     }
                 });
-
                 // freeze 30 sec this Thread while user interacts with UI thread
                 // System.out.println("freeze task while user interacting with FX thread on " + Thread.currentThread().getName());
                 Thread.sleep(30000);
@@ -140,8 +139,6 @@ public class MainUiController implements Initializable {
              }catch(Exception e){ e.printStackTrace();/* sleep interupted exception*/}
 
         };
-
-
         // repeat this task
         executorService.scheduleWithFixedDelay(logoutTask, 0, 1, TimeUnit.SECONDS);
     }
@@ -175,7 +172,7 @@ public class MainUiController implements Initializable {
     private void logOut(){
         Account account = CurrentAccountSingleton.getInstance().getAccount();
         LogOutHandler logOutHandler = new LogOutHandler(account);
-        logOutHandler.handleLogOutProcess();
+        logOutHandler.handleLogOutProcess(false);
 
         // destroy scheduled task
         executorService.shutdownNow();

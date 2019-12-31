@@ -115,7 +115,7 @@ public class AuthentificationController implements Initializable {
                 return;
             }
 
-            checkRememberBox(username, password);
+            checkRememberBox(account.getId());
             GuestConnectionSingleton.getInstance().closeConnection();
 
             initiliaseApp();
@@ -184,14 +184,13 @@ public class AuthentificationController implements Initializable {
     /**
      * Saves user credentials on demand
      *
-     * @param user user email {@link String}
-     * @param pass user password {@link String}
+     * @param accountID {@link Integer account ID}
      */
-    private void checkRememberBox(String user, String pass) {
+    private void checkRememberBox(int accountID) {
         RememberUserDBSingleton userDBSingleton = RememberUserDBSingleton.getInstance();
 
         if(rememberBox.isSelected()){
-            userDBSingleton.init(user, pass);
+            userDBSingleton.init(accountID);
             userDBSingleton.setUser();
             GuestConnectionSingleton.getInstance().closeConnection();
         } else{

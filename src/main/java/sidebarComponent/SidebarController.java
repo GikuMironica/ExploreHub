@@ -194,7 +194,7 @@ public class SidebarController implements Initializable {
     private void resetUserStatus(){
         Account account = CurrentAccountSingleton.getInstance().getAccount();
         LogOutHandler logOutHandler = new LogOutHandler(account);
-        logOutHandler.handleLogOutProcess();
+        logOutHandler.handleLogOutProcess(false);
     }
 
     /**

@@ -24,7 +24,7 @@ public class LogOutHandler {
      * This method deletes resets the application current user, shuts down connection to Database and
      * deletes the database event which is responsible for loggin out user in case of Application crash
      */
-    public void handleLogOutProcess(){
+    public void handleLogOutProcess(Boolean isX){
         int Id = account.getId();
         EntityManager entityManager = account.getConnection();
 
@@ -35,7 +35,7 @@ public class LogOutHandler {
         entityManager.getTransaction().commit();
 
         closeConnection();
-        startGuestConnection();
+        startGuestConnection(isX);
     }
 
     /**
@@ -49,9 +49,11 @@ public class LogOutHandler {
     /**
      * This method instantiates a connection to Database as a Guest
      */
-    private void startGuestConnection(){
+    private void startGuestConnection(Boolean isX){
         GuestConnectionSingleton.getInstance();
-        RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
-        userDB.cleanDB();
+        if(!isX) {
+            RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
+            userDB.cleanDB();
+        }
     }
 }

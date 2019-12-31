@@ -2,6 +2,7 @@ package authentification;
 
 import alerts.CustomAlertType;
 import handlers.Convenience;
+import handlers.LogOutHandler;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
@@ -57,20 +58,14 @@ public class Main extends Application {
             EntityManager entityManager = GuestConnectionSingleton.getInstance().getManager();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             ResultSet result = userDB.getUser();
-            String lastUser = "";
-            String lastPass = "";
+            String userID = "";
             Account account;
 
             while (result.next()) {
-                lastUser = result.getString("Email");
-                lastPass = result.getString("Pass");
+                userID = result.getString("Id");
             }
 
-            TypedQuery<Account> tq1 = entityManager.createNamedQuery(
-                    "Account.findAccountByEmail",
-                    Account.class)
-                    .setParameter("email", lastUser);
-            account = tq1.getSingleResult();
+            account = entityManager.find(Account.class, Integer.valueOf(userID));
             return account;
         }catch(Exception e){
             e.printStackTrace();
@@ -120,11 +115,8 @@ public class Main extends Application {
             return;
         }else{
             Account account = CurrentAccountSingleton.getInstance().getAccount();
-            EntityManager entityManager = account.getConnection();
-            entityManager.getTransaction().begin();
-            entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, account.getId()).executeUpdate();
-            entityManager.getTransaction().commit();
-            account.closeConnection();
+            LogOutHandler logOutHandler = new LogOutHandler(account);
+            logOutHandler.handleLogOutProcess(true);
         }
     }
 
