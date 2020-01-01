@@ -1,6 +1,7 @@
 package controlPanelComponent;
 
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.MessageHandler;
 import com.jfoenix.controls.JFXButton;
@@ -53,8 +54,8 @@ public class ManageAdminsTabController{
     private Account account;
     private String NAME_PATTERN = "^[a-zA-Z]*$";
     private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@hs-ulm\\.(de)$";
-    private String ADMIN_CREATED_MESSAGE = "Admin account was successfully created";
-    private String PASSWORD_GENERATED = "Random password was generated, sent over email";
+    private String ADMIN_CREATED_MESSAGE = "Admin account has been successfully created!";
+    private String PASSWORD_GENERATED = "Random password has been generated and sent to you over email.";
     private Admin selectedAdmin;
 
     /**
@@ -106,7 +107,7 @@ public class ManageAdminsTabController{
 
             clearView(e);
             adminObservableList.add(newAdmin);
-            Convenience.showAlert(Alert.AlertType.INFORMATION,"Admin Created", ADMIN_CREATED_MESSAGE, PASSWORD_GENERATED);
+            Convenience.showAlert(CustomAlertType.SUCCESS, ADMIN_CREATED_MESSAGE + ' ' + PASSWORD_GENERATED);
         }catch(Exception ex){
             handleConnection();
         }
@@ -126,8 +127,10 @@ public class ManageAdminsTabController{
     private void deleteAdmin(Event e){
         try{
             if (selectedAdmin != null) {
-                Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION, "Delete Admin", "Are you sure you want to remove: ",
-                        selectedAdmin.getFirstname()+" "+selectedAdmin.getLastname(), ButtonType.YES, ButtonType.CANCEL);
+                Optional<ButtonType> response = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                        "Are you sure you want to permanently remove " +
+                        selectedAdmin.getFirstname()+" "+selectedAdmin.getLastname() + " ?",
+                        ButtonType.YES, ButtonType.CANCEL);
 
                 if (response.isPresent() && response.get() == ButtonType.CANCEL) {
                     return;
@@ -179,7 +182,7 @@ public class ManageAdminsTabController{
                 UploadImage uploader = new UploadImage(image);
                 imageURL = uploader.upload();
             }catch(Exception e){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Invalid Picture","This image can't be uploaded","");
+                Convenience.showAlert(CustomAlertType.WARNING, "This image can't be uploaded due to its size.");
             }
         });
         thread1.start();

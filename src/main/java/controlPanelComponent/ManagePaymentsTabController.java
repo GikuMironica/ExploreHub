@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.MessageHandler;
 import handlers.Convenience;
@@ -180,7 +181,8 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void validatePayment(Event event){
-        Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Validation", "Are you sure you want to validate this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                "Are you sure you want to validate this transaction?", ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
@@ -188,10 +190,10 @@ public class ManagePaymentsTabController {
             String message= "The payment for one of your booked event has been approved";
             selectedTransaction.setCompleted(1);
             try {
-                entityManager.getTransaction().begin();
-                entityManager.merge(selectedTransaction);
                 Invoice invoice = new Invoice(selectedTransaction);
-                entityManager.persist(invoice);
+                entityManager.getTransaction().begin();
+                selectedTransaction.setInvoice(invoice);
+                entityManager.merge(selectedTransaction);
                 entityManager.getTransaction().commit();
             }catch(Exception exc){
                 handleConnection();
@@ -227,7 +229,8 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void rejectPayment(Event event){
-        Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rejection", "Are you sure you want to reject this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                "Are you sure you want to reject this transaction?", ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;
@@ -253,7 +256,8 @@ public class ManagePaymentsTabController {
     @FXML
     private void refundTransaction(Event event){
 
-        Optional<ButtonType> response = Convenience.showAlertWithResponse(Alert.AlertType.CONFIRMATION,"Transaction Rollback", "Are you sure you want to undo this transaction?", "",ButtonType.YES, ButtonType.CANCEL);
+        Optional<ButtonType> response = Convenience.showAlertWithResponse(CustomAlertType.CONFIRMATION,
+                "Are you sure you want to undo this transaction?", ButtonType.YES, ButtonType.CANCEL);
 
         if(response.isPresent() && response.get() == ButtonType.CANCEL){
             return;

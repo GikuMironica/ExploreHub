@@ -14,8 +14,8 @@
 <?import javafx.scene.text.Font?>
 
 <SplitPane dividerPositions="0.6020066889632107" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="settingsComponent.SettingsController">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Profile Settings">
                <font>
@@ -74,14 +74,14 @@
                            </font>
                         </Label>
                         <JFXPasswordField fx:id="passwordField" disable="true" editable="false" maxWidth="-Infinity" prefWidth="200.0" />
-                        <Label onMouseClicked="#handleChangePasswordClicked" style="-fx-cursor: hand;" text="Change" textFill="#00aaed" />
+                        <Label onMouseClicked="#handleChangePasswordClicked" style="-fx-cursor: hand;" text="Change" textFill="#0084ad" />
                      </children>
                   </VBox>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
-                    <buttons>
+                     <buttons>
                         <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Cancel" textFill="WHITE" />
                         <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleSaveClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Save" textFill="WHITE" />
-                    </buttons>
+                     </buttons>
                   </ButtonBar>
                </children>
                <padding>
@@ -89,7 +89,7 @@
                </padding>
             </VBox>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="235.0" spacing="5.0">
                <children>
@@ -100,11 +100,11 @@
                   </Circle>
                   <HBox alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="20.0" prefWidth="140.0" spacing="20.0">
                      <children>
-                        <Label onMouseClicked="#handleChangePhotoClicked" style="-fx-cursor: hand;" text="Change" textFill="#00aaed" />
-                        <Label fx:id="removePhotoLabel" onMouseClicked="#handleRemovePhotoClicked" style="-fx-cursor: hand;" text="Remove" textFill="#00aaed" />
+                        <Label onMouseClicked="#handleChangePhotoClicked" style="-fx-cursor: hand;" text="Change" textFill="#0084ad" />
+                        <Label fx:id="removePhotoLabel" onMouseClicked="#handleRemovePhotoClicked" style="-fx-cursor: hand;" text="Remove" textFill="#0084ad" />
                      </children>
                   </HBox>
                </children></VBox>
          </children></AnchorPane>
-  </items>
+   </items>
 </SplitPane>

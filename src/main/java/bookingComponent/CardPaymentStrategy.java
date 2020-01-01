@@ -10,6 +10,7 @@ import models.*;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -60,6 +61,9 @@ public class CardPaymentStrategy implements PaymentStrategy {
                     transactions.setCompleted(completed);
                     transactions.setPaymentMethod(paymentMethod);
 
+                    Invoice invoice = new Invoice(transactions);
+                    transactions.setInvoice(invoice);
+
                     currentEvent.setAvailablePlaces(currentEvent.getAvailablePlaces() - 1);
 
                     try {
@@ -68,11 +72,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
 
-
-                        Invoice invoice = new Invoice(transactions);
-                        entityManager.getTransaction().begin();
-                        entityManager.persist(invoice);
-                        entityManager.getTransaction().commit();
+                        user.getTransactions().add(transactions);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

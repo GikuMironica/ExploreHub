@@ -1,16 +1,17 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import handlers.Convenience;
+import handlers.LogOutHandler;
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Account;
+import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.sql.ResultSet;
 
 /**
@@ -31,7 +32,8 @@ public class Main extends Application {
         if(userDB.okState()) {
             userDB.setUser();
             if(isLoggedIn()){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Already logged in","This user is already logged in","Log out from the other application first");
+                Convenience.showAlert(CustomAlertType.WARNING,
+                        "This user is already logged in. Log out from the other application first.");
                 userDB.cleanDB();
                 jumpLogin(primaryStage);
                 return;
@@ -55,20 +57,14 @@ public class Main extends Application {
             EntityManager entityManager = GuestConnectionSingleton.getInstance().getManager();
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             ResultSet result = userDB.getUser();
-            String lastUser = "";
-            String lastPass = "";
+            String userID = "";
             Account account;
 
             while (result.next()) {
-                lastUser = result.getString("Email");
-                lastPass = result.getString("Pass");
+                userID = result.getString("Id");
             }
 
-            TypedQuery<Account> tq1 = entityManager.createNamedQuery(
-                    "Account.findAccountByEmail",
-                    Account.class)
-                    .setParameter("email", lastUser);
-            account = tq1.getSingleResult();
+            account = entityManager.find(Account.class, Integer.valueOf(userID));
             return account;
         }catch(Exception e){
             e.printStackTrace();
@@ -118,11 +114,8 @@ public class Main extends Application {
             return;
         }else{
             Account account = CurrentAccountSingleton.getInstance().getAccount();
-            EntityManager entityManager = account.getConnection();
-            entityManager.getTransaction().begin();
-            entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, account.getId()).executeUpdate();
-            entityManager.getTransaction().commit();
-            account.closeConnection();
+            LogOutHandler logOutHandler = new LogOutHandler(account);
+            logOutHandler.handleLogOutProcess(true);
         }
     }
 

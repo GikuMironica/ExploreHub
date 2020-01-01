@@ -1,5 +1,6 @@
 package bookingComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
 import javafx.application.Platform;
@@ -109,8 +110,7 @@ public class PaymentController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/booking.fxml"));
         }catch(IOException e){
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 
@@ -125,8 +125,7 @@ public class PaymentController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/paymentConfirmation.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 

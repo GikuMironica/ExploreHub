@@ -1,8 +1,8 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.cells.editors.IntegerTextFieldEditorBuilder;
 import handlers.Convenience;
 import handlers.EntityManagerEditor;
 import handlers.HandleNet;
@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -20,15 +19,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
-import mainUI.MainPane;
 import models.Account;
-import models.Owner;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.sessions.Session;
+import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -109,11 +106,12 @@ public class AuthentificationController implements Initializable {
             active = (int)activeQuery.getSingleResult();
 
             if(active==1) {
-                Convenience.showAlert(Alert.AlertType.WARNING, "Already logged in", "This user is already logged in", "Log out from the other application first");
+                Convenience.showAlert(CustomAlertType.WARNING,
+                        "This user is already logged in. Log out from the other application first.");
                 return;
             }
 
-            checkRememberBox(username, password);
+            checkRememberBox(account.getId());
             GuestConnectionSingleton.getInstance().closeConnection();
 
             initiliaseApp();
@@ -182,14 +180,13 @@ public class AuthentificationController implements Initializable {
     /**
      * Saves user credentials on demand
      *
-     * @param user user email {@link String}
-     * @param pass user password {@link String}
+     * @param accountID {@link Integer account ID}
      */
-    private void checkRememberBox(String user, String pass) {
+    private void checkRememberBox(int accountID) {
         RememberUserDBSingleton userDBSingleton = RememberUserDBSingleton.getInstance();
 
         if(rememberBox.isSelected()){
-            userDBSingleton.init(user, pass);
+            userDBSingleton.init(accountID);
             userDBSingleton.setUser();
             GuestConnectionSingleton.getInstance().closeConnection();
         } else{

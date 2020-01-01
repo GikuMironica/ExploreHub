@@ -1,5 +1,6 @@
 package feedbackComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
@@ -106,9 +107,8 @@ public class FeedbackController implements Initializable {
                 if (HandleNet.hasNetConnection()) {
                     Feedback feedback = new Feedback(rating.getRating(), description.getText(), user);
                     if (description.getText().isEmpty()){
-                        Convenience.showAlert(Alert.AlertType.WARNING,
-                                "Warning", "Empty feedback",
-                                "You can't submit an empty feedback, please write a feedback");
+                        Convenience.showAlert(CustomAlertType.WARNING,
+                                "You can't submit an empty feedback. Please, write a feedback.");
                         return;
                     }
                     entityManager.getTransaction().begin();
@@ -129,16 +129,15 @@ public class FeedbackController implements Initializable {
                     throw new CommunicationException("No internet");
                 }
             }catch(CommunicationException e){
-                Convenience.showAlert(Alert.AlertType.ERROR, "Connectivity error",
-                        "Connection lost",
-                        "It seems you have no Internet connectivity, please check with your network administrator");
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, looks like you have no internet connection. Try again later.");
                 //Clear the persistence context
                 entityManager.clear();
             }
 
         } catch (PersistenceException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again");
+            Convenience.showAlert(CustomAlertType.ERROR,
+                    "Something went wrong. Please, try again later.");
         }
 
     }
@@ -161,8 +160,8 @@ public class FeedbackController implements Initializable {
                 throw new CommunicationException("No internet");
             }
         } catch (CommunicationException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR,
+                    "Something went wrong. Please, try again later.");
         }
     }
 
@@ -183,8 +182,7 @@ public class FeedbackController implements Initializable {
      *
      */
     private void successAlert(){
-
-       Convenience.showAlert(Alert.AlertType.INFORMATION,
-               "Feedback",null, "Thank you for your feedback");
+       Convenience.showAlert(CustomAlertType.SUCCESS,
+               "Your feedback has been successfully submitted! Thank you for your time!");
    }
 }

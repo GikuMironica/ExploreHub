@@ -1,7 +1,7 @@
 package authentification;
 
 import models.Admin;
-import models.User;
+import persistenceComponent.AdminConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

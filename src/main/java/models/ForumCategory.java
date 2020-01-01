@@ -23,12 +23,15 @@ public class ForumCategory {
     }
 
     @Id
+    @Column(length=2)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
+    @Column(length=155)
     @Basic(optional = false)
     private String Name;
 
+    @Column(length=20)
     @Basic
     private String Type;
 

@@ -1,5 +1,6 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
@@ -14,8 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import mainUI.MainPane;
 import models.User;
+import persistenceComponent.GuestConnectionSingleton;
+
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -89,9 +91,11 @@ public class RecoverController implements Initializable {
                     @Override
                     public void run() {
                         if(!HandleNet.hasNetConnection()) {
-                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "It looks like internet connection has been lost. Please try again later.");
+                            Convenience.showAlert(CustomAlertType.ERROR,
+                                    "Oops, looks like you have no internet connection. Try again later.");
                         }else {
-                            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                            Convenience.showAlert(CustomAlertType.ERROR,
+                                    "Oops, looks like you have no internet connection. Try again later.");
                         }
                     }
                 });
@@ -106,14 +110,14 @@ public class RecoverController implements Initializable {
                 try {
                     messageHandler.sendRecoveryConfirmation(key, recoveryEmail.getText());
                 } catch (MessagingException ade) {
-                    Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.WARNING,
-                                            "Warning", "Attempt failed.", "Password recovery failed. Please try again later."));
+                    Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
+                                            "Password recovery failed. Please try again later."));
                     ade.printStackTrace();
                 }
                 setConfirmEnabled();
             }else{
-                Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.ERROR,
-                                        "Error", "Attempt failed.", "User does not exist"));
+                Platform.runLater(() -> Convenience.showAlert(CustomAlertType.ERROR,
+                                        "Attempt failed. User does not exist."));
                 setMailEnabled();
             }
         });
@@ -139,12 +143,12 @@ public class RecoverController implements Initializable {
                     MessageHandler messageHandler = MessageHandler.getMessageHandler();
                     messageHandler.sendNewPassword(generatedPassword, recoveryEmail.getText());
                 }catch (MessagingException me){
-                    Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.WARNING,
-                                                "Warning", "Attempt failed.", "Password recovery failed. Please try again later." ));
+                    Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
+                                                "Password recovery failed. Please try again later." ));
                     me.printStackTrace();
                 }
-                Platform.runLater(() -> Platform.runLater(() -> Convenience.showAlert(Alert.AlertType.INFORMATION,
-                                                                    "Attention", "Password recovery", "Your new password was sent on your email.")));
+                Platform.runLater(() -> Platform.runLater(() -> Convenience.showAlert(CustomAlertType.INFORMATION,
+                                                                    "Your new password was sent to your email address.")));
                 generatedKey = null;
                 Platform.runLater(new Runnable() {
                     @Override

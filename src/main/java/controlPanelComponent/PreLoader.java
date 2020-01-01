@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSpinner;
@@ -51,7 +52,7 @@ public class PreLoader {
         try {
             loader.load();
         } catch (Exception e) {
-            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
         Thread thread = new Thread(() -> {
             controlPanelController = (ControlPanelController) loader.getController();
@@ -154,7 +155,7 @@ public class PreLoader {
                        dialog.close();
                         Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                    }catch(Exception exc){
-                       Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                       Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
                     }
                }
            });

@@ -63,6 +63,8 @@ public class CashPaymentStrategy implements PaymentStrategy {
                         entityManager.merge(currentEvent);
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
+
+                        user.getTransactions().add(transactions);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
