@@ -1,8 +1,7 @@
 package handlers;
 
-import authentification.UserConnectionSingleton;
+import persistenceComponent.UserConnectionSingleton;
 import com.itextpdf.text.Document;
-import controlPanelComponent.ManageAdminsTabController;
 import models.*;
 import org.junit.After;
 import org.junit.Before;

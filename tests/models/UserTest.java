@@ -1,12 +1,10 @@
 package models;
 
-import authentification.UserConnectionSingleton;
+import persistenceComponent.UserConnectionSingleton;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for the User Model {@link User}

@@ -1,7 +1,6 @@
 package controlPanelComponent;
 
-import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
+import persistenceComponent.UserConnectionSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Account;

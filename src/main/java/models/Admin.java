@@ -1,10 +1,8 @@
 package models;
 
-import authentification.AdminConnectionSingleton;
-import authentification.UserConnectionSingleton;
+import persistenceComponent.AdminConnectionSingleton;
+
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @SuppressWarnings("JpaQlInspection")
 @NamedQueries({

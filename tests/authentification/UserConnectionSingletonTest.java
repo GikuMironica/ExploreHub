@@ -1,6 +1,7 @@
 package authentification;
 
 import org.junit.Test;
+import persistenceComponent.UserConnectionSingleton;
 
 import static org.junit.Assert.*;
 

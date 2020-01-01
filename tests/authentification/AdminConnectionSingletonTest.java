@@ -1,8 +1,7 @@
 package authentification;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import persistenceComponent.AdminConnectionSingleton;
 
 /**
  * Test class for the {@link AdminConnectionSingleton}

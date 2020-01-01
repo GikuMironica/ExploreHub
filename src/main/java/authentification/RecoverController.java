@@ -15,8 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import mainUI.MainPane;
 import models.User;
+import persistenceComponent.GuestConnectionSingleton;
+
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

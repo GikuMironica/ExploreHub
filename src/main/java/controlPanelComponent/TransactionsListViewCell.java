@@ -1,17 +1,11 @@
 package controlPanelComponent;
 
-import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import models.Events;
 import models.Transactions;
-
-import javax.persistence.EntityManager;
 
 public class TransactionsListViewCell extends ListCell<Transactions> {
 

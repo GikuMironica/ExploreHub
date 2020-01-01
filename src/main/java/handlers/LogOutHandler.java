@@ -1,7 +1,7 @@
 package handlers;
 
 import authentification.CurrentAccountSingleton;
-import authentification.GuestConnectionSingleton;
+import persistenceComponent.GuestConnectionSingleton;
 import authentification.RememberUserDBSingleton;
 import models.Account;
 

@@ -1,11 +1,9 @@
 package authentification;
 
 import models.Account;
-import models.User;
+import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.sql.*;
 
 /**

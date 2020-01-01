@@ -2,12 +2,10 @@ package filterComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import mainUI.MainPane;
 import models.Events;
 import models.Location;

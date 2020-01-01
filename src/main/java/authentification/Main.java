@@ -4,15 +4,14 @@ import alerts.CustomAlertType;
 import handlers.Convenience;
 import handlers.LogOutHandler;
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.Account;
+import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.sql.ResultSet;
 
 /**
