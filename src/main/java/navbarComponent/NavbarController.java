@@ -1,5 +1,6 @@
 package navbarComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -162,9 +163,7 @@ public class  NavbarController implements Initializable {
         try {
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/discussionView.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-            ioe.printStackTrace();
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 

@@ -1,8 +1,5 @@
 package models;
-import javax.persistence.Basic;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.sql.Date;
 
 @SuppressWarnings("JpaQlInspection")
@@ -38,6 +35,7 @@ public class CompanyExcursion extends Events {
         this.Company = company;
     }
 
+    @Column(length=45)
     @Basic(optional=false)
     private String Company;
 

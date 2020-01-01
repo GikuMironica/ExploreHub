@@ -1,16 +1,15 @@
 package sidebarComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
-import authentification.GuestConnectionSingleton;
-import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
+import handlers.LogOutHandler;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,11 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
 
 import javax.naming.CommunicationException;
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -76,9 +75,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/wishlist.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
-            ioe.printStackTrace();
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -99,8 +96,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -114,8 +110,7 @@ public class SidebarController implements Initializable {
         try {
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/faq.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -130,8 +125,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/about.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -141,8 +135,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/contactForm.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -162,8 +155,7 @@ public class SidebarController implements Initializable {
                 throw new CommunicationException("No Internet");
             }
         } catch (IOException e) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
             e.printStackTrace();
         }
         catch (CommunicationException e1){
@@ -183,11 +175,9 @@ public class SidebarController implements Initializable {
     private void handleLogOutClicked(MouseEvent mouseEvent) throws IOException {
         if (userConfirmsLogOut()) {
             resetUserStatus();
-            GuestConnectionSingleton.getInstance();
-            RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
-            userDB.cleanDB();
 
             SidebarState.saveStateHidden(true);
+            MainUiController.shutDownTasks();
 
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
@@ -198,14 +188,9 @@ public class SidebarController implements Initializable {
      * resets the system.
      */
     private void resetUserStatus(){
-        Account akk = CurrentAccountSingleton.getInstance().getAccount();
-        EntityManager entityManager = akk.getConnection();
-        entityManager.getTransaction().begin();
-        entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, akk.getId()).executeUpdate();
-        entityManager.getTransaction().commit();
-        CurrentAccountSingleton.getInstance().getAccount().closeConnection();
-        CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
-        currentAccount.setAccount(null);
+        Account account = CurrentAccountSingleton.getInstance().getAccount();
+        LogOutHandler logOutHandler = new LogOutHandler(account);
+        logOutHandler.handleLogOutProcess(false);
     }
 
     /**
@@ -246,8 +231,8 @@ public class SidebarController implements Initializable {
      */
     private boolean userConfirmsLogOut() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.CONFIRMATION, "Confirmation",
-                "Confirm Logout", "Are you sure you want to log out?",
+                CustomAlertType.CONFIRMATION,
+                "Are you sure you want to log out from your account?",
                 ButtonType.YES, ButtonType.CANCEL
         );
 

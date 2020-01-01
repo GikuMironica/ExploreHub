@@ -1,5 +1,6 @@
 package listComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
@@ -161,11 +162,11 @@ public class EventWindowController{
             }
         }catch(Exception e){
             if(!hasNetConnection()){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, looks like you have no internet connection. Try again later.");
                 return;
             }
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
-            return;
+            Convenience.showAlert(CustomAlertType.WARNING, "This event is currently unavailable or deleted.");
         }
     }
 
@@ -195,11 +196,11 @@ public class EventWindowController{
             e.printStackTrace();
             wishList.setDisable(false);
             if(!HandleNet.hasNetConnection()){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, looks like you have no internet connection. Try again later.");
                 return;
             }
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
-            return;
+            Convenience.showAlert(CustomAlertType.WARNING, "This event is currently unavailable or deleted.");
         }
     }
 
@@ -241,7 +242,8 @@ public class EventWindowController{
             }catch(Exception ex1){
                 if(!HandleNet.hasNetConnection()){
                     Platform.runLater(()->{
-                        Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                        Convenience.showAlert(CustomAlertType.ERROR,
+                                "Oops, looks like you have no internet connection. Try again later.");
                         wishList.setDisable(false);
 
                     });
@@ -307,7 +309,8 @@ public class EventWindowController{
             size = tq1.getResultList().size();
         }catch(Exception e){
             if(!HandleNet.hasNetConnection()){
-                Convenience.showAlert(Alert.AlertType.WARNING,"Internet","Internet Connection Issues","Looks like you have connection problems, try later");
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, looks like you have no internet connection. Try again later.");
                 book.setDisable(true);
             }
         }

@@ -1,7 +1,6 @@
 package models;
 
-import authentification.AdminConnectionSingleton;
-import authentification.UserConnectionSingleton;
+import persistenceComponent.AdminConnectionSingleton;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,8 +9,6 @@ import javax.persistence.TypedQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for the Model {@link Admin}

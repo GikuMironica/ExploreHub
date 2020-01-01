@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class Location {
 
     @Id
+    @Column(length=4)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int EventID;
 
@@ -21,6 +22,7 @@ public class Location {
     @Basic(optional=false)
     private double Longitude;
 
+    @Column(length=45)
     @Basic(optional=false)
     private String City;
 

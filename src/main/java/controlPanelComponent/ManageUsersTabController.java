@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
@@ -76,7 +77,7 @@ public class ManageUsersTabController implements Initializable {
             try {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(),anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
             }catch(Exception exc){
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
             }
         }
         transactions.addAll(usersEventsQuery.getResultList());
@@ -139,7 +140,7 @@ public class ManageUsersTabController implements Initializable {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
-            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
         }
     }
 }

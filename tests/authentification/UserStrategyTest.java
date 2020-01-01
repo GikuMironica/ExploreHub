@@ -3,6 +3,7 @@ package authentification;
 import models.User;
 import org.junit.Before;
 import org.junit.Test;
+import persistenceComponent.UserConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

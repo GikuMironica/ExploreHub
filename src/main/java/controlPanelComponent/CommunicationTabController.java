@@ -1,5 +1,6 @@
 package controlPanelComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
 import handlers.HandleNet;
@@ -154,13 +155,13 @@ public class CommunicationTabController {
                try {
                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
                } catch (Exception exc) {
-                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                   Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                }
            }else {
                try {
                    checkForEmails();
                } catch (Exception e1) {
-                   Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                   Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                }
            }
         }
@@ -271,7 +272,7 @@ public class CommunicationTabController {
                 messageHandler.sendEmail(textArea.getText(), subject, email.getText());
                 dialog.close();
             } catch (MessagingException e) {
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
             }
         });
         content.setActions(button);
@@ -287,7 +288,7 @@ public class CommunicationTabController {
         try{
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
         }catch(Exception ex){
-            Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
     }
 
@@ -315,7 +316,7 @@ public class CommunicationTabController {
                     checkForEmails();
                     moveToFolder.setDisable(false);
                 }catch(Exception ex){
-                    Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                 }
             }
         };
@@ -340,7 +341,7 @@ public class CommunicationTabController {
             try {
                 checkForEmails();
             }catch(Exception ex){
-                Convenience.showAlert(Alert.AlertType.WARNING, "Ooops", "Something went wrong.", "Please try again later");
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
             }
     }
 }

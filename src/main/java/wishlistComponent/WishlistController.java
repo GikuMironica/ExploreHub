@@ -1,5 +1,6 @@
 package wishlistComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -58,6 +59,8 @@ public class WishlistController implements Initializable {
 
         wishListView.setCellFactory(wishlistCell -> new WishlistCellController());
 
+        wishListView.setPlaceholder(new Label("Your wishlist is empty."));
+
         initButtonsDisableProperty();
     }
 
@@ -107,7 +110,7 @@ public class WishlistController implements Initializable {
 
     private boolean userConfirmsRemoveAll() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
-                Alert.AlertType.CONFIRMATION, "Confirmation", "Confirm remove",
+                CustomAlertType.CONFIRMATION,
                 "Are you sure you want to remove all the events from your wishlist?",
                 ButtonType.YES, ButtonType.CANCEL);
         return response.isPresent() && response.get() == ButtonType.YES;
@@ -132,8 +135,7 @@ public class WishlistController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/booking.fxml"));
         } catch (IOException ioe) {
-            Convenience.showAlert(Alert.AlertType.ERROR,
-                    "Error", "Something went wrong", "Please, try again later");
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 }

@@ -1,15 +1,19 @@
 package handlers;
 
+import alerts.*;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -86,60 +90,27 @@ public final class Convenience {
         return (Stage) node.getScene().getWindow();
     }
 
-    /**
-     * Creates a new {@link Alert} object.
-     *
-     * @param alertType - type of the alert
-     * @param title - text contained in the title section of the alert
-     * @param header - text contained in the header section of the alert
-     * @param content - text contained in the content section of the alert
-     * @return {@link Alert} object
-     */
-    private static Alert createAlert(Alert.AlertType alertType, String title, String header, String content) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        return alert;
-    }
-
-    /**
-     * Creates and shows a new alert to the user.
-     *
-     * @param alertType - type of the alert
-     * @param title - text contained in the title section of the alert
-     * @param header - text contained in the header section of the alert
-     * @param content - text contained in the content section of the alert
-     */
-    public static void showAlert(Alert.AlertType alertType, String title, String header, String content) {
-        Alert alert = createAlert(alertType, title, header, content);
-        alert.showAndWait();
+    public static void showAlert(CustomAlertType alertType,  String content) {
+        CustomAlertFactory alertFactory = new CustomAlertFactory();
+        CustomAlert alert = alertFactory.createAlert(alertType);
+        alert.showAlert(content);
     }
 
     /**
      * Creates and shows a new alert which can be responded to.
      *
      * @param alertType - type of the alert
-     * @param title - text contained in the title section of the alert
-     * @param header - text contained in the header section of the alert
      * @param content - text contained in the content section of the alert
      * @param buttonTypes - types of buttons to be displayed on the alert window.
      *                    By default (if the user has not specified any),
      *                    those are gonna be the "Ok" and "Cancel" buttons.
      * @return user's response (i.e. clicked button type)
      */
-    public static Optional<ButtonType> showAlertWithResponse(Alert.AlertType alertType, String title, String header,
-                                                             String content, ButtonType... buttonTypes) {
-        Alert alert = createAlert(alertType, title, header, content);
-
-        alert.getButtonTypes().clear();
-        if (buttonTypes.length != 0) {
-            alert.getButtonTypes().addAll(buttonTypes);
-        } else {
-            alert.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        }
-
-        return alert.showAndWait();
+    public static Optional<ButtonType> showAlertWithResponse(CustomAlertType alertType, String content,
+                                                             ButtonType... buttonTypes) {
+        CustomAlertFactory alertFactory = new CustomAlertFactory();
+        CustomAlert alert = alertFactory.createAlert(alertType);
+        return alert.showAlertWithResponse(content, buttonTypes);
     }
 
     /**
@@ -181,6 +152,9 @@ public final class Convenience {
         }
     }
 
+    /**
+     * Returns the currently open dialog.
+     */
     public static JFXDialog getDialog(){
         return previousDialog;
     }

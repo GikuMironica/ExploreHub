@@ -1,5 +1,6 @@
 package listComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
@@ -149,7 +150,7 @@ public class CustomListViewCell extends JFXListCell<Events> {
                 handleConnection();
                 return;
             }
-            Convenience.showAlert(Alert.AlertType.INFORMATION, "Unavailable Event", "This event is currently unavailable or deleted ", "");
+            Convenience.showAlert(CustomAlertType.WARNING, "This event is currently unavailable or deleted.");
             return;
         }
     }
@@ -201,35 +202,34 @@ public class CustomListViewCell extends JFXListCell<Events> {
      * @return
      */
     private boolean isBooked(){
-        boolean nullExc = false;
-        boolean exception = false;
-        try {
-            @SuppressWarnings("JpaQueryApiInspection")
-            TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
-            tq1.setParameter("id", currentEvent.getId());
-            tq1.setParameter("userId", account.getId());
-            int size = tq1.getResultList().size();
-            return size > 0;
-        }catch(NullPointerException ex){
-            nullExc = true;
-            return true;
-        }catch(Exception ex) {
-            exception  = true;
-            return true;
-        }finally {
-            if((!nullExc)&&(exception)) {
-                handleConnection();
-            }
-        }
-//        for(Transactions transaction : account.getTransactions()){
-//            if(transaction.getEvent().getId()==currentEvent.getId()){
-//                if(transaction.getCompleted()==1 || transaction.getCompleted()==0) {
-//                    System.out.println("this evennt is booked"+"  "+currentEvent.getShortDescription());
-//                    return true;
-//                }
+//        boolean nullExc = false;
+//        boolean exception = false;
+//        try {
+//            @SuppressWarnings("JpaQueryApiInspection")
+//            TypedQuery<Transactions> tq1 = entityManager.createNamedQuery("Transactions.findAllOngoing&Accepted", Transactions.class);
+//            tq1.setParameter("id", currentEvent.getId());
+//            tq1.setParameter("userId", account.getId());
+//            int size = tq1.getResultList().size();
+//            return size > 0;
+//        }catch(NullPointerException ex){
+//            nullExc = true;
+//            return true;
+//        }catch(Exception ex) {
+//            exception  = true;
+//            return true;
+//        }finally {
+//            if((!nullExc)&&(exception)) {
+//                handleConnection();
 //            }
 //        }
-//        return false;
+        for(Transactions transaction : account.getTransactions()){
+            if(transaction.getEvent().getId()==currentEvent.getId()){
+                if(transaction.getCompleted()==1 || transaction.getCompleted()==0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

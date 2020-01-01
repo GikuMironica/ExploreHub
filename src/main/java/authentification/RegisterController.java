@@ -1,27 +1,21 @@
 package authentification;
 
+import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
 import handlers.MessageHandler;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import mainUI.MainPane;
 import models.Account;
 import models.Courses;
 import models.User;
+import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -117,8 +111,7 @@ public class RegisterController implements Initializable  {
             // unexistent email
         }
 
-        //Convenience.popupDialog(registerStackPane, registerAnchorPane, getClass().getResource("/FXML/successRegister.fxml"));
-        Convenience.showAlert(Alert.AlertType.CONFIRMATION,"Registration Confirmation","You are successfully registered","");
+        Convenience.showAlert(CustomAlertType.SUCCESS,"You have successfully registered for ExploreHub! Welcome on board!");
         Convenience.switchScene(e, getClass().getResource("/FXML/authentification.fxml"));
     }
 

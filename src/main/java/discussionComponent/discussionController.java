@@ -1,7 +1,6 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

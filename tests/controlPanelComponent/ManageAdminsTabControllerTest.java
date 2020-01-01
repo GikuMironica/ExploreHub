@@ -1,7 +1,6 @@
 package controlPanelComponent;
 
-import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
+import persistenceComponent.UserConnectionSingleton;
 import com.github.javafaker.Faker;
 import models.Account;
 import models.Courses;
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 
