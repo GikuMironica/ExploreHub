@@ -1,7 +1,5 @@
 package models;
 
-import authentification.UserConnectionSingleton;
-
 import javax.persistence.*;
 import java.util.List;
 

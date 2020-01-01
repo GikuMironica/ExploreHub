@@ -1,12 +1,9 @@
 package authentification;
 
-import models.Admin;
 import models.Owner;
-import models.User;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
+import persistenceComponent.AdminConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

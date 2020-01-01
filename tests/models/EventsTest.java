@@ -1,6 +1,6 @@
 package models;
 
-import authentification.AdminConnectionSingleton;
+import persistenceComponent.AdminConnectionSingleton;
 import org.junit.Before;
 import org.junit.Test;
 

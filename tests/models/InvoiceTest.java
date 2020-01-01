@@ -1,15 +1,11 @@
 package models;
 
-import authentification.UserConnectionSingleton;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.jupiter.api.AfterEach;
+import persistenceComponent.UserConnectionSingleton;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,6 @@
 package tests.authentification;
 
-import authentification.UserConnectionSingleton;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import jdk.jfr.Event;
+import persistenceComponent.UserConnectionSingleton;
 import models.User;
 import javax.persistence.EntityManager;
 import org.junit.Test;
@@ -15,8 +9,6 @@ import javax.persistence.TypedQuery;
 
 import java.awt.*;
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for the {@link authentification.AuthentificationController}

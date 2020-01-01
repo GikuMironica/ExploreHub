@@ -1,8 +1,7 @@
-package authentification;
+package persistenceComponent;
 
 import alerts.CustomAlertType;
 import handlers.Convenience;
-import javafx.scene.control.Alert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

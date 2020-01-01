@@ -72,6 +72,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.persist(transactions);
                         entityManager.getTransaction().commit();
 
+                        user.getTransactions().add(transactions);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

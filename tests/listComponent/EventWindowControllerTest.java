@@ -1,7 +1,7 @@
 package listComponent;
 
 import authentification.CurrentAccountSingleton;
-import authentification.UserConnectionSingleton;
+import persistenceComponent.UserConnectionSingleton;
 import models.*;
 import org.junit.Before;
 import org.junit.Test;

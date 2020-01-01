@@ -1,8 +1,7 @@
-package authentification;
+package persistenceComponent;
 
 import alerts.CustomAlertType;
 import handlers.Convenience;
-import javafx.scene.control.Alert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,19 +9,19 @@ import javax.persistence.Persistence;
 
 
 /**
- * Singleton Class which servers as an interface to the Database with User rights
+ * Singleton Class which servers as an interface to the Database with Guest rights
  *
  * @author: Gheorghe Mironica
  */
-public class UserConnectionSingleton {
+public class GuestConnectionSingleton {
     private static EntityManagerFactory factory;
-    private static UserConnectionSingleton ourInstance = null;
+    private static GuestConnectionSingleton ourInstance = null;
     private static EntityManager em;
-    private final String PERSISTENCE_UNIT_NAME = "User";
+    private final String PERSISTENCE_UNIT_NAME = "Guest";
 
-    public static UserConnectionSingleton getInstance() {
+    public static GuestConnectionSingleton getInstance() {
         if(ourInstance == null){
-            ourInstance = new UserConnectionSingleton();
+            ourInstance = new GuestConnectionSingleton();
         }
         return ourInstance;
     }
@@ -30,11 +29,12 @@ public class UserConnectionSingleton {
     /**
      * Method that returns an instance to this class
      */
-    private UserConnectionSingleton() {
+    private GuestConnectionSingleton() {
         try {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
             em = factory.createEntityManager();
         }catch(Exception e){
+            e.printStackTrace();
             Convenience.showAlert(CustomAlertType.ERROR,
                     "Oops, looks like you have no internet connection. Try again later.");
         }

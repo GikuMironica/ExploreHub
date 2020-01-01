@@ -1,14 +1,10 @@
 package controlPanelComponent;
 
-import authentification.AdminConnectionSingleton;
-import javafx.event.Event;
-import models.Events;
+import persistenceComponent.AdminConnectionSingleton;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
 import static org.junit.Assert.*;
 

@@ -2,8 +2,6 @@ package mainUI;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
-import authentification.GuestConnectionSingleton;
-import authentification.RememberUserDBSingleton;
 import handlers.Convenience;
 import handlers.LogOutHandler;
 import javafx.application.Platform;
@@ -18,11 +16,7 @@ import sidebarComponent.SidebarState;
 
 import javax.persistence.*;
 import java.io.IOException;
-import java.lang.annotation.Native;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;

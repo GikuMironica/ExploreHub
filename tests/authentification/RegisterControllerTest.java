@@ -1,14 +1,10 @@
 package authentification;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import models.Courses;
 import org.junit.Test;
+import persistenceComponent.UserConnectionSingleton;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import static org.junit.Assert.*;
 

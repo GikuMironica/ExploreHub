@@ -2,8 +2,6 @@ package sidebarComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
-import authentification.GuestConnectionSingleton;
-import authentification.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
@@ -12,7 +10,6 @@ import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -26,7 +23,6 @@ import models.Account;
 import models.Admin;
 
 import javax.naming.CommunicationException;
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
