@@ -152,6 +152,9 @@ public final class Convenience {
         }
     }
 
+    /**
+     * Returns the currently open dialog.
+     */
     public static JFXDialog getDialog(){
         return previousDialog;
     }

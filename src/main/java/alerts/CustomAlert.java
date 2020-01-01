@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXDialogLayout;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -47,7 +46,7 @@ public abstract class CustomAlert {
     }
 
     /**
-     * Shows the alert on the given stack pane with the given content.
+     * Shows the alert with the given content and "OK" button type.
      *
      * @param content - content of the alert
      */
@@ -56,7 +55,7 @@ public abstract class CustomAlert {
     }
 
     /**
-     * Shows the alert on the given stack pane with the given content and button types.
+     * Shows the alert with the given content and button types.
      *
      * @param content - content of the alert
      * @param buttonTypes - types of button that should appear on the alert
@@ -77,7 +76,7 @@ public abstract class CustomAlert {
         }
 
         alert.setContent(dialogLayout);
-        alert.setAnimation(JFXAlertAnimation.TOP_ANIMATION);
+        alert.setAnimation(JFXAlertAnimation.NO_ANIMATION);
 
         return alert.showAndWait();
     }
@@ -108,13 +107,19 @@ public abstract class CustomAlert {
             JFXButton button = new JFXButton(buttonType.getText());
             button.setButtonType(JFXButton.ButtonType.RAISED);
             button.setOnAction(event -> {
-                alert.setAnimation(JFXAlertAnimation.NO_ANIMATION);
                 alert.setResult(buttonType);
-                alert.close();
+                this.close();
             });
             button.setFocusTraversable(false);
             dialogLayout.getActions().add(button);
         }
+    }
+
+    /**
+     * Closes the alert window.
+     */
+    public void close() {
+        alert.close();
     }
 
     /**
