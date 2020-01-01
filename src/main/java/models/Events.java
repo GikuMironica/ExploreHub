@@ -51,22 +51,25 @@ public abstract class Events implements Serializable {
     }
 
     @Id
+    @Column(length=4)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int Id;
 
     @Basic(optional=false)
     protected Date Date;
 
+    @Column(length=2)
     @Basic(optional=false)
     protected int TotalPlaces;
 
+    @Column(length=2)
     @Basic(optional=false)
     protected int AvailablePlaces;
 
     @Transient
     protected Query query;
 
-    @Column(nullable = true, name="ShortDescription")
+    @Column(nullable = true, name="ShortDescription", length = 60)
     protected String ShortDescription;
 
     @Column(nullable = true, name="LongDescription")

@@ -16,11 +16,12 @@ import java.sql.Date;
 public class Invoice {
 
     @Id
+    @Column(length=4)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
     @Basic(optional=false)
-    @Column(name="CustomerName")
+    @Column(name="CustomerName", length = 45)
     private String Customer;
 
     @Column(name="Date")
@@ -30,12 +31,14 @@ public class Invoice {
     private Double Ammount;
 
     @Basic(optional=false)
+    @Column(length=60)
     private String EventName;
 
+    @Column(length=50)
     @Basic(optional=false)
     private String Company;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TransactionID")
     private Transactions TransactionID;
 

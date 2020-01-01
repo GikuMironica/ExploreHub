@@ -7,12 +7,15 @@ import javax.persistence.*;
 public class Pictures {
 
     @Id
+    @Column(length=4)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int EventID;
 
+    @Column(length=45)
     @Basic(optional=false)
     private String Logo;
 
+    @Column(length=45)
     @Basic(optional=false)
     private String Picture;
 

@@ -27,17 +27,19 @@ import java.util.List;
 public class Transactions {
 
     @Id
+    @Column(length = 5)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int Id;
 
     @Basic(optional=false)
     private Date Date;
 
+    @Column(length = 1)
     @Basic(optional=false)
     private int Completed;
 
     @Basic(optional=false)
-    @Column(name="PaymentMethod")
+    @Column(name="PaymentMethod", length = 1)
     private int PaymentMethod;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -47,6 +49,10 @@ public class Transactions {
     @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
+
+    // one to one with invoice
+    @OneToOne(mappedBy = "TransactionID", cascade = CascadeType.ALL)
+    private Invoice invoice;
 
     public Transactions(){
 
@@ -58,6 +64,14 @@ public class Transactions {
         this.PaymentMethod = paymentMethod;
         this.event = event;
         this.user = user;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     public int getId() {

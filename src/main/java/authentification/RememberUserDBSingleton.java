@@ -18,8 +18,7 @@ public class RememberUserDBSingleton {
     private static Connection connection;
     private static boolean hasDB = false;
     private Strategy loginStrategy;
-    private String user;
-    private String pass;
+    private int Id;
 
     /**
      * Method which returns instance of this class
@@ -50,15 +49,12 @@ public class RememberUserDBSingleton {
 
     /**
      * Initialize Class with current user
-     * @param User user email {@link String}
-     * @param Pass user password {@link String}
+     * @param accountID {@link Integer} id
      */
-    public void init(String User, String Pass){
-        this.user = User;
-        this.pass = Pass;
-
+    public void init(int accountID){
+        Id = accountID;
         initialise();
-        initialise(user, pass);
+        initialise(accountID);
     }
 
     /**
@@ -73,7 +69,7 @@ public class RememberUserDBSingleton {
 
                 if(!result.next()){
                     Statement statement1 = connection.createStatement();
-                    statement1.execute("CREATE TABLE tblUser(Email VARCHAR, Pass VARCHAR, PRIMARY KEY(Email));");
+                    statement1.execute("CREATE TABLE tblUser(Id INTEGER , PRIMARY KEY(Id));");
                 }
 
             } catch(Exception e){
@@ -84,20 +80,17 @@ public class RememberUserDBSingleton {
 
     /**
      * Initialize Database
-     * @param userEmail user email {@link String}
-     * @param userPass ser password {@link String}
+     * @param accountID {@link Integer} account iD
      */
-    private void initialise(String userEmail, String userPass) {
+    private void initialise(int accountID) {
             try {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM tblUser WHERE (tblUser.Email = ? AND tblUser.Pass =?);");
-                statement.setString(1,userEmail);
-                statement.setString(2,userPass);
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM tblUser WHERE (tblUser.Id = ?);");
+                statement.setString(1,String.valueOf(accountID));
                 ResultSet result = statement.executeQuery();
 
                 if(!result.next()){
-                    PreparedStatement preparedStatement= connection.prepareStatement("INSERT into tblUser values(?, ?);");
-                    preparedStatement.setString(1, userEmail);
-                    preparedStatement.setString(2, userPass);
+                    PreparedStatement preparedStatement= connection.prepareStatement("INSERT into tblUser values(?);");
+                    preparedStatement.setString(1,String.valueOf(accountID));
                     preparedStatement.execute();
                 } else{
                 }
@@ -107,6 +100,10 @@ public class RememberUserDBSingleton {
 
     }
 
+    /**
+     * Get registered users
+     * @return {@link ResultSet} result
+     */
     public ResultSet getUser(){
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM tblUser;");
@@ -122,24 +119,22 @@ public class RememberUserDBSingleton {
      */
     @SuppressWarnings("JpaQueryApiInspection")
     public void setUser(){
-        String lastUser = "";
-        String lastPass = "";
+        String accountID = "0";
 
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM tblUser;");
             ResultSet result = statement.executeQuery();
 
             while(result.next()){
-                lastUser = result.getString("Email");
-                lastPass = result.getString("Pass");
+                accountID = result.getString("Id");
             }
 
             EntityManager entityManager = GuestConnectionSingleton.getInstance().getManager();
-            Query query = entityManager.createNamedQuery("Account.determineAccess",
-                    Account.class);
-            query.setParameter("email", lastUser);
-            query.setParameter("password", lastPass);
-            int access = (Integer)query.getSingleResult();
+            Account account = entityManager.find(Account.class, Integer.valueOf(accountID));
+
+            int access = account.getAccess();
+            String lastUser = account.getEmail();
+            String lastPass = account.getPassword();
 
             if(access==0) {
                 loginStrategy = new UserStrategy();

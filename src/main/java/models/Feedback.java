@@ -19,12 +19,15 @@ import javax.persistence.*;
 })
 
 public class Feedback {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID", nullable = false, length = 5)
     private Integer feedbackID;
+
     @Column(name = "Rating", nullable = false)
     private Double ratingScore;
+
     @Column(name = "Message", length = 250)
     private String ratingDescription;
     /*

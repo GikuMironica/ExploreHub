@@ -26,6 +26,7 @@ public class Topic {
     }
 
     @Id
+    @Column(length=6)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
@@ -50,9 +51,11 @@ public class Topic {
     private Post threadLastPost;
 
     @Basic(optional=false)
+    @Column(length=1)
     private int threadLocked;
 
     @Basic(optional=false)
+    @Column(length=5)
     private int threadType;
 
     public ForumCategory getCategory() {

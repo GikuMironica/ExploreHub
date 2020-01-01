@@ -35,9 +35,11 @@ public class Post {
     @JoinColumn(name = "postAuthor", nullable=false)
     private Account postAuthor;
 
+    @Column(length=20)
     @Basic(optional = false)
     private byte[] postContent;
 
+    @Column(length=20)
     @Basic(optional = false)
     private String postTime;
 
