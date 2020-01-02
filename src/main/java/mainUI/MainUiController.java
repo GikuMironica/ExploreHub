@@ -169,8 +169,7 @@ public class MainUiController implements Initializable {
         logOutHandler.handleLogOutProcess(false);
 
         // destroy scheduled task
-        executorService.shutdownNow();
-        executorService = null;
+        shutDownTasks();
 
         SidebarState.saveStateHidden(true);
         try {
