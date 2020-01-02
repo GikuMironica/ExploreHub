@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="213.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: #0084AD;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
    <children>
-      <ImageView fx:id="mapView" fitHeight="209.0" fitWidth="220.0" onMouseClicked="#openMap" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+         <VBox.margin>
+            <Insets bottom="10.0" right="250.0" />
+         </VBox.margin>
+      </ImageView>
+      <ImageView fx:id="mapView" fitHeight="180.0" fitWidth="290.0" onMouseClicked="#openMap" pickOnBounds="true">
          <image>
             <Image url="@../IMG/maps.PNG" />
          </image></ImageView>
+      <Line endX="220.0" endY="115.0" fill="#f2f7f9" layoutX="40.0" startY="115.0" stroke="#f2f7f9" strokeWidth="2.0">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin></Line>
    </children>
 </VBox>

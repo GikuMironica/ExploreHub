@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDrawer?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1082.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
-    <BorderPane fx:id="mainBorderPane"  onMousePressed="#handleMainUiPressed" >
-       <left>
-          <VBox prefHeight="495.0" prefWidth="196.0" BorderPane.alignment="CENTER">
-              <children>
-                  <fx:include source="/FXML/filter.fxml" />
-              </children>
-              <children>
-                  <fx:include fx:id="mapLayout" source="/FXML/map.fxml" />
-              </children>
-             <BorderPane.margin>
-                <Insets top="10.0" />
-             </BorderPane.margin>
-          </VBox>
-       </left>
-       <center>
-          <VBox fx:id="mainBox" prefHeight="483.0" prefWidth="576.0" BorderPane.alignment="CENTER">
-             <children>
-                <HBox prefHeight="67.0" prefWidth="577.0">
-                    <fx:include source="/FXML/navbar.fxml" />
-                </HBox>
-             </children>
-              <children>
-                  <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
-              </children>
-             <BorderPane.margin>
-                <Insets />
-             </BorderPane.margin>
-          </VBox>
-       </center>
+<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
+    <BorderPane fx:id="mainBorderPane" onMousePressed="#handleMainUiPressed">
+        <left>
+            <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+                <children>
+                    <fx:include fx:id="mapLayout" source="/FXML/map.fxml" />
+                </children>
+                <children>
+                    <fx:include source="/FXML/filter.fxml" />
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </VBox>
+        </left>
+        <center>
+            <VBox fx:id="mainBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="700.0">
+                <children>
+                    <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
+                    <fx:include fx:id="sidebar" source="/FXML/sidebar.fxml" />
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </VBox>
+        </center>
+        <top>
+            <HBox alignment="TOP_CENTER" prefHeight="70.0" prefWidth="999.0" BorderPane.alignment="CENTER">
+                <fx:include source="/FXML/navbar.fxml" />
+            <BorderPane.margin>
+               <Insets />
+            </BorderPane.margin>
+            </HBox>
+        </top>
     </BorderPane>
 </StackPane>

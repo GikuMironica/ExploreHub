@@ -1,4 +1,21 @@
 #filterLayout{
-    -fx-border-width: 0 0 2 0;
-    -fx-border-color: #f0f4f5;
+    -fx-background-color: #0084AD;
+}
+
+.filterBoxes{
+    -fx-background-color: #F2F7F9;
+    -fx-border-style: solid;
+    -fx-border-color: transparent;
+}
+
+#priceSlider > .track {
+    -fx-background-color: #F2F7F9;
+}
+#priceSlider > .thumb {
+    -fx-background-color: #F2F7F9;
+}
+
+#priceSlider > .axis{
+    -fx-tick-label-fill: #F2F7F9;
+    -fx-show-tick-marks: #F2F7F9;
 }
