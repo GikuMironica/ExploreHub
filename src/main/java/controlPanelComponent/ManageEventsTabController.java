@@ -703,7 +703,9 @@ public class ManageEventsTabController {
                                 getClass().getResource("/FXML/noInternet.fxml"));
                     }
                     return false;
-                }catch(Exception xe) { /**/ }
+                }catch(Exception xe) {
+                    xe.printStackTrace();
+                }
             }
         }
         if(urlPic.isBlank() || urlLogo.isBlank()){

@@ -93,7 +93,7 @@ public class EventWindowController{
         sanityCheck();
 
         placesData.setText(available+"/"+total);
-        considering.setText(consider+" Students added it to Wishlist");
+        considering.setText(consider+" ");
 
     }
 
@@ -258,7 +258,7 @@ public class EventWindowController{
                 visiblePause.setOnFinished(
                         (ActionEvent ev) -> {
                             wishList.setDisable(false);
-                            considering.setText(consider+" Students added it to Wishlist");
+                            considering.setText(consider+" ");
                             EventListSingleton.getInstance().refreshListView();
                         }
                 );
