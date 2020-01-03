@@ -73,29 +73,47 @@ public class CommunicationTabController {
      */
     public void checkForEmails() throws Exception
     {
-        try {
-            String folderName = folder.getSelectionModel().getSelectedItem().toString();
-            if(folderName.equals("Inbox")){
-                moveToFolder.setText("Move to Processed");
-            }else {
-                moveToFolder.setText("Move to Inbox");
+        String folderName = folder.getSelectionModel().getSelectedItem().toString();
+        if(folderName.equals("Inbox")){
+            moveToFolder.setText("Move to Processed");
+        }else {
+            moveToFolder.setText("Move to Inbox");
+        }
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception{
+            try {
+                properties = new Properties();
+
+                properties.put("mail.pop3.host", host);
+                properties.put("mail.pop3.port", "993");
+                properties.put("mail.pop3.starttls.enable", "true");
+                Session emailSession = Session.getDefaultInstance(properties);
+                Store store = emailSession.getStore("imaps");
+                store.connect(host, username, password);
+                Folder emailFolder = store.getFolder(folderName);
+                emailFolder.open(Folder.READ_WRITE);
+                messages = emailFolder.getMessages();
+            } catch (Exception e) {
+                throw new Exception("Internet Connection lost");
+            }
+                return null;
             }
 
-            properties = new Properties();
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                create();
+                moveToFolder.setDisable(false);
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
 
-            properties.put("mail.pop3.host", host);
-            properties.put("mail.pop3.port", "993");
-            properties.put("mail.pop3.starttls.enable", "true");
-            Session emailSession = Session.getDefaultInstance(properties);
-            Store store = emailSession.getStore("imaps");
-            store.connect(host, username, password);
-            Folder emailFolder = store.getFolder(folderName);
-            emailFolder.open(Folder.READ_WRITE);
-            messages = emailFolder.getMessages();
-            mails.setPageFactory(this::createPage);
-        } catch (Exception e) {
-            throw new Exception("Internet Connection lost");
-        }
+    }
+
+    public void create(){
+        mails.setPageFactory(this::createPage);
     }
 
     /**
@@ -314,7 +332,7 @@ public class CommunicationTabController {
                 super.succeeded();
                 try{
                     checkForEmails();
-                    moveToFolder.setDisable(false);
+
                 }catch(Exception ex){
                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                 }
@@ -338,6 +356,8 @@ public class CommunicationTabController {
 
 
     public void changeFolder(Event event) {
+        pageBox.getChildren().clear();
+        pageBox.getChildren().add(new JFXProgressBar());
             try {
                 checkForEmails();
             }catch(Exception ex){

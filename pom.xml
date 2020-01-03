@@ -315,6 +315,7 @@
                 <configuration>
                     <executable>iExplore</executable>
                     <mainClass>authentification.Main</mainClass>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
         </plugins>

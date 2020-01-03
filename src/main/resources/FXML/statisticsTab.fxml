@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackpane" maxWidth="950.0" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
@@ -23,15 +24,15 @@
                  <content>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
-                           <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
+                           <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="40.0" />
+                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0" />
                            <Label layoutX="14.0" layoutY="195.0" maxWidth="170.0" text="Average amount of money spent by user" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
-                           <Label fx:id="nrOfUsers" layoutX="14.0" layoutY="66.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
+                           <Label fx:id="nrOfUsers" layoutX="14.0" layoutY="66.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="70.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
+                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -41,6 +42,9 @@
                                  <Font size="14.0" />
                               </font>
                            </Label>
+                           <Circle fill="#24ff1f" layoutX="28.0" layoutY="18.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                           <Label layoutX="38.0" layoutY="10.0" text="Users online:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="9.0" />
+                           <Label fx:id="usersOnline" layoutX="115.0" layoutY="10.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="9.0" />
                         </children></AnchorPane>
                  </content>
                </TitledPane>
@@ -125,7 +129,7 @@
                         <font>
                            <Font name="Calisto MT Bold" size="12.0" />
                         </font></Label>
-                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#calculateStatistics" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
+                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#handleRefreshClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
                   </children>
                </AnchorPane>
             </children>

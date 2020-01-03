@@ -2,17 +2,24 @@ package controlPanelComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -33,6 +40,8 @@ import java.util.*;
  */
 @SuppressWarnings("JpaQueryApiInspection")
 public class StatisticsController {
+    @FXML
+    private Label usersOnline;
     @FXML
     private Label nrBookReject;
     @FXML
@@ -76,6 +85,7 @@ public class StatisticsController {
     private List<User> usersList;
     private List<Events> eventsList;
     private List<Feedback> feedbackList;
+    private Long nrOfUsersOnline;
 
     /**
      * Method that initializes the Statisticcs tab.
@@ -83,11 +93,12 @@ public class StatisticsController {
      * @param usersList List of users taken from the database.
      * @param transactionsList List of transactions taken from the database.
      */
-    public void initialize(List<Events> eventsList, List<User> usersList,List<Transactions> transactionsList) {
+    public void initialize(List<Events> eventsList, List<User> usersList,List<Transactions> transactionsList, Long nrOfUsersOnline) {
 
         this.eventsList = eventsList;
         this.usersList = usersList;
         this.transactionsList = transactionsList;
+        this.nrOfUsersOnline = nrOfUsersOnline;
         calculateStatistics();
     }
 
@@ -198,6 +209,7 @@ public class StatisticsController {
         nrBookReject.setText(String.valueOf(listRejected.size()));
         nrOver.setText(String.valueOf(listOver.size()));
         nrOfUsers.setText(String.valueOf(usersList.size()));
+        usersOnline.setText(String.valueOf(nrOfUsersOnline));
         DecimalFormat df = new DecimalFormat("0.00");
         nrOfBookingsPerUser.setText(df.format(Double.valueOf(transactionsList.size()) / Double.valueOf(usersList.size())));
         double total = 0;
@@ -226,8 +238,30 @@ public class StatisticsController {
             average += feedback.getRatingScore();
         }
         average = average/feedbackList.size();
-        averageRating.setText(String.valueOf(average));
+        averageRating.setText(df.format(average));
         feedbacks.setPageFactory(this::createPage);
+    }
+
+
+    /**
+     * Opens the admin panel
+     *
+     * @param mouseEvent - the even which triggered the method
+     */
+    @FXML
+    private void handleRefreshClicked(MouseEvent mouseEvent) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/FXML/PreLoader.fxml"));
+        JFXDialogLayout dialogLayout = new JFXDialogLayout();
+        loader.load();
+        PreLoader controller = (PreLoader) loader.getController();
+        dialogLayout.setBody(new JFXProgressBar());
+        dialogLayout.setMaxWidth(200);
+        JFXDialog dialog = new JFXDialog(MainPane.getInstance().getStackPane(), dialogLayout, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        controller.setLoading(dialog);
+        controller.initialization(false);
+        dialog.show();
     }
 
 }
