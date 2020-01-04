@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.LogOutHandler;
+import javafx.scene.layout.StackPane;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.util.Duration;
 import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
+import navbarComponent.NavbarController;
 
 import javax.naming.CommunicationException;
 import java.io.IOException;
@@ -60,9 +62,12 @@ public class SidebarController implements Initializable {
         Image profileImage = new Image(profilePhotoURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
-        if (currentAccount.getAccount() instanceof Admin)
+        if (currentAccount.getAccount() instanceof Admin) {
             feedbackBtn.setVisible(false);
+        }
     }
+
+
 
     /**
      * Opens the wishlist page
@@ -199,7 +204,7 @@ public class SidebarController implements Initializable {
      * at which it will be visible to the user.
      */
     public void show() {
-        slide(680);
+        slide(0);
         hidden = false;
     }
 
@@ -209,8 +214,9 @@ public class SidebarController implements Initializable {
      * at which it will be hidden from the user.
      */
     public void hide() {
-        slide(880);
+        slide(250);
         hidden = true;
+
     }
 
     /**

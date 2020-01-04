@@ -1,40 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: #0084AD;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="270.0" style="-fx-background-color: #0084AD;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
          <children>
-            <FontAwesomeIconView fill="#f2f7f9" glyphName="FILTER" selectionEnd="0" selectionFill="#f2f7f9" size="25">
-               <HBox.margin>
-                  <Insets left="3.0" />
-               </HBox.margin>
-            </FontAwesomeIconView>
-         </children>
-         <VBox.margin>
-            <Insets left="6.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <ImageView fx:id="mapView" fitHeight="180.0" fitWidth="290.0" onMouseClicked="#openMap" pickOnBounds="true">
+            <ImageView fx:id="mapView" fitHeight="220.0" fitWidth="255.0" onMouseClicked="#openMap" pickOnBounds="true">
                <image>
                   <Image url="@../IMG/maps.PNG" />
                </image>
             </ImageView>
          </children>
+         <VBox.margin>
+            <Insets top="11.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="6.0" />
+         </padding>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Line endX="220.0" endY="115.0" fill="#f2f7f9" startY="115.0" stroke="#f2f7f9" strokeWidth="0.5" />
-         </children>
-      </HBox>
+
    </children>
 </VBox>

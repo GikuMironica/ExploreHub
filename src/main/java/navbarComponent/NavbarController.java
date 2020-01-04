@@ -23,10 +23,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
+import listComponent.ListController;
 import mainUI.MainPane;
+import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
 import sidebarComponent.SidebarController;
@@ -34,6 +37,7 @@ import sidebarComponent.SidebarState;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -43,7 +47,7 @@ import java.util.ResourceBundle;
 public class  NavbarController implements Initializable {
 
     @FXML
-    private AnchorPane navbarPane;
+    private BorderPane navbarPane;
 
     @FXML
     private ImageView panelImageView;
@@ -65,6 +69,8 @@ public class  NavbarController implements Initializable {
 
     private HamburgerSlideCloseTransition menuCloseTransition;
     private FilterSingleton filter;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

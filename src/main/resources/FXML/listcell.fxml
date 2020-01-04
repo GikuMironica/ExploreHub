@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="700.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="700.0" stylesheets="@/Styles/listcell.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="boxLayout" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="138.0" prefWidth="700.0">
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="118.0" prefWidth="111.0">
                <children>
-                  <ImageView fx:id="cellLogo" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="cellLogo" fitHeight="123.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
                </children></VBox>
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="350.0" spacing="10.0">
                <children>
-                  <Label fx:id="descriptionLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="320.0" text="Label" wrapText="true">
+                  <Label fx:id="descriptionLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="320.0" text="Label" textFill="#000022" wrapText="true">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="Baghdad Regular" size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="25.0" />
@@ -32,17 +30,17 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                      <children>
-                        <JFXButton fx:id="wishlistButton" alignment="CENTER" buttonType="RAISED" onAction="#wishlistAction" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Add Wishlist" textFill="WHITE">
+                        <JFXButton fx:id="wishlistButton" alignment="CENTER" onAction="#wishlistAction" prefHeight="25.0" prefWidth="130.0" style="-fx-cursor: hand; -fx-background-color: #0084AD;" styleClass="listButtons" text="Add Wishlist" textFill="#f2f7f9">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Baghdad Regular" size="14.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="60.0" layoutY="10.0" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book Now" textFill="WHITE">
+                        <JFXButton alignment="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="25.0" prefWidth="130.0" style="-fx-cursor: hand; -fx-background-color: #0084AD;" styleClass="listButtons" text="Book Now" textFill="#f2f7f9">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Baghdad Regular" size="14.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -55,67 +53,61 @@
                   <Insets />
                </HBox.margin>
             </VBox>
-            <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <HBox layoutX="10.0" layoutY="108.0" prefHeight="17.0" prefWidth="98.0">
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="108.0" prefHeight="24.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0">
-                           <image>
-                              <Image url="@../IMG/placeholder-filled-point.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="locationLabel" prefHeight="18.0" prefWidth="111.0" text="Label">
+                        <Label fx:id="locationLabel" prefHeight="18.0" prefWidth="187.0" text="Label">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="#0084ad" glyphName="MAP_MARKER" size="15" />
+                           </graphic>
                         </Label>
                      </children>
                      <VBox.margin>
-                        <Insets />
+                        <Insets top="35.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0">
-                           <image>
-                              <Image url="@../IMG/euro-price-tag(1).png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="priceLabel" text="Label">
+                        <Label fx:id="priceLabel" prefHeight="15.0" prefWidth="178.0" text="Label">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="#0084ad" glyphName="EURO" size="15" />
+                           </graphic>
                         </Label>
                      </children>
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="17.0" prefWidth="98.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="200.0">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin>
                      <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0">
-                           <image>
-                              <Image url="@../IMG/placeholder-filled-point.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="18.0" prefWidth="70.0" text="Places Left:">
+                        <Label prefHeight="17.0" prefWidth="92.0" text="Places Left:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="#0084ad" glyphName="USERS" size="15" />
+                           </graphic>
                         </Label>
-                        <Label fx:id="availableLabel" prefHeight="18.0" prefWidth="38.0" text="100" />
+                        <Label fx:id="availableLabel" prefHeight="18.0" prefWidth="69.0" text="100" />
                      </children>
                   </HBox>
                </children>

@@ -2,65 +2,55 @@
 
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
-   <children>
-      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="225.0" AnchorPane.leftAnchor="10.0">
-         <children>
-            <Label onMouseClicked="#handleTitleClicked" prefHeight="52.0" prefWidth="239.0" style="-fx-cursor: hand;" text="ExploreHub" textAlignment="CENTER" textFill="#0084ad">
-               <font>
-                  <Font name="Ayuthaya" size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="209.0" layoutY="1.0" prefHeight="70.0" prefWidth="792.0" spacing="25.0">
-         <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="500.0" spacing="2.0">
-               <children>
-                  <JFXTextField fx:id="searchTextField" focusTraversable="false" maxWidth="-Infinity" onKeyTyped="#handleSearchTextFieldTyped" onMouseEntered="#handleSearchTextFieldEntered" onMouseExited="#handleSearchTextFieldExited" prefWidth="0.0" promptText="Search">
-                     <font>
-                        <Font size="14.0" />
-                     </font></JFXTextField>
-                  <ImageView fx:id="searchImageView" fitHeight="24.0" fitWidth="24.0" onMouseEntered="#handleSearchEntered" onMouseExited="#handleSearchExited" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-                     <image>
-                        <Image url="@../IMG/magnifying-glass.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </HBox>
-            <ImageView fx:id="panelImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handlePanelClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" visible="false">
-               <image>
-                  <Image url="@../IMG/control-panel.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="refreshImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleRefreshClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../IMG/refresh-button.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleDiscussionClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../IMG/discussion.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleHomeClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../IMG/home.png" />
-               </image>
-            </ImageView>
-            <JFXHamburger fx:id="menuHamburger" maxHeight="-Infinity" minWidth="24.0" onMouseClicked="#handleMenuClicked" prefHeight="24.0" style="-fx-cursor: hand;" />
-         </children>
-         <padding>
-            <Insets right="25.0" />
-         </padding>
-      </HBox>
-   </children>
-</AnchorPane>
+<BorderPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="576.0" stylesheets="@/Styles/navbar.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
+      <top>
+         <HBox alignment="CENTER_RIGHT" layoutX="123.0" prefHeight="70.0" prefWidth="870.0" spacing="25.0" AnchorPane.rightAnchor="0.0">
+            <children>
+
+               <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="339.0" spacing="2.0">
+                  <children>
+                     <JFXTextField fx:id="searchTextField" focusTraversable="false" maxWidth="-Infinity" onKeyTyped="#handleSearchTextFieldTyped" onMouseEntered="#handleSearchTextFieldEntered" onMouseExited="#handleSearchTextFieldExited" prefWidth="0.0" promptText="Search">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </JFXTextField>
+                     <ImageView fx:id="searchImageView" fitHeight="24.0" fitWidth="24.0" onMouseEntered="#handleSearchEntered" onMouseExited="#handleSearchExited" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                        <image>
+                           <Image url="@../IMG/magnifying-glass.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+                  <HBox.margin>
+                     <Insets right="-11.0" />
+                  </HBox.margin>
+               </HBox>
+               <ImageView fx:id="panelImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handlePanelClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" visible="false">
+                  <image>
+                     <Image url="@../IMG/control-panel.png" />
+                  </image>
+               </ImageView>
+               <ImageView fx:id="refreshImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleRefreshClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                  <image>
+                     <Image url="@../IMG/refresh-button.png" />
+                  </image>
+               </ImageView>
+               <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleDiscussionClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                  <image>
+                     <Image url="@../IMG/discussion.png" />
+                  </image>
+               </ImageView>
+               <JFXHamburger id="hamburger" fx:id="menuHamburger" maxHeight="-Infinity" minWidth="24.0" onMouseClicked="#handleMenuClicked" prefHeight="24.0" style="-fx-cursor: hand; j: #0084AD;" />
+            </children>
+            <padding>
+               <Insets right="25.0" />
+            </padding>
+         </HBox>
+      </top>
+   <right>
+         <fx:include fx:id="sidebar" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="200.0" source="/FXML/sidebar.fxml" BorderPane.alignment="TOP_RIGHT" />
+   </right>
+</BorderPane>

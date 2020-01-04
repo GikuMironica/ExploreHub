@@ -1,41 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
-    <BorderPane fx:id="mainBorderPane" onMousePressed="#handleMainUiPressed">
-        <left>
-            <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-                <children>
-                    <fx:include fx:id="mapLayout" source="/FXML/map.fxml" />
-                </children>
-                <children>
-                    <fx:include source="/FXML/filter.fxml" />
-                </children>
-                <BorderPane.margin>
-                    <Insets />
-                </BorderPane.margin>
-            </VBox>
-        </left>
-        <center>
-            <VBox fx:id="mainBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="700.0">
-                <children>
-                    <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
-                    <fx:include fx:id="sidebar" source="/FXML/sidebar.fxml" />
-                </children>
-                <BorderPane.margin>
-                    <Insets />
-                </BorderPane.margin>
-            </VBox>
-        </center>
-        <top>
-            <HBox alignment="TOP_CENTER" prefHeight="70.0" prefWidth="999.0" BorderPane.alignment="CENTER">
-                <fx:include source="/FXML/navbar.fxml" />
-            <BorderPane.margin>
-               <Insets />
-            </BorderPane.margin>
-            </HBox>
-        </top>
-    </BorderPane>
+<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1180.0" stylesheets="@../Styles/mainStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainUI.MainUiController">
+    <children>
+        <BorderPane fx:id="mainBorderPane" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#handleMainUiPressed" prefHeight="600.0" prefWidth="1180.0">
+            <left>
+                <VBox prefHeight="600.0" prefWidth="270.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox prefHeight="70.0" prefWidth="270.0">
+                            <Label prefHeight="52.0" prefWidth="239.0" style="-fx-cursor: hand;" text="ExploreHub" textAlignment="CENTER" textFill="#0084ad">
+                                <font>
+                                    <Font name="Ayuthaya" size="36.0" />
+                                </font>
+                        <HBox.margin>
+                           <Insets top="5.0" />
+                        </HBox.margin>
+                        <padding>
+                           <Insets bottom="6.0" top="9.0" />
+                        </padding>
+                            </Label>
+                     <VBox.margin>
+                        <Insets left="19.0" />
+                     </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="300.0" prefWidth="270.0">
+                            <fx:include source="filter.fxml" />
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="253.0" prefWidth="255.0">
+                            <fx:include fx:id="mapLayout" source="map.fxml" />
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets right="3.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets top="1.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </left>
+            <center>
+                <VBox fx:id="mainBox" alignment="CENTER_LEFT" prefHeight="483.0" prefWidth="576.0" BorderPane.alignment="CENTER">
+                    <HBox alignment="TOP_RIGHT">
+                        <children>
+                            <fx:include source="navbar.fxml" HBox.hgrow="ALWAYS" />
+                        </children>
+                    </HBox>
+                        <children>
+                            <fx:include fx:id="listLayout" source="/FXML/list.fxml" />
+                        </children>
+
+                    <BorderPane.margin>
+                        <Insets bottom="6.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
 </StackPane>
