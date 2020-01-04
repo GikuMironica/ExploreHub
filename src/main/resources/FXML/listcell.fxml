@@ -38,14 +38,6 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="25.0" prefWidth="130.0" style="-fx-cursor: hand; -fx-background-color: #0084AD;" styleClass="listButtons" text="Book Now" textFill="#f2f7f9">
-                           <font>
-                              <Font name="Baghdad Regular" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </JFXButton>
                      </children>
                   </HBox>
                </children>

@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mainUI.MainUiController;
 import models.Account;
 import persistenceComponent.GuestConnectionSingleton;
 
@@ -116,6 +117,7 @@ public class Main extends Application {
             Account account = CurrentAccountSingleton.getInstance().getAccount();
             LogOutHandler logOutHandler = new LogOutHandler(account);
             logOutHandler.handleLogOutProcess(true);
+            MainUiController.shutDownTasks();
         }
     }
 
