@@ -26,6 +26,7 @@ import mainUI.MainPane;
 import models.*;
 import org.apache.commons.lang.ObjectUtils;
 import org.eclipse.persistence.exceptions.DatabaseException;
+import sidebarComponent.SidebarState;
 
 import javax.naming.CommunicationException;
 import javax.persistence.EntityManager;

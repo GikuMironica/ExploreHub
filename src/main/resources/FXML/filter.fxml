@@ -1,73 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXSlider?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="filterLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="205.0" spacing="10.0" stylesheets="@../Styles/filter.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="filterComponent.FilterController">
+<?import javafx.scene.shape.Line?>
+<VBox fx:id="filterLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="270.0" spacing="10.0" stylesheets="@../Styles/filter.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="filterComponent.FilterController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXComboBox fx:id="choiceCity" focusTraversable="false" onAction="#onValueChanged" onKeyReleased="#keyReleased" prefWidth="80.0" promptText="City" />
+                  <FontAwesomeIconView fill="#f2f7f9" glyphName="FILTER" selectionEnd="0" selectionFill="#f2f7f9" size="25">
+                     <HBox.margin>
+                        <Insets left="10.0" top="3.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
                </children>
+               <VBox.margin>
+                  <Insets left="6.0" />
+               </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="235.0">
                <children>
-                  <JFXComboBox fx:id="choiceRadius" disable="true" focusTraversable="false" onAction="#onRadiusChanged" prefWidth="80.0" promptText="Radius" />
-               </children>
-            </HBox>
-         </children></HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <JFXComboBox fx:id="choiceMinPers" focusTraversable="false" onAction="#onPersonsChanged" prefWidth="120.0" promptText="Free places" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <JFXComboBox fx:id="sortBy" focusTraversable="false" onAction="#onSortingChanged" prefWidth="120.0" promptText="Sort by" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <JFXSlider fx:id="choicePrice" focusTraversable="false" majorTickUnit="5.0" minorTickCount="1" onMouseReleased="#onSliderChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="100.0" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <JFXButton fx:id="applyFilter" buttonType="RAISED" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#resetFilter" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Reset Filter" textFill="WHITE" />
+                  <Label text="Price Range:" textFill="#f2f7f9">
+                     <font>
+                        <Font name="Baghdad Regular" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="24.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
                <children>
-                  <Label fx:id="money" focusTraversable="false" text="100.00 €" />
+                  <Label fx:id="money" text="100.00 €" textFill="#f2f7f9">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
                </children>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
             </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="260.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <JFXSlider id="priceSlider" fx:id="choicePrice" majorTickUnit="5.0" minorTickCount="1" onMouseReleased="#onSliderChanged" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="100.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
+               <children>
+                  <JFXComboBox fx:id="choiceCity" focusColor="#0084ad" onAction="#onValueChanged" onKeyReleased="#keyReleased" prefHeight="40.0" prefWidth="200.0" promptText="City" unFocusColor="#0084ad" />
+               </children>
+               <HBox.margin>
+                  <Insets right="3.0" />
+               </HBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
+               <children>
+                  <JFXComboBox fx:id="choiceRadius" focusColor="#0084ad" onAction="#onRadiusChanged" prefHeight="40.0" prefWidth="130.0" promptText="Radius" unFocusColor="#0084ad" />
+               </children>
+               <HBox.margin>
+                  <Insets left="3.0" />
+               </HBox.margin>
+            </HBox>
+         </children></HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <JFXComboBox fx:id="choiceMinPers" focusColor="#0084ad" onAction="#onPersonsChanged" prefHeight="40.0" prefWidth="260.0" promptText="Free places" unFocusColor="#0084ad" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <JFXComboBox fx:id="sortBy" focusColor="#0084ad" onAction="#onSortingChanged" prefHeight="40.0" prefWidth="260.0" promptText="Sort by" unFocusColor="#0084ad" />
+         </children>
+      </HBox>
+      <HBox id="resetButton" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <JFXButton fx:id="applyFilter" mnemonicParsing="false" onMouseClicked="#resetFilter" ripplerFill="#f2f7f9" style="-fx-background-color: #ffffff; -fx-cursor: hand;" text="Reset Filter" textFill="#0084ad">
+               <HBox.margin>
+                  <Insets bottom="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Baghdad Regular" size="14.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets bottom="6.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Line endX="220.0" endY="115.0" fill="#f2f7f9" startY="115.0" stroke="#f2f7f9" strokeWidth="0.5" />
          </children>
       </HBox>
    </children>

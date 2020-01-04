@@ -1,0 +1,7 @@
+.list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+}

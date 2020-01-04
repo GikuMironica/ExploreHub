@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox fx:id="listLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.ListController">
-   <effect>
-      <ColorAdjust />
-   </effect>
-   <children>
-      <ListView fx:id="EventList" focusTraversable="false" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="677.0" />
-   </children>
-</VBox>
+<VBox  fx:id="listLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="700.0" style="-fx-border-color: #0084AD;" stylesheets="@/Styles/list.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.ListController">
+         <children>
+            <ListView fx:id="EventList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#cellClicked" prefHeight="530.0" prefWidth="700.0" style="-fx-border-color: #0084AD; -fx-border-style: solid; -fx-border-image-width: 1;" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
