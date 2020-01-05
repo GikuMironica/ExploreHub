@@ -130,9 +130,9 @@ public class StatisticsController {
         VBox pageBox = new VBox();
         JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
-        messageContent.setMaxWidth(940);
-        messageContent.setMinHeight(100);
-        messageContent.setMaxHeight(100);
+        messageContent.setMaxWidth(1170);
+        messageContent.setMinHeight(150);
+        messageContent.setMaxHeight(150);
         messageContent.setEditable(false);
         messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 12px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         int size = feedbackList.size();
@@ -162,7 +162,7 @@ public class StatisticsController {
      */
     public void goHome(MouseEvent mouseEvent) {
         try{
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+            Convenience.openHome();
         }catch(Exception ex){
             Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
         }

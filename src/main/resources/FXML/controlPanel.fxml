@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
-<JFXTabPane fx:id="tabPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="950.0" tabMaxWidth="143.0" tabMinWidth="143.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
+<JFXTabPane fx:id="tabPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="1180.0" tabMaxWidth="143.0" tabMinWidth="143.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ControlPanelController">
    <tabs>
       <Tab text="Statistics">
         <content>

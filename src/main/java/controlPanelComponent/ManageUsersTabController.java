@@ -2,6 +2,7 @@ package controlPanelComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.FXCollections;
@@ -41,7 +42,9 @@ public class ManageUsersTabController implements Initializable {
     @FXML
     private Label company;
     @FXML
-    private Label companyName , date, city, description;
+    private Label companyName , date, city;
+    @FXML
+    private JFXTextArea description;
     @FXML
     private ImageView compImage;
     public ListView<User> listOfUsers;
@@ -138,7 +141,7 @@ public class ManageUsersTabController implements Initializable {
      */
     public void goHome(MouseEvent mouseEvent) {
         try{
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+            Convenience.openHome();
         }catch(Exception ex){
             Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
         }

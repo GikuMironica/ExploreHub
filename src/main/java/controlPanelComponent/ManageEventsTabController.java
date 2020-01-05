@@ -530,7 +530,7 @@ public class ManageEventsTabController {
     @FXML
     private void goHome(Event event) throws IOException {
         try {
-            Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+            Convenience.openHome();
         }catch(Exception e){
             try {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
