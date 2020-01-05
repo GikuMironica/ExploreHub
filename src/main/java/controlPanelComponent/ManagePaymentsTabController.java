@@ -320,7 +320,11 @@ public class ManagePaymentsTabController {
      */
     @FXML
     private void goHome(Event event) throws IOException {
-        Convenience.switchScene(event, getClass().getResource("/FXML/mainUI.fxml"));
+        try{
+            Convenience.openHome();
+        }catch(Exception ex){
+            Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
+        }
     }
 
     /**

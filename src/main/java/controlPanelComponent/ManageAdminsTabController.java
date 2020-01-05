@@ -343,7 +343,7 @@ public class ManageAdminsTabController{
     @FXML
     private void goHome(Event e){
         try{
-            Convenience.switchScene(e, getClass().getResource("/FXML/mainUI.fxml"));
+            Convenience.openHome();
         }catch(Exception ex){
             handleConnection();
         }

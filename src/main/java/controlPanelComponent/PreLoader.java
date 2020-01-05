@@ -43,11 +43,14 @@ public class PreLoader {
     private JFXSpinner progress;
     private ControlPanelController controlPanelController;
     private Timeline timeline;
+    private Long usersOnline;
+    private boolean animation;
 
     /**
      * Method which initializes preloader.
      */
-    public void initialization() {
+    public void initialization(boolean animation) {
+        this.animation = animation;
         loader.setLocation(getClass().getResource("/FXML/controlPanel.fxml"));
         try {
             loader.load();
@@ -62,6 +65,7 @@ public class PreLoader {
                     loadTransactionStatistics();
                     loadUserStatistics();
                     loadEventStatistics();
+                    loadActiveStatistics();
                 }catch (Exception internetLost){
                     throwNoInternetAlert();
                     internetLost.printStackTrace();
@@ -72,7 +76,7 @@ public class PreLoader {
                 throwNoInternetAlert();
                 return;
             }
-            controlPanelController.initialize(eventsList,transactionsList,usersList, dialog);
+            controlPanelController.initialize(eventsList,transactionsList,usersList, dialog, usersOnline);
         });
         thread.start();
         progress.progressProperty().set(1);
@@ -105,9 +109,6 @@ public class PreLoader {
             throw new Exception("Internet Connection lost");
         }
         transactionsList = new ArrayList<>(transactionsQuery.getResultList());
-
-
-
     }
     /**
      * Method which loads events from database.
@@ -125,6 +126,23 @@ public class PreLoader {
     }
 
     /**
+     * Method which loads active users from database.
+     */
+    public void loadActiveStatistics() throws Exception{
+        EntityManager entityManager = admin.getConnection();
+        TypedQuery<Long> activeQuery;
+        activeQuery = entityManager.createNamedQuery(
+                "Account.findNrActive",
+                Long.class);
+        if(!HandleNet.hasNetConnection()){
+            throw new Exception("Internet Connection lost");
+        }
+        usersOnline = activeQuery.getSingleResult();
+    }
+
+
+
+    /**
      * Method that allows to set the loading dialog from the outside of the controller.
      * @param dialog dialog which has to be used by a instance of controller.
      */
@@ -133,17 +151,21 @@ public class PreLoader {
     }
 
   synchronized private void startAnimation(){
-        timeline = new Timeline(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(progress.progressProperty(), 0)),
-                new KeyFrame(Duration.millis(2500),
-                        new KeyValue(progress.progressProperty(), 0.5)),
-                new KeyFrame(Duration.millis(5000),
-                        new KeyValue(progress.progressProperty(), 0.99)));
+      if(animation) {
+          timeline = new Timeline(
+                  new KeyFrame(Duration.ZERO,
+                          new KeyValue(progress.progressProperty(), 0)),
+                  new KeyFrame(Duration.millis(2500),
+                          new KeyValue(progress.progressProperty(), 0.5)),
+                  new KeyFrame(Duration.millis(5000),
+                          new KeyValue(progress.progressProperty(), 0.99)));
 
-        timeline.setCycleCount(1);
-        timeline.play();
-        timeline.setOnFinished(event -> controlPanelController.setAnimationFinished(true));
+          timeline.setCycleCount(1);
+          timeline.play();
+          timeline.setOnFinished(event -> controlPanelController.setAnimationFinished(true));
+      }else{
+          controlPanelController.setAnimationFinished(true);
+      }
     }
 
     private void throwNoInternetAlert(){

@@ -12,60 +12,64 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackpane" maxWidth="950.0" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
-   <AnchorPane fx:id="anchorPane" prefHeight="460.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackpane" maxWidth="1180.0" prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.StatisticsController">
+   <AnchorPane fx:id="anchorPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
       <children>
-         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <VBox prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="User Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="320.0" prefWidth="190.0" text="User Statistics">
                  <content>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
-                           <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
-                           <Label layoutX="14.0" layoutY="195.0" maxWidth="170.0" text="Average amount of money spent by user" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
-                           <Label fx:id="nrOfUsers" layoutX="14.0" layoutY="66.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
+                           <Label layoutX="14.0" layoutY="40.0" text="Number of registered users" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="50.0" />
+                           <Label layoutX="14.0" layoutY="120.0" text="Number of bookings per user" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0" />
+                           <Label layoutX="14.0" layoutY="195.0" maxWidth="170.0" text="Average amount of money spent by user" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0" />
+                           <Label fx:id="nrOfUsers" layoutX="14.0" layoutY="66.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
+                           <Label fx:id="nrOfBookingsPerUser" layoutX="14.0" layoutY="152.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="140.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="moneySpent" layoutX="14.0" layoutY="232.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
+                           <Label fx:id="moneySpent" layoutX="14.0" layoutY="232.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="220.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
+                           <Circle fill="#24ff1f" layoutX="28.0" layoutY="18.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                           <Label layoutX="38.0" layoutY="10.0" text="Users online:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="9.0" />
+                           <Label fx:id="usersOnline" layoutX="115.0" layoutY="10.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="9.0" />
                         </children></AnchorPane>
                  </content>
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0">
+         <VBox layoutX="278.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Event Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="320.0" prefWidth="190.0" text="Event Statistics">
                   <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="28.0" text="Number of Events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label fx:id="nrOfEvents" layoutX="14.0" layoutY="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0">
+                           <Label fx:id="nrOfEvents" layoutX="14.0" layoutY="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="45.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label layoutX="14.0" layoutY="112.0" text="Past events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="75.0" />
-                           <Label layoutX="19.0" layoutY="184.0" maxWidth="175.0" text="Average number of  bookings per event" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
-                           <Label fx:id="pastEvents" layoutX="14.0" layoutY="143.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="100.0">
+                           <Label layoutX="14.0" layoutY="112.0" text="Past events" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
+                           <Label layoutX="19.0" layoutY="184.0" maxWidth="175.0" text="Average number of  bookings per event" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
+                           <Label fx:id="pastEvents" layoutX="14.0" layoutY="143.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="125.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
                            </Label>
-                           <Label fx:id="nrOfBookingsPerEvent" layoutX="19.0" layoutY="219.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
+                           <Label fx:id="nrOfBookingsPerEvent" layoutX="19.0" layoutY="219.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -75,16 +79,16 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0">
+         <VBox layoutX="521.0" layoutY="14.0" prefHeight="470.0" prefWidth="200.0" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0">
             <children>
-               <TitledPane animated="false" collapsible="false" prefHeight="280.0" prefWidth="190.0" text="Payment Statistics">
+               <TitledPane animated="false" collapsible="false" prefHeight="320.0" prefWidth="190.0" text="Payment Statistics">
                   <content>
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="14.0" text="Number of bookings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="150.0" />
+                           <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0" />
                            <Label fx:id="nrBookVal" layoutX="160.0" layoutY="14.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="45.0" />
-                           <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0">
+                           <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="210.0">
                               <font>
                                  <Font size="14.0" />
                               </font>
@@ -101,7 +105,7 @@
                </TitledPane>
             </children>
          </VBox>
-         <VBox alignment="CENTER" layoutX="650.0" prefHeight="200.0" prefWidth="350.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <VBox alignment="CENTER" layoutX="650.0" prefHeight="200.0" prefWidth="350.0" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <AnchorPane prefHeight="220.0">
                   <children>
@@ -125,21 +129,21 @@
                         <font>
                            <Font name="Calisto MT Bold" size="12.0" />
                         </font></Label>
-                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#calculateStatistics" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
+                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#handleRefreshClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
                   </children>
                </AnchorPane>
             </children>
          </VBox>
-         <HBox layoutY="371.0" maxHeight="135.0" maxWidth="950.0" prefHeight="135.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="280.0">
+         <HBox layoutY="371.0" maxHeight="135.0" maxWidth="950.0" prefHeight="135.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
             <children>
-               <AnchorPane maxHeight="130.0" maxWidth="150.0" prefHeight="130.0" prefWidth="950.0">
+               <AnchorPane prefWidth="1180.0">
                   <children>
-                     <Pagination fx:id="feedbacks" prefHeight="130.0" prefWidth="950.0" AnchorPane.leftAnchor="5.0" />
+                     <Pagination fx:id="feedbacks" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children></AnchorPane>
             </children>
          </HBox>
-         <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" prefWidth="950.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="450.0">
+         <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0">
             <font>
                <Font name="System Bold" size="15.0" />
             </font>

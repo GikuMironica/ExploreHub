@@ -51,7 +51,7 @@ public class ControlPanelController {
      * @param usersList list of user objects.
      * @param dialog link to the loading dialog.
      */
-    synchronized public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, JFXDialog dialog) {
+    synchronized public void initialize(List<Events> eventsList, List<Transactions> transactionsList, List<User> usersList, JFXDialog dialog, Long usersOnlline) {
         statisticsLoader.setLocation(getClass().getResource("/FXML/statisticsTab.fxml"));
         manageUsersLoader.setLocation(getClass().getResource("/FXML/manageUsersTab.fxml"));
         managePaymentsLoader.setLocation(getClass().getResource("/FXML/managePaymentsTab.fxml"));
@@ -79,7 +79,7 @@ public class ControlPanelController {
             CommunicationTabController communicationTabController = (CommunicationTabController) communicationLoader.getController();
             manageEventsTabController.initialize(eventsList);
             managePaymentsTabController.initialize();
-            statisticsController.initialize(eventsList, usersList, transactionsList);
+            statisticsController.initialize(eventsList, usersList, transactionsList, usersOnlline);
             manageUsersTabController.setUsers(usersList);
             manageadminsTabController.initialize();
             communicationTabController.initialize();

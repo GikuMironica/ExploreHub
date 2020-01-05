@@ -152,7 +152,7 @@ public class  NavbarController implements Initializable {
         dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
         dialog.setOverlayClose(false);
         controller.setLoading(dialog);
-        controller.initialization();
+        controller.initialization(true);
         dialog.show();
     }
 

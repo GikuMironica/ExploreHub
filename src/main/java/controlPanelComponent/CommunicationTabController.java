@@ -73,29 +73,47 @@ public class CommunicationTabController {
      */
     public void checkForEmails() throws Exception
     {
-        try {
-            String folderName = folder.getSelectionModel().getSelectedItem().toString();
-            if(folderName.equals("Inbox")){
-                moveToFolder.setText("Move to Processed");
-            }else {
-                moveToFolder.setText("Move to Inbox");
+        String folderName = folder.getSelectionModel().getSelectedItem().toString();
+        if(folderName.equals("Inbox")){
+            moveToFolder.setText("Move to Processed");
+        }else {
+            moveToFolder.setText("Move to Inbox");
+        }
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception{
+            try {
+                properties = new Properties();
+
+                properties.put("mail.pop3.host", host);
+                properties.put("mail.pop3.port", "993");
+                properties.put("mail.pop3.starttls.enable", "true");
+                Session emailSession = Session.getDefaultInstance(properties);
+                Store store = emailSession.getStore("imaps");
+                store.connect(host, username, password);
+                Folder emailFolder = store.getFolder(folderName);
+                emailFolder.open(Folder.READ_WRITE);
+                messages = emailFolder.getMessages();
+            } catch (Exception e) {
+                throw new Exception("Internet Connection lost");
+            }
+                return null;
             }
 
-            properties = new Properties();
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                create();
+                moveToFolder.setDisable(false);
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
 
-            properties.put("mail.pop3.host", host);
-            properties.put("mail.pop3.port", "993");
-            properties.put("mail.pop3.starttls.enable", "true");
-            Session emailSession = Session.getDefaultInstance(properties);
-            Store store = emailSession.getStore("imaps");
-            store.connect(host, username, password);
-            Folder emailFolder = store.getFolder(folderName);
-            emailFolder.open(Folder.READ_WRITE);
-            messages = emailFolder.getMessages();
-            mails.setPageFactory(this::createPage);
-        } catch (Exception e) {
-            throw new Exception("Internet Connection lost");
-        }
+    }
+
+    public void create(){
+        mails.setPageFactory(this::createPage);
     }
 
     /**
@@ -112,9 +130,9 @@ public class CommunicationTabController {
         pageBox.alignmentProperty().setValue(Pos.CENTER);
         JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
-        messageContent.setMaxWidth(940);
-        messageContent.setMinHeight(250);
-        messageContent.setMaxHeight(250);
+        messageContent.setMaxWidth(1170);
+        messageContent.setMinHeight(300);
+        messageContent.setMaxHeight(300);
         messageContent.setEditable(false);
         messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
         try {
@@ -286,9 +304,9 @@ public class CommunicationTabController {
      */
     public void goHome(MouseEvent mouseEvent) {
         try{
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+            Convenience.openHome();
         }catch(Exception ex){
-            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
         }
     }
 
@@ -314,7 +332,7 @@ public class CommunicationTabController {
                 super.succeeded();
                 try{
                     checkForEmails();
-                    moveToFolder.setDisable(false);
+
                 }catch(Exception ex){
                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                 }
@@ -338,6 +356,8 @@ public class CommunicationTabController {
 
 
     public void changeFolder(Event event) {
+        pageBox.getChildren().clear();
+        pageBox.getChildren().add(new JFXProgressBar());
             try {
                 checkForEmails();
             }catch(Exception ex){
