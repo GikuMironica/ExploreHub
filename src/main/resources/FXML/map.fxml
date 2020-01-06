@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="270.0" style="-fx-background-color: #0084AD;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
+<VBox fx:id="mapLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="270.0" style="-fx-background-color: #0084AD;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapComponent.MapController">
    <children>
       <HBox alignment="CENTER" prefHeight="138.0" prefWidth="200.0">
          <children>
-            <ImageView fx:id="mapView" fitHeight="220.0" fitWidth="255.0" onMouseClicked="#openMap" pickOnBounds="true">
-               <image>
-                  <Image url="@../IMG/maps.PNG" />
-               </image>
-            </ImageView>
+            <StackPane onMouseClicked="#openMap" onMouseEntered="#handleMapEntered" onMouseExited="#handleMapExited" style="-fx-cursor: hand;">
+               <children>
+                  <ImageView fx:id="mapView" fitHeight="220.0" fitWidth="255.0" pickOnBounds="true" >
+                     <image>
+                        <Image url="@../IMG/maps.PNG" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="openInMapLabel" opacity="0.0" text="Open in Map" textFill="#f2f7f9">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
          <VBox.margin>
             <Insets top="11.0" />

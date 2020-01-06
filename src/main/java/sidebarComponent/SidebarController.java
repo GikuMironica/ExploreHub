@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.LogOutHandler;
-import javafx.scene.layout.StackPane;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -22,7 +21,6 @@ import javafx.util.Duration;
 import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
-import navbarComponent.NavbarController;
 
 import javax.naming.CommunicationException;
 import java.io.IOException;
@@ -48,7 +46,7 @@ public class SidebarController implements Initializable {
     @FXML
     private JFXButton feedbackBtn;
 
-    private boolean hidden = true;
+    private boolean hidden = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -204,7 +202,7 @@ public class SidebarController implements Initializable {
      * at which it will be visible to the user.
      */
     public void show() {
-        slide(0);
+        slide(6);
         hidden = false;
     }
 
@@ -214,9 +212,8 @@ public class SidebarController implements Initializable {
      * at which it will be hidden from the user.
      */
     public void hide() {
-        slide(250);
+        slide(206);
         hidden = true;
-
     }
 
     /**

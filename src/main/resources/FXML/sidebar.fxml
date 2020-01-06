@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane  fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="530.0" prefWidth="206.0" stylesheets="@../Styles/sidebar.css" translateX="200" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
+<AnchorPane  fx:id="sidebarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="530.0" prefWidth="206.0" stylesheets="@../Styles/sidebar.css" translateX="6" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sidebarComponent.SidebarController">
    <children>
       <VBox alignment="CENTER_RIGHT" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #0084AD;">
          <children>
