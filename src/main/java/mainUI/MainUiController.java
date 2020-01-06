@@ -193,7 +193,9 @@ public class MainUiController implements Initializable {
             if(!entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().begin();
             }
-            entityManager.getTransaction().commit();
+            entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_"+accountId+";").executeUpdate();
+            entityManager.createNativeQuery("CREATE EVENT IF NOT EXISTS session_event_"+accountId+" ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 10 MINUTE DO UPDATE users SET users.Active = 0 WHERE users.Id = ?")
+                    .setParameter(1,accountId).executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
         }
