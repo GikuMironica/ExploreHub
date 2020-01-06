@@ -5,13 +5,10 @@ import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import handlers.Convenience;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextFormatter;
 import mainUI.MainPane;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import models.Account;
@@ -44,7 +41,32 @@ public class ChangePasswordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentAccount = CurrentAccountSingleton.getInstance().getAccount();
+        initPasswordFields();
+    }
+
+    /**
+     * Initializes the password fields.
+     */
+    private void initPasswordFields() {
         currentPasswordField.requestFocus();
+
+        currentPasswordField.setTextFormatter(ignoreSpace());
+        confirmPasswordField.setTextFormatter(ignoreSpace());
+        newPasswordField.setTextFormatter(ignoreSpace());
+    }
+
+    /**
+     * Creates and returns a new text formatter that consumes space characters.
+     *
+     * @return {@link TextFormatter} object.
+     */
+    private TextFormatter<String> ignoreSpace() {
+        return new TextFormatter<>(change -> {
+            if (change.getText().isBlank()) {
+                change.setText("");
+            }
+            return change;
+        });
     }
 
     /**
@@ -71,6 +93,11 @@ public class ChangePasswordController implements Initializable {
      */
     @FXML
     private void handleApplyClicked(MouseEvent mouseEvent) {
+        if (newPasswordEqualsCurrentPassword()) {
+            Convenience.showAlert(CustomAlertType.WARNING, "A new password cannot be the same as the current password.");
+            return;
+        }
+
         String newPassword = newPasswordField.getText();
 
         EntityManager entityManager = currentAccount.getConnection();
@@ -158,7 +185,7 @@ public class ChangePasswordController implements Initializable {
 
     /**
      * Shows the dialog message to the user saying that the password has been successfully changed.
-     * Once the user clicks the "OK" button, the homepage will be loaded.
+     * Once the user clicks the "OK" button, the settings page will be loaded.
      */
     private void showSuccess(MouseEvent mouseEvent) {
         Convenience.showAlert(CustomAlertType.SUCCESS, "Your password has been successfully changed!");
@@ -169,5 +196,15 @@ public class ChangePasswordController implements Initializable {
         } catch (IOException e) {
             Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
         }
+    }
+
+    /**
+     * Checks if the new password equals the user's current password.
+     *
+     * @return {@code true} if the passwords are equal, otherwise {@code false}
+     */
+    private boolean newPasswordEqualsCurrentPassword() {
+        String newPassword = newPasswordField.getText();
+        return newPassword.equals(currentAccount.getPassword());
     }
 }

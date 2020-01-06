@@ -13,16 +13,16 @@
 
                <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="339.0" spacing="2.0">
                   <children>
-                     <JFXTextField fx:id="searchTextField" focusTraversable="false" maxWidth="-Infinity" onKeyTyped="#handleSearchTextFieldTyped" onMouseEntered="#handleSearchTextFieldEntered" onMouseExited="#handleSearchTextFieldExited" prefWidth="0.0" promptText="Search">
-                        <font>
-                           <Font size="14.0" />
-                        </font>
-                     </JFXTextField>
                      <ImageView fx:id="searchImageView" fitHeight="24.0" fitWidth="24.0" onMouseEntered="#handleSearchEntered" onMouseExited="#handleSearchExited" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                         <image>
                            <Image url="@../IMG/magnifying-glass.png" />
                         </image>
                      </ImageView>
+                     <JFXTextField fx:id="searchTextField" focusColor="#0084ad" focusTraversable="false" maxWidth="-Infinity" onKeyTyped="#handleSearchTextFieldTyped" onMouseEntered="#handleSearchTextFieldEntered" onMouseExited="#handleSearchTextFieldExited" prefWidth="0.0" promptText="Search">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </JFXTextField>
                   </children>
                   <HBox.margin>
                      <Insets right="-11.0" />

@@ -11,25 +11,21 @@ import controlPanelComponent.PreLoader;
 import filterComponent.FilterSingleton;
 import handlers.Convenience;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
-import listComponent.ListController;
 import mainUI.MainPane;
-import mainUI.MainUiController;
 import models.Account;
 import models.Admin;
 import sidebarComponent.SidebarController;
@@ -115,7 +111,8 @@ public class  NavbarController implements Initializable {
      */
     private void initMenuButton() {
         menuCloseTransition = new HamburgerSlideCloseTransition(menuHamburger);
-        menuCloseTransition.setRate(-1);
+        menuCloseTransition.setRate(1);
+        Platform.runLater(() -> menuCloseTransition.play());
     }
 
     /**
@@ -123,10 +120,11 @@ public class  NavbarController implements Initializable {
      */
     private void initSidebar() {
         boolean isSidebarHidden = SidebarState.getStateHidden();
-        if (!isSidebarHidden) {
-            sidebarController.show();
-            menuCloseTransition.setRate(1);
-            menuCloseTransition.play();
+        if (isSidebarHidden) {
+            menuCloseTransition.setRate(-1);
+            sidebarController.hide();
+            Platform.runLater(() -> menuCloseTransition.play());
+//            menuCloseTransition.play();
         }
     }
 
@@ -174,8 +172,7 @@ public class  NavbarController implements Initializable {
     }
 
     /**
-     * Opens the sidebar
->>>>>>> [DiscussionComponent] UI implemented
+     * Opens/closes the sidebar depending on its state before the mouse click.
      *
      * @param mouseEvent - the event which triggered the method
      */
@@ -309,6 +306,9 @@ public class  NavbarController implements Initializable {
         timeline.play();
     }
 
+    /**
+     * Rotates the refresh image for around the z axis for 5 seconds
+     */
     private void rotateRefreshImageView() {
         RotateTransition rotateTransition = new RotateTransition();
         rotateTransition.setAxis(Rotate.Z_AXIS);
