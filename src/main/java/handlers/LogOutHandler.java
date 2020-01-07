@@ -32,11 +32,17 @@ public class LogOutHandler {
         try {
             if (!entityManager.getTransaction().isActive())
                 entityManager.getTransaction().begin();
-            entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_" + Id + ";").executeUpdate();
             entityManager.createNativeQuery("UPDATE users SET users.Active = 0 WHERE users.Id = ?").setParameter(1, Id).executeUpdate();
             entityManager.getTransaction().commit();
+
+            if (!entityManager.getTransaction().isActive())
+                entityManager.getTransaction().begin();
+            entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_" + Id + ";").executeUpdate();
+            entityManager.getTransaction().commit();
+
         }catch (Exception e){
             e.printStackTrace();
+           // System.out.println("logout exception");
         }
 
         closeConnection();
