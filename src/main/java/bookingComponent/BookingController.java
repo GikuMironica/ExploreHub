@@ -105,9 +105,10 @@ public class BookingController implements Initializable {
         if(total != 0) totalPrice.setText("Total: €" + total);
 
         if (evList.size() > 1) {
+            int listSize = evList.size()-1;
             try {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
-                bookingDescription.setText(evList.get(0).getShortDescription() + " And " + evList.size() + "more event(s)...");
+                bookingDescription.setText(evList.get(0).getShortDescription() + " And " + listSize + " more event(s)...");
             } catch (Exception e) {
                 e.printStackTrace();
             }

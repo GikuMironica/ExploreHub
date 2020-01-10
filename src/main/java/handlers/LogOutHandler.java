@@ -26,7 +26,7 @@ public class LogOutHandler {
      */
     public void handleLogOutProcess(Boolean isX){
         int Id = account.getId();
-        EntityManager entityManager = account.getConnection();
+        entityManager = account.getConnection();
 
         // delete db event
         try {

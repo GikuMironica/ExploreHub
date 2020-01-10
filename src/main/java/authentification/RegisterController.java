@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import models.Account;
@@ -47,6 +48,7 @@ public class RegisterController implements Initializable  {
     private String EMAIL_PATTERN = "[a-zA-Z0-9._]+@mail.hs-ulm\\.(de)$";
     private final String EMAIL_SUBBJECT = "Registration Confirmation";
     private final String EMAIL_LETTER = "Your have successfully registered to Explore Hub";
+    private final int LIMIT = 45;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,6 +59,8 @@ public class RegisterController implements Initializable  {
         emailField.setPromptText("emailField");
         passwordField.setPromptText("New passwordField");*/
 
+        setFormTextFormatter();
+
         //noinspection JpaQueryApiInspection
         tq1 = entityManager.createNamedQuery(
                 "Courses.findCourses",
@@ -66,6 +70,20 @@ public class RegisterController implements Initializable  {
             courseChoiceBox.getItems().add(temp.getName());
         }
         courseChoiceBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Method which restricts user to input extra characters in the Form.
+     */
+    private void setFormTextFormatter() {
+        emailField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
+        firstNameField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
+        lastNameField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
+        passwordField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
     }
 
     /**
