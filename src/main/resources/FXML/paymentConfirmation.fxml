@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentConfirmationController">
    <children>
       <VBox layoutX="5.0" layoutY="3.0" prefHeight="393.0" prefWidth="426.0">
@@ -22,7 +23,7 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="39.0" prefWidth="592.0">
                <children>
-                  <Button fx:id="homepage" mnemonicParsing="false" onAction="#goToHomepage" text="Return to Homepage" textAlignment="CENTER" />
+                  <JFXButton fx:id="homepage" mnemonicParsing="false" onAction="#goToHomepage" text="Return to Homepage" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" textFill="WHITE" />
                </children>
                <VBox.margin>
                   <Insets top="100.0" />

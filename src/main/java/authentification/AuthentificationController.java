@@ -59,13 +59,15 @@ public class AuthentificationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        int LIMIT = 45;
+
         usernameField.setPromptText("Email address");
         passwordField.setPromptText("Password");
 
         usernameField.setTextFormatter(new TextFormatter<String>(change ->
-                change.getControlNewText().length() <= 45 ? change : null));
+                change.getControlNewText().length() <= LIMIT ? change : null));
         passwordField.setTextFormatter(new TextFormatter<String>(change ->
-                change.getControlNewText().length() <= 45 ? change : null));
+                change.getControlNewText().length() <= LIMIT ? change : null));
 
         loginButton.setDisable(true);
         alert.setVisible(false);
