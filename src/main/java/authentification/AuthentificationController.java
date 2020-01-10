@@ -61,6 +61,12 @@ public class AuthentificationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         usernameField.setPromptText("Email address");
         passwordField.setPromptText("Password");
+
+        usernameField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= 45 ? change : null));
+        passwordField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= 45 ? change : null));
+
         loginButton.setDisable(true);
         alert.setVisible(false);
         alert.setVisible(false);
@@ -84,7 +90,7 @@ public class AuthentificationController implements Initializable {
     private void login(Event event) throws IOException{
 
         StrategyContext strategyContext;
-        String username = usernameField.getText().toLowerCase();
+        String username = usernameField.getText();
         String password = passwordField.getText();
         int active = 0;
 
