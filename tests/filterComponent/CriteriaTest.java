@@ -46,7 +46,7 @@ public class CriteriaTest {
         ObservableList<Events> filteredEvents = places.meetCriteria(events);
         for (Events event: filteredEvents
              ) {
-            assertTrue(filteredEvents.get(0).getAvailablePlaces()>15 );
+            assertTrue(event.getAvailablePlaces()>=15 );
         }
     }
 

@@ -46,7 +46,7 @@ public class SidebarController implements Initializable {
     @FXML
     private JFXButton feedbackBtn;
 
-    private boolean hidden = true;
+    private boolean hidden = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,9 +60,12 @@ public class SidebarController implements Initializable {
         Image profileImage = new Image(profilePhotoURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
-        if (currentAccount.getAccount() instanceof Admin)
+        if (currentAccount.getAccount() instanceof Admin) {
             feedbackBtn.setVisible(false);
+        }
     }
+
+
 
     /**
      * Opens the wishlist page
@@ -199,7 +202,7 @@ public class SidebarController implements Initializable {
      * at which it will be visible to the user.
      */
     public void show() {
-        slide(680);
+        slide(6);
         hidden = false;
     }
 
@@ -209,7 +212,7 @@ public class SidebarController implements Initializable {
      * at which it will be hidden from the user.
      */
     public void hide() {
-        slide(880);
+        slide(206);
         hidden = true;
     }
 

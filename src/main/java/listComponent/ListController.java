@@ -8,10 +8,17 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.layout.VBox;
 import mainUI.MainPane;
 import models.Account;
 import models.Events;
+import navbarComponent.NavbarController;
+import sidebarComponent.SidebarController;
+import sidebarComponent.SidebarState;
 
 import javax.persistence.EntityManager;
 import java.net.URL;
@@ -25,6 +32,8 @@ public class ListController implements Initializable {
 
     @FXML
     private ListView<Events> EventList;
+    @FXML
+    private VBox listLayout;
     private ObservableList<Events> eventsObservableList;
     private Events selectedEvent;
     private EntityManager entityManager;
@@ -57,6 +66,7 @@ public class ListController implements Initializable {
         account = CurrentAccountSingleton.getInstance().getAccount();
         entityManager = account.getConnection();
         EventListSingleton.getInstance().setEventsListView(EventList);
+
     }
 
     /**

@@ -137,8 +137,11 @@ public class RememberUserDBSingleton {
             if(access==0) {
                 loginStrategy = new UserStrategy();
                 loginStrategy.getAccount(lastUser, lastPass);
-            }else {
+            }else if(access==1) {
                 loginStrategy = new AdminStrategy();
+                loginStrategy.getAccount(lastUser, lastPass);
+            } else{
+                loginStrategy = new OwnerStrategy();
                 loginStrategy.getAccount(lastUser, lastPass);
             }
         } catch(Exception e){

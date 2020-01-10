@@ -2,17 +2,24 @@ package settingsComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.UploadImage;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.When;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -26,6 +33,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
 
 /**
  * Class which controls the Settings view
@@ -87,6 +95,7 @@ public class SettingsController implements Initializable {
                     getClass().getResource("/FXML/change_password.fxml"));
         } catch (IOException e) {
             Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            e.printStackTrace();
         }
     }
 
@@ -120,6 +129,11 @@ public class SettingsController implements Initializable {
      */
     @FXML
     private void handleCancelClicked(MouseEvent mouseEvent) {
+        if (!isAnythingChanged()) {
+            Convenience.closePreviousDialog();
+            return;
+        }
+
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
                 CustomAlertType.CONFIRMATION,
                 "Any unsaved changes will be lost. Do you want to continue?",
@@ -138,11 +152,19 @@ public class SettingsController implements Initializable {
      */
     @FXML
     private void handleSaveClicked(MouseEvent mouseEvent) {
+        if (!isAnythingChanged()) {
+            return;
+        }
+
         saveFirstName();
         saveLastName();
         saveProfilePhoto();
 
-        showSuccess();
+        try {
+            showSuccess();
+        } catch (IOException e) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        }
     }
 
     /**
@@ -161,11 +183,10 @@ public class SettingsController implements Initializable {
      * Saves the user's current first name if it was changed.
      */
     private void saveFirstName() {
-        String firstName = firstNameField.getText();
-        if (!firstName.equals(currentAccount.getFirstname())) {
+        if (isFirstNameChanged()) {
             EntityManager entityManager = currentAccount.getConnection();
             entityManager.getTransaction().begin();
-            currentAccount.setFirstname(firstName);
+            currentAccount.setFirstname(firstNameField.getText().strip());
             entityManager.getTransaction().commit();
         }
     }
@@ -174,11 +195,10 @@ public class SettingsController implements Initializable {
      * Saves the user's current last name if it was changed.
      */
     private void saveLastName() {
-        String lastName = lastNameField.getText();
-        if (!lastName.equals(currentAccount.getLastname())) {
+        if (isLastNameChanged()) {
             EntityManager entityManager = currentAccount.getConnection();
             entityManager.getTransaction().begin();
-            currentAccount.setLastname(lastName);
+            currentAccount.setLastname(lastNameField.getText().strip());
             entityManager.getTransaction().commit();
         }
     }
@@ -216,7 +236,10 @@ public class SettingsController implements Initializable {
      * Shows the user that the changes have been saved and asks if he/she wants to return to homepage.
      * If yes, the homepage will be loaded. Otherwise, the page will not be changed.
      */
-    private void showSuccess() {
+    private void showSuccess() throws IOException {
+        updateSidebar();
+        profilePhotoChanged = false;
+
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
                 CustomAlertType.SUCCESS,
                 "Your changes have been saved! Return to homepage?",
@@ -259,5 +282,49 @@ public class SettingsController implements Initializable {
         );
 
         return response.isPresent() && response.get() == ButtonType.YES;
+    }
+
+    /**
+     * Checks if the user's first name was changed.
+     *
+     * @return {@code true} if the first name was changed, otherwise {@code false}.
+     */
+    private boolean isFirstNameChanged() {
+        String firstName = firstNameField.getText().strip();
+        return !firstName.equals(currentAccount.getFirstname().strip());
+    }
+
+    /**
+     * Checks if the user's last name was changed.
+     *
+     * @return {@code true} if the last name was changed, otherwise {@code false}.
+     */
+    private boolean isLastNameChanged() {
+        String lastName = lastNameField.getText().strip();
+        return !lastName.equals(currentAccount.getLastname().strip());
+    }
+
+    /**
+     * Checks if the user's any settings (first/last name, profile photo) were changed.
+     *
+     * @return {@code true} if any settings were changed, otherwise {@code false}.
+     */
+    private boolean isAnythingChanged() {
+        return isFirstNameChanged() ||
+                isLastNameChanged() ||
+                profilePhotoChanged;
+    }
+
+    /**
+     * Updates the sidebar with the new settings a user specified.
+     *
+     * @throws IOException if the navbar/sidebar cannot be loaded
+     */
+    private void updateSidebar() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/FXML/navbar.fxml"));
+        VBox mainUICenterVBox = (VBox) MainPane.getInstance().getBorderPane().getCenter();
+        HBox navbarContainer = (HBox) mainUICenterVBox.getChildren().get(0);
+        navbarContainer.getChildren().setAll((Node) loader.load());
     }
 }

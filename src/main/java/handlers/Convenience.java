@@ -13,10 +13,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import mainUI.MainPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -157,5 +159,15 @@ public final class Convenience {
      */
     public static JFXDialog getDialog(){
         return previousDialog;
+    }
+
+    /**
+     * Opens the home page
+     */
+    public static void openHome(){
+        StackPane stackPane = MainPane.getInstance().getStackPane();
+        BorderPane borderPane = MainPane.getInstance().getBorderPane();
+        borderPane.setEffect(null);
+        stackPane.getChildren().setAll(borderPane);
     }
 }

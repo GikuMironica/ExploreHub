@@ -160,7 +160,7 @@ public class FilterController implements Initializable {
         choiceRadius.getSelectionModel().clearSelection();
         choiceMinPers.getSelectionModel().clearSelection();
         choicePrice.setValue(100.00);
-        money.setText("100.00");
+        money.setText("100.00 €");
         choiceRadius.setDisable(true);
         filter.resetFilter();
     }

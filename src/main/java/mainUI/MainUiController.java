@@ -118,7 +118,6 @@ public class MainUiController implements Initializable {
                         countThread = null;
                         if (!entityManager.getTransaction().isActive()) {
                             entityManager.getTransaction().begin();
-                            System.out.println("Event deleted");
                             entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_" + accountId + ";").executeUpdate();
                         } else {
                             entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_" + accountId + ";").executeUpdate();
@@ -169,8 +168,7 @@ public class MainUiController implements Initializable {
         logOutHandler.handleLogOutProcess(false);
 
         // destroy scheduled task
-        executorService.shutdownNow();
-        executorService = null;
+        shutDownTasks();
 
         SidebarState.saveStateHidden(true);
         try {
@@ -191,11 +189,14 @@ public class MainUiController implements Initializable {
 
         try {
           //  System.out.println("Event started");
-            entityManager.getTransaction().begin();
+            if(!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
             entityManager.createNativeQuery("DROP EVENT IF EXISTS session_event_"+accountId+";").executeUpdate();
             entityManager.createNativeQuery("CREATE EVENT IF NOT EXISTS session_event_"+accountId+" ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 10 MINUTE DO UPDATE users SET users.Active = 0 WHERE users.Id = ?")
                     .setParameter(1,accountId).executeUpdate();
             entityManager.getTransaction().commit();
+            System.out.println("Transaction commited "+entityManager.getTransaction().isActive());
         }catch(Exception e){
             e.printStackTrace();
         }
