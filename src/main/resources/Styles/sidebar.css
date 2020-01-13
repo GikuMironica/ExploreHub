@@ -1,4 +1,11 @@
 .sideBarText{
-    -fx-text-fill: #F2F7F9 ;
-    -fx-font-family: Baghdad;
+    -fx-text-fill: #F2F7F9;
+    -fx-font-size: 16;
+    -fx-cursor: hand;
+}
+
+.sideBarText:hover {
+    -fx-text-fill: #F2F7F9;
+    -fx-font-size: 20;
+    -fx-cursor: hand;
 }

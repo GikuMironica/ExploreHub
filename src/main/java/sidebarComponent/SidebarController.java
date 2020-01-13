@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.LogOutHandler;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import mainUI.MainUiController;
 import models.Account;
-import models.Admin;
+import models.User;
 
 import javax.naming.CommunicationException;
 import java.io.IOException;
@@ -38,19 +40,18 @@ public class SidebarController implements Initializable {
     private AnchorPane sidebarPane;
 
     @FXML
+    private VBox buttonContainer;
+
+    @FXML
     private Label usernameLabel;
 
     @FXML
     private Circle profilePhotoCircle;
 
-    @FXML
-    private JFXButton feedbackBtn;
-
     private boolean hidden = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         CurrentAccountSingleton currentAccount = CurrentAccountSingleton.getInstance();
         String accountFirstName = currentAccount.getAccount().getFirstname();
         String accountLastName = currentAccount.getAccount().getLastname();
@@ -60,12 +61,23 @@ public class SidebarController implements Initializable {
         Image profileImage = new Image(profilePhotoURL);
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
-        if (currentAccount.getAccount() instanceof Admin) {
-            feedbackBtn.setVisible(false);
+        if (currentAccount.getAccount() instanceof User) {
+            addFeedbackButton();
         }
     }
 
-
+    /**
+     * Adds a feedback button to the sidebar.
+     * This method is intended to be called only if the logged-in user is a regular user, and not an admin.
+     */
+    private void addFeedbackButton() {
+        JFXButton feedbackButton = new JFXButton("Feedback");
+        feedbackButton.setRipplerFill(Paint.valueOf("#f2f7f9"));
+        feedbackButton.getStyleClass().addAll("sideBarText");
+        feedbackButton.getStylesheets().addAll("/Styles/sidebar.css");
+        feedbackButton.setOnMouseClicked(this::handleFeedbackClicked);
+        buttonContainer.getChildren().add(6, feedbackButton);
+    }
 
     /**
      * Opens the wishlist page
@@ -148,7 +160,7 @@ public class SidebarController implements Initializable {
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
-    private void handleFeedbackClicked(MouseEvent mouseEvent) throws IOException {
+    private void handleFeedbackClicked(MouseEvent mouseEvent) {
         try {
             if (HandleNet.hasNetConnection()) {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
@@ -162,8 +174,12 @@ public class SidebarController implements Initializable {
             e.printStackTrace();
         }
         catch (CommunicationException e1){
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/noInternet.fxml"));
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            } catch (IOException ioe) {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
         }
     }
 

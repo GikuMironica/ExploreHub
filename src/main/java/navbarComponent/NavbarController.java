@@ -16,12 +16,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
@@ -33,7 +36,6 @@ import sidebarComponent.SidebarState;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -46,7 +48,7 @@ public class  NavbarController implements Initializable {
     private BorderPane navbarPane;
 
     @FXML
-    private ImageView panelImageView;
+    private HBox imageViewContainer;
 
     @FXML
     private ImageView refreshImageView;
@@ -66,26 +68,31 @@ public class  NavbarController implements Initializable {
     private HamburgerSlideCloseTransition menuCloseTransition;
     private FilterSingleton filter;
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initPanelImageView();
         initSearchTextField();
         initMenuButton();
         initSidebar();
+
+        Account currentAccount = CurrentAccountSingleton.getInstance().getAccount();
+        if (currentAccount instanceof Admin) {
+            addPanelImageView();
+        }
 
         filter = FilterSingleton.getInstance();
     }
 
     /**
-     * Initializes the panel image view depending on whether the logged-in user is admin or a regular user
+     * Adds the control panel image to the navbar.
+     * This method is intended to be called only if the logged-in user is an admin.
      */
-    private void initPanelImageView() {
-        Account currentAccount = CurrentAccountSingleton.getInstance().getAccount();
-        if (currentAccount instanceof Admin) {
-            panelImageView.setVisible(true);
-        }
+    private void addPanelImageView() {
+        Image controlPanelImage = new Image("/IMG/control-panel.png");
+        ImageView controlPanelImageView = new ImageView(controlPanelImage);
+        controlPanelImageView.setCursor(Cursor.HAND);
+        controlPanelImageView.setOnMouseClicked(this::handlePanelClicked);
+        controlPanelImageView.setPickOnBounds(true);
+        imageViewContainer.getChildren().add(1, controlPanelImageView);
     }
 
     /**
@@ -124,7 +131,6 @@ public class  NavbarController implements Initializable {
             menuCloseTransition.setRate(-1);
             sidebarController.hide();
             Platform.runLater(() -> menuCloseTransition.play());
-//            menuCloseTransition.play();
         }
     }
 
@@ -134,24 +140,29 @@ public class  NavbarController implements Initializable {
      * @param mouseEvent - the even which triggered the method
      */
     @FXML
-    private void handlePanelClicked(MouseEvent mouseEvent) throws IOException{
+    private void handlePanelClicked(MouseEvent mouseEvent) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/PreLoader.fxml"));
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         dialogLayout.setMaxHeight(200);
         dialogLayout.setMaxWidth(200);
-        Parent root = (Parent) loader.load();
-        PreLoader controller = (PreLoader) loader.getController();
-        dialogLayout.setBody(root);
-        BorderPane mainBorderPane = MainPane.getInstance().getBorderPane();
-        BoxBlur blur = new BoxBlur(6, 6, 6);
-        JFXDialog dialog = new JFXDialog(MainPane.getInstance().getStackPane(), dialogLayout, JFXDialog.DialogTransition.CENTER);
-        dialog.setOnDialogClosed(event -> mainBorderPane.setEffect(null));
-        dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
-        dialog.setOverlayClose(false);
-        controller.setLoading(dialog);
-        controller.initialization(true);
-        dialog.show();
+
+        try {
+            Parent root = (Parent) loader.load();
+            PreLoader controller = (PreLoader) loader.getController();
+            dialogLayout.setBody(root);
+            BorderPane mainBorderPane = MainPane.getInstance().getBorderPane();
+            BoxBlur blur = new BoxBlur(6, 6, 6);
+            JFXDialog dialog = new JFXDialog(MainPane.getInstance().getStackPane(), dialogLayout, JFXDialog.DialogTransition.CENTER);
+            dialog.setOnDialogClosed(event -> mainBorderPane.setEffect(null));
+            dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
+            dialog.setOverlayClose(false);
+            controller.setLoading(dialog);
+            controller.initialization(true);
+            dialog.show();
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        }
     }
 
     /**
@@ -276,7 +287,7 @@ public class  NavbarController implements Initializable {
      * Shows the search bar to the user.
      */
     private void showSearchTextField() {
-        animateSearchField(90, 190);
+        animateSearchField(90, 250);
     }
 
     /**
@@ -307,7 +318,7 @@ public class  NavbarController implements Initializable {
     }
 
     /**
-     * Rotates the refresh image for around the z axis for 5 seconds
+     * Rotates the refresh image around the z axis for 5 seconds
      */
     private void rotateRefreshImageView() {
         RotateTransition rotateTransition = new RotateTransition();
