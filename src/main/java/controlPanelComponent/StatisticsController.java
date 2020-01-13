@@ -259,8 +259,21 @@ public class StatisticsController {
         dialogLayout.setMaxWidth(200);
         JFXDialog dialog = new JFXDialog(MainPane.getInstance().getStackPane(), dialogLayout, JFXDialog.DialogTransition.CENTER);
         dialog.setOverlayClose(false);
-        controller.setLoading(dialog);
-        controller.initialization(false);
+        try {
+            controller.setLoading(dialog);
+            controller.initialization(false, dialog);
+        }catch (Exception e){
+            if (!HandleNet.hasNetConnection()) {
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (IOException e1) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                }
+            } else{
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            }
+        }
+
         dialog.show();
     }
 

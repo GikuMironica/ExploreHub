@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -110,7 +109,6 @@ public class ControlPanelController {
                 public void run() {
                     if (!HandleNet.hasNetConnection()) {
                         try {
-                            dialog.close();
                             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                         } catch (IOException e1) {
                             Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");

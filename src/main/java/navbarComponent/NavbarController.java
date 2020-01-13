@@ -158,9 +158,9 @@ public class  NavbarController implements Initializable {
             dialog.setOnDialogOpened(event -> mainBorderPane.setEffect(blur));
             dialog.setOverlayClose(false);
             controller.setLoading(dialog);
-            controller.initialization(true);
+            controller.initialization(true, null);
             dialog.show();
-        } catch (IOException ioe) {
+        } catch (Exception ioe) {
             Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
