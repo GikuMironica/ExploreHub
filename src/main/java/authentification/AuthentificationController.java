@@ -31,7 +31,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Class which handles the authentification process
+ * Class which handles the authentication process
  *
  * @author Gheorghe Mironica, Tonislav Tachev
  */

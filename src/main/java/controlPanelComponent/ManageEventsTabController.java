@@ -708,13 +708,18 @@ public class ManageEventsTabController {
                 }
             }
         }
-        if(urlPic.isBlank() || urlLogo.isBlank()){
-            clearPictureButton();
-            Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
-            return false;
-        }else {
-            selectedEvent.getPicture().setPicture(urlPic);
-            selectedEvent.getPicture().setLogo(urlLogo);
+        try {
+            if (urlPic.isBlank() || urlLogo.isBlank()) {
+                clearPictureButton();
+                Convenience.showAlert(CustomAlertType.WARNING, "One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
+                return false;
+            } else {
+                selectedEvent.getPicture().setPicture(urlPic);
+                selectedEvent.getPicture().setLogo(urlLogo);
+            }
+        }catch(NullPointerException nullException){
+            // do nothing
+            //System.out.println("do nothing");
         }
         return ok;
     }

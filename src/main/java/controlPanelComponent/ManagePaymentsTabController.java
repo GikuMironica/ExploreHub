@@ -204,17 +204,17 @@ public class ManagePaymentsTabController {
             try {
                 pdf = new GeneratePDF(selectedUser, selectedTransaction);
                 newFile = pdf.getFilename();
-                clearView();
-                Path fileToDeletePath = Paths.get(newFile);
-                Files.delete(fileToDeletePath);
+                messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
             }catch(Exception e){
-                //
+                e.printStackTrace();
             }
 
             try{
-                messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
+                Path fileToDeletePath = Paths.get(newFile);
+                Files.delete(fileToDeletePath);
+                clearView();
             } catch(Exception e){
-                // this email doesn't exist
+                e.printStackTrace();
             }
 
             openRadioEnabled();
