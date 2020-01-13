@@ -12,7 +12,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import mainUI.MainPane;
@@ -49,7 +48,7 @@ public class PreLoader {
     /**
      * Method which initializes preloader.
      */
-    public void initialization(boolean animation) {
+    public void initialization(boolean animation, JFXDialog loading) throws Exception{
         this.animation = animation;
         loader.setLocation(getClass().getResource("/FXML/controlPanel.fxml"));
         try {
@@ -68,12 +67,26 @@ public class PreLoader {
                     loadActiveStatistics();
                 }catch (Exception internetLost){
                     throwNoInternetAlert();
-                    internetLost.printStackTrace();
                     Thread.currentThread().interrupt();
                     return;
                 }
             }else{
-                throwNoInternetAlert();
+
+                if (!animation){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                    try {
+                        loading.close();
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                    }catch(Exception exc){
+                        Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+                    }
+                        }
+                    });
+                }else {
+                    throwNoInternetAlert();
+                }
                 return;
             }
             controlPanelController.initialize(eventsList,transactionsList,usersList, dialog, usersOnline);
@@ -175,7 +188,7 @@ public class PreLoader {
                    try {
                        timeline.stop();
                        dialog.close();
-                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                       Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
                    }catch(Exception exc){
                        Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
                     }

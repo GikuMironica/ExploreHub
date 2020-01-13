@@ -6,15 +6,11 @@ import com.jfoenix.controls.*;
 import handlers.HandleNet;
 import handlers.MessageHandler;
 import handlers.Convenience;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Pagination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,6 +50,7 @@ public class CommunicationTabController {
     @FXML
     private Message[] messages;
     private VBox pageBox;
+    private VBox backup = new VBox();
     Account account = CurrentAccountSingleton.getInstance().getAccount();
     private  Properties properties;
     private String username = "explorehub.help@gmail.com";
@@ -105,6 +102,12 @@ public class CommunicationTabController {
                 super.succeeded();
                 create();
                 moveToFolder.setDisable(false);
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                connectionFailed();
             }
         };
         Thread thread = new Thread(task);
@@ -284,13 +287,23 @@ public class CommunicationTabController {
         button.setButtonType(JFXButton.ButtonType.RAISED);
         button.setStyle("-fx-background-color: #32a4ba");
         button.setOnAction(actionEvent -> {
-            try {
-                String subject = messages[mailSelected].getSubject();
-                MessageHandler messageHandler = MessageHandler.getMessageHandler();
-                messageHandler.sendEmail(textArea.getText(), subject, email.getText());
-                dialog.close();
-            } catch (MessagingException e) {
-                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            if (!HandleNet.hasNetConnection()) {
+                    try {
+                        dialog.close();
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+                    } catch (IOException e1) {
+                        Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                    }
+                } else{
+
+                try {
+                    String subject = messages[mailSelected].getSubject();
+                    MessageHandler messageHandler = MessageHandler.getMessageHandler();
+                    messageHandler.sendEmail(textArea.getText(), subject, email.getText());
+                    dialog.close();
+                } catch (MessagingException e) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                }
             }
         });
         content.setActions(button);
@@ -312,6 +325,7 @@ public class CommunicationTabController {
 
     public void moveToFolder(MouseEvent mouseEvent) throws Exception {
         moveToFolder.setDisable(true);
+        backup.getChildren().addAll(pageBox.getChildren());
         pageBox.getChildren().clear();
         pageBox.getChildren().add(new JFXProgressBar());
         Task<Void> task = new Task<Void>() {
@@ -337,21 +351,35 @@ public class CommunicationTabController {
                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                 }
             }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                connectionFailed();
+            }
         };
         Thread thread = new Thread(task);
         thread.start();
     }
 
     private void move(String folder, int mailSelected) throws Exception{
-        Session emailSession = Session.getDefaultInstance(properties);
-        Store store = emailSession.getStore("imaps");
-        store.connect(host, username, password);
-        Folder emailFolder = store.getFolder(folder);
-        emailFolder.open(Folder.READ_WRITE);
-        emailFolder.appendMessages(new Message[] {messages[mailSelected]} );
-        messages[mailSelected].setFlags(new Flags(Flags.Flag.DELETED), true);
-        emailFolder.close(true);
-        store.close();
+        if (!HandleNet.hasNetConnection()) {
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+            } catch (IOException e1) {
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            }
+        } else {
+            Session emailSession = Session.getDefaultInstance(properties);
+            Store store = emailSession.getStore("imaps");
+            store.connect(host, username, password);
+            Folder emailFolder = store.getFolder(folder);
+            emailFolder.open(Folder.READ_WRITE);
+            emailFolder.appendMessages(new Message[]{messages[mailSelected]});
+            messages[mailSelected].setFlags(new Flags(Flags.Flag.DELETED), true);
+            emailFolder.close(true);
+            store.close();
+        }
     }
 
 
@@ -364,4 +392,42 @@ public class CommunicationTabController {
                 Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
             }
     }
+
+    private void connectionFailed(){
+            if (!HandleNet.hasNetConnection()) {
+                try {
+                    JFXButton button = new JFXButton("Refresh");
+                    button.setButtonType(JFXButton.ButtonType.RAISED);
+                    button.setStyle("-fx-background-color: #32a4ba");
+                    button.minWidth(200);
+                    button.setOnAction(actionEvent -> {
+                        try {
+                            button.setDisable(true);
+                            initialize();
+                        } catch (Exception e) {
+                            if (!HandleNet.hasNetConnection()) {
+                                try {
+                                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+                                } catch (Exception exc) {
+                                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                                }
+                            } else {
+                                try {
+                                    checkForEmails();
+                                } catch (Exception e1) {
+                                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                                }
+                            }
+                        }
+                    });
+                    pageBox.getChildren().clear();
+                    pageBox.getChildren().addAll(button);
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(), getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (IOException e1) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                }
+            } else{
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            }
+        }
 }
