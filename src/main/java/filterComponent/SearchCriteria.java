@@ -4,7 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Events;
 
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -13,10 +18,15 @@ import java.util.stream.Collectors;
  */
 public class SearchCriteria implements Criteria {
 
-    private String keyword;
+    private List<String> keywords;
 
     public SearchCriteria(String keyword) {
-        this.keyword = keyword.toLowerCase().strip();
+        keyword = keyword.toLowerCase().strip();
+        this.keywords = Arrays.asList(keyword.split("\\W+"));
+
+        if (this.keywords.isEmpty()) {
+            this.keywords = Arrays.asList(keyword);
+        }
     }
 
     @Override
@@ -31,14 +41,14 @@ public class SearchCriteria implements Criteria {
 
     /**
      * Checks if any of the short description, long description or company name
-     * of an event contain the search keyword typed in the search bar.
+     * of an event contains the search keywords typed in the search bar.
      *
      * @param event - current event which is being checked against the keyword
-     * @return {@code true}, if the event contains the keyword or if the keyword is blank,
+     * @return {@code true}, if the event contains the keywords or if the keyword is blank,
      *         {@code false} otherwise.
      */
     private boolean containsKeyword(Events event) {
-        if (keyword.isBlank()) {
+        if (this.keywords.isEmpty()) {
             return true;
         }
 
@@ -46,8 +56,14 @@ public class SearchCriteria implements Criteria {
         String longDescription = event.getLongDescription().toLowerCase();
         String companyName = event.getCompany().toLowerCase();
 
-        return shortDescription.contains(keyword) ||
-                longDescription.contains(keyword) ||
-                companyName.contains(keyword);
+        for (String word : keywords) {
+            if (!shortDescription.contains(word) &&
+                    !longDescription.contains(word) &&
+                    !companyName.contains(word)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
