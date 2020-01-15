@@ -83,25 +83,27 @@ public class PaymentController implements Initializable {
 
         disableControlBtns();
         totalPrice.setVisible(false);
-
+        boolean isBooked = false;
         if(BookingController.getPaymentType() == 1){
             CashPaymentStrategy CashPS = new CashPaymentStrategy();
-            CashPS.pay();
+            isBooked = CashPS.pay();
             confirmationText = "Booking successful! Visit Prittwitzstrasse campus to pay and get approved.";
         }
         else if (BookingController.getPaymentType() == 0 ) {
             CardPaymentStrategy CardPS = new CardPaymentStrategy();
-            CardPS.pay();
+            isBooked = CardPS.pay();
             confirmationText = "Payment with card successful.";
         }
         else if (BookingController.getPaymentType() == 2){
             FreePaymentStrategy FreePS = new FreePaymentStrategy();
-            FreePS.pay();
+            isBooked = FreePS.pay();
             confirmationText = "Booking successful.\nEnjoy your trip!";
         }
 
-        confirmationScene();
-        EventListSingleton.getInstance().refreshList();
+        if(isBooked) {
+            confirmationScene();
+            EventListSingleton.getInstance().refreshList();
+        }
     }
 
     @FXML

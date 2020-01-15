@@ -2,6 +2,6 @@ package bookingComponent;
 
 public interface PaymentStrategy {
 
-    void pay();
+    boolean pay();
 
 }

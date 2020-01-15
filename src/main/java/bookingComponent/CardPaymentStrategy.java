@@ -1,11 +1,14 @@
 package bookingComponent;
 
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import mainUI.MainPane;
 import models.*;
 
 import javax.persistence.Entity;
@@ -32,8 +35,8 @@ public class CardPaymentStrategy implements PaymentStrategy {
     private EntityManager entityManager;
 
     @Override @SuppressWarnings("Duplicates")
-    public void pay() {
-
+    public boolean pay() {
+        boolean ok = true;
         // Card processing
         // Maybe transaction window that just loads for a few seconds
 
@@ -73,8 +76,16 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.getTransaction().commit();
 
                         user.getTransactions().add(transactions);
-                    } catch (Exception e) {
+                    } catch(Exception e){
                         e.printStackTrace();
+                        if(!HandleNet.hasNetConnection()){
+                            Convenience.closePreviousDialog();
+                            handleConnection();
+                            return false;
+                        }
+                        Convenience.closePreviousDialog();
+                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+                        return false;
                     }
                 }
 
@@ -90,12 +101,18 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
                 }
             }
-
         }
+        if(ok=true){
+            generateInvoice();
+            updateInterestList(evList);
+        }
+        return ok;
+    }
 
-        generateInvoice();
-        updateInterestList(evList);
-
+    private void handleConnection() {
+        try {
+            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+        }catch(Exception e) { /**/ }
     }
 
     public void generateInvoice(){
