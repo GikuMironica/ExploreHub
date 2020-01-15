@@ -35,7 +35,7 @@
             <font>
                <Font name="Baghdad Regular" size="13.0" />
             </font></Label>
-            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
+            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.de" unFocusColor="#0084ad">
                 <font>
                     <Font size="11.0" />
                 </font>

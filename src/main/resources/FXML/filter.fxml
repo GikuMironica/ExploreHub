@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<VBox fx:id="filterLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="270.0" spacing="10.0" stylesheets="@../Styles/filter.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="filterComponent.FilterController">
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="filterLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="270.0" spacing="10.0" stylesheets="@../Styles/filter.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="filterComponent.FilterController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -56,14 +59,6 @@
             <Insets top="10.0" />
          </VBox.margin>
       </HBox>
-      <HBox alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="260.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <JFXSlider id="priceSlider" fx:id="choicePrice" majorTickUnit="5.0" minorTickCount="1" onMouseReleased="#onSliderChanged" prefHeight="38.0" prefWidth="261.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="100.0" />
-         </children>
-      </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
@@ -71,7 +66,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
                <children>
-                  <JFXComboBox fx:id="choiceCity" focusColor="#0084ad" onAction="#onValueChanged" onKeyReleased="#keyReleased" prefHeight="40.0" prefWidth="200.0" promptText="City" unFocusColor="#0084ad" />
+                  <JFXComboBox fx:id="choiceCity" editable="true" focusColor="#0084ad" onAction="#onValueChanged" onKeyReleased="#keyReleased" prefHeight="40.0" prefWidth="200.0" promptText="City" styleClass="filterBoxes" unFocusColor="#0084ad" />
                </children>
                <HBox.margin>
                   <Insets right="3.0" />
@@ -79,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
                <children>
-                  <JFXComboBox fx:id="choiceRadius" focusColor="#0084ad" onAction="#onRadiusChanged" prefHeight="40.0" prefWidth="130.0" promptText="Radius" unFocusColor="#0084ad" />
+                  <JFXComboBox fx:id="choiceRadius" editable="true" focusColor="#0084ad" onAction="#onRadiusChanged" prefHeight="40.0" prefWidth="130.0" promptText="Radius" styleClass="filterBoxes" unFocusColor="#0084ad" />
                </children>
                <HBox.margin>
                   <Insets left="3.0" />
@@ -91,7 +86,7 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <JFXComboBox fx:id="choiceMinPers" focusColor="#0084ad" onAction="#onPersonsChanged" prefHeight="40.0" prefWidth="260.0" promptText="Free places" unFocusColor="#0084ad" />
+            <JFXComboBox fx:id="choiceMinPers" editable="true" focusColor="#0084ad" onAction="#onPersonsChanged" prefHeight="40.0" prefWidth="260.0" promptText="Free places" styleClass="filterBoxes" unFocusColor="#0084ad" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
@@ -99,7 +94,15 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <JFXComboBox fx:id="sortBy" focusColor="#0084ad" onAction="#onSortingChanged" prefHeight="40.0" prefWidth="260.0" promptText="Sort by" unFocusColor="#0084ad" />
+            <JFXComboBox fx:id="sortBy" editable="true" focusColor="#0084ad" onAction="#onSortingChanged" prefHeight="40.0" prefWidth="260.0" promptText="Sort by" styleClass="filterBoxes" unFocusColor="#0084ad" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="260.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <JFXSlider id="priceSlider" fx:id="choicePrice" majorTickUnit="5.0" minorTickCount="1" onMouseReleased="#onSliderChanged" prefHeight="38.0" prefWidth="251.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="100.0" />
          </children>
       </HBox>
       <HBox id="resetButton" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -120,10 +123,7 @@
             <Insets bottom="6.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Line endX="220.0" endY="115.0" fill="#f2f7f9" startY="115.0" stroke="#f2f7f9" strokeWidth="0.5" />
-         </children>
-      </HBox>
+      <Line endX="220.0" endY="115.0" fill="#f2f7f9" startY="115.0" stroke="#f2f7f9" strokeWidth="0.5" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
    </children>
 </VBox>
