@@ -6,6 +6,11 @@
     -fx-background-color: #F2F7F9;
     -fx-border-style: solid;
     -fx-border-color: transparent;
+    -jfx-focus-color: #0084AD;
+}
+
+.filterBoxes .list-cell{
+    -fx-text-fill: #0084AD;
 }
 
 #priceSlider > .track {
