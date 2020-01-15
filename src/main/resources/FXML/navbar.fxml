@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="576.0" stylesheets="@/Styles/navbar.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
+<BorderPane fx:id="navbarPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="576.0" stylesheets="@/Styles/navbar.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navbarComponent.NavbarController">
       <top>
-         <HBox alignment="CENTER_RIGHT" layoutX="123.0" prefHeight="70.0" prefWidth="870.0" spacing="25.0" AnchorPane.rightAnchor="0.0">
+         <HBox fx:id="imageViewContainer" alignment="CENTER_RIGHT" layoutX="123.0" prefHeight="70.0" prefWidth="870.0" spacing="25.0" AnchorPane.rightAnchor="0.0">
             <children>
 
                <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="339.0" spacing="2.0">
@@ -28,11 +32,6 @@
                      <Insets right="-11.0" />
                   </HBox.margin>
                </HBox>
-               <ImageView fx:id="panelImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handlePanelClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" visible="false">
-                  <image>
-                     <Image url="@../IMG/control-panel.png" />
-                  </image>
-               </ImageView>
                <ImageView fx:id="refreshImageView" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#handleRefreshClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                   <image>
                      <Image url="@../IMG/refresh-button.png" />

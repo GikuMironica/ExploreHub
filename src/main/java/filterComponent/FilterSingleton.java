@@ -211,6 +211,8 @@ public class FilterSingleton {
         sortSelected = -1;
         cityValue = null;
         searchKeyword = "";
+        minPersValue = 0;
+        radiusValue = 0;
     }
 
     /**

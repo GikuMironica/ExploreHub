@@ -28,8 +28,8 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://swprodb.mysql.database.azure.com:3306/iexplore?useSSL=true&amp;requireSSL=false" />
-            <property name="javax.persistence.jdbc.user" value="Administrator@swprodb" />
+                      value="jdbc:mysql://swpro-db.mysql.database.azure.com:3306/explorehub?useSSL=true&amp;requireSSL=false" />
+            <property name="javax.persistence.jdbc.user" value="Administrator@swpro-db" />
             <property name="javax.persistence.jdbc.password" value="Cts_2019" />
 
         </properties>
@@ -58,8 +58,8 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://swprodb.mysql.database.azure.com:3306/iexplore?useSSL=true&amp;requireSSL=false" />
-            <property name="javax.persistence.jdbc.user" value="User@swprodb" />
+                      value="jdbc:mysql://swpro-db.mysql.database.azure.com:3306/explorehub?useSSL=true&amp;requireSSL=false" />
+            <property name="javax.persistence.jdbc.user" value="User@swpro-db" />
             <property name="javax.persistence.jdbc.password" value="" />
 
         </properties>
@@ -86,8 +86,8 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://swprodb.mysql.database.azure.com:3306/iexplore?useSSL=true&amp;requireSSL=false" />
-            <property name="javax.persistence.jdbc.user" value="Guest@swprodb" />
+                      value="jdbc:mysql://swpro-db.mysql.database.azure.com:3306/explorehub?useSSL=true&amp;requireSSL=false" />
+            <property name="javax.persistence.jdbc.user" value="Guest@swpro-db" />
             <property name="javax.persistence.jdbc.password" value="" />
 
         </properties>

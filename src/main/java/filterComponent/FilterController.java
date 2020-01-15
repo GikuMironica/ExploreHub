@@ -9,14 +9,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import mainUI.MainPane;
 import models.Location;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.awt.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  *Class that controls the filter view.

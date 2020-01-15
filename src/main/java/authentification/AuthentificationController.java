@@ -31,7 +31,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Class which handles the authentification process
+ * Class which handles the authentication process
  *
  * @author Gheorghe Mironica, Tonislav Tachev
  */
@@ -59,8 +59,16 @@ public class AuthentificationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        int LIMIT = 45;
+
         usernameField.setPromptText("Email address");
         passwordField.setPromptText("Password");
+
+        usernameField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
+        passwordField.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().length() <= LIMIT ? change : null));
+
         loginButton.setDisable(true);
         alert.setVisible(false);
         alert.setVisible(false);
@@ -84,7 +92,7 @@ public class AuthentificationController implements Initializable {
     private void login(Event event) throws IOException{
 
         StrategyContext strategyContext;
-        String username = usernameField.getText().toLowerCase();
+        String username = usernameField.getText();
         String password = passwordField.getText();
         int active = 0;
 

@@ -1,9 +1,13 @@
 package bookingComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.Transactions;
@@ -29,8 +33,8 @@ public class FreePaymentStrategy implements PaymentStrategy {
     private EntityManager entityManager;
 
     @Override @SuppressWarnings("Duplicates")
-    public void pay() {
-
+    public boolean pay() {
+        boolean ok = true;
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
 
@@ -66,6 +70,14 @@ public class FreePaymentStrategy implements PaymentStrategy {
                         user.getTransactions().add(transactions);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        if(!HandleNet.hasNetConnection()){
+                            Convenience.closePreviousDialog();
+                            handleConnection();
+                            return false;
+                        }
+                        Convenience.closePreviousDialog();
+                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+                        return false;
                     }
                 }
 
@@ -85,7 +97,15 @@ public class FreePaymentStrategy implements PaymentStrategy {
 
         }
 
-        updateInterestList(evList);
+        if(ok=true){
+            updateInterestList(evList);
+        }
+        return ok;
+    }
+    private void handleConnection() {
+        try {
+            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+        }catch(Exception e) { /**/ }
     }
 
     @SuppressWarnings("Duplicates")

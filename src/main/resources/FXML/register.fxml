@@ -24,18 +24,19 @@
                     <Font name="Baghdad Regular" size="13.0" />
                 </font>
             </Label>
-            <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="186.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <JFXTextField fx:id="firstNameField" focusColor="#0084ad" layoutX="186.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" onMouseClicked="#fNameClick" unFocusColor="#0084ad" />
             <Label layoutX="422.0" layoutY="195.0" text="Last Name" textFill="#000022">
                 <font>
                     <Font name="Baghdad Regular" size="13.0" />
                 </font>
             </Label>
-            <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="422.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" unFocusColor="#0084ad" />
+            <JFXTextField fx:id="lastNameField" focusColor="#0084ad" layoutX="422.0" layoutY="224.0" prefHeight="27.0" prefWidth="197.0" onMouseClicked="#lNameClick" unFocusColor="#0084ad" />
             <Label layoutX="187.0" layoutY="273.0" text="Email" textFill="#000022">
             <font>
                <Font name="Baghdad Regular" size="13.0" />
             </font></Label>
-            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" promptText="name@mail.hs-ulm.fr" unFocusColor="#0084ad">
+
+            <JFXTextField fx:id="emailField" focusColor="#0084ad" layoutX="186.0" layoutY="300.0" prefHeight="27.0" prefWidth="432.0" onMouseClicked="#emailClick" promptText="name@mail.hs-ulm.de" unFocusColor="#0084ad">
                 <font>
                     <Font size="11.0" />
                 </font>
