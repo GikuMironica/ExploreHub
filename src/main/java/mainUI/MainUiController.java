@@ -3,6 +3,7 @@ package mainUI;
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.EntityManagerEditor;
 import handlers.LogOutHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import models.Account;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.sessions.Session;
 import sidebarComponent.SidebarState;
 
 import javax.persistence.*;
@@ -46,8 +49,22 @@ public class MainUiController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         MainPane.getInstance().setStackPane(mainStackPane);
         MainPane.getInstance().setBorderPane(mainBorderPane);
+
+        customizeEntityManager();
         setLogin();
         startSession();
+
+    }
+
+    /**
+     * Method which customizes number of connection attempts done by Entity Manager
+     */
+    private void customizeEntityManager() {
+        Account account = CurrentAccountSingleton.getInstance().getAccount();
+        EntityManager newManager = account.getConnection();
+        Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
+        EntityManagerEditor customizer = new EntityManagerEditor();
+        customizer.customize(session);
     }
 
     /**

@@ -48,6 +48,11 @@ public class NoInternet implements Initializable {
     private synchronized void pollServer(){
         Thread loop = new Thread(()-> {
             while(!HandleNet.hasNetConnection()){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Convenience.getDialog().setOverlayClose(false);
                 try {
                     Thread.sleep(2000);
