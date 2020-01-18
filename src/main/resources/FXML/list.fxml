@@ -5,6 +5,6 @@
 
 <VBox  fx:id="listLayout" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="700.0" style="-fx-border-color: #0084AD;" stylesheets="@/Styles/list.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.ListController">
          <children>
-            <ListView fx:id="EventList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#cellClicked" prefHeight="530.0" prefWidth="700.0" style="-fx-border-color: #0084AD; -fx-border-style: solid; -fx-border-image-width: 1;" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="EventList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cellClicked" prefHeight="530.0" prefWidth="700.0" style="-fx-border-color: #0084AD; -fx-border-style: solid; -fx-border-image-width: 1;" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>

@@ -229,9 +229,7 @@ public class MainUiController implements Initializable {
             destroyThread.stop();
             destroyThread = null;
           //  System.out.println("tasks killed");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        }catch (Exception e){ /*System.out.println("tasks killed);"*/}
     }
 
 
