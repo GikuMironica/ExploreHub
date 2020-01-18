@@ -3,12 +3,10 @@ package settingsComponent;
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSpinner;
 import handlers.Convenience;
 import handlers.UploadImage;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.When;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,7 +31,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 
 /**
  * Class which controls the Settings view
@@ -56,13 +53,20 @@ public class SettingsController implements Initializable {
     private TextField passwordField;
 
     @FXML
+    private JFXButton saveButton;
+
+    @FXML
     private Circle profilePhotoCircle;
 
     @FXML
     private Label removePhotoLabel;
 
+    @FXML
+    private JFXSpinner spinner;
+
     private Account currentAccount;
     private boolean profilePhotoChanged;
+    private Task<String> saveProfilePhotoTask;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,7 +114,7 @@ public class SettingsController implements Initializable {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png")
+                new FileChooser.ExtensionFilter("Images", "*.jpeg", "*.jpg", "*.png")
         );
 
         Stage window = Convenience.getWindow(mouseEvent);
@@ -141,6 +145,9 @@ public class SettingsController implements Initializable {
         );
 
         if (response.isPresent() && response.get() == ButtonType.YES) {
+            if (saveProfilePhotoTask != null && saveProfilePhotoTask.isRunning()) {
+                saveProfilePhotoTask.cancel();
+            }
             Convenience.closePreviousDialog();
         }
     }
@@ -156,15 +163,42 @@ public class SettingsController implements Initializable {
             return;
         }
 
-        saveFirstName();
-        saveLastName();
-        saveProfilePhoto();
+        EntityManager entityManager = currentAccount.getConnection();
+        entityManager.getTransaction().begin();
+        saveProfilePhotoTask = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                return saveProfilePhoto();
+            }
+        };
+        saveProfilePhotoTask.setOnSucceeded(workerStateEvent -> {
+            String profileImageURL = saveProfilePhotoTask.getValue();
+            if (profileImageURL != null && !profileImageURL.isBlank()) {
+                currentAccount.setPicture(profileImageURL);
+            } else if (profileImageURL != null) {
+                Convenience.showAlert(CustomAlertType.WARNING, "This image can't be uploaded due to its size");
+                entityManager.getTransaction().rollback();
+                return;
+            }
 
-        try {
-            showSuccess();
-        } catch (IOException e) {
-            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
-        }
+            saveFirstName();
+            saveLastName();
+            entityManager.getTransaction().commit();
+
+            try {
+                showSuccess();
+            } catch (IOException ioe) {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+        });
+
+        saveProfilePhotoTask.setOnCancelled(workerStateEvent -> {
+            entityManager.getTransaction().rollback();
+        });
+        spinner.visibleProperty().bind(saveProfilePhotoTask.runningProperty());
+        saveButton.disableProperty().bind(saveProfilePhotoTask.runningProperty());
+
+        new Thread(saveProfilePhotoTask).start();
     }
 
     /**
@@ -184,10 +218,7 @@ public class SettingsController implements Initializable {
      */
     private void saveFirstName() {
         if (isFirstNameChanged()) {
-            EntityManager entityManager = currentAccount.getConnection();
-            entityManager.getTransaction().begin();
             currentAccount.setFirstname(firstNameField.getText().strip());
-            entityManager.getTransaction().commit();
         }
     }
 
@@ -196,40 +227,27 @@ public class SettingsController implements Initializable {
      */
     private void saveLastName() {
         if (isLastNameChanged()) {
-            EntityManager entityManager = currentAccount.getConnection();
-            entityManager.getTransaction().begin();
             currentAccount.setLastname(lastNameField.getText().strip());
-            entityManager.getTransaction().commit();
         }
     }
 
     /**
      * Saves the user's current profile photo if it was changed.
      */
-    private void saveProfilePhoto() {
+    private String saveProfilePhoto() throws Exception {
         if (profilePhotoChanged) {
-            EntityManager entityManager = currentAccount.getConnection();
-            entityManager.getTransaction().begin();
-
-            ImagePattern imagePattern = (ImagePattern) profilePhotoCircle.getFill();
-            Image profileImage = imagePattern.getImage();
+            Image profileImage = getCurrentProfilePhoto();
             String imageURL = profileImage.getUrl();
-
             UploadImage imageUploader = new UploadImage(profileImage);
 
-            try {
-                if (!imageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
-                    String profileImageURL = imageUploader.upload();
-                    currentAccount.setPicture(profileImageURL);
-                } else {
-                    currentAccount.setPicture(DEFAULT_PROFILE_PHOTO_URL);
-                }
-            } catch (Exception e) {
-                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            if (!imageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
+                return imageUploader.upload();
+            } else {
+                currentAccount.setPicture(DEFAULT_PROFILE_PHOTO_URL);
             }
-
-            entityManager.getTransaction().commit();
         }
+
+        return null;
     }
 
     /**
@@ -243,7 +261,7 @@ public class SettingsController implements Initializable {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
                 CustomAlertType.SUCCESS,
                 "Your changes have been saved! Return to homepage?",
-                ButtonType.YES, ButtonType.CANCEL
+                ButtonType.YES, ButtonType.NO
         );
 
         if (response.isPresent() && response.get() == ButtonType.YES) {
@@ -267,6 +285,16 @@ public class SettingsController implements Initializable {
         }
 
         profilePhotoChanged = true;
+    }
+
+    /**
+     * Returns the current profile photo in the photo circle.
+     *
+     * @return {@link Image} object containing the current profile photo.
+     */
+    private Image getCurrentProfilePhoto() {
+        ImagePattern imagePattern = (ImagePattern) profilePhotoCircle.getFill();
+        return imagePattern.getImage();
     }
 
     /**

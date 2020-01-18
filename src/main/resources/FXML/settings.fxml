@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ButtonBar?>
@@ -80,7 +81,7 @@
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                      <buttons>
                         <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Cancel" textFill="WHITE" />
-                        <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleSaveClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Save" textFill="WHITE" />
+                        <JFXButton fx:id="saveButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleSaveClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Save" textFill="WHITE" />
                      </buttons>
                   </ButtonBar>
                </children>
@@ -104,6 +105,7 @@
                         <Label fx:id="removePhotoLabel" onMouseClicked="#handleRemovePhotoClicked" style="-fx-cursor: hand;" text="Remove" textFill="#0084ad" />
                      </children>
                   </HBox>
+                  <JFXSpinner fx:id="spinner" prefHeight="58.0" prefWidth="235.0" visible="false" />
                </children></VBox>
          </children></AnchorPane>
    </items>
