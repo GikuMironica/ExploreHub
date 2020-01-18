@@ -4,12 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Events;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +22,7 @@ public class SearchCriteria implements Criteria {
         keyword = keyword.toLowerCase().strip();
         this.keywords = Arrays.asList(keyword.split("\\W+"));
 
-        if (this.keywords.isEmpty()) {
+        if (this.keywords.isEmpty() && !keyword.isBlank()) {
             this.keywords = Arrays.asList(keyword);
         }
     }
@@ -48,10 +46,6 @@ public class SearchCriteria implements Criteria {
      *         {@code false} otherwise.
      */
     private boolean containsKeyword(Events event) {
-        if (this.keywords.isEmpty()) {
-            return true;
-        }
-
         String shortDescription = event.getShortDescription().toLowerCase();
         String longDescription = event.getLongDescription().toLowerCase();
         String companyName = event.getCompany().toLowerCase();
