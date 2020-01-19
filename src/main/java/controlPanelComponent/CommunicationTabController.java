@@ -56,11 +56,13 @@ public class CommunicationTabController {
     private String username = "explorehub.help@gmail.com";
     private String password = "cts5-2019";
     private String host = "IMAP.gmail.com";
+    private String currentFolder;
 
 
     public void initialize() throws Exception{
         folder.setItems(FXCollections.observableArrayList("Inbox", "Processed"));
         folder.getSelectionModel().select(0);
+        currentFolder = folder.getSelectionModel().getSelectedItem().toString();
         checkForEmails();
     }
 
@@ -384,13 +386,18 @@ public class CommunicationTabController {
 
 
     public void changeFolder(Event event) {
+        if (currentFolder.equals(folder.getSelectionModel().getSelectedItem().toString())){
+            return;
+        }
+        currentFolder = folder.getSelectionModel().getSelectedItem().toString();
         pageBox.getChildren().clear();
         pageBox.getChildren().add(new JFXProgressBar());
-            try {
-                checkForEmails();
-            }catch(Exception ex){
-                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-            }
+        try {
+            checkForEmails();
+        } catch (Exception ex) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+        }
+
     }
 
     private void connectionFailed(){

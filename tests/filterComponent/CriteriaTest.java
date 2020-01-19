@@ -20,7 +20,7 @@ import java.util.Random;
 import static org.junit.Assert.*;
 
 public class CriteriaTest {
-    ObservableList<Events> events;
+    private ObservableList<Events> events;
     private Random random;
 
     @Before
@@ -44,37 +44,59 @@ public class CriteriaTest {
 
     @Test
     public void filterByFreePlaces(){
+        try {
 
-            Criteria places = new FreePlacesCriteria(15);
-        ObservableList<Events> filteredEvents = places.meetCriteria(events);
-        for (Events event: filteredEvents
-             ) {
-            assertTrue(event.getAvailablePlaces()>=15 );
+            Criteria places = new FreePlacesCriteria(0);
+            ObservableList<Events> filteredEvents = places.meetCriteria(events);
+            for (Events event: filteredEvents
+            ) {
+                assertTrue(event.getAvailablePlaces()>=0 );
+            }
+
+            places = new FreePlacesCriteria(15);
+            filteredEvents = places.meetCriteria(events);
+            for (Events event: filteredEvents
+                 ) {
+                assertTrue(event.getAvailablePlaces()>=15 );
+            }
+
+            places = new FreePlacesCriteria(50);
+            filteredEvents = places.meetCriteria(events);
+            for (Events event: filteredEvents
+            ) {
+                assertTrue(event.getAvailablePlaces()>=50 );
+            }
+
+        }catch (Exception np){
+            assertTrue(np instanceof NullPointerException);
         }
     }
 
     @Test
     public void filterByPrice(){
+        try{
+            Criteria price = new PriceCriteria(100);
+            ObservableList<Events> filteredEvents = price.meetCriteria(events);
+            for (Events event:filteredEvents
+                 ) {
+                assertTrue(event.getPrice() < 100);
+            }
 
-        Criteria price = new PriceCriteria(100);
-        ObservableList<Events> filteredEvents = price.meetCriteria(events);
-        for (Events event:filteredEvents
-             ) {
-            assertTrue(event.getPrice() < 100);
-        }
+            price = new PriceCriteria(95);
+            filteredEvents = price.meetCriteria(events);
+            for (Events event:filteredEvents
+            ) {
+                assertTrue(event.getPrice() < 95);
+            }
 
-        price = new PriceCriteria(95);
-        filteredEvents = price.meetCriteria(events);
-        for (Events event:filteredEvents
-        ) {
-            assertTrue(event.getPrice() < 95);
-        }
-
-        price = new PriceCriteria(0);
-        filteredEvents = price.meetCriteria(events);
-        for (Events event:filteredEvents
-        ) {
-            assertTrue(event.getPrice() <= 0);
+            price = new PriceCriteria(0);
+            filteredEvents = price.meetCriteria(events);
+            for (Events event:filteredEvents
+            ) {
+                assertTrue(event.getPrice() <= 0);
+            }
+        }catch (Exception np){
+            assertTrue(np instanceof NullPointerException);
         }
     }
 
@@ -275,5 +297,16 @@ public class CriteriaTest {
         SHORT_DESCRIPTION,
         LONG_DESCRIPTION,
         COMPANY_NAME
+    }
+
+    @Test
+    public void getCitiesTest(){
+        try {
+            FilterController filterController = new FilterController();
+            ObservableList<String> cities = filterController.getCities();
+            cities.forEach(s -> events.forEach(events1 -> assertTrue(cities.contains(events1.getLocation().getCity()))));
+        }catch (Exception e){
+            assertTrue(e instanceof NullPointerException);
+        }
     }
 }
