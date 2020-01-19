@@ -1,4 +1,4 @@
-package tests.authentification;
+package authentification;
 
 import persistenceComponent.UserConnectionSingleton;
 import models.User;
@@ -15,6 +15,7 @@ import java.io.IOException;
  *
  * @author Gheorghe Mironica
  */
+@SuppressWarnings("JpaQueryApiInspection")
 public class AuthentificationControllerTest {
 
    private TextField usernameField;
