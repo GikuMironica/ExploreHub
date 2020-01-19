@@ -6,6 +6,7 @@ import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -75,7 +76,7 @@ public class FilterController implements Initializable {
      *Method that loads the list of cities.
      * @return an observable list of cities.
      */
-        private ObservableList<String> getCities () {
+        ObservableList<String> getCities () {
             ObservableList<Location> locations = FXCollections.observableArrayList();
             ObservableList<String> cities = FXCollections.observableArrayList();
             EntityManager entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
@@ -147,14 +148,6 @@ public class FilterController implements Initializable {
         }
 
     /**
-     * Methon that calls a key handler which filters the list in combobox.
-     * @param keyEvent key pressed event.
-     */
-    public void keyReleased(KeyEvent keyEvent) {
-            listener.handle(keyEvent);
-    }
-
-    /**
      *Method that resets the filter.
      */
     public  void resetFilter(){
@@ -166,6 +159,7 @@ public class FilterController implements Initializable {
         money.setText("100.00 €");
         choiceRadius.setDisable(true);
         filter.resetFilter();
+        listener.resetAutoComplete();
     }
 
     /**
