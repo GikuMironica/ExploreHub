@@ -27,7 +27,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class's responsibility is to handle the user's session
+ * This class's responsibility is to initialize, handle the user's session.
+ * Make sure user is logged out if its inactive or application crashes.
  *
  * @author Gheorghe Mironica
  */
@@ -44,47 +45,47 @@ public class MainUiController implements Initializable {
 
     private static Thread destroyThread, countThread;
     private static ScheduledExecutorService executorService;
+    private final int attempts = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         MainPane.getInstance().setStackPane(mainStackPane);
         MainPane.getInstance().setBorderPane(mainBorderPane);
 
-        customizeEntityManager();
+        customizeEntityManager(attempts);
         setLogin();
         startSession();
-
     }
 
     /**
      * Method which customizes number of connection attempts done by Entity Manager
      */
-    private void customizeEntityManager() {
+    protected void customizeEntityManager(int i) {
         Account account = CurrentAccountSingleton.getInstance().getAccount();
         EntityManager newManager = account.getConnection();
         Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
         EntityManagerEditor customizer = new EntityManagerEditor();
+        customizer.setCount(i);
         customizer.customize(session);
     }
 
     /**
      * This method changes the status of user to -> "logged in" in database
      */
-    private void setLogin() {
+    protected void setLogin() {
         Account akk = CurrentAccountSingleton.getInstance().getAccount();
         EntityManager entityManager = akk.getConnection();
         int id = akk.getId();
         entityManager.getTransaction().begin();
         entityManager.createNativeQuery(UPDATE_STATEMENT).setParameter(1, id).executeUpdate();
         entityManager.getTransaction().commit();
-
     }
 
     /**
      * This method creates a session for the current user with a custom
      * connection timeout
      */
-    private void startSession(){
+    protected void startSession(){
         Account akk = CurrentAccountSingleton.getInstance().getAccount();
         EntityManager entityManager = akk.getConnection();
         destroySession(entityManager, akk);
@@ -96,7 +97,7 @@ public class MainUiController implements Initializable {
      * @param entityManager {@link EntityManager} current active entity manager
      * @param akk {@link Account} current logged in account
      */
-    private void destroySession(EntityManager entityManager, Account akk){
+    protected void destroySession(EntityManager entityManager, Account akk){
         int accountId = akk.getId();
 
 
@@ -157,7 +158,7 @@ public class MainUiController implements Initializable {
      * Method which will force logout if the user doesn't respond
      * to the dialog with response which offers to continue with current session
      */
-    private void startCounting(){
+    protected void startCounting(){
         Runnable run = () -> {
             try {
           //      System.out.println("startCounting thread executed "+Thread.currentThread().getName());
@@ -179,7 +180,7 @@ public class MainUiController implements Initializable {
     /**
      * Method which force logout the user when session expired
      */
-    private void logOut(){
+    protected void logOut(){
         Account account = CurrentAccountSingleton.getInstance().getAccount();
         LogOutHandler logOutHandler = new LogOutHandler(account);
         logOutHandler.handleLogOutProcess(false);
@@ -196,7 +197,7 @@ public class MainUiController implements Initializable {
     }
 
     /**
-     * This method is meant to destroy the session 15 minutes after it wwas started
+     * This method is meant to destroy the session 15 minutes after it was started
      * User will be forced to log out
      * @param entityManager {@link EntityManager} current active entity manager
      * @param akk {@link Account} current logged in account
@@ -216,7 +217,6 @@ public class MainUiController implements Initializable {
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     /**

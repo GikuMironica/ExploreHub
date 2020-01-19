@@ -52,7 +52,7 @@ public class LogOutHandler {
     /**
      * This method closes connection with database as User
      */
-    private void closeConnection(){
+    protected void closeConnection(){
         CurrentAccountSingleton.getInstance().getAccount().closeConnection();
         account = null;
     }
@@ -60,11 +60,27 @@ public class LogOutHandler {
     /**
      * This method instantiates a connection to Database as a Guest
      */
-    private void startGuestConnection(Boolean isX){
+    protected void startGuestConnection(Boolean isX){
         GuestConnectionSingleton.getInstance();
         if(!isX) {
             RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
             userDB.cleanDB();
         }
+    }
+
+    /**
+     * Method to get the current Account
+     * @return {@link Account} Account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Method to get the current session
+     * @return {@link EntityManager} Entity Manager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

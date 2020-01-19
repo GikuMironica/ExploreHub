@@ -1,4 +1,4 @@
-package authentification;
+package persistenceComponentTest;
 
 import org.junit.Test;
 import persistenceComponent.UserConnectionSingleton;
