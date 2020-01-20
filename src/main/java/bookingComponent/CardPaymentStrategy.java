@@ -77,7 +77,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
                         user.getTransactions().add(transactions);
                     } catch(Exception e){
-                        e.printStackTrace();
+                        // e.printStackTrace();
                         if(!HandleNet.hasNetConnection()){
                             Convenience.closePreviousDialog();
                             handleConnection();

@@ -188,7 +188,10 @@ public class ManageEventsTabController {
             try {
                 Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                         getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception exc) { /**/ }
+            }catch(Exception exc) {
+                exc.printStackTrace();
+                Convenience.showAlert(CustomAlertType.ERROR, "Update attempt unsuccessfully, contact developers team.");
+            }
             return;
         }
 
@@ -686,7 +689,9 @@ public class ManageEventsTabController {
                                 getClass().getResource("/FXML/noInternet.fxml"));
                     }
                     return false;
-                }catch(Exception xe) { /**/ }
+                }catch(Exception xe) {
+                    System.out.println("Picture too wide or content invalid");
+                }
             }
         }
         if(logoPic != null){
@@ -704,7 +709,7 @@ public class ManageEventsTabController {
                     }
                     return false;
                 }catch(Exception xe) {
-                    xe.printStackTrace();
+                    System.out.println("Picture too wide or content invalid");
                 }
             }
         }
@@ -718,8 +723,8 @@ public class ManageEventsTabController {
                 selectedEvent.getPicture().setLogo(urlLogo);
             }
         }catch(NullPointerException nullException){
-            // do nothing
-            //System.out.println("do nothing");
+            clearPictureButton();
+            Convenience.showAlert(CustomAlertType.WARNING, "One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
         }
         return ok;
     }

@@ -41,7 +41,7 @@ public class LogOutHandler {
             entityManager.getTransaction().commit();
 
         }catch (Exception e){
-            e.printStackTrace();
+            // e.printStackTrace();
            // System.out.println("logout exception");
         }
 
