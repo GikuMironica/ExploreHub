@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Free Payment Strategy
+ * @author Domagoj Frecko
+ */
+
 public class FreePaymentStrategy implements PaymentStrategy {
 
     private List<Events> evList;
@@ -34,7 +39,7 @@ public class FreePaymentStrategy implements PaymentStrategy {
 
     @Override @SuppressWarnings("Duplicates")
     public boolean pay() {
-        boolean ok = true;
+
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
 
@@ -43,7 +48,7 @@ public class FreePaymentStrategy implements PaymentStrategy {
             while (iterator.hasNext()) {
                 currentEvent = (Events) iterator.next();
 
-                if(!(currentEvent.getAvailablePlaces() <= 0)) {
+                if(currentEvent.getAvailablePlaces() > 0) {
 
                     localDate = LocalDate.now();
                     date = Date.valueOf(localDate);
@@ -76,13 +81,12 @@ public class FreePaymentStrategy implements PaymentStrategy {
                             return false;
                         }
                         Convenience.closePreviousDialog();
-                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right now, for more information contact customer support service.");
                         return false;
                     }
                 }
 
                 else {
-                    // Warning telling the user no more spaces available for this certain event and cutting the price down for the total (in confirmation screen)
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.ERROR,"", ButtonType.OK);
                         alert.setTitle("Booking error!");
@@ -97,17 +101,24 @@ public class FreePaymentStrategy implements PaymentStrategy {
 
         }
 
-        if(ok=true){
-            updateInterestList(evList);
-        }
-        return ok;
-    }
-    private void handleConnection() {
-        try {
-            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
-        }catch(Exception e) { /**/ }
+        updateInterestList(evList);
+
+        return true;
     }
 
+    /**
+     * Method which handles no internet connection
+     */
+    private void handleConnection() {
+        try {
+            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right now, for more information contact customer support service.");
+        } catch(Exception e) { e.printStackTrace(); }
+    }
+
+    /**
+     * Method which updates the interest list after booking is done
+     * @param eventList list of booked events
+     */
     @SuppressWarnings("Duplicates")
     public void updateInterestList(List<Events> eventList) {
         interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();

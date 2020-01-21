@@ -105,18 +105,19 @@ public class BookingController implements Initializable {
         if(total != 0) totalPrice.setText("Total: €" + total);
 
         if (evList.size() > 1) {
-            int listSize = evList.size()-1;
             try {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
-                bookingDescription.setText(evList.get(0).getShortDescription() + " And " + listSize + " more event(s)...");
+                bookingDescription.setText(evList.get(0).getShortDescription() + " And " + (evList.size() - 1) + " more event(s)...");
             } catch (Exception e) {
                 e.printStackTrace();
+                bookingImage.setImage(new Image("/IMG/quest.png"));
             }
         } else {
             try {
                 bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
                 bookingDescription.setText(evList.get(0).getShortDescription());
             } catch (Exception e) {
+                e.printStackTrace();
                 bookingImage.setImage(new Image("/IMG/quest.png"));
             }
         }
@@ -151,7 +152,7 @@ public class BookingController implements Initializable {
     }
 
     /**
-     * Method which returns the user to the homepage
+     * Method which cancels the booking and returns the user to the homepage
      * @param event triggered on button ('Cancel') press
      */
     @FXML
@@ -166,7 +167,7 @@ public class BookingController implements Initializable {
 
     /**
      * Method that sets the payment method which the user wants to use
-     * @param payment Temporary paramater
+     * @param payment Temporary parameter
      */
     public static void setPaymentType(String payment){
         if(payment.equals("cash")) paymentType = 1;

@@ -2,6 +2,7 @@ package bookingComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -26,7 +27,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.ResourceBundle;
 
-
+/**
+ * Payment Controller
+ * @author Domagoj Frecko
+ */
 
 public class PaymentController implements Initializable {
     @FXML
@@ -41,7 +45,6 @@ public class PaymentController implements Initializable {
     Pane newPane;
 
     static String confirmationText;
-
     private List<Events> evList;
 
     @Override
@@ -59,7 +62,7 @@ public class PaymentController implements Initializable {
             try{
                 newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentCash.fxml"));
                 container.getChildren().add(newPane);
-            }catch (IOException e){e.printStackTrace();}
+            } catch (IOException e){e.printStackTrace();}
 
         }
 
@@ -68,7 +71,7 @@ public class PaymentController implements Initializable {
             try{
                 newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentCard.fxml"));
                 container.getChildren().add(newPane);
-            }catch (IOException e){e.printStackTrace();}
+            } catch (IOException e){e.printStackTrace();}
         }
 
         // Free
@@ -78,34 +81,41 @@ public class PaymentController implements Initializable {
 
     }
 
+    /**
+     * Method which initiates the payment strategy and starts the booking process.
+     */
     @FXML
     public void payment(){ // Once user presses Pay button initiate strategy
 
-        disableControlBtns();
-        totalPrice.setVisible(false);
-        boolean isBooked = false;
-        if(BookingController.getPaymentType() == 1){
-            CashPaymentStrategy CashPS = new CashPaymentStrategy();
-            isBooked = CashPS.pay();
-            confirmationText = "Booking successful! Visit Prittwitzstrasse campus to pay and get approved.";
-        }
-        else if (BookingController.getPaymentType() == 0 ) {
-            CardPaymentStrategy CardPS = new CardPaymentStrategy();
-            isBooked = CardPS.pay();
-            confirmationText = "Payment with card successful.";
-        }
-        else if (BookingController.getPaymentType() == 2){
-            FreePaymentStrategy FreePS = new FreePaymentStrategy();
-            isBooked = FreePS.pay();
-            confirmationText = "Booking successful.\nEnjoy your trip!";
-        }
+            disableControlBtns();
+            totalPrice.setVisible(false);
+            boolean isBooked = false;
 
-        if(isBooked) {
-            confirmationScene();
-            EventListSingleton.getInstance().refreshList();
-        }
+            if (BookingController.getPaymentType() == 1) {
+                CashPaymentStrategy CashPS = new CashPaymentStrategy();
+                isBooked = CashPS.pay();
+                confirmationText = "Booking successful.\nPayment with: Cash\nVisit Prittwitzstrasse Campus to pay and get approved.";
+            } else if (BookingController.getPaymentType() == 0) {
+                CardPaymentStrategy CardPS = new CardPaymentStrategy();
+                isBooked = CardPS.pay();
+                confirmationText = "Booking successful.\nPayment with: Card";
+            } else if (BookingController.getPaymentType() == 2) {
+                FreePaymentStrategy FreePS = new FreePaymentStrategy();
+                isBooked = FreePS.pay();
+                confirmationText = "Booking successful.\nEnjoy your trip!";
+            }
+
+            if (isBooked) {
+                confirmationScene();
+                EventListSingleton.getInstance().refreshList();
+            }
+
     }
 
+    /**
+     * Method which goes back to the payment selection screen
+     * @param event triggered on button ('Back') press
+     */
     @FXML
     public void goBack(Event event){
         try {
@@ -116,12 +126,19 @@ public class PaymentController implements Initializable {
         }
     }
 
+    /**
+     * Method which cancels the booking and returns the user to the homepage
+     * @param event triggered on button ('Cancel') press
+     */
     @FXML
     public void cancelBooking(Event event){ // Once user presses Cancel button - cancel the booking
         BookingController.setPaymentTypeValue(100);
         Convenience.closePreviousDialog();
     }
 
+    /**
+     * Method which displays the confirmation screen once booking is successful
+     */
     public void confirmationScene(){
         try {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
@@ -138,6 +155,9 @@ public class PaymentController implements Initializable {
         });
     }
 
+    /**
+     * Method which disables the control buttons on the screen
+     */
     public void disableControlBtns(){
         Platform.runLater(()->{
             payBtn.setDisable(true);
@@ -151,4 +171,5 @@ public class PaymentController implements Initializable {
     }
 
     public static String getConfirmationText(){return confirmationText;}
+
 }
