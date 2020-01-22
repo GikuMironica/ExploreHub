@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
@@ -19,33 +20,36 @@
                <AnchorPane prefWidth="1180.0">
                   <children>
                      <Pagination fx:id="mails" prefHeight="340.0" prefWidth="950.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
-                     <JFXButton fx:id="sendButton" buttonType="RAISED" layoutX="53.0" layoutY="357.0" onMouseClicked="#handleReplyClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Reply" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="50.0" />
-                     <JFXTextField fx:id="name" layoutX="271.0" layoutY="377.0" promptText="Name" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="270.0" />
-                     <JFXTextField fx:id="surname" layoutX="500.0" layoutY="381.0" promptText="Surname" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="500.0" />
-                     <JFXTextField fx:id="email" layoutX="745.0" layoutY="383.0" promptText="E-mail" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="710.0" />
-                     <Label layoutX="216.0" layoutY="381.0" text="Name:" underline="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="215.0">
+                     <JFXButton fx:id="sendButton" layoutX="53.0" layoutY="357.0" onMouseClicked="#handleReplyClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Reply" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="50.0" />
+                     <JFXTextField fx:id="name" layoutX="271.0" layoutY="377.0" promptText="Name" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="266.0" />
+                     <JFXTextField fx:id="surname" layoutX="500.0" layoutY="381.0" promptText="Surname" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="506.0" />
+                     <JFXTextField fx:id="email" layoutX="719.0" layoutY="452.0" promptText="E-mail" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="750.0" />
+                     <Label layoutX="216.0" layoutY="381.0" text="Name:" underline="true" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="209.0">
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Label layoutX="425.0" layoutY="385.0" text="Surname:" underline="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="425.0">
+                     <Label layoutX="425.0" layoutY="385.0" text="Surname:" underline="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="435.0">
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Label layoutX="684.0" layoutY="387.0" text="E-mail:" underline="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="650.0">
+                     <Label layoutX="684.0" layoutY="387.0" text="E-mail:" underline="true" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="681.0">
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font>
                      </Label>
-                     <Separator layoutX="18.0" layoutY="442.0" prefHeight="11.0" prefWidth="954.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="570.0">
+                     <Separator layoutX="18.0" layoutY="442.0" prefHeight="18.0" prefWidth="1180.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="63.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="570.0">
                         <font>
                            <Font name="System Bold" size="15.0" />
                         </font>
+                        <graphic>
+                           <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+                        </graphic>
                      </Label>
                      <JFXComboBox fx:id="folder" layoutX="53.0" layoutY="313.0" onHidden="#changeFolder" promptText="Folder" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="50.0" />
-                     <JFXButton fx:id="moveToFolder" buttonType="RAISED" layoutX="836.0" layoutY="313.0" onMouseClicked="#moveToFolder" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Move to Processed" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="14.0" />
+                     <JFXButton fx:id="moveToFolder" layoutX="836.0" layoutY="313.0" onMouseClicked="#moveToFolder" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Move to Processed" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="14.0" />
                   </children></AnchorPane>
             </children>
          </HBox>

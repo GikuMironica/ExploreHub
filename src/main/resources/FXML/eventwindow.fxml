@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane fx:id="eventLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="600.0" stylesheets="@../Styles/event.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.EventWindowController">
+<StackPane fx:id="eventLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="600.0" stylesheets="@../Styles/event.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="listComponent.EventWindowController">
    <children>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="512.0" prefWidth="600.0" styleClass="scrollPanes" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -49,7 +41,7 @@
                                           <Font name="Baghdad Regular" size="14.0" />
                                        </font>
                                        <HBox.margin>
-                                          <Insets right="41.0" />
+                                          <Insets bottom="6.0" right="41.0" />
                                        </HBox.margin>
                                     </Label>
                                  </children>
@@ -67,7 +59,7 @@
                               <Line endX="416.0" startX="-106.0" stroke="#6e6e6eb2" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
+                              <Insets bottom="39.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
                         <HBox alignment="TOP_CENTER" prefHeight="160.0" prefWidth="588.0" VBox.vgrow="NEVER">
