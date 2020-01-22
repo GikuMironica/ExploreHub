@@ -74,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
                <children>
-                  <JFXComboBox fx:id="choiceRadius" editable="true" focusColor="#0084ad" onAction="#onRadiusChanged" prefHeight="40.0" prefWidth="130.0" promptText="Radius" styleClass="filterBoxes" unFocusColor="#0084ad" />
+                  <JFXComboBox fx:id="choiceRadius" focusColor="#0084ad" onAction="#onRadiusChanged" prefHeight="40.0" prefWidth="130.0" promptText="Radius" styleClass="filterBoxes" unFocusColor="#0084ad" />
                </children>
                <HBox.margin>
                   <Insets left="3.0" />
@@ -86,7 +86,7 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <JFXComboBox fx:id="choiceMinPers" editable="true" focusColor="#0084ad" onAction="#onPersonsChanged" prefHeight="40.0" prefWidth="260.0" promptText="Free places" styleClass="filterBoxes" unFocusColor="#0084ad" />
+            <JFXComboBox fx:id="choiceMinPers" focusColor="#0084ad" onAction="#onPersonsChanged" prefHeight="40.0" prefWidth="260.0" promptText="Free places" styleClass="filterBoxes" unFocusColor="#0084ad" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="filterBoxes">
@@ -94,7 +94,7 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <JFXComboBox fx:id="sortBy" editable="true" focusColor="#0084ad" onAction="#onSortingChanged" prefHeight="40.0" prefWidth="260.0" promptText="Sort by" styleClass="filterBoxes" unFocusColor="#0084ad" />
+            <JFXComboBox fx:id="sortBy" focusColor="#0084ad" onAction="#onSortingChanged" prefHeight="40.0" prefWidth="260.0" promptText="Sort by" styleClass="filterBoxes" unFocusColor="#0084ad" />
          </children>
       </HBox>
       <HBox alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="260.0">
