@@ -1,4 +1,12 @@
-/*.scroll-bar:horizontal .track,*/
+/*---
+ author: Diaae Bakri
+---*/
+
+/*
+
+        VERTICAL Scroll settings
+
+ */
 .scroll-bar:vertical .track{
     -fx-background-color : #F2F7F9;
     -fx-border-color :transparent;
@@ -26,7 +34,7 @@
     -fx-padding :0.0 0.15em;
 }
 
-/*.scroll-bar:horizontal .thumb,*/
+.scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
     /*-fx-background-color :derive(black,90.0%);*/
     -fx-background-color: #0084AD;
@@ -35,7 +43,7 @@
     -fx-opacity: 0.5;
 }
 
-/*.scroll-bar:horizontal .thumb:hover,*/
+.scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:pressed {
     -fx-background-color :derive(black,90.0%);
     -fx-background-insets : 2.0, 0.0, 0.0;

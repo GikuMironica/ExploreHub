@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -86,7 +87,7 @@
                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                         <children>
                            <Label layoutX="14.0" layoutY="14.0" text="Number of bookings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                           <Label layoutX="14.0" layoutY="73.0" text="Number of overdue payments" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="180.0" />
+                           <Label layoutX="16.4" layoutY="213.4" text="Number of overdue payments" AnchorPane.leftAnchor="-1.6000000000000014" AnchorPane.topAnchor="183.4" />
                            <Label fx:id="nrBookVal" layoutX="160.0" layoutY="14.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="45.0" />
                            <Label fx:id="nrOver" layoutX="195.0" layoutY="73.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="210.0">
                               <font>
@@ -129,7 +130,7 @@
                         <font>
                            <Font name="Calisto MT Bold" size="12.0" />
                         </font></Label>
-                     <JFXButton fx:id="sendButton" buttonType="RAISED" onMouseClicked="#handleRefreshClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
+                     <JFXButton fx:id="sendButton" onMouseClicked="#handleRefreshClicked" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0" />
                   </children>
                </AnchorPane>
             </children>
@@ -143,10 +144,13 @@
             </children>
          </HBox>
          <Separator layoutX="-60.0" layoutY="441.0" prefHeight="11.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0">
+         <Label fx:id="HomeLabel" layoutX="459.0" layoutY="440.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="73.0" text="Home" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="528.0">
             <font>
                <Font name="System Bold" size="15.0" />
             </font>
+            <graphic>
+               <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+            </graphic>
          </Label>
       </children>
    </AnchorPane>

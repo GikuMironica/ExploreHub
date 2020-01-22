@@ -2,31 +2,19 @@
     author: Diaae Bakri
 ---*/
 
+/*
 
-/*.scroll-bar:vertical {*/
-/*    -fx-scale-x: 0;*/
-/*}*/
+    VERTICAL Scroll bar settings
 
-.scroll-bar:horizontal {
-    -fx-opacity: 0;
-}
+ */
 
-/*.scroll-bar:horizontal .track,*/
+
 .scroll-bar:vertical .track{
     -fx-background-color : #F2F7F9;
     -fx-border-color :transparent;
     -fx-background-radius : 0.0em;
     -fx-border-radius :2.0em;
 }
-
-
-/*.scroll-bar:horizontal .increment-button ,
-.scroll-bar:horizontal .decrement-button {
-    -fx-background-color :transparent;
-    -fx-background-radius : 0.0em;
-    -fx-padding :0.0 0.0 10.0 0.0;
-
-} */
 
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
@@ -62,4 +50,18 @@
     -fx-background-color :derive(black,90.0%);
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
+}
+
+/*
+
+    HORIZONTAL Scroll settings
+
+*/
+
+/*
+    Hide horizontal scroll bar
+*/
+
+.scroll-bar:horizontal {
+    -fx-opacity: 0;
 }

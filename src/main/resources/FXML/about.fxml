@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextArea?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" minWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
+<AnchorPane minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" />
       <Label alignment="CENTER" layoutX="181.0" layoutY="14.0" text="ExploreHub" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="160.0">
@@ -25,7 +22,7 @@
             <Font size="14.0" />
          </font>
       </JFXTextArea>
-      <JFXButton prefHeight="30.0" prefWidth="80.0" text="Back" onMouseClicked="#handleBackFromAboutClicked" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+      <JFXButton onMouseClicked="#handleBackFromAboutClicked" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #0084AD; -fx-text-fill: white;" text="Back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <font>
             <Font size="14.0" />
          </font>

@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -14,9 +13,9 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
          <children>
-            <JFXButton fx:id="bookAllButton" buttonType="RAISED" disable="true" onMouseClicked="#handleBookAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book all" textFill="WHITE" />
-            <JFXButton fx:id="bookSelectedButton" buttonType="RAISED" disable="true" onMouseClicked="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Book Selected" textFill="WHITE" />
-            <JFXButton fx:id="removeAllButton" buttonType="RAISED" onMouseClicked="#handleRemoveAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Remove all" textFill="WHITE" />
+            <JFXButton fx:id="bookAllButton" disable="true" onMouseClicked="#handleBookAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Book all" textFill="WHITE" />
+            <JFXButton fx:id="bookSelectedButton" disable="true" onMouseClicked="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Book Selected" textFill="WHITE" />
+            <JFXButton fx:id="removeAllButton" onMouseClicked="#handleRemoveAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Remove all" textFill="WHITE" />
          </children>
       </HBox>
       <HBox prefHeight="301.0" prefWidth="420.0">

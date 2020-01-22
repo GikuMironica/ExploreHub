@@ -6,22 +6,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentConfirmationController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentConfirmationController">
    <children>
       <VBox layoutX="5.0" layoutY="3.0" prefHeight="393.0" prefWidth="426.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="248.0" prefWidth="426.0">
-               <children>
-                  <Label fx:id="confirmationText" alignment="CENTER" prefHeight="160.0" prefWidth="295.0" text="Confirmation" wrapText="true">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
+            <Label fx:id="confirmationText" prefHeight="160.0" prefWidth="295.0" text="Confirmation" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+            </Label>
             <HBox alignment="CENTER" prefHeight="39.0" prefWidth="592.0">
                <children>
-                  <JFXButton fx:id="homepage" mnemonicParsing="false" onAction="#goToHomepage" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Return to Homepage" textFill="WHITE" />
+                  <JFXButton fx:id="homepage" mnemonicParsing="false" onAction="#goToHomepage" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Return to Homepage" textFill="WHITE" />
                </children>
                <VBox.margin>
                   <Insets top="100.0" />
