@@ -87,22 +87,19 @@ public class RecoverController implements Initializable {
             try {
                 userExists = checkUser(recoveryEmail.getText());
             }catch (Exception internetConnection){
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!HandleNet.hasNetConnection()) {
-                            Convenience.showAlert(CustomAlertType.ERROR,
-                                    "Oops, looks like you have no internet connection. Try again later.");
-                        }else {
-                            Convenience.showAlert(CustomAlertType.ERROR,
-                                    "Oops, looks like you have no internet connection. Try again later.");
-                        }
+                Platform.runLater(() -> {
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.showAlert(CustomAlertType.ERROR,
+                                "Oops, looks like you have no internet connection. Try again later.");
+                        Convenience.closePreviousDialog();
+                    }else {
+                        Convenience.showAlert(CustomAlertType.ERROR,
+                                "Ooops, something went wrong. Please, try again later.");
                     }
                 });
                 Thread.currentThread().interrupt();
                 return;
             }
-            System.out.println("Here");
             if (userExists) {
                 String key = UUID.randomUUID().toString();
                 generatedKey = key;
@@ -110,9 +107,18 @@ public class RecoverController implements Initializable {
                 try {
                     messageHandler.sendRecoveryConfirmation(key, recoveryEmail.getText());
                 } catch (MessagingException ade) {
-                    Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
-                                            "Password recovery failed. Please try again later."));
-                    ade.printStackTrace();
+                    Platform.runLater(() -> {
+                        if (!HandleNet.hasNetConnection()) {
+                            Convenience.showAlert(CustomAlertType.ERROR,
+                                    "Oops, looks like you have no internet connection. Try again later.");
+                            Convenience.closePreviousDialog();
+                        } else {
+                            Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
+                                    "Password recovery failed. Please try again later."));
+                            ade.printStackTrace();
+                        }
+                    });
+
                 }
                 setConfirmEnabled();
             }else{
@@ -138,24 +144,24 @@ public class RecoverController implements Initializable {
         Thread thread = new Thread(() -> {
             if (generatedKey != null && generatedKey.equals(userKey)){
                 String generatedPassword = generatePassword();
-                setNewPassword(generatedPassword);
                 try {
+                    if (!setNewPassword(generatedPassword)){return;}
                     MessageHandler messageHandler = MessageHandler.getMessageHandler();
                     messageHandler.sendNewPassword(generatedPassword, recoveryEmail.getText());
-                }catch (MessagingException me){
-                    Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
-                                                "Password recovery failed. Please try again later." ));
-                    me.printStackTrace();
-                }
-                Platform.runLater(() -> Platform.runLater(() -> Convenience.showAlert(CustomAlertType.INFORMATION,
-                                                                    "Your new password was sent to your email address.")));
-                generatedKey = null;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+                }catch (Exception me){
+                    if(!HandleNet.hasNetConnection()){
+                        Platform.runLater(() -> Convenience.showAlert(CustomAlertType.ERROR,
+                                "Oops, looks like you have no internet connection. Try again later."));
                         Convenience.closePreviousDialog();
+                    }else {
+                        Platform.runLater(() -> Convenience.showAlert(CustomAlertType.WARNING,
+                                "Password recovery failed. Please try again later."));
                     }
-                });
+                }
+                Platform.runLater(() -> Convenience.showAlert(CustomAlertType.INFORMATION,
+                                                                    "Your new password was sent to your email address."));
+                generatedKey = null;
+                Platform.runLater(Convenience::closePreviousDialog);
 
             }else{
                 setEisabled();
@@ -192,12 +198,31 @@ public class RecoverController implements Initializable {
      *Method that saves newly generated password in the database.
      * @param newPassword new password as a String.
      */
-    private void setNewPassword(String newPassword){
-        User user = users.get(0);
-        user.setPassword(newPassword);
-        entityManager.getTransaction().begin();
-        entityManager.merge(user);
-        entityManager.getTransaction().commit();
+    private boolean setNewPassword(String newPassword){
+        if(HandleNet.hasNetConnection()){
+            try {
+                User user = users.get(0);
+                user.setPassword(newPassword);
+                entityManager.getTransaction().begin();
+                entityManager.merge(user);
+                entityManager.getTransaction().commit();
+            }catch (Exception e){
+                entityManager.getTransaction().rollback();
+            }
+        }else{
+            Platform.runLater(() -> {
+                try {
+                    Convenience.showAlert(CustomAlertType.ERROR,
+                            "Oops, looks like you have no internet connection. Try again later.");
+                    Convenience.closePreviousDialog();
+                } catch (Exception exc) {
+                    Convenience.showAlert(CustomAlertType.ERROR,
+                            "Something went wrong. Please, try again later.");
+                }
+            });
+            return false;
+        }
+        return true;
     }
 
     /**

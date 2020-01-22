@@ -40,7 +40,7 @@
                         </font>
                      </Label>
                      <Separator layoutX="18.0" layoutY="442.0" prefHeight="18.0" prefWidth="1180.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="63.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="570.0">
+                     <Label fx:id="HomeLabel" layoutX="452.0" layoutY="447.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="73.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="570.0">
                         <font>
                            <Font name="System Bold" size="15.0" />
                         </font>
