@@ -2,6 +2,11 @@ package models;
 
 import javax.persistence.*;
 
+/**
+ * Model class which encapsulates the data of the Pictures entity and the logic to manage it
+ *
+ * @author Gheorghe Mironica
+ */
 @Entity
 @Table(name="pictures")
 public class Pictures {

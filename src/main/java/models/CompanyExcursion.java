@@ -39,16 +39,33 @@ public class CompanyExcursion extends Events {
     @Basic(optional=false)
     private String Company;
 
+    /**
+     * Method which returns the price of the event
+     * Since it's a company excursion,
+     * like BMW excursion, Daimler excursion
+     * price it's fixed to be 0.
+     * @return {@link Double} price
+     */
     @Override
     public Double getPrice() {
         return 0.0;
     }
 
+    /**
+     * Method which returns the company name,
+     * which organizes the excursion
+     * @return {@link String} company name
+     */
     @Override
     public String getCompany() {
         return this.Company;
     }
 
+    /**
+     * Method which sets the company name,
+     * which organizes the excursion
+     * @param company  {@link String} company name
+     */
     @Override
     public void setCompany(String company) {
         Company = company;

@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NamedNativeQuery(name="checkIfEventInWishList", query ="SELECT Count(*) FROM wishlist WHERE StudentID = ? AND EventID = ?;")
 
 /**
- *Model class which represents the user entity and encapsulates direct access to it
+ * Model class which represents the user entity and encapsulates direct access to it
  *
  *@Author: Gheorghe Mironica
  */
@@ -22,14 +22,34 @@ import javax.persistence.*;
 @DiscriminatorValue(value="0")
 public class User extends Account{
 
+    /**
+     * Default construtor
+     */
     public User(){
 
     }
+    /**
+     * Custom constructor
+     * @param firstname {@link String} user fist name
+     * @param lastname {@link String} user last name
+     * @param email {@link String} user email
+     * @param password {@link String} user password
+     * @param course {@link Courses} user's course
+     */
     public User(String firstname, String lastname, String email, String password, Courses course) {
         super(firstname, lastname, email, password, course);
         super.Active = 0;
     }
 
+    /**
+     * Custom constructor
+     * @param firstname {@link String} user fist name
+     * @param lastname {@link String} user last name
+     * @param email {@link String} user email
+     * @param password {@link String} user password
+     * @param course {@link Courses} user's course
+     * @param picture {@link String} user's profile picture
+     */
     public User(String firstname, String lastname, String email, String password, Courses course, String picture) {
         super(firstname, lastname, email, password, course);
         super.picture = picture;
