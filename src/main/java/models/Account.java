@@ -11,6 +11,11 @@ import java.util.List;
         @NamedQuery(name = "Account.findNrActive", query="SELECT COUNT(a) FROM Account a WHERE a.Active = 1")
 })
 
+/**
+ * Model class which encapsulates the data of the Account entity and the logic to manage it
+ * @author Gheorghe Mironica
+ */
+
 @Entity
 @Table(name="users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -77,6 +82,14 @@ public abstract class Account{
     )
     protected List<Events> events;
 
+    /**
+     * Custom constructor
+     * @param firstname {@link String} person first name
+     * @param lastname {@link String} person last name
+     * @param email {@link String} person's email
+     * @param password {@link String} person password
+     * @param course {@link Courses} Course the person is enrolled in
+     */
     public Account(String firstname, String lastname, String email, String password, Courses course) {
         this.Email = email;
         this.Firstname = firstname;
@@ -85,15 +98,36 @@ public abstract class Account{
         this.Course = course;
     }
 
+    /**
+     * Custom constructor
+     * @param firstname {@link String} person first name
+     * @param lastname {@link String} person last name
+     * @param email {@link String} person's email
+     * @param password {@link String} person password
+     * @param course {@link Courses} Course the person is enrolled in
+     * @param picture {@link String} Person's profile picture
+     */
     public Account(String firstname, String lastname, String email, String password, Courses course, String picture) {
         this(firstname, lastname, email, password, course);
         this.picture = picture;
     }
 
+    /**
+     * Person's activity status getter
+     * 0 = offline
+     * 1 = online
+     * @return {@link Integer} status
+     */
     public int getActive() {
         return Active;
     }
 
+    /**
+     * Person's activity status setter
+     * 0 = offline
+     * 1 = online
+     * @param active {@link Integer} status
+     */
     public void setActive(int active) {
         Active = active;
     }
@@ -216,18 +250,38 @@ public abstract class Account{
         this.events = events;
     }
 
+    /**
+     * Method to get person's profile picture
+     * @return {@link String} URL of the picture
+     */
     public String getPicture() {
         return picture;
     }
 
+    /**
+     * Method to set the person's profile picture
+     * @param picture {@link String} Url
+     */
     public void setPicture(String picture) {
         this.picture = picture;
     }
 
+    /**
+     * Method to get the list of events the user just tried to book
+     * this list is stored in Main memory only and deleted
+     * upon event booking or canceling
+     * @return {@link List<Events>} list of the events
+     */
     public List<models.Events> getBookedEvents() {
         return bookedEvents;
     }
 
+    /**
+     * Method to set the list of events the user just tried to book
+     * this list is stored in Main memory only and deleted
+     * upon event booking or canceling
+     * @param bookedEvents  {@link List<Events>} list of the events
+     */
     public void setBookedEvents(List<models.Events> bookedEvents) {
         this.bookedEvents = bookedEvents;
     }
@@ -241,10 +295,13 @@ public abstract class Account{
     /**
      * This method closes connection to db
      */
-
     public abstract void closeConnection();
 
     @SuppressWarnings("JpaQueryApiInspection")
+    /**
+     * Method which checks if the Event is already in users
+     * wishlist by directly requesting database.
+     */
     public boolean checkEventPresence(EntityManager em, int eventID){
         query = em.createNamedQuery("checkIfEventInWishList");
         query.setParameter(1, getId());

@@ -41,16 +41,30 @@ public class Excursion extends Events {
 
     protected Double Price;
 
+    /**
+     * Method which returns the price of this event
+     * @return {@link Double} price
+     */
     @Override
     public Double getPrice() {
         return this.Price;
     }
 
+    /**
+     * Method which sets the price of this event
+     * @param Price  {@link Double} price
+     */
     @Override
     public void setPrice(Double Price){
         this.Price = Price;
     }
 
+    /**
+     * Method which returns the name of this event
+     * Since it's a Hochschule Excursion
+     * The event organizer is fixed to be hochschule
+     * @return {@link String} Name of the university
+     */
     @Override
     public String getCompany() {
         return "Hochschule Ulm";

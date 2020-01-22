@@ -7,6 +7,11 @@ import javax.persistence.*;
         @NamedQuery(name="Location.findAllLocation", query="SELECT l FROM Location l")
 })
 
+/**
+ * Model class which encapsulates the data of the Locaton entity and the logic to manage it
+ *
+ * @author Gheorghe Mironica
+ */
 @Entity
 @Table(name="location")
 public class Location {
@@ -35,7 +40,6 @@ public class Location {
 
     /**
      * Constructor
-     *
      * @param id id of the {@link Events}
      * @param latitude latitude {@link String}
      * @param longitude longitude {@link String}
@@ -46,6 +50,8 @@ public class Location {
         Longitude = longitude;
         City = city;
     }
+
+    /** GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS*/
 
     public int getEventID() {
         return EventID;
