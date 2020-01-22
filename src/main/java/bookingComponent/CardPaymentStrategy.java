@@ -3,7 +3,9 @@ package bookingComponent;
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.GeneratePDF;
 import handlers.HandleNet;
+import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -14,6 +16,9 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,6 +42,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
     private int completed;
     private int paymentMethod;
     private EntityManager entityManager;
+    private MessageHandler messageHandler;
 
     @Override @SuppressWarnings("Duplicates")
     public boolean pay() {
@@ -67,6 +73,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
                     Invoice invoice = new Invoice(transactions);
                     transactions.setInvoice(invoice);
+                    generateInvoice(user, transactions);
 
                     currentEvent.setAvailablePlaces(currentEvent.getAvailablePlaces() - 1);
 
@@ -103,7 +110,6 @@ public class CardPaymentStrategy implements PaymentStrategy {
             }
         }
 
-        generateInvoice();
         updateInterestList(evList);
 
         return true;
@@ -118,7 +124,31 @@ public class CardPaymentStrategy implements PaymentStrategy {
         } catch(Exception e) { e.printStackTrace(); }
     }
 
-    public void generateInvoice(){}
+    /**
+     * Method which sends the invoice via email
+     * @param selectedUser User which is booking the event
+     * @param selectedTransaction The event which is being booked
+     */
+    public void generateInvoice(Account selectedUser, Transactions selectedTransaction){
+        GeneratePDF pdf;
+        String newFile = "";
+        String message= "Your booking has been successful.\nPayment type: Card";
+        messageHandler = MessageHandler.getMessageHandler();
+        try {
+            pdf = new GeneratePDF(selectedUser, selectedTransaction);
+            newFile = pdf.getFilename();
+            messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Path fileToDeletePath = Paths.get(newFile);
+            Files.delete(fileToDeletePath);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Method which updates the interest list after booking is done

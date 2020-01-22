@@ -104,21 +104,23 @@ public class BookingController implements Initializable {
 
         if(total != 0) totalPrice.setText("Total: €" + total);
 
+        Image image = new Image(evList.get(0).getPicture().getPicture());
+        if(image.isError()){
+            image = new Image(getClass().getResourceAsStream("/IMG/quest.png"));
+        }
         if (evList.size() > 1) {
             try {
-                bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
+                bookingImage.setImage(image);
                 bookingDescription.setText(evList.get(0).getShortDescription() + " And " + (evList.size() - 1) + " more event(s)...");
             } catch (Exception e) {
                 e.printStackTrace();
-                bookingImage.setImage(new Image("/IMG/quest.png"));
             }
         } else {
             try {
-                bookingImage.setImage(new Image(evList.get(0).getPicture().getPicture()));
+                bookingImage.setImage(image);
                 bookingDescription.setText(evList.get(0).getShortDescription());
             } catch (Exception e) {
                 e.printStackTrace();
-                bookingImage.setImage(new Image("/IMG/quest.png"));
             }
         }
 

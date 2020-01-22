@@ -43,6 +43,8 @@ public class PaymentController implements Initializable {
     Label totalPrice;
 
     Pane newPane;
+    private boolean cardInfo = true;
+    private PaymentCardController paymentCardController;
 
     static String confirmationText;
     private List<Events> evList;
@@ -69,7 +71,10 @@ public class PaymentController implements Initializable {
         // Card
         else if(BookingController.getPaymentType() == 0){
             try{
-                newPane = FXMLLoader.load(getClass().getResource("/FXML/paymentCard.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/FXML/paymentCard.fxml"));
+                newPane = fxmlLoader.load();
+                paymentCardController = (PaymentCardController) fxmlLoader.getController();
                 container.getChildren().add(newPane);
             } catch (IOException e){e.printStackTrace();}
         }
@@ -86,7 +91,11 @@ public class PaymentController implements Initializable {
      */
     @FXML
     public void payment(){ // Once user presses Pay button initiate strategy
+        if (BookingController.getPaymentType() == 0){
+            cardInfo = checkInfo();
+        }
 
+        if (cardInfo) {
             disableControlBtns();
             totalPrice.setVisible(false);
             boolean isBooked = false;
@@ -109,7 +118,7 @@ public class PaymentController implements Initializable {
                 confirmationScene();
                 EventListSingleton.getInstance().refreshList();
             }
-
+        }
     }
 
     /**
@@ -166,10 +175,26 @@ public class PaymentController implements Initializable {
             cancel.setVisible(false);
             back.setDisable(true);
             back.setVisible(false);
-
         });
     }
 
     public static String getConfirmationText(){return confirmationText;}
+
+    /**
+     * Method which checks whether the card information has been entered
+     * @return true if card info has been entered
+     */
+    public boolean checkInfo(){
+        boolean infoMissing = false;
+        if(paymentCardController.getIban() == null || paymentCardController.getIban().isEmpty()){ infoMissing = true; }
+        if(paymentCardController.getBic() == null || paymentCardController.getBic().isEmpty()){ infoMissing = true; }
+        if(paymentCardController.getPin() == null || paymentCardController.getPin().isEmpty()){ infoMissing = true; }
+
+        if(infoMissing){
+            Convenience.showAlert(CustomAlertType.WARNING, "Please fill out the fields with the correct values.");
+        }
+
+        return !infoMissing;
+    }
 
 }
