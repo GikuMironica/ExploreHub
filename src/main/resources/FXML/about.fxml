@@ -1,31 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
+<AnchorPane minWidth="-Infinity" prefWidth="600.0" styleClass="root" stylesheets="@../Styles/about.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" />
-      <Label alignment="CENTER" layoutX="181.0" layoutY="14.0" text="ExploreHub" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="160.0">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="100.0">
-         <image>
-         </image></ImageView>
-      <JFXTextArea editable="false" labelFloat="true" layoutX="171.0" layoutY="113.0" prefHeight="258.0" prefWidth="330.0" text="ExploreHub 1.0 &#10;&#10;ExploreHub is used to book and manage excursions &#10;from the Hochschule Ulm.&#10;&#10;Copyright © 2019-2020 ExploreHubTeam, All rights reserved. ExploreHub, ExploreHub logo are trademarks of ExploreHubTeam.&#10;ExploreHub created by Abdul Basit, Aleksejs Marmiss, Braz Castana, Daniel Dyankov, Diaae Bakri, Domagoj Frecko, Gheorge Mironica, Hidayat Rzayev and Tonislav Tachev" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXTextArea>
-      <JFXButton onMouseClicked="#handleBackFromAboutClicked" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #0084AD; -fx-text-fill: white;" text="Back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXButton>
+      <VBox alignment="TOP_CENTER" prefHeight="106.0" prefWidth="101.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../IMG/logo-letters-w.png" />
+               </image></ImageView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../IMG/e-letter-w.png" />
+                     </image></ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Text fx:id="version" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="400.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Baghdad Regular" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="organisation" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="400.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Baghdad Regular" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="teamMembers" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="400.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Baghdad Regular" size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <Text fx:id="copyright" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="400.0">
+               <font>
+                  <Font name="Baghdad Regular" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="170.0" />
+               </VBox.margin>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
