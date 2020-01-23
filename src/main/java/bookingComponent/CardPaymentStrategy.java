@@ -1,10 +1,11 @@
 package bookingComponent;
 
-
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import handlers.Convenience;
+import handlers.GeneratePDF;
 import handlers.HandleNet;
+import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -15,12 +16,20 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
+
+/**
+ * Card Payment Strategy
+ * @author Domagoj Frecko
+ */
 
 public class CardPaymentStrategy implements PaymentStrategy {
 
@@ -33,12 +42,10 @@ public class CardPaymentStrategy implements PaymentStrategy {
     private int completed;
     private int paymentMethod;
     private EntityManager entityManager;
+    private MessageHandler messageHandler;
 
     @Override @SuppressWarnings("Duplicates")
     public boolean pay() {
-        boolean ok = true;
-        // Card processing
-        // Maybe transaction window that just loads for a few seconds
 
         entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
         evList = CurrentAccountSingleton.getInstance().getAccount().getBookedEvents();
@@ -48,7 +55,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
             while (iterator.hasNext()) {
                 currentEvent = (Events) iterator.next();
 
-                if(!(currentEvent.getAvailablePlaces() <= 0)) {
+                if(currentEvent.getAvailablePlaces() > 0) {
 
                     localDate = LocalDate.now();
                     date = Date.valueOf(localDate);
@@ -66,6 +73,7 @@ public class CardPaymentStrategy implements PaymentStrategy {
 
                     Invoice invoice = new Invoice(transactions);
                     transactions.setInvoice(invoice);
+                    generateInvoice(user, transactions);
 
                     currentEvent.setAvailablePlaces(currentEvent.getAvailablePlaces() - 1);
 
@@ -76,21 +84,20 @@ public class CardPaymentStrategy implements PaymentStrategy {
                         entityManager.getTransaction().commit();
 
                         user.getTransactions().add(transactions);
-                    } catch(Exception e){
-                        e.printStackTrace();
+                    } catch(Exception e) {
+                        // e.printStackTrace();
                         if(!HandleNet.hasNetConnection()){
                             Convenience.closePreviousDialog();
                             handleConnection();
                             return false;
                         }
                         Convenience.closePreviousDialog();
-                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
+                        Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right now, for more information contact customer support service.");
                         return false;
                     }
                 }
 
                 else {
-                    // Warning telling the user no more spaces available for this certain event and cutting the price down for the total (in confirmation screen)
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.ERROR,"", ButtonType.OK);
                         alert.setTitle("Booking error!");
@@ -102,23 +109,51 @@ public class CardPaymentStrategy implements PaymentStrategy {
                 }
             }
         }
-        if(ok=true){
-            generateInvoice();
-            updateInterestList(evList);
-        }
-        return ok;
+
+        updateInterestList(evList);
+
+        return true;
     }
 
+    /**
+     * Method which handles no internet connection
+     */
     private void handleConnection() {
         try {
-            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right, for more information contact customer support service.");
-        }catch(Exception e) { /**/ }
+            Convenience.showAlert(CustomAlertType.WARNING, "Booking this event is impossible right now, for more information contact customer support service.");
+        } catch(Exception e) { e.printStackTrace(); }
     }
 
-    public void generateInvoice(){
-        // Send email to user and maybe provide a pdf invoice or something
+    /**
+     * Method which sends the invoice via email
+     * @param selectedUser User which is booking the event
+     * @param selectedTransaction The event which is being booked
+     */
+    public void generateInvoice(Account selectedUser, Transactions selectedTransaction){
+        GeneratePDF pdf;
+        String newFile = "";
+        String message= "Your booking has been successful.\nPayment type: Card";
+        messageHandler = MessageHandler.getMessageHandler();
+        try {
+            pdf = new GeneratePDF(selectedUser, selectedTransaction);
+            newFile = pdf.getFilename();
+            messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            Path fileToDeletePath = Paths.get(newFile);
+            Files.delete(fileToDeletePath);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Method which updates the interest list after booking is done
+     * @param eventList list of booked events
+     */
     @SuppressWarnings("Duplicates")
     public void updateInterestList(List<Events> eventList){
         interestList = CurrentAccountSingleton.getInstance().getAccount().getEvents();

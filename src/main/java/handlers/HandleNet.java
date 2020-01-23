@@ -12,6 +12,8 @@ import java.net.URLConnection;
  */
 public class HandleNet {
 
+    private static String url1 = "http://www.google.com";
+
     /**
      * This method pings www.google.com and returns true if everything is fine
      * if false -> user has no internet connection
@@ -19,7 +21,7 @@ public class HandleNet {
      */
     public static boolean hasNetConnection() {
         try {
-            final URL url = new URL("http://www.google.com");
+            final URL url = new URL(url1);
             final URLConnection conn = url.openConnection();
             conn.connect();
             conn.getInputStream().close();
@@ -30,4 +32,7 @@ public class HandleNet {
 
     }
 
+    public static void setUrl1(String url) {
+        url1 = url;
+    }
 }

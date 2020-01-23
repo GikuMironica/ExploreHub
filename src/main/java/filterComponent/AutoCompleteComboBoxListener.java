@@ -36,6 +36,15 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
      */
     @Override
     public void handle(KeyEvent event) {
+        if(comboBox.getEditor().getText().length() == 1 ){
+            String letter = comboBox.getEditor().getText();
+            comboBox.setPromptText("");
+            comboBox.getEditor().setText(letter);
+            moveCaret(1);
+        }else if(comboBox.getEditor().getText().length() == 0){
+            comboBox.getSelectionModel().clearSelection();
+            comboBox.getEditor().setPromptText("City");
+        }
 
         if(event.getCode() == KeyCode.UP) {
             caretPos = -1;
@@ -111,6 +120,11 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
             caretPos = comboBox.getEditor().getCaretPosition();
         }
 
+    }
+
+    public void resetAutoComplete(){
+        comboBox.getEditor().clear();
+        comboBox.getEditor().setPromptText("City");
     }
 
 }

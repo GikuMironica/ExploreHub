@@ -63,6 +63,8 @@ public class Invoice {
         this.TransactionID = transaction;
     }
 
+    /** GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS*/
+
     public int getId() {
         return Id;
     }

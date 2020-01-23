@@ -147,8 +147,7 @@ public class RegisterController implements Initializable  {
         try{
             Account akk = tqa.getSingleResult();
             if (!(akk == null)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "This user already exists");
-                alert.showAndWait();
+                Convenience.showAlert(CustomAlertType.WARNING, "This user already exists");
                 return true;
             }
         }catch(Exception e){

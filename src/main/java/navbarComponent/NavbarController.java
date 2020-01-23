@@ -10,6 +10,7 @@ import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import controlPanelComponent.PreLoader;
 import filterComponent.FilterSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -166,9 +167,6 @@ public class  NavbarController implements Initializable {
     }
 
     /**
-<<<<<<< HEAD
-     * If the sidebar is hidden, then it will be shown. Otherwise it will be hidden.
-=======
      * Loads the Discussion page
      *
      * @param mouseEvent - the event which triggered the method

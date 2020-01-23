@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXListView?>
-<AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageEventsTabController">
+<AnchorPane stylesheets="@/Styles/eventsTab.css" prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageEventsTabController">
    <children>
-      <VBox layoutX="444.0" layoutY="3.0" prefHeight="378.0" prefWidth="508.0" spacing="10.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="444.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0">
+      <VBox alignment="CENTER" layoutX="510.0" prefHeight="500.0" prefWidth="670.0" spacing="10.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="510.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="508.0" spacing="20.0">
                <children>
@@ -38,7 +32,7 @@
                      </font></JFXRadioButton>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="424.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="424.0" spacing="10.0">
                <children>
                   <Label text="Company:">
                      <HBox.margin>
@@ -62,10 +56,10 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <JFXDatePicker fx:id="dateField" prefHeight="31.0" prefWidth="160.0" />
+                  <JFXDatePicker fx:id="dateField" defaultColor="#0084ad" prefHeight="31.0" prefWidth="160.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="424.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="424.0" spacing="10.0">
                <children>
                   <Label text="City:" />
                   <JFXTextField fx:id="cityField" prefHeight="31.0" prefWidth="84.0" />
@@ -74,7 +68,7 @@
                         <Insets />
                      </HBox.margin></Label>
                   <JFXComboBox fx:id="placesCombo" prefHeight="31.0" prefWidth="62.0" />
-                  <JFXButton fx:id="picButton" mnemonicParsing="false" onAction="#uploadPic" prefHeight="31.0" prefWidth="112.0" text="Upload Picture" textFill="red" >
+                  <JFXButton fx:id="picButton" mnemonicParsing="false" onAction="#uploadPic" prefHeight="31.0" prefWidth="138.0" text="Upload Picture" textFill="red">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -82,7 +76,7 @@
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="logoButton" mnemonicParsing="false" onAction="#uploadLogo" prefHeight="31.0" prefWidth="102.0" text="Upload Logo" textFill="red">
+                  <JFXButton fx:id="logoButton" mnemonicParsing="false" onAction="#uploadLogo" prefHeight="31.0" prefWidth="136.0" text="Upload Logo" textFill="red">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -91,7 +85,7 @@
                      </font>
                   </JFXButton>
                </children></HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="424.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="424.0" spacing="10.0">
                <children>
                   <Label text="Latitude" />
                   <JFXTextField fx:id="latitudeField" prefHeight="31.0" prefWidth="172.0" />
@@ -99,7 +93,7 @@
                   <JFXTextField fx:id="longitudeField" prefHeight="31.0" prefWidth="172.0" />
                </children>
             </HBox>
-            <HBox prefHeight="52.0" prefWidth="508.0">
+            <HBox alignment="CENTER" prefHeight="52.0" prefWidth="508.0">
                <children>
                   <VBox prefHeight="70.0" prefWidth="129.0">
                      <children>
@@ -124,7 +118,7 @@
                   <JFXTextArea fx:id="shortField" prefHeight="54.0" prefWidth="343.0" />
                </children>
             </HBox>
-            <HBox prefHeight="116.0" prefWidth="508.0">
+            <HBox alignment="CENTER" prefHeight="116.0" prefWidth="508.0">
                <children>
                   <VBox prefHeight="134.0" prefWidth="127.0">
                      <children>
@@ -150,38 +144,57 @@
                   <JFXTextArea fx:id="longField" prefHeight="97.0" prefWidth="337.0" />
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="394.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Clear" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Delete Event" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Create Event" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="saveButton" mnemonicParsing="false" onAction="#updateEvent" prefHeight="29.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Update Event" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <JFXListView fx:id="mEventsList" layoutX="5.0" layoutY="6.0" onMouseClicked="#cellClicked" prefHeight="408.0" prefWidth="427.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-      <HBox alignment="CENTER" layoutX="512.0" layoutY="381.0" prefHeight="29.0" prefWidth="394.0" spacing="10.0">
+      <VBox layoutX="14.0" layoutY="8.0" prefHeight="498.0" prefWidth="549.0">
          <children>
-            <JFXButton fx:id="clearEdit" mnemonicParsing="false" onAction="#clearForm" prefHeight="37.0" prefWidth="77.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Clear" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Delete Event" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton mnemonicParsing="false" onAction="#createEvent" prefHeight="29.0" prefWidth="100.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Create Event" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="saveButton" mnemonicParsing="false" onAction="#updateEvent" prefHeight="29.0" prefWidth="120.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Update Event" textFill="WHITE" >
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
+            <JFXListView fx:id="mEventsList" onMouseClicked="#cellClicked" prefHeight="512.0" prefWidth="563.0" />
          </children>
-      </HBox>
-      <Separator layoutX="377.0" layoutY="435.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="HomeLabel" layoutX="487.0" layoutY="438.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
+      </VBox>
+      <Separator layoutX="377.0" layoutY="444.0" prefHeight="0.0" prefWidth="1180.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="513.0" />
+      <Label fx:id="HomeLabel" layoutX="565.0" layoutY="465.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="73.0" text="Home" AnchorPane.bottomAnchor="14.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+         <graphic>
+            <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+         </graphic>
       </Label>
    </children>
 </AnchorPane>

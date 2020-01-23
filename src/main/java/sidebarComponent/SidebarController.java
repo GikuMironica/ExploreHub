@@ -103,15 +103,23 @@ public class SidebarController implements Initializable {
      * Opens the settings page
      *
      * @param mouseEvent - the event which triggered the method
-     * @throws IOException - can be thrown if the page could not be loaded
      */
     @FXML
-    private void handleSettingsClicked(MouseEvent mouseEvent) throws IOException {
+    private void handleSettingsClicked(MouseEvent mouseEvent) {
         try {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
-        } catch (IOException ioe) {
-            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        } catch (Exception e) {
+            if (!HandleNet.hasNetConnection()) {
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (IOException ex) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+                }
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
         }
     }
 
@@ -258,6 +266,11 @@ public class SidebarController implements Initializable {
         return response.isPresent() && response.get() == ButtonType.YES;
     }
 
+    /**
+     * Checks if the sidebar is hidden.
+     *
+     * @return {@code true} if the sidebar is hidden, {@code false} otherwise.
+     */
     public boolean isHidden() {
         return hidden;
     }

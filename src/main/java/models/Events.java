@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
@@ -14,8 +15,7 @@ import java.sql.Timestamp;
 
 
 /**
- *Model class which represents the Event entity and encapsulates direct access to it
- *
+ * Model class which encapsulates the data of the Events entity and the logic to manage it
  * @author Gheorghe Mironica
  */
 @Entity
@@ -33,11 +33,11 @@ public abstract class Events implements Serializable {
 
     /**
      * Custom Constructor
-     * @param date {@link Date}
-     * @param totalPlaces {@link Integer}
-     * @param availablePlaces {@link Integer}
-     * @param shortDescription {@link String}
-     * @param longDescription {@link String}
+     * @param date {@link Date} event date
+     * @param totalPlaces {@link Integer} total places
+     * @param availablePlaces {@link Integer} available places
+     * @param shortDescription {@link String} title
+     * @param longDescription {@link String} description
      */
     public Events(java.sql.Date date, int totalPlaces, int availablePlaces, String shortDescription,
                   String longDescription) {
@@ -83,78 +83,161 @@ public abstract class Events implements Serializable {
     @PrimaryKeyJoinColumn(name="Id")
     protected Pictures picture;
 
+    /**
+     * Event id getter
+     * @return {@link Integer} id
+     */
     public int getId() {
         return Id;
     }
 
+    /**
+     * Event id setter
+     */
     public void setId(int id) {
         Id = id;
     }
 
+    /**
+     * Event date getter
+     * @return {@link Date} event date
+     */
     public Date getDate() {
         return Date;
     }
 
+    /**
+     * Event date setter
+     * @param {@link Date} event date
+     */
     public void setDate(Date date) {
         Date = date;
     }
 
+    /**
+     * Event company name getter
+     * Abstract, implemented in Company Excursion
+     * In hochschule excursion is final
+     * @return {@link String} company name
+     */
     abstract public String getCompany();
 
+    /**
+     * Event company name setter
+     * @param company {@link String} name
+     */
     public void setCompany(String company) {
       //
     }
 
+    /**
+     * Event price getter
+     * Abstract method, implemented in Hochschule Excursions since it's a paid excursion
+     * @return {@link Double} price
+     */
     abstract public Double getPrice();
 
+    /**
+     * Event price setter
+     * @param price {@link Double} number of places
+     */
     public void setPrice(Double price){
         //
     }
 
+    /**
+     * Total place getter
+     * @return {@link Integer} number of places
+     */
     public int getTotalPlaces() {
         return TotalPlaces;
     }
 
+    /**
+     * Total place setter
+     * @param totalPlaces  {@link Integer} number of places
+     */
     public void setTotalPlaces(int totalPlaces) {
         TotalPlaces = totalPlaces;
     }
 
+    /**
+     * Event available places getter
+     * @return {@link Integer} number of places
+     */
     public int getAvailablePlaces() {
         return AvailablePlaces;
     }
 
+    /**
+     * Event avaialble places setter
+     * @param availablePlaces  {@link Integer} number of places
+     */
     public void setAvailablePlaces(int availablePlaces) {
         AvailablePlaces = availablePlaces;
     }
 
+    /**
+     * Event title getteer
+     * @return {@link String} title
+     */
     public String getShortDescription() {
         return ShortDescription;
     }
 
+    /**
+     * Event title setter
+     * @param shortDescription {@link String} title
+     */
     public void setShortDescription(String shortDescription) {
         ShortDescription = shortDescription;
     }
 
+    /**
+     * Event description getter
+     * @return {@link String} description
+     */
     public String getLongDescription() {
         return LongDescription;
     }
 
+    /**
+     * Long description setter
+     * @param longDescription  {@link String} long description
+     */
     public void setLongDescription(String longDescription) {
         LongDescription = longDescription;
     }
 
+    /**
+     * Event location getter
+     *
+     * @return {@link Location} Location object, consists of few attribute like City, Lat, Long
+     */
     public Location getLocation() {
         return location;
     }
 
+    /**
+     * Event location setter
+     * @return {@link Location) location object
+     */
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    /**
+     * Event picture getter
+     * @return {@link Pictures} returns picture object, consists of Logo, Main picture
+     */
     public Pictures getPicture() {
         return picture;
     }
 
+    /**
+     * Event picture setter
+     * @param picture  {@link Pictures} parameter is type Pictures.
+     */
     public void setPicture(Pictures picture) {
         this.picture = picture;
     }
@@ -172,4 +255,22 @@ public abstract class Events implements Serializable {
         return ((Number) query.getSingleResult()).intValue();
     }
 
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     * @param obj the reference object with which to compare.
+     * @return {@code true} if this object is the same as the obj
+     * argument; {@code false} otherwise.
+     * @see #hashCode()
+     * @see HashMap
+     */
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof Events){
+            return ((Events)(obj)).getId() == this.getId();
+        }
+
+        return false;
+    }
 }

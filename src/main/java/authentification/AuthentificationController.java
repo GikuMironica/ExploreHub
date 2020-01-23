@@ -124,12 +124,6 @@ public class AuthentificationController implements Initializable {
 
             initiliaseApp();
 
-            // connection attempts
-            EntityManager newManager = account.getConnection();
-            Session session =((JpaEntityManager)newManager.getDelegate()).getActiveSession();
-            EntityManagerEditor customizer = new EntityManagerEditor();
-            customizer.customize(session);
-
         }catch(Exception e){
             if(!HandleNet.hasNetConnection()){
                 Convenience.popupDialog(authStackPane, authAnchorPane, getClass().getResource("/FXML/noInternet.fxml"));

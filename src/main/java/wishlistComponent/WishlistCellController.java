@@ -3,8 +3,11 @@ package wishlistComponent;
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListCell;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import handlers.CacheSingleton;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -134,14 +137,43 @@ public class WishlistCellController extends JFXListCell<Events> {
      */
     @FXML
     private void handleRemoveClicked(MouseEvent mouseEvent) {
+        int oldIndex = currentAccount.getEvents().indexOf(event);
         EntityManager entityManager = currentAccount.getConnection();
 
         currentAccount.getEvents().remove(event);
-        entityManager.getTransaction().begin();
-        entityManager.merge(currentAccount);
-        entityManager.getTransaction().commit();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(currentAccount);
+            entityManager.getTransaction().commit();
+        } catch (RuntimeException re) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            currentAccount.getEvents().add(oldIndex, event);
+
+            if (!HandleNet.hasNetConnection()) {
+                showNoInternet();
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, something went wrong. Please, try again later.");
+            }
+            return;
+        }
 
         this.getListView().getItems().remove(event);
         EventListSingleton.getInstance().refreshList();
+    }
+
+    /**
+     * Shows "No Internet Connection" popup to the user.
+     */
+    private void showNoInternet() {
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        }
     }
 }

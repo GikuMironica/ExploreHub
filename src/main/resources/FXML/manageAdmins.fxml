@@ -10,18 +10,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageAdminsTabController">
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<AnchorPane prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageAdminsTabController">
    <children>
       <Label layoutX="510.0" layoutY="251.0" prefHeight="20.0" prefWidth="87.0" text="Last Name:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Separator layoutX="377.0" layoutY="435.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="HomeLabel" layoutX="487.0" layoutY="438.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
+      <Separator layoutY="526.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="HomeLabel" layoutX="565.0" layoutY="465.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="73.0" text="Home" AnchorPane.bottomAnchor="14.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+         <graphic>
+            <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+         </graphic>
       </Label>
       <JFXListView fx:id="adminListView" layoutX="14.0" layoutY="36.0" onMouseClicked="#cellClicked" prefHeight="390.0" prefWidth="414.0" AnchorPane.topAnchor="36.0" />
       <Label layoutX="510.0" layoutY="201.0" prefHeight="20.0" prefWidth="74.0" text="First Name:" AnchorPane.leftAnchor="510.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="201.0">
@@ -30,7 +34,7 @@
          </font>
       </Label>
       <JFXTextField fx:id="firstnameText" layoutX="600.0" layoutY="199.0" prefHeight="25.0" prefWidth="265.0" />
-      <JFXTextField fx:id="lastnameText" layoutX="600.0" layoutY="248.0" prefHeight="25.0" prefWidth="265.0" AnchorPane.rightAnchor="89.0" />
+      <JFXTextField fx:id="lastnameText" layoutX="600.0" layoutY="258.0" prefHeight="25.0" prefWidth="265.0" AnchorPane.rightAnchor="314.4" />
       <Label layoutX="510.0" layoutY="301.0" prefHeight="20.0" prefWidth="81.0" text="Email:">
          <font>
             <Font name="System Bold" size="14.0" />

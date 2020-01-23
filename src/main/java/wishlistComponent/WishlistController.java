@@ -5,6 +5,7 @@ import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ import models.Events;
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -97,17 +99,38 @@ public class WishlistController implements Initializable {
     @FXML
     private void handleRemoveAllClicked(MouseEvent actionEvent) {
         if (userConfirmsRemoveAll()) {
-            observableWishList.clear();
-
+            List<Events> backup = new ArrayList<>(currentAccount.getEvents());
             EntityManager entityManager = currentAccount.getConnection();
             currentAccount.getEvents().clear();
-            entityManager.getTransaction().begin();
-            entityManager.merge(currentAccount);
-            entityManager.getTransaction().commit();
+
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(currentAccount);
+                entityManager.getTransaction().commit();
+            } catch (RuntimeException re) {
+                if (entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().rollback();
+                }
+                currentAccount.setEvents(backup);
+                if (!HandleNet.hasNetConnection()) {
+                    showNoInternet();
+                } else {
+                    Convenience.showAlert(CustomAlertType.ERROR,
+                            "Oops, something went wrong. Please, try again later.");
+                }
+                return;
+            }
+
             EventListSingleton.getInstance().refreshList();
+            observableWishList.clear();
         }
     }
 
+    /**
+     * Shows the alert to the user asking if he/she indeed wants to remove all the events from the wishlist.
+     *
+     * @return {@code true} if the user clicks "Yes", {@code false} otherwise.
+     */
     private boolean userConfirmsRemoveAll() {
         Optional<ButtonType> response = Convenience.showAlertWithResponse(
                 CustomAlertType.CONFIRMATION,
@@ -134,6 +157,18 @@ public class WishlistController implements Initializable {
         try {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/booking.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        }
+    }
+
+    /**
+     * Shows "No Internet Connection" popup to the user.
+     */
+    private void showNoInternet() {
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
         } catch (IOException ioe) {
             Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }

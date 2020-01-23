@@ -1,26 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="paymentValidationLayout" prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManagePaymentsTabController">
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<AnchorPane fx:id="paymentValidationLayout" stylesheets="@/Styles/paymentTab.css" prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManagePaymentsTabController">
    <children>
-      <ListView fx:id="transactionsListView" layoutX="4.0" layoutY="29.0" onMouseClicked="#cellClicked" prefHeight="386.0" prefWidth="425.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
-      <Separator layoutX="-94.0" layoutY="433.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="homeLabel" layoutX="456.0" layoutY="436.0" onMouseClicked="#goHome" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <VBox layoutX="529.0" layoutY="7.0" prefHeight="410.0" prefWidth="433.0" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="30.0">
+      <HBox alignment="TOP_CENTER" prefHeight="19.0" prefWidth="516.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Transactions:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets left="-13.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <JFXRadioButton fx:id="radioOpen" mnemonicParsing="false" onMouseClicked="#openRadioEnabled" text="Open ">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXRadioButton>
+               </children>
+               <HBox.margin>
+                  <Insets left="9.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <JFXRadioButton fx:id="radioProcessed" mnemonicParsing="false" onMouseClicked="#processedRadioEnabled" text="Processed">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXRadioButton>
+               </children>
+               <HBox.margin>
+                  <Insets left="8.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <JFXRadioButton fx:id="radioAll" mnemonicParsing="false" onMouseClicked="#allRadioEnabled" text="All">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXRadioButton>
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox layoutX="10.0" layoutY="38.0" prefHeight="465.0" prefWidth="516.0">
+         <children>
+            <ListView fx:id="transactionsListView" onMouseClicked="#cellClicked" prefHeight="466.0" prefWidth="516.0" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="590.0" layoutY="20.0" prefHeight="480.0" prefWidth="471.0" AnchorPane.topAnchor="20.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="423.0" spacing="10.0">
                <VBox.margin>
@@ -147,43 +194,34 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validatePayment" prefHeight="0.0" prefWidth="79.0" text="Validate">
+                  <JFXButton fx:id="validateButton" mnemonicParsing="false" onAction="#validatePayment" prefHeight="0.0" prefWidth="79.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Validate" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
-                  </Button>
-                  <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectPayment" prefHeight="31.0" prefWidth="73.0" text="Reject">
+                  </JFXButton>
+                  <JFXButton fx:id="rejectButton" mnemonicParsing="false" onAction="#rejectPayment" prefHeight="31.0" prefWidth="73.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Reject" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
-                  </Button>
-                  <Button fx:id="refundButton" mnemonicParsing="false" onAction="#refundTransaction" prefHeight="31.0" prefWidth="134.0" text="Cancel &amp; Refund">
+                  </JFXButton>
+                  <JFXButton fx:id="refundButton" mnemonicParsing="false" onAction="#refundTransaction" prefHeight="31.0" prefWidth="134.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Cancel &amp; Refund" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
-                  </Button>
+                  </JFXButton>
                </children>
             </HBox>
 
          </children>
       </VBox>
-      <RadioButton fx:id="radioOpen" layoutX="205.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#openRadioEnabled" text="Open ">
+      <Separator layoutX="-94.0" layoutY="439.0" prefHeight="0.0" prefWidth="1180.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="519.0" />
+      <Label fx:id="homeLabel" layoutX="569.0" layoutY="467.0" onMouseClicked="#goHome" text="Home" AnchorPane.bottomAnchor="14.0">
          <font>
-            <Font name="System Bold" size="13.0" />
-         </font></RadioButton>
-      <RadioButton fx:id="radioProcessed" layoutX="284.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#processedRadioEnabled" text="Processed">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font></RadioButton>
-      <RadioButton fx:id="radioAll" layoutX="137.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#allRadioEnabled" text="All">
-         <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
-      </RadioButton>
-      <Label layoutX="14.0" layoutY="4.0" text="Transactions:">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
+         <graphic>
+            <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+         </graphic>
       </Label>
    </children>
 </AnchorPane>

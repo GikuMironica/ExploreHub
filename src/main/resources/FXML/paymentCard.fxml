@@ -8,7 +8,8 @@
 <?import javafx.scene.text.Font?>
 
 <?import com.jfoenix.controls.JFXTextField?>
-<Pane prefHeight="213.0" prefWidth="459.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+<?import com.jfoenix.controls.JFXPasswordField?>
+<Pane prefHeight="213.0" prefWidth="459.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookingComponent.PaymentCardController">
    <children>
       <VBox layoutX="18.0" prefHeight="213.0" prefWidth="310.0">
          <children>
@@ -21,18 +22,18 @@
                </font>
             </Label>
             <Label prefHeight="17.0" prefWidth="149.0" text="IBAN" />
-            <JFXTextField />
+            <JFXTextField fx:id="iban"/>
             <Label prefHeight="17.0" prefWidth="149.0" text="BIC">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Label>
-            <JFXTextField />
+            <JFXTextField fx:id="bic" />
             <Label prefHeight="17.0" prefWidth="149.0" text="PIN">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField accessibleRole="PASSWORD_FIELD" prefHeight="25.0" prefWidth="193.0" />
+            <JFXPasswordField fx:id="pin"/>
          </children>
       </VBox>
    </children>

@@ -5,12 +5,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- *Model class which represents the Transaction entity and encapsulates direct access to it
- *
- * @author Gheorghe Mironica
- */
-
 @SuppressWarnings("JpaQlInspection")
 @NamedQueries({
 	    @NamedQuery(name= "Transactions.findTransactionsById", query =	"SELECT t FROM Transactions t WHERE t.Id = :id "),
@@ -23,7 +17,13 @@ import java.util.List;
                 "AND (t.Completed = 0 OR t.Completed = 1)")
 })
 
+/**
+ * Model class which represents the Transaction entity and encapsulates direct access to it
+ *
+ * @author Gheorghe Mironica
+ */
 @Entity
+@Table(name="transactions")
 public class Transactions {
 
     @Id
@@ -54,10 +54,21 @@ public class Transactions {
     @OneToOne(mappedBy = "TransactionID", cascade = CascadeType.ALL)
     private Invoice invoice;
 
+    /**
+     * Default constructor
+     */
     public Transactions(){
 
     }
 
+    /**
+     * Custom constructor
+     * @param date {@link Date} date of the transaction
+     * @param completed {@link Integer} status of the transaction
+     * @param paymentMethod {@link Integer} chosen payment method
+     * @param event {@link} {@link Events} booked event
+     * @param user {@link User} user who booked the event
+     */
     public Transactions(Date date, int completed, int paymentMethod, Events event, User user){
         this.Date = date;
         this.Completed = completed;
@@ -65,6 +76,8 @@ public class Transactions {
         this.event = event;
         this.user = user;
     }
+
+    /** GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS - GETTERS - SETTERS*/
 
     public Invoice getInvoice() {
         return invoice;

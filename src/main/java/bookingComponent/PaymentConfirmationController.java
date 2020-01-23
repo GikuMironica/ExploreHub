@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Payment Confirmation Controller
+ * @author Domagoj Frecko
+ */
+
 public class PaymentConfirmationController implements Initializable {
 
     @FXML
