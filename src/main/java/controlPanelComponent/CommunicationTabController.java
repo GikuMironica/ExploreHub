@@ -238,8 +238,7 @@ public class CommunicationTabController {
      * @throws IOException
      * @throws MessagingException
      */
-    private String getTextFromMimeMultipart(
-            MimeMultipart mimeMultipart) throws IOException, MessagingException {
+    private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws IOException, MessagingException {
 
         int count = mimeMultipart.getCount();
         if (count == 0)
@@ -296,17 +295,16 @@ public class CommunicationTabController {
                     } catch (IOException e1) {
                         Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                     }
-                } else{
-
-                try {
-                    String subject = messages[mailSelected].getSubject();
-                    MessageHandler messageHandler = MessageHandler.getMessageHandler();
-                    messageHandler.sendEmail(textArea.getText(), subject, email.getText());
-                    dialog.close();
-                } catch (MessagingException e) {
-                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                }else{
+                    try {
+                        String subject = messages[mailSelected].getSubject();
+                        MessageHandler messageHandler = MessageHandler.getMessageHandler();
+                        messageHandler.sendEmail(textArea.getText(), subject, email.getText());
+                        dialog.close();
+                    } catch (MessagingException e) {
+                        Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                    }
                 }
-            }
         });
         content.setActions(button);
         dialog.show();
@@ -325,7 +323,11 @@ public class CommunicationTabController {
         }
     }
 
-    public void moveToFolder(MouseEvent mouseEvent) throws Exception {
+    /**
+     * Method that allows to move the message into another folder.
+     * @param mouseEvent mouse event
+     */
+    public void moveToFolder(MouseEvent mouseEvent) {
         moveToFolder.setDisable(true);
         backup.getChildren().addAll(pageBox.getChildren());
         pageBox.getChildren().clear();
@@ -348,7 +350,6 @@ public class CommunicationTabController {
                 super.succeeded();
                 try{
                     checkForEmails();
-
                 }catch(Exception ex){
                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                 }
@@ -364,6 +365,12 @@ public class CommunicationTabController {
         thread.start();
     }
 
+    /**
+     * Method that allows to move the message into another folder.
+     * @param folder folder to which the message should be moved.
+     * @param mailSelected email which has to be moved.
+     * @throws Exception Exception thrown in case of connection failure.
+     */
     private void move(String folder, int mailSelected) throws Exception{
         if (!HandleNet.hasNetConnection()) {
             try {
@@ -384,7 +391,10 @@ public class CommunicationTabController {
         }
     }
 
-
+    /**
+     * Method which loads the emails from the selected folder.
+     *
+     */
     public void changeFolder(Event event) {
         if (currentFolder.equals(folder.getSelectionModel().getSelectedItem().toString())){
             return;
@@ -400,6 +410,9 @@ public class CommunicationTabController {
 
     }
 
+    /**
+     * Method that allows to popup the "no internet connection" alert.
+     */
     private void connectionFailed(){
             if (!HandleNet.hasNetConnection()) {
                 try {

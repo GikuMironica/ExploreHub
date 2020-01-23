@@ -168,6 +168,9 @@ public class StatisticsController {
         }
     }
 
+    /**
+     * Method that calculates statistics and displays the data.
+     */
     public void calculateStatistics(){
         XYChart.Series series = new XYChart.Series();
         for (int i = 0; i < transactionsList.size(); i++) {

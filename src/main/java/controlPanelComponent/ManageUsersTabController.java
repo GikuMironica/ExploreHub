@@ -76,14 +76,20 @@ public class ManageUsersTabController implements Initializable {
                "Transactions.findTransactionsByUserId",
                    Transactions.class);
         usersEventsQuery.setParameter("id", selectedUser.getId());
-        if(!HandleNet.hasNetConnection()){
-            try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(),anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-            }catch(Exception exc){
-                Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
+        try {
+            transactions.addAll(usersEventsQuery.getResultList());
+        }catch (Exception e){
+            if(!HandleNet.hasNetConnection()){
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(),anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+                    return;
+                }catch(Exception exc){
+                    Convenience.showAlert(CustomAlertType.WARNING, "Oops, something went wrong. Please, try again later.");
+                }
+            }else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
             }
         }
-        transactions.addAll(usersEventsQuery.getResultList());
         listOfBookings.setItems(transactions);
         listOfBookings.setCellFactory(userBookingsCellController -> new UserBookingsCellController());
         company.setText("");
@@ -116,9 +122,24 @@ public class ManageUsersTabController implements Initializable {
     public void deleteUser(MouseEvent mouseEvent) {
         User selectedUser = listOfUsers.getSelectionModel().getSelectedItem();
         EntityManager entityManager = admin.getConnection();
-        entityManager.getTransaction().begin();
-        entityManager.remove(selectedUser);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.remove(selectedUser);
+            entityManager.getTransaction().commit();
+        }catch (Exception e){
+            if(!HandleNet.hasNetConnection()){
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (Exception exc) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+                }
+            }else {
+                Convenience.showAlert(CustomAlertType.ERROR,
+                        "Oops, looks like you have no internet connection. Try again later.");
+            }
+            entityManager.getTransaction().rollback();
+        }
+
         User userToRemove = listOfUsers.getSelectionModel().getSelectedItem();
         users.remove(userToRemove);
     }
