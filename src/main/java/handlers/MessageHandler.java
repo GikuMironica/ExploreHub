@@ -13,7 +13,7 @@ import javax.mail.internet.*;
 public class MessageHandler {
 
     private static MessageHandler messageHandler;
-    private final String username = "iexplore.confirmation@gmail.com";
+    private final String username = "explorehub.confirmation@gmail.com";
     private final String password = "cts5-2019";
     private Properties props;
     private Authenticator authenticator;
@@ -58,11 +58,11 @@ public class MessageHandler {
      * @throws MessagingException
      */
     public void sendRecoveryConfirmation(String code, String recipientEmail) throws MessagingException{
-        String title = "noreply_iExplore password recovery ";
+        String title = "noreply_ExploreHub password recovery ";
         String message = "Please find your confirmation code below:\n" +
                         code + " \n" +
                         "Please confirm password recovery by entering this code to corresponding window\n" +
-                "Your iExplore team.";
+                "Your ExploreHub team.";
 
         MimeMessage msg = prepareMessage(title,message, recipientEmail);
         Transport.send(msg);
@@ -76,11 +76,11 @@ public class MessageHandler {
      * @throws MessagingException
      */
     public void sendNewPassword(String password, String recipientEmail) throws MessagingException{
-        String title = "noreply_iExplore password recovery ";
+        String title = "noreply_ExploreHub password recovery ";
         String message = "Please find your temporary password below:\n" +
                 password + " \n" +
                 "Please login using this password and change it in zour profile settings.\n" +
-                "Your iExplore team.";
+                "Your ExploreHub team.";
         MimeMessage msg = prepareMessage(title,message, recipientEmail);
         Transport.send(msg);
     }
@@ -93,7 +93,7 @@ public class MessageHandler {
      * @throws MessagingException
      */
     public void sendConfirmation(String letter, String recipientEmail, String filename) throws MessagingException{
-        String title = "noreply_iExplore Booking Confirmation ";
+        String title = "noreply_ExploreHub Booking Confirmation ";
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         DataSource source = new FileDataSource(filename);
@@ -115,7 +115,7 @@ public class MessageHandler {
      * @throws MessagingException
      */
     public void sendConfirmation(String letter, String recipientEmail) throws MessagingException{
-        String title = "noreply_iExplore Booking Confirmation ";
+        String title = "noreply_ExploreHub Booking Confirmation ";
 
         MimeMessage msg = prepareMessage(title, letter, recipientEmail);
         Transport.send(msg);
