@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="470.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageAdminsTabController">
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<AnchorPane prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageAdminsTabController">
    <children>
       <Label layoutX="510.0" layoutY="251.0" prefHeight="20.0" prefWidth="87.0" text="Last Name:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Separator layoutX="377.0" layoutY="435.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="HomeLabel" layoutX="487.0" layoutY="438.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="50.0" text="Home" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="455.0">
+      <Separator layoutY="526.0" prefHeight="2.0" prefWidth="954.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="HomeLabel" layoutX="565.0" layoutY="465.0" onMouseClicked="#goHome" prefHeight="21.0" prefWidth="73.0" text="Home" AnchorPane.bottomAnchor="14.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+         <graphic>
+            <FontAwesomeIconView fill="#0084ad" glyphName="HOME" size="18" />
+         </graphic>
       </Label>
       <JFXListView fx:id="adminListView" layoutX="14.0" layoutY="36.0" onMouseClicked="#cellClicked" prefHeight="390.0" prefWidth="414.0" AnchorPane.topAnchor="36.0" />
       <Label layoutX="510.0" layoutY="201.0" prefHeight="20.0" prefWidth="74.0" text="First Name:" AnchorPane.leftAnchor="510.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="201.0">
@@ -26,7 +34,7 @@
          </font>
       </Label>
       <JFXTextField fx:id="firstnameText" layoutX="600.0" layoutY="199.0" prefHeight="25.0" prefWidth="265.0" />
-      <JFXTextField fx:id="lastnameText" layoutX="600.0" layoutY="248.0" prefHeight="25.0" prefWidth="265.0" AnchorPane.rightAnchor="89.0" />
+      <JFXTextField fx:id="lastnameText" layoutX="600.0" layoutY="258.0" prefHeight="25.0" prefWidth="265.0" AnchorPane.rightAnchor="314.4" />
       <Label layoutX="510.0" layoutY="301.0" prefHeight="20.0" prefWidth="81.0" text="Email:">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -37,19 +45,19 @@
          <image>
             <Image url="@../IMG/icon-account.png" />
          </image></ImageView>
-      <JFXButton fx:id="clearButton" layoutX="538.0" layoutY="396.0" onAction="#clearView" prefHeight="30.0" prefWidth="81.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Clear" textFill="WHITE">
+      <JFXButton fx:id="clearButton" buttonType="RAISED" layoutX="538.0" layoutY="396.0" onAction="#clearView" prefHeight="30.0" prefWidth="81.0" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Clear" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="createAdminButton" layoutX="668.0" layoutY="396.0" onAction="#createAdmin" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Create Admin" textFill="WHITE">
+      <JFXButton fx:id="createAdminButton" buttonType="RAISED" layoutX="668.0" layoutY="396.0" onAction="#createAdmin" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Create Admin" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></JFXButton>
-      <JFXButton fx:id="deleteAdminButton" layoutX="813.0" layoutY="396.0" onAction="#deleteAdmin" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Delete Admin" textFill="WHITE">
+      <JFXButton fx:id="deleteAdminButton" buttonType="RAISED" layoutX="813.0" layoutY="396.0" onAction="#deleteAdmin" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Delete Admin" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></JFXButton>
-      <JFXButton fx:id="uploadButton" layoutX="659.0" layoutY="150.0" onAction="#uploadPicture" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Upload Picture" textFill="WHITE" AnchorPane.leftAnchor="647.0" />
+      <JFXButton fx:id="uploadButton" layoutX="659.0" layoutY="150.0" onAction="#uploadPicture" ripplerFill="WHITE" style="-fx-background-color: #32a4ba; -fx-cursor: hand;" text="Upload Picture" textFill="WHITE" />
    </children>
 </AnchorPane>
