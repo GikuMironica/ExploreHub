@@ -177,6 +177,7 @@ public class ManageEventsTabController {
         selectedEvent.setAvailablePlaces(av);
 
         if(!arePicturesValid()) {
+            Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
         }
 
@@ -186,8 +187,10 @@ public class ManageEventsTabController {
             entityManager.getTransaction().commit();
         } catch(Exception e){
             try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                        getClass().getResource("/FXML/noInternet.fxml"));
+                if(!HandleNet.hasNetConnection()) {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                }
             }catch(Exception exc) {
                 exc.printStackTrace();
                 Convenience.showAlert(CustomAlertType.ERROR, "Update attempt unsuccessfully, contact developers team.");
@@ -219,12 +222,13 @@ public class ManageEventsTabController {
             return;
         }
 
-        String urlLogo = uploadIMG(mainPic);
-        String urlPic = uploadIMG(logoPic);
+        String urlLogo = uploadIMG(logoPic);
+        String urlPic = uploadIMG(mainPic);
 
 
         // if imgur threw http 400, too large img, invalid content
         if(urlLogo == null || urlPic == null){
+            Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
         }
         if(urlLogo.isBlank() || urlPic.isBlank()) {
@@ -299,10 +303,12 @@ public class ManageEventsTabController {
                 eventsObservableList.remove(selectedEvent);
                 Convenience.showAlert(CustomAlertType.SUCCESS, "The event has been successfully deleted!");
             }catch(Exception exc){
-                exc.printStackTrace();
                 try {
-                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                            getClass().getResource("/FXML/noInternet.fxml"));
+                    entityManager.getTransaction().rollback();
+                    if(!HandleNet.hasNetConnection()) {
+                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                getClass().getResource("/FXML/noInternet.fxml"));
+                    }
                 }catch(Exception e) { /**/ }
             }
             clearForm(event);
@@ -682,7 +688,13 @@ public class ManageEventsTabController {
                 // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
                 urlPic = uploadImg.upload();
+                if(urlPic.isBlank()){
+                    clearPictureButton();
+                    return false;
+                }
+                selectedEvent.getPicture().setPicture(urlPic);
             }catch(Exception e){
+                ok = false;
                 try {
                     if(!HandleNet.hasNetConnection()) {
                         Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
@@ -690,7 +702,7 @@ public class ManageEventsTabController {
                     }
                     return false;
                 }catch(Exception xe) {
-                    System.out.println("Picture too wide or content invalid");
+                    return false;
                 }
             }
         }
@@ -698,6 +710,10 @@ public class ManageEventsTabController {
             try{
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 urlLogo = uploadLogo.upload();
+                if(urlLogo.isBlank()){
+                    clearPictureButton();
+                    return false;
+                }
                 selectedEvent.getPicture().setLogo(urlLogo);
                 CacheSingleton.getInstance().putImage(selectedEvent.getId(), new Image(urlLogo));
             }catch(Exception e){
@@ -709,23 +725,11 @@ public class ManageEventsTabController {
                     }
                     return false;
                 }catch(Exception xe) {
-                    System.out.println("Picture too wide or content invalid");
+                    return false;
                 }
             }
         }
-        try {
-            if (urlPic.isBlank() || urlLogo.isBlank()) {
-                clearPictureButton();
-                Convenience.showAlert(CustomAlertType.WARNING, "One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
-                return false;
-            } else {
-                selectedEvent.getPicture().setPicture(urlPic);
-                selectedEvent.getPicture().setLogo(urlLogo);
-            }
-        }catch(NullPointerException nullException){
-            clearPictureButton();
-            Convenience.showAlert(CustomAlertType.WARNING, "One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
-        }
+
         return ok;
     }
 
