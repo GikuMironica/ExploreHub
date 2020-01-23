@@ -101,19 +101,14 @@ public class UploadImage {
      * Method which configures the request to the server
      * @param conn {@link HttpURLConnection} input param
      */
-    private void post(HttpURLConnection conn) {
-        try {
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "Client-ID " + API_KEY);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.connect();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    private void post(HttpURLConnection conn) throws Exception {
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Client-ID " + API_KEY);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.connect();
     }
 
     /**

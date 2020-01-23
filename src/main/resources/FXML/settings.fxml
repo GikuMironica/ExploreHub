@@ -73,8 +73,8 @@
                   </VBox>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                      <buttons>
-                        <JFXButton mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #0084AD;" text="Cancel" textFill="WHITE" />
-                        <JFXButton mnemonicParsing="false" onMouseClicked="#handleSaveClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #0084AD;" text="Save" textFill="WHITE" />
+                        <JFXButton fx:id="cancelButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleCancelClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Cancel" textFill="WHITE" />
+                        <JFXButton fx:id="saveButton" buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#handleSaveClicked" ripplerFill="WHITE" style="-fx-cursor: hand; -fx-background-color: #32a4ba;" text="Save" textFill="WHITE" />
                      </buttons>
                   </ButtonBar>
                </children>
@@ -98,6 +98,7 @@
                         <Label fx:id="removePhotoLabel" onMouseClicked="#handleRemovePhotoClicked" style="-fx-cursor: hand;" text="Remove" textFill="#0084ad" />
                      </children>
                   </HBox>
+                  <JFXSpinner fx:id="spinner" prefHeight="58.0" prefWidth="235.0" visible="false" />
                </children></VBox>
          </children></AnchorPane>
    </items>

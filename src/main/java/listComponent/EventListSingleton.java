@@ -1,17 +1,23 @@
 package listComponent;
 
+import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
 import filterComponent.FilterSingleton;
+import handlers.CacheSingleton;
+import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
+import mainUI.MainPane;
 import models.CompanyExcursion;
 import models.Events;
 import models.Excursion;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -72,21 +78,22 @@ public class EventListSingleton{
      * Method which refreshes the ListView, executed as Background Scheduled Task
      */
     @SuppressWarnings("JpaQueryApiInspection")
-    public void refresh(){
-                List<Events> tempTrash = new ArrayList<Events>();
-                entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
-                List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
-                List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();
-                tempList.clear();
-                tempList.addAll(lc);
-                tempList.addAll(le);
-                tempTrash.clear();
+    public void refresh() {
+        CacheSingleton.getInstance().clear();
+        List<Events> tempTrash = new ArrayList<Events>();
+        entityManager = CurrentAccountSingleton.getInstance().getAccount().getConnection();
+        List<CompanyExcursion> lc = entityManager.createNamedQuery("CompanyExcursion.findAllCExcursions", CompanyExcursion.class).getResultList();
+        List<Excursion> le = entityManager.createNamedQuery("Excursion.findAllExcursions", Excursion.class).getResultList();
+        tempList.clear();
+        tempList.addAll(lc);
+        tempList.addAll(le);
+        tempTrash.clear();
 
-                for (Events e : tempList) {
-                    if (e.getDate().before(Date.valueOf(LocalDate.now())))
-                        tempTrash.add(e);
-                }
-                tempList.removeAll(tempTrash);
+        for (Events e : tempList) {
+            if (e.getDate().before(Date.valueOf(LocalDate.now())))
+                tempTrash.add(e);
+        }
+        tempList.removeAll(tempTrash);
     }
 
     /**
@@ -94,7 +101,22 @@ public class EventListSingleton{
      */
     public void refreshList() {
         Thread thread = new Thread(() -> {
-            refresh();
+            try {
+                refresh();
+            } catch (Exception e) {
+                if (!HandleNet.hasNetConnection()) {
+                    Platform.runLater(() -> {
+                        try {
+                            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                                    getClass().getResource("/FXML/noInternet.fxml"));
+                        } catch (IOException ioe) {
+                            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+                        }
+                    });
+                } else {
+                    Platform.runLater(() -> Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later."));
+                }
+            }
             FilterSingleton filter = FilterSingleton.getInstance();
 
             Platform.runLater(()->{
@@ -103,13 +125,22 @@ public class EventListSingleton{
                 filter.updateFilter();
             });
         });
+        thread.setUncaughtExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
         thread.start();
     }
 
+    /**
+     * Sets the event list view.
+     *
+     * @param listView - {@link ListView} object that is to be set to this list view.
+     */
     public void setEventsListView(ListView<Events> listView) {
         eventsListView = listView;
     }
 
+    /**
+     * Refreshes the list view.
+     */
     public void refreshListView() {
         eventsListView.refresh();
     }

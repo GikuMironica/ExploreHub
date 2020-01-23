@@ -5,11 +5,11 @@ import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import handlers.Convenience;
+import handlers.HandleNet;
 import handlers.UploadImage;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -28,15 +28,13 @@ import models.Account;
 import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 /**
  * Class which controls the Settings view
  * @author Hidayat Rzayev
  */
-public class SettingsController implements Initializable {
+public class SettingsController {
 
     public static final String DEFAULT_PROFILE_PHOTO_URL = "https://i.imgur.com/EK2R1rn.jpg";
 
@@ -56,6 +54,9 @@ public class SettingsController implements Initializable {
     private JFXButton saveButton;
 
     @FXML
+    private JFXButton cancelButton;
+
+    @FXML
     private Circle profilePhotoCircle;
 
     @FXML
@@ -66,15 +67,20 @@ public class SettingsController implements Initializable {
 
     private Account currentAccount;
     private boolean profilePhotoChanged;
-    private Task<String> saveProfilePhotoTask;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    private String firstNameBackup;
+    private String lastNameBackup;
+
+    public void initialize() throws Exception {
         currentAccount = CurrentAccountSingleton.getInstance().getAccount();
         profilePhotoChanged = false;
 
         String profileImageURL = currentAccount.getPicture();
         Image profileImage = new Image(profileImageURL);
+        if (profileImage.getException() != null) {
+            throw profileImage.getException();
+        }
+
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
         if (profileImageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
@@ -85,6 +91,9 @@ public class SettingsController implements Initializable {
         lastNameField.setText(currentAccount.getLastname());
         emailField.setText(currentAccount.getEmail());
         passwordField.setText(currentAccount.getPassword());
+
+        firstNameBackup = currentAccount.getFirstname();
+        lastNameBackup = currentAccount.getLastname();
     }
 
     /**
@@ -145,9 +154,6 @@ public class SettingsController implements Initializable {
         );
 
         if (response.isPresent() && response.get() == ButtonType.YES) {
-            if (saveProfilePhotoTask != null && saveProfilePhotoTask.isRunning()) {
-                saveProfilePhotoTask.cancel();
-            }
             Convenience.closePreviousDialog();
         }
     }
@@ -164,26 +170,42 @@ public class SettingsController implements Initializable {
         }
 
         EntityManager entityManager = currentAccount.getConnection();
-        entityManager.getTransaction().begin();
-        saveProfilePhotoTask = new Task<>() {
+        Task<String> saveProfilePhotoTask = new Task<>() {
             @Override
             protected String call() throws Exception {
                 return saveProfilePhoto();
             }
         };
+
         saveProfilePhotoTask.setOnSucceeded(workerStateEvent -> {
             String profileImageURL = saveProfilePhotoTask.getValue();
             if (profileImageURL != null && !profileImageURL.isBlank()) {
                 currentAccount.setPicture(profileImageURL);
             } else if (profileImageURL != null) {
                 Convenience.showAlert(CustomAlertType.WARNING, "This image can't be uploaded due to its size");
-                entityManager.getTransaction().rollback();
                 return;
             }
 
             saveFirstName();
             saveLastName();
-            entityManager.getTransaction().commit();
+
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.merge(currentAccount);
+                entityManager.getTransaction().commit();
+            } catch (RuntimeException re) {
+                if (entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().rollback();
+                }
+                restoreFirstName();
+                restoreLastName();
+
+                if (!HandleNet.hasNetConnection()) {
+                    showNoInternet();
+                }
+
+                return;
+            }
 
             try {
                 showSuccess();
@@ -192,12 +214,21 @@ public class SettingsController implements Initializable {
             }
         });
 
-        saveProfilePhotoTask.setOnCancelled(workerStateEvent -> {
-            entityManager.getTransaction().rollback();
+        saveProfilePhotoTask.setOnFailed(workerStateEvent -> {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            Throwable taskException = saveProfilePhotoTask.getException();
+            if (taskException != null && !HandleNet.hasNetConnection()) {
+                showNoInternet();
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
         });
+
         spinner.visibleProperty().bind(saveProfilePhotoTask.runningProperty());
         saveButton.disableProperty().bind(saveProfilePhotoTask.runningProperty());
-
+        cancelButton.disableProperty().bind(saveProfilePhotoTask.runningProperty());
         new Thread(saveProfilePhotoTask).start();
     }
 
@@ -344,6 +375,18 @@ public class SettingsController implements Initializable {
     }
 
     /**
+     * Pops up the dialog window indicating there is no Internet connection.
+     */
+    private void showNoInternet() {
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+        }
+    }
+
+    /**
      * Updates the sidebar with the new settings a user specified.
      *
      * @throws IOException if the navbar/sidebar cannot be loaded
@@ -354,5 +397,19 @@ public class SettingsController implements Initializable {
         VBox mainUICenterVBox = (VBox) MainPane.getInstance().getBorderPane().getCenter();
         HBox navbarContainer = (HBox) mainUICenterVBox.getChildren().get(0);
         navbarContainer.getChildren().setAll((Node) loader.load());
+    }
+
+    /**
+     * Restores a user's first name.
+     */
+    private void restoreFirstName() {
+        currentAccount.setFirstname(firstNameBackup);
+    }
+
+    /**
+     * Restores a user's last name.
+     */
+    private void restoreLastName() {
+        currentAccount.setLastname(lastNameBackup);
     }
 }
