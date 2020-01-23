@@ -52,4 +52,11 @@ public class CacheSingleton {
     public boolean containsImage(int eventId) {
         return imageCache.containsKey(eventId);
     }
+
+    /**
+     * Clears the cache.
+     */
+    public void clear() {
+        imageCache.clear();
+    }
 }

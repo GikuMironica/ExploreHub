@@ -5,6 +5,7 @@ import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import handlers.Convenience;
+import handlers.HandleNet;
 import javafx.scene.control.TextFormatter;
 import mainUI.MainPane;
 import javafx.fxml.FXML;
@@ -80,7 +81,11 @@ public class ChangePasswordController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            if (!HandleNet.hasNetConnection()) {
+                showNoInternet();
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            }
         }
     }
 
@@ -99,16 +104,31 @@ public class ChangePasswordController implements Initializable {
         }
 
         String newPassword = newPasswordField.getText();
-
         EntityManager entityManager = currentAccount.getConnection();
-        entityManager.getTransaction().begin();
         currentAccount.setPassword(newPassword);
-        entityManager.getTransaction().commit();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(currentAccount);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            currentAccount.setPassword(currentPasswordField.getText());
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            if (!HandleNet.hasNetConnection()) {
+                showNoInternet();
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+            return;
+        }
+
         showSuccess(mouseEvent);
     }
 
     /**
-     * This method is invoked every TimeConvertor the user types in the "Current Password" field.
+     * This method is invoked every time the user types in the "Current Password" field.
      * Checks if all the other fields are filled and if the corresponding passwords match.
      * If so, then the "Apply" button will be enabled. Otherwise, it will be disabled.
      *
@@ -194,7 +214,23 @@ public class ChangePasswordController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (IOException e) {
-            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+            if (!HandleNet.hasNetConnection()) {
+                showNoInternet();
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+        }
+    }
+
+    /**
+     * Shows "No Internet Connection" popup to the user.
+     */
+    private void showNoInternet() {
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/noInternet.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }
     }
 
