@@ -41,13 +41,13 @@ public class WishlistCellController extends JFXListCell<Events> {
     private Label titleLabel;
 
     @FXML
-    private Label descriptionLabel;
-
-    @FXML
     private Label locationLabel;
 
     @FXML
     private Label priceLabel;
+
+    @FXML
+    private Label placesLeftLabel;
 
     private FXMLLoader loader;
     private Account currentAccount;
@@ -105,7 +105,8 @@ public class WishlistCellController extends JFXListCell<Events> {
 
         titleLabel.setText(event.getShortDescription());
         locationLabel.setText(city);
-        priceLabel.setText(event.getPrice().toString() + "€");
+        priceLabel.setText(event.getPrice().toString());
+        placesLeftLabel.setText(String.valueOf(event.getAvailablePlaces()));
 
         setText(null);
         setGraphic(wishlistCellAnchorPane);

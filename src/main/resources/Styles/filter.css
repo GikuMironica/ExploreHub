@@ -14,10 +14,6 @@
     -jfx-focus-color: #0084AD;
 }
 
-.filterBoxes .list-cell{
-    -fx-text-fill: #0084AD;
-}
-
 #priceSlider > .track {
     -fx-background-color: #F2F7F9;
 }
