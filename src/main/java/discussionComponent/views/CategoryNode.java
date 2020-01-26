@@ -1,21 +1,17 @@
 package discussionComponent.views;
 
 import authentification.CurrentAccountSingleton;
-import discussionComponent.controllers.DisplayCategoryController;
+import discussionComponent.controllers.ViewCategoryController;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import models.ForumCategory;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 
@@ -47,15 +43,16 @@ public class CategoryNode {
 
     @FXML
     private void viewCategory() throws IOException{
-        FXMLLoader loader = new FXMLLoader();
-        DisplayCategoryController displayCategoryController = new DisplayCategoryController(category);
-        loader.setController(displayCategoryController);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/discussion/categoryView.fxml"));
+
+        ViewCategoryController viewCategoryController = new ViewCategoryController(category);
+        loader.setController(viewCategoryController);
 
         Scene scene = categoryNode.getScene();
         AnchorPane contentController = (AnchorPane) scene.lookup("#contentPane");
-        contentController.getChildren().remove(0);
-        // VBox categoryTopicDisplay = loader.load();
-        // contentController.getChildren().add(categoryTopicDisplay);
+        ((Node) contentController.getChildren().get(0)).setVisible(false);
+        AnchorPane categoryTopicDisplay = loader.load();
+        contentController.getChildren().add(categoryTopicDisplay);
         System.out.println(category.getName());
     }
 

@@ -9,6 +9,7 @@ import models.Topic;
 
 import javafx.fxml.FXML;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.io.IOException;
 
 public class TopicNode {
@@ -16,11 +17,12 @@ public class TopicNode {
     private Topic topic;
 
     @FXML private AnchorPane topicNode;
-    @FXML private Text topicTitle, topicStarted, topicReplyCount, topicLastPostAuthor, topicLastPostDate;
+    @FXML Text topicTitle, topicStarted, topicReplyCount, topicLastPostAuthor, topicLastPostDate;
 
     public TopicNode(Topic topic){
         this.topic = topic;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/discussion/topicNode.fxml"));
+        loader.setController(this);
         try {
             topicNode = loader.load();
         }catch (IOException ioe){
@@ -28,10 +30,18 @@ public class TopicNode {
         }
     }
 
-    public void apply(){
+    void apply(){
+        TypedQuery tq1 = em.createNamedQuery("Topic.getReplyCount", Integer.class);
+        tq1.setParameter("tid", topic.getId());
         topicTitle.setText(topic.getThreadTitle());
-        String s = "Started by " + topic.getThreadAuthor().getFirstname() + ", " + TimeConvertor.compareDate(topic.getThreadFirstPost().getPostTime());
+        String s = "Started by " + topic.getThreadAuthor().getFirstname() + " " +
+                topic.getThreadAuthor().getLastname().substring(0,1) + "., " +
+                TimeConvertor.compareDate(topic.getThreadFirstPost().getPostTime());
         topicStarted.setText(s);
+        topicReplyCount.setText(tq1.getSingleResult() + " Replies");
+        topicLastPostAuthor.setText(topic.getThreadLastPost().getAuthor().getFirstname() +
+                " " + topic.getThreadLastPost().getAuthor().getLastname().substring(0,1));
+        topicLastPostDate.setText(TimeConvertor.compareDate(topic.getThreadLastPost().getPostTime()));
     }
 
     @FXML

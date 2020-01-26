@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseClicked="#viewCategory" fx:id="categoryNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="800" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="categoryNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="800" onMouseClicked="#viewCategory" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER" layoutX="349.0" layoutY="108.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,8 +25,8 @@
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="124.0">
                <children>
-                  <Text fx:id="topicCount" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                  <Text fx:id="postCount" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="topicCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Topics" />
+                  <Text fx:id="postCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Replies" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -31,9 +34,9 @@
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="167.0">
                <children>
-                  <Text fx:id="recentTopicTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                  <Text fx:id="recentPostAuthor" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                  <Text fx:id="recentPostTime" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="recentTopicTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
+                  <Text fx:id="recentPostAuthor" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
+                  <Text fx:id="recentPostTime" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -2,6 +2,7 @@ package discussionComponent.controllers;
 
 import authentification.CurrentAccountSingleton;
 import discussionComponent.views.CategoryListViewCell;
+import handlers.Capitalize;
 import javafx.application.Platform;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
@@ -45,7 +46,7 @@ public class CategoryListController implements Initializable {
         TypedQuery<ForumCategory> t2 = em.createNamedQuery("ForumCategory.getCategoryByType", ForumCategory.class);
         Platform.runLater(() ->{
             for (String type : result){
-                catVbox.getChildren().add(new Text(type));
+                catVbox.getChildren().add(new Text(Capitalize.capitalize(type)));
                 t2.setParameter("fType", type);
                 categoryList = t2.getResultList();
                 catObservableList = FXCollections.observableArrayList();
