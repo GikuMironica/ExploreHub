@@ -99,9 +99,27 @@ public class SidebarController implements Initializable {
         }
     }
 
+    /**
+     * Pops up the booking history list
+     * @param mouseEvent {@link MouseEvent} event trigger
+     */
     @FXML
     private void handleBookingHistoryClicked(MouseEvent mouseEvent) {
-        // TODO: show the booking history
+        try{
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/bookingHistory.fxml"));
+        } catch (Exception e) {
+            if (!HandleNet.hasNetConnection()) {
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (IOException ex) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+                }
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+        }
     }
 
     /**
