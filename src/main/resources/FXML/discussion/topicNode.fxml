@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="topicNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="60.0" minWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="topicTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Topic Title">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fx:id="topicStarted" strokeType="OUTSIDE" strokeWidth="0.0" text="Started on" />
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER" spacing="60.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="topicReplyCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Replies" />
+            <VBox prefHeight="32.0" prefWidth="100.0">
+               <children>
+                  <Text fx:id="topicLastPostAuthor" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Post" />
+                  <Text fx:id="topicLastPostDate" strokeType="OUTSIDE" strokeWidth="0.0" text="By" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

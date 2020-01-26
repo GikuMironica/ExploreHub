@@ -65,7 +65,6 @@ public class CashPaymentStrategy implements PaymentStrategy {
                     transactions.setCompleted(completed);
                     transactions.setPaymentMethod(paymentMethod);
 
-                    currentEvent.setAvailablePlaces(currentEvent.getAvailablePlaces() - 1);
 
                     try {
                         entityManager.getTransaction().begin();

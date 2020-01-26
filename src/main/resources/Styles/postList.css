@@ -2,5 +2,31 @@
 .list-view .scroll-bar:horizontal .decrement-arrow,
 .list-view .scroll-bar:horizontal .increment-button,
 .list-view .scroll-bar:horizontal .decrement-button {
-    -fx-padding:0;
+     -fx-padding:0;
+     -fx-opacity:0;
+ }
+
+ .list-view .scroll-bar:vertical .increment-arrow,
+ .list-view .scroll-bar:vertical .decrement-arrow,
+ .list-view .scroll-bar:vertical .increment-button,
+ .list-view .scroll-bar:vertical .decrement-button {
+      -fx-padding:0;
+      -fx-opacity:0;
+  }
+
+ .list-cell:empty {
+     -fx-opacity:0;
+     display: none;
+ }
+
+ .list-cell:filled:selected {
+    -fx-background-color: #fff;
+ }
+
+.list-cell:odd { /* <=== changed to even */
+    -fx-background-color: white;
 }
+
+ .list-view:focused .list-cell:filled:selected {
+    -fx-background-color: #D1E8FF;
+  }

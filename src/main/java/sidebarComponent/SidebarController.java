@@ -6,8 +6,13 @@ import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.LogOutHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mainUI.MainPane;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -94,21 +99,15 @@ public class SidebarController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleBookingHistoryClicked(MouseEvent mouseEvent) {
-        // TODO: show the booking history
-    }
-
     /**
-     * Opens the settings page
-     *
-     * @param mouseEvent - the event which triggered the method
+     * Pops up the booking history list
+     * @param mouseEvent {@link MouseEvent} event trigger
      */
     @FXML
-    private void handleSettingsClicked(MouseEvent mouseEvent) {
-        try {
+    private void handleBookingHistoryClicked(MouseEvent mouseEvent) {
+        try{
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/settings.fxml"));
+                    getClass().getResource("/FXML/bookingHistory.fxml"));
         } catch (Exception e) {
             if (!HandleNet.hasNetConnection()) {
                 try {
@@ -124,18 +123,65 @@ public class SidebarController implements Initializable {
     }
 
     /**
-     * Opens the FAQ page
+     * Opens the settings page
+     *
+     * @param mouseEvent - the event which triggered the method
+     */
+    @FXML
+    private void handleSettingsClicked(MouseEvent mouseEvent) {
+        try {
+            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                    getClass().getResource("/FXML/settings.fxml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (!HandleNet.hasNetConnection()) {
+                try {
+                    Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                            getClass().getResource("/FXML/noInternet.fxml"));
+                } catch (IOException ex) {
+                    Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+                }
+            } else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+        }
+    }
+
+    /**
+     * Opens the FAQ page in a new window
      *
      * @param mouseEvent - the event which triggered the method
      */
     @FXML
     private void handleFAQClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/faq.fxml"));
+            if (HandleNet.hasNetConnection()) {
+                Parent root = FXMLLoader.load(getClass().getResource("/FXML/faq.fxml"));
+                Scene scene = new Scene(root);
+                Stage window = new Stage();
+                window.setScene(scene);
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setResizable(false);
+                window.show();
+            }
+            else {
+                throw new CommunicationException("No Internet");
+            }
         } catch (IOException e) {
             Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            e.printStackTrace();
+        }
+        catch (CommunicationException e1){
+            try {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            } catch (IOException ioe) {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
+
         }
     }
+
 
     /**
      * Opens the about page

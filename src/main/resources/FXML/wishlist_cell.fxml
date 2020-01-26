@@ -11,21 +11,73 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="wishlistCellAnchorPane" prefHeight="150.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<AnchorPane fx:id="wishlistCellAnchorPane" prefHeight="150.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="350.0" spacing="5.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="470.0" spacing="5.0">
             <children>
                 <ImageView fx:id="logoImageView" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label fx:id="titleLabel" style="-fx-font-weight: 2;" text="Title" textFill="#000022">
+                        <Label fx:id="titleLabel" text="Title" textFill="#000022">
                             <font>
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <Label fx:id="descriptionLabel" text="Description" />
-                        <Label fx:id="locationLabel" text="Location" />
-                        <Label fx:id="priceLabel" text="Price" />
+                  <VBox prefHeight="200.0" prefWidth="200.0" alignment="CENTER_RIGHT">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                               <Label fx:id="locationLabel" style="-fx-text-fill: #000000">
+                                   <HBox.margin>
+                                       <Insets left="10.0" />
+                                   </HBox.margin>
+                                   <font>
+                                       <Font name="System Bold" size="12.0" />
+                                   </font>
+                                   <graphic>
+                                       <FontAwesomeIconView fill="#0084ad" glyphName="MAP_MARKER" size="15" />
+                                   </graphic>
+                               </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                               <Label fx:id="priceLabel" style="-fx-text-fill: #000000">
+                                   <HBox.margin>
+                                       <Insets left="10.0" />
+                                   </HBox.margin>
+                                   <font>
+                                       <Font name="System Bold" size="12.0" />
+                                   </font>
+                                   <graphic>
+                                       <FontAwesomeIconView fill="#0084ad" glyphName="EURO" size="15" />
+                                   </graphic>
+                               </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                               <Label text="Places left: " style="-fx-text-fill: #000000">
+                                   <HBox.margin>
+                                       <Insets left="10.0" />
+                                   </HBox.margin>
+                                   <font>
+                                       <Font name="System Bold" size="12.0" />
+                                   </font>
+                                   <graphic>
+                                       <FontAwesomeIconView fill="#0084ad" glyphName="USERS" size="15" />
+                                   </graphic>
+                               </Label>
+                               <Label fx:id="placesLeftLabel" prefHeight="18.0" prefWidth="69.0" style="-fx-text-fill: #000000">
+                                   <font>
+                                       <Font size="11.5" />
+                                   </font>
+                               </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                         <ButtonBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <effect>
                                 <Blend />

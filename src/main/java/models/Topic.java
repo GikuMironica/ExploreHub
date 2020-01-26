@@ -2,12 +2,15 @@ package models;
 
 import javax.persistence.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 @NamedQueries({
         @NamedQuery(name="Topic.getThreads", query = "SELECT t FROM Topic t"),
-        @NamedQuery(name="Topic.getThreadsbyForum", query = "SELECT t FROM Topic t JOIN ForumCategory f ON t.category = f JOIN Post p on t.threadLastPost = p WHERE f.Name = :fName ORDER BY p.postTime DESC"),
-        @NamedQuery(name="Topic.getReplyCount", query = "SELECT Count(p) FROM Topic t JOIN Post p on t = p.topic WHERE (NOT p = t.threadFirstPost) AND t.Id = :tid")
+        @NamedQuery(name="Topic.getThreadsbyForum", query = "SELECT t FROM Topic t JOIN ForumCategory f " +
+                "ON t.category = f JOIN Post p on t.threadLastPost = p WHERE f.Name = :fName ORDER BY p.postTime DESC"),
+        @NamedQuery(name="Topic.getReplyCount", query = "SELECT Count(p) FROM Topic t JOIN Post p on t = p.topic" +
+                " WHERE (NOT p = t.threadFirstPost) AND t.Id = :tid")
 })
 @Entity
 @Table(name="thread")
@@ -30,7 +33,7 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryID", nullable=false)
     private ForumCategory category;
 
@@ -42,11 +45,14 @@ public class Topic {
     @JoinColumn(name = "threadAuthor", nullable=false)
     private Account threadAuthor;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> threadPosts;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "threadFirstPost")
     private Post threadFirstPost;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade= CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "threadLastPost", nullable=true)
     private Post threadLastPost;
 
@@ -89,6 +95,10 @@ public class Topic {
     public void setId(int id) {
         Id = id;
     }
+
+    public List<Post> getPosts() { return threadPosts; }
+
+    public void setPosts(List<Post> posts) { this.threadPosts = posts; }
 
     public Post getThreadFirstPost() {
         return threadFirstPost;

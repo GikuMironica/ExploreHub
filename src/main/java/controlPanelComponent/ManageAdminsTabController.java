@@ -198,18 +198,20 @@ public class ManageAdminsTabController{
         try {
             deleteAdminButton.setDisable(false);
             selectedAdmin = adminListView.getSelectionModel().getSelectedItem();
-            firstnameText.setText(selectedAdmin.getFirstname());
-            lastnameText.setText(selectedAdmin.getLastname());
-            emailText.setText(selectedAdmin.getEmail());
-            try {
-                adminPicture.setImage(new Image(selectedAdmin.getPicture()));
-            } catch(Exception ex) {
-                adminPicture.setImage(new Image("/IMG/icon-account.png"));
+            if(!(selectedAdmin == null)) {
+                firstnameText.setText(selectedAdmin.getFirstname());
+                lastnameText.setText(selectedAdmin.getLastname());
+                emailText.setText(selectedAdmin.getEmail());
+                try {
+                    adminPicture.setImage(new Image(selectedAdmin.getPicture()));
+                } catch (Exception ex) {
+                    adminPicture.setImage(new Image("/IMG/icon-account.png"));
+                }
+                adminPicture.setFitHeight(111);
+                adminPicture.setFitWidth(111);
+                uploadButton.setDisable(true);
+                createAdminButton.setDisable(true);
             }
-            adminPicture.setFitHeight(111);
-            adminPicture.setFitWidth(111);
-            uploadButton.setDisable(true);
-            createAdminButton.setDisable(true);
         } catch(Exception e){
             e.printStackTrace();
         }

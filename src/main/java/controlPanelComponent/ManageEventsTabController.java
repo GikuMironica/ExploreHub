@@ -248,6 +248,7 @@ public class ManageEventsTabController {
             Convenience.showAlert(CustomAlertType.WARNING, "Please, choose a day after tomorrow again.");
             return;
         }
+
         Double latitude = Double.valueOf(latitudeField.getText());
         Double longitude = Double.valueOf(longitudeField.getText());
         Events newEvent = null;

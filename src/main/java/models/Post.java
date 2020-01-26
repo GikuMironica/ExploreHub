@@ -27,7 +27,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name = "threadID", nullable=false)
     private Topic topic;
 

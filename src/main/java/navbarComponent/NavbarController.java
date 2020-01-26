@@ -8,9 +8,9 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import controlPanelComponent.PreLoader;
+import discussionComponent.Main;
 import filterComponent.FilterSingleton;
 import handlers.Convenience;
-import handlers.HandleNet;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,7 +18,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +29,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
 import mainUI.MainPane;
@@ -167,6 +171,21 @@ public class  NavbarController implements Initializable {
     }
 
     /**
+     * Loads the homepage
+     *
+     * @param mouseEvent - the event which triggered the method
+     */
+    @FXML
+    private void handleHomeClicked(MouseEvent mouseEvent) {
+        try {
+            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/mainUI.fxml"));
+        } catch (IOException ioe) {
+            Convenience.showAlert(CustomAlertType.ERROR,
+                    "Something went wrong, Please, try again later");
+        }
+    }
+
+    /**
      * Loads the Discussion page
      *
      * @param mouseEvent - the event which triggered the method
@@ -174,7 +193,15 @@ public class  NavbarController implements Initializable {
     @FXML
     private void handleDiscussionClicked(MouseEvent mouseEvent) {
         try {
-            Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/discussionView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/discussion/mainWindow.fxml"));
+            Parent root = loader.load();
+            Stage window = new Stage();
+            Main controller = loader.getController();
+            window.initStyle(StageStyle.TRANSPARENT);
+            window.setTitle("ExploreHub Discussion");
+            Scene newScene = new Scene(root, 1080, 800);
+            Stage currentStage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+            controller.initialize(window, newScene, currentStage);
         } catch (IOException ioe) {
             Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
         }

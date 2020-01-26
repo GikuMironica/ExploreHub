@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -37,6 +38,7 @@ import java.util.Optional;
 public class SettingsController {
 
     public static final String DEFAULT_PROFILE_PHOTO_URL = "https://i.imgur.com/EK2R1rn.jpg";
+    private static final int INPUT_LIMIT = 45;
 
     @FXML
     private TextField firstNameField;
@@ -87,13 +89,28 @@ public class SettingsController {
             removePhotoLabel.setDisable(true);
         }
 
+        initFields();
+
+        firstNameBackup = currentAccount.getFirstname();
+        lastNameBackup = currentAccount.getLastname();
+    }
+
+    private void initFields() {
         firstNameField.setText(currentAccount.getFirstname());
         lastNameField.setText(currentAccount.getLastname());
         emailField.setText(currentAccount.getEmail());
         passwordField.setText(currentAccount.getPassword());
+        firstNameField.setTextFormatter(limitInput());
+        lastNameField.setTextFormatter(limitInput());
+    }
 
-        firstNameBackup = currentAccount.getFirstname();
-        lastNameBackup = currentAccount.getLastname();
+    private TextFormatter<String> limitInput() {
+        return new TextFormatter<>(change -> {
+            if (change.getControlNewText().length() > INPUT_LIMIT) {
+                return null;
+            }
+            return change;
+        });
     }
 
     /**

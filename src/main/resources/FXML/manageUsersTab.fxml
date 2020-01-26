@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
+<AnchorPane stylesheets="@/Styles/usersTab.css" fx:id="anchorPane" prefHeight="560.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlPanelComponent.ManageUsersTabController">
    <children>
       <JFXListView fx:id="listOfUsers" layoutX="14.0" layoutY="14.0" onMouseClicked="#cellClicked" prefHeight="430.0" prefWidth="311.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="823.0" AnchorPane.topAnchor="20.0" />
       <JFXButton fx:id="deleteButton" layoutX="367.0" layoutY="121.0" onMouseClicked="#deleteUser" ripplerFill="WHITE" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Delete user" textFill="WHITE" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="121.0" />

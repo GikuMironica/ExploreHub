@@ -8,7 +8,8 @@ import java.util.List;
         @NamedQuery(name = "Account.determineAccess", query = "SELECT u.Access FROM Account u WHERE u.Email = :email AND u.Password = :password"),
         @NamedQuery(name = "Account.findAccountByEmail", query = "SELECT a FROM Account a WHERE a.Email =:email"),
         @NamedQuery(name = "Account.getStatusById", query="SELECT a.Active FROM Account a WHERE a.Id = :Id"),
-        @NamedQuery(name = "Account.findNrActive", query="SELECT COUNT(a) FROM Account a WHERE a.Active = 1")
+        @NamedQuery(name = "Account.findNrActive", query="SELECT COUNT(a) FROM Account a WHERE a.Active = 1"),
+        @NamedQuery(name = "Account.findAllBookedEvents", query="SELECT t FROM Account a JOIN Transactions t ON a.Id = t.user.Id WHERE a.Id = :id AND (t.Completed = 0 OR t.Completed = 1)")
 })
 
 /**

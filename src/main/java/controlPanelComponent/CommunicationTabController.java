@@ -93,6 +93,7 @@ public class CommunicationTabController {
                 Folder emailFolder = store.getFolder(folderName);
                 emailFolder.open(Folder.READ_WRITE);
                 messages = emailFolder.getMessages();
+
             } catch (Exception e) {
                 throw new Exception("Internet Connection lost");
             }
@@ -102,8 +103,14 @@ public class CommunicationTabController {
             @Override
             protected void succeeded(){
                 super.succeeded();
-                create();
-                moveToFolder.setDisable(false);
+                if (messages.length == 0){
+                    mails.setPageCount(1);
+                    empty();
+                    moveToFolder.setDisable(true);
+                }else {
+                    create();
+                    moveToFolder.setDisable(false);
+                }
             }
 
             @Override
@@ -117,9 +124,37 @@ public class CommunicationTabController {
 
     }
 
+    /**
+     * Method which binds the emails to the pagination pages.
+     */
     public void create(){
         mails.setPageFactory(this::createPage);
     }
+
+    /**
+     * Method which called when email folder is emty
+     */
+    public void empty(){
+        mails.setPageFactory(this::createEmptyPage);
+    }
+
+    private VBox createEmptyPage(int pageIndex){
+        pageBox = new VBox();
+        pageBox.alignmentProperty().setValue(Pos.CENTER);
+        JFXTextArea messageContent = new JFXTextArea();
+        messageContent.setWrapText(true);
+        messageContent.setMaxWidth(1170);
+        messageContent.setMinHeight(300);
+        messageContent.setMaxHeight(300);
+        messageContent.setEditable(false);
+        messageContent.setStyle("-fx-text-fill:  #32a4ba; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-family: Calisto MT Bold; -fx-font-style: Italic");
+        messageContent.setText("Folder is empty");
+        pageBox.getChildren().clear();
+        pageBox.getChildren().add(messageContent);
+
+        return pageBox;
+    }
+
 
     /**
      * Method which populates a page in pagination.

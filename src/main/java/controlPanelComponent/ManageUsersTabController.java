@@ -109,10 +109,11 @@ public class ManageUsersTabController implements Initializable {
     @FXML
     private void cellCompanyClicked(Event event){
         Transactions selectedBooking = listOfBookings.getSelectionModel().getSelectedItem();
-        company.setText(selectedBooking.getEvent().getCompany());
-        city.setText(selectedBooking.getEvent().getLocation().getCity());
-        description.setText(selectedBooking.getEvent().getShortDescription());
-
+        if (!(selectedBooking == null)) {
+            company.setText(selectedBooking.getEvent().getCompany());
+            city.setText(selectedBooking.getEvent().getLocation().getCity());
+            description.setText(selectedBooking.getEvent().getShortDescription());
+        }
     }
 
     /**
