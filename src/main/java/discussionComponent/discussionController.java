@@ -1,6 +1,7 @@
 package discussionComponent;
 
 import authentification.CurrentAccountSingleton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -56,10 +57,14 @@ public class discussionController implements Initializable {
         threadListView.setMinWidth(600.0);
         TypedQuery<Topic> tq1 = entityManager.createNamedQuery("Topic.getThreadsbyForum", Topic.class);
         tq1.setParameter("fName", eventDiscussion.getSelectionModel().getSelectedItem());
-        topicListElementSet = tq1.getResultList();
-        setListView();
-        if(addTopicBtn.isDisabled()) addTopicBtn.setDisable(false);
-        view.getChildren().add(threadListView);
+        Platform.runLater(() -> {
+            topicListElementSet = tq1.getResultList();
+            setListView();
+            if(addTopicBtn.isDisabled()) addTopicBtn.setDisable(false);
+            view.getChildren().add(threadListView);
+
+        });
+
     }
 
     @Override

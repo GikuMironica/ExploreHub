@@ -2,12 +2,15 @@ package models;
 
 import javax.persistence.*;
 
+import static org.eclipse.persistence.jpa.jpql.parser.Expression.SELECT;
+
 @SuppressWarnings("ALL")
 @NamedQueries({
         @NamedQuery(name="ForumCategory.getCategories", query = "SELECT f FROM ForumCategory f  WHERE f.Name = :fname OR f.Type NOT LIKE \"course\" AND f.Type NOT LIKE \"event\""),
-        @NamedQuery(name="ForumCategory.getCategoryByName", query = "SELECT f FROM ForumCategory f WHERE f.Name = :fname"),
+        @NamedQuery(name="ForumCategory.getCategoryByType", query = "SELECT f FROM ForumCategory f WHERE f.Type = :fType"),
         @NamedQuery(name="ForumCategory._getCategories", query = "SELECT f FROM ForumCategory f"),
-        @NamedQuery(name="ForumCategory.getCat", query = "SELECT f FROM ForumCategory f JOIN Events e ON f.Name = e.ShortDescription JOIN Transactions t ON t.event = e WHERE t.user = :sid AND t.Completed = 1")
+        @NamedQuery(name="ForumCategory.getCat", query = "SELECT f FROM ForumCategory f JOIN Events e ON f.Name = e.ShortDescription JOIN Transactions t ON t.event = e WHERE t.user = :sid AND t.Completed = 1"),
+        @NamedQuery(name="ForumCategory.getCategoryType", query = "SELECT DISTINCT(f.Type) from ForumCategory f")
 })
 @Entity
 @Table(name="category")

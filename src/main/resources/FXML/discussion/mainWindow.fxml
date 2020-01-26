@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.shape.Circle?>
+<AnchorPane fx:controller="discussionComponent.Main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="60.0" layoutY="43.0" prefWidth="600.0" style="-fx-box-border: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-focus-color: none;" BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane fitToWidth="true" prefHeight="181.0" prefWidth="214.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <AnchorPane prefWidth="200.0">
+                                                   <children>
+                                                      <VBox layoutX="-6.0" prefHeight="200.0" prefWidth="200.0" spacing="15.0">
+                                                         <children>
+                                                             <JFXButton buttonType="RAISED" text="Add Topic">
+                                                                 <graphic>
+                                                                     <FontAwesomeIconView fill="white" glyphName="PLUS" />
+                                                                 </graphic>
+                                                             </JFXButton>
+                                                            <JFXButton buttonType="RAISED" text="12124213" />
+                                                            <JFXButton buttonType="RAISED" text="124123123" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane fx:id="contentPaneParent" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                   <padding>
+                                                      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <AnchorPane fx:id="titleBar" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="82.0" spacing="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Circle fx:id="userImgCircle" radius="16.0" pickOnBounds="true">
+                              <HBox.margin>
+                                 <Insets bottom="5.0" left="5.0" top="5.0" />
+                              </HBox.margin>
+                              </Circle>
+                              <Text fx:id="userName" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="uiButtons" alignment="CENTER" fillHeight="false" prefHeight="0.0" prefWidth="150.0" spacing="15.0">
+                           <children>
+                              <FontAwesomeIconView fx:id="hideWindowButton" glyphName="MINUS" onMouseClicked="#hideWindow" size="16.0" text="" textAlignment="CENTER" wrappingWidth="40.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </FontAwesomeIconView>
+                              <FontAwesomeIconView fx:id="expandWindowButton" glyphName="EXPAND" onMouseClicked="#expandWindow" size="16.0" text="" textAlignment="CENTER" wrappingWidth="40.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </FontAwesomeIconView>
+                              <FontAwesomeIconView fx:id="closeWindowButton" glyphName="CLOSE" onMouseClicked="#closeWindow" size="16.0" text="" textAlignment="CENTER" wrappingWidth="40.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </FontAwesomeIconView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" spacing="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/IMG/logo-letterbox.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton buttonType="RAISED" onMouseClicked="#backToAppClicked" text="Back to Application">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
