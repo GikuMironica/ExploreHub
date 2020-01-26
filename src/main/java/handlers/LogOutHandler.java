@@ -21,7 +21,7 @@ public class LogOutHandler {
     }
 
     /**
-     * This method deletes resets the application current user, shuts down connection to Database and
+     * This method resets the application current user, shuts down connection to Database and
      * deletes the database event which is responsible for loggin out user in case of Application crash
      */
     public void handleLogOutProcess(Boolean isX){
