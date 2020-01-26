@@ -50,6 +50,9 @@ public class Transactions {
     @JoinColumn(name = "StudentID", nullable=false)
     private User user;
 
+    @Transient
+    private int requested;
+
     // one to one with invoice
     @OneToOne(mappedBy = "TransactionID", cascade = CascadeType.ALL)
     private Invoice invoice;
@@ -125,6 +128,14 @@ public class Transactions {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getRequested() {
+        return requested;
+    }
+
+    public void setRequested(int requested) {
+        this.requested = requested;
     }
 
     public int getPaymentMethod() {

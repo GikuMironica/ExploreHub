@@ -2,6 +2,7 @@ package controlPanelComponent;
 
 import alerts.CustomAlertType;
 import authentification.CurrentAccountSingleton;
+import handlers.HandleNet;
 import handlers.MessageHandler;
 import handlers.Convenience;
 import handlers.GeneratePDF;
@@ -206,7 +207,7 @@ public class ManagePaymentsTabController {
                 newFile = pdf.getFilename();
                 messageHandler.sendConfirmation(message, selectedUser.getEmail(), newFile);
             }catch(Exception e){
-                e.printStackTrace();
+               System.out.println("Invalid Email");
             }
 
             try{
@@ -214,7 +215,6 @@ public class ManagePaymentsTabController {
                 Files.delete(fileToDeletePath);
                 clearView();
             } catch(Exception e){
-                e.printStackTrace();
             }
 
             openRadioEnabled();
@@ -242,7 +242,7 @@ public class ManagePaymentsTabController {
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();
             } catch (Exception e) {
-               // email doesn't exist
+               System.out.println("Email doesn't exist");
             }
         }
     }
@@ -270,7 +270,7 @@ public class ManagePaymentsTabController {
                 messageHandler.sendConfirmation(message, selectedUser.getEmail());
                 clearView();
             } catch (Exception e) {
-               // email doesn't exist
+                System.out.println("Email doesn't exist");
             }
         }
     }
@@ -376,8 +376,12 @@ public class ManagePaymentsTabController {
      */
     public synchronized void handleConnection(){
         try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/noInternet.fxml"));
+            if(!HandleNet.hasNetConnection()) {
+                Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+                        getClass().getResource("/FXML/noInternet.fxml"));
+            }else {
+                Convenience.showAlert(CustomAlertType.ERROR, "Oops, something went wrong. Please, try again later.");
+            }
         }catch(Exception e) { /**/ }
     }
 }
