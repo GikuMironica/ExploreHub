@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import models.Account;
 import models.User;
 import persistenceComponent.GuestConnectionSingleton;
 
@@ -56,8 +57,8 @@ public class RecoverController implements Initializable {
     private Text secondRecoveryText;
 
     private String generatedKey = null;
-    private TypedQuery<User> checkUserQuery;
-    private List<User> users;
+    private TypedQuery<Account> checkUserQuery;
+    private List<Account> users;
     private GuestConnectionSingleton connection;
     private EntityManager entityManager;
     private Thread thread = null;
@@ -179,8 +180,8 @@ public class RecoverController implements Initializable {
         connection = GuestConnectionSingleton.getInstance();
         entityManager = connection.getManager();
         checkUserQuery = entityManager.createNamedQuery(
-                "User.findUserbyEmail",
-                User.class);
+                "Account.findAccountByEmail",
+                Account.class);
         checkUserQuery.setParameter("email", email);
         if(!HandleNet.hasNetConnection()){
             throw new Exception("Internet Connection lost");
@@ -201,10 +202,10 @@ public class RecoverController implements Initializable {
     private boolean setNewPassword(String newPassword){
         if(HandleNet.hasNetConnection()){
             try {
-                User user = users.get(0);
-                user.setPassword(newPassword);
+                Account account = users.get(0);
+                account.setPassword(newPassword);
                 entityManager.getTransaction().begin();
-                entityManager.merge(user);
+                entityManager.merge(account);
                 entityManager.getTransaction().commit();
             }catch (Exception e){
                 entityManager.getTransaction().rollback();
