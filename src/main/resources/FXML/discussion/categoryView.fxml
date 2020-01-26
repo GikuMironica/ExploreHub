@@ -27,7 +27,7 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXButton fx:id="addTopicBtn" text="Add Topic" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" />
+                  <JFXButton fx:id="addTopicBtn" onMouseClicked="#addTopic" text="Add Topic" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
          </children>

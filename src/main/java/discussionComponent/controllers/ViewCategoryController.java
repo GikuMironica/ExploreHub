@@ -21,6 +21,7 @@ import models.Topic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,8 +32,7 @@ public class ViewCategoryController implements Initializable {
 
     @FXML Text categoryTitle;
     @FXML JFXButton addTopicBtn;
-    @FXML
-    VBox vcVbox;
+    @FXML VBox vcVbox;
 
     private List<Topic> topicList;
     private ObservableList<Topic> topicObservableList;
@@ -60,15 +60,14 @@ public class ViewCategoryController implements Initializable {
 
     }
 
-    @FXML private void addTopic(){
+    @FXML private void addTopic() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/discussion/postEditor.fxml"));
         NewTopicController newTopicController = new NewTopicController(forumCategory);
         loader.setController(newTopicController);
         Scene scene = categoryTitle.getScene();
         AnchorPane contentController = (AnchorPane) scene.lookup("#contentPane");
-        ((Node) contentController.getChildren().get(0)).setVisible(true);
-
-
+        ((Node) contentController.getChildren().get(1)).setVisible(false);
+        contentController.getChildren().add(loader.load());
     }
 
     @FXML private void returnToHome(){
