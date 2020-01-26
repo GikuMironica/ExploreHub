@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
  */
 public class ChangePasswordController implements Initializable {
 
+    private static final int INPUT_LIMIT = 45;
+
     @FXML
     private JFXPasswordField currentPasswordField;
 
@@ -51,9 +53,9 @@ public class ChangePasswordController implements Initializable {
     private void initPasswordFields() {
         currentPasswordField.requestFocus();
 
-        currentPasswordField.setTextFormatter(ignoreSpace());
-        confirmPasswordField.setTextFormatter(ignoreSpace());
-        newPasswordField.setTextFormatter(ignoreSpace());
+        currentPasswordField.setTextFormatter(ignoreSpaceAndLimitInput());
+        confirmPasswordField.setTextFormatter(ignoreSpaceAndLimitInput());
+        newPasswordField.setTextFormatter(ignoreSpaceAndLimitInput());
     }
 
     /**
@@ -61,11 +63,15 @@ public class ChangePasswordController implements Initializable {
      *
      * @return {@link TextFormatter} object.
      */
-    private TextFormatter<String> ignoreSpace() {
+    private TextFormatter<String> ignoreSpaceAndLimitInput() {
         return new TextFormatter<>(change -> {
             if (change.getText().isBlank()) {
                 change.setText("");
             }
+            if (change.getControlNewText().length() > INPUT_LIMIT) {
+                return null;
+            }
+
             return change;
         });
     }

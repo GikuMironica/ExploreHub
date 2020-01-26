@@ -133,6 +133,7 @@ public class SidebarController implements Initializable {
             Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
                     getClass().getResource("/FXML/settings.fxml"));
         } catch (Exception e) {
+            e.printStackTrace();
             if (!HandleNet.hasNetConnection()) {
                 try {
                     Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
