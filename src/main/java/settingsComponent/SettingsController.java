@@ -73,6 +73,7 @@ public class SettingsController {
 
     public void initialize() throws Exception {
         currentAccount = CurrentAccountSingleton.getInstance().getAccount();
+        currentAccount.getConnection().refresh(currentAccount);
         profilePhotoChanged = false;
 
         String profileImageURL = currentAccount.getPicture();
