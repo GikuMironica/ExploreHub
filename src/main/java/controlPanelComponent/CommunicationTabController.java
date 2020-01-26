@@ -135,6 +135,12 @@ public class CommunicationTabController {
      * Method which called when email folder is emty
      */
     public void empty(){
+        mails.setPageFactory(this::createEmptyPage);
+    }
+
+    private VBox createEmptyPage(int pageIndex){
+        pageBox = new VBox();
+        pageBox.alignmentProperty().setValue(Pos.CENTER);
         JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
         messageContent.setMaxWidth(1170);
@@ -145,7 +151,10 @@ public class CommunicationTabController {
         messageContent.setText("Folder is empty");
         pageBox.getChildren().clear();
         pageBox.getChildren().add(messageContent);
+
+        return pageBox;
     }
+
 
     /**
      * Method which populates a page in pagination.
