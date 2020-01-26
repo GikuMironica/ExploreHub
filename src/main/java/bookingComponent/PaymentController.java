@@ -81,7 +81,10 @@ public class PaymentController implements Initializable {
 
         // Free
         else if(BookingController.getPaymentType() == 2){
-            payment();
+            Platform.runLater(()->{
+                //Convenience.closePreviousDialog();
+                payment();
+            });
         }
 
     }
@@ -115,6 +118,7 @@ public class PaymentController implements Initializable {
             }
 
             if (isBooked) {
+                Convenience.closePreviousDialog();
                 confirmationScene();
                 EventListSingleton.getInstance().refreshList();
             }
@@ -149,12 +153,13 @@ public class PaymentController implements Initializable {
      * Method which displays the confirmation screen once booking is successful
      */
     public void confirmationScene(){
-        try {
-            Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
-                    getClass().getResource("/FXML/paymentConfirmation.fxml"));
-        } catch (IOException e) {
-            Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-        }
+        //try {
+            //Convenience.popupDialog(MainPane.getInstance().getStackPane(), MainPane.getInstance().getBorderPane(),
+            //        getClass().getResource("/FXML/paymentConfirmation.fxml"));
+            Convenience.showAlert(CustomAlertType.SUCCESS, confirmationText);
+       // } catch (IOException e) {
+       //     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
+       // }
     }
 
     public void disablePayBtn(){
