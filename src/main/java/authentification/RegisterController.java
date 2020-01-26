@@ -175,17 +175,17 @@ public class RegisterController implements Initializable  {
         boolean validPassword = (!(password.isEmpty()));
 
         if(!validFirstName){
-            firstNameField.setText("Input valid name");
+            firstNameField.setText("Input a valid first name");
             firstNameField.setStyle("-fx-text-inner-color: red;");
             ok = false;
         }
         if(!validLastName){
-            lastNameField.setText("Input valid name");
+            lastNameField.setText("Input a valid last name");
             lastNameField.setStyle("-fx-text-inner-color: red;");
             ok = false;
         }
         if(!validEmail){
-            emailField.setText("Input a valid HS emailField");
+            emailField.setText("Input a valid hochschule email");
             emailField.setStyle("-fx-text-inner-color: red;");
             ok = false;
         }
