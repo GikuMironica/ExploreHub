@@ -192,9 +192,14 @@ public class ManagePaymentsTabController {
             selectedTransaction.setCompleted(1);
             try {
                 Invoice invoice = new Invoice(selectedTransaction);
+                Events bookedEvent = selectedTransaction.getEvent();
+                int places = bookedEvent.getAvailablePlaces();
+                places--;
+                bookedEvent.setAvailablePlaces(places);
                 entityManager.getTransaction().begin();
                 selectedTransaction.setInvoice(invoice);
                 entityManager.merge(selectedTransaction);
+                entityManager.merge(bookedEvent);
                 entityManager.getTransaction().commit();
             }catch(Exception exc){
                 handleConnection();
@@ -336,7 +341,8 @@ public class ManagePaymentsTabController {
     private void startTransaction(int status){
         try {
             selectedTransaction.setCompleted(status);
-            selectedEvent.setAvailablePlaces(selectedEvent.getAvailablePlaces() + 1);
+            if(status == 3)
+                selectedEvent.setAvailablePlaces(selectedEvent.getAvailablePlaces() + 1);
             entityManager.getTransaction().begin();
             entityManager.merge(selectedEvent);
             entityManager.merge(selectedTransaction);

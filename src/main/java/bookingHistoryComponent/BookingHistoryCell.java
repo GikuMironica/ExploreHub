@@ -46,7 +46,7 @@ public class BookingHistoryCell  extends JFXListCell<Transactions> {
     private JFXButton requestButton;
 
     private String REQUEST_MESSAGE;
-    private final String REQUEST_SUBJECT = "TRANSACTION_CANCEL_REQUEST";
+    private String REQUEST_SUBJECT = "TRANSACTION_CANCEL_REQUEST";
     private final String REQUEST_RECIPIENT = "ExploreHub.help@gmail.com";
 
     @Override
@@ -128,7 +128,7 @@ public class BookingHistoryCell  extends JFXListCell<Transactions> {
         try {
             Thread t1 = new Thread(() -> {
                 try {
-                    messageHandler.sendEmail(REQUEST_MESSAGE, REQUEST_SUBJECT, REQUEST_RECIPIENT);
+                    messageHandler.sendEmail(REQUEST_MESSAGE, "_"+currentTransaction.getUser().getEmail()+"_"+REQUEST_SUBJECT, REQUEST_RECIPIENT);
                 }catch(Exception e){
                     // email
                 }
