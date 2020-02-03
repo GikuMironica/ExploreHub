@@ -1,6 +1,8 @@
 package authentification;
 
 import alerts.CustomAlertType;
+import authentification.loginProcess.CurrentAccountSingleton;
+import authentification.rememberUser.RememberUserDBSingleton;
 import handlers.Convenience;
 import handlers.LogOutHandler;
 import javafx.application.Application;

@@ -1,22 +1,19 @@
 package filterComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import mainUI.MainPane;
 import models.Location;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.awt.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;

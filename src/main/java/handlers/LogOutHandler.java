@@ -1,8 +1,8 @@
 package handlers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import persistenceComponent.GuestConnectionSingleton;
-import authentification.RememberUserDBSingleton;
+import authentification.rememberUser.RememberUserDBSingleton;
 import models.Account;
 
 import javax.persistence.EntityManager;

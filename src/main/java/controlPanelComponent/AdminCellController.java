@@ -1,11 +1,8 @@
 package controlPanelComponent;
 
-import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListCell;
-import handlers.Convenience;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import models.Admin;

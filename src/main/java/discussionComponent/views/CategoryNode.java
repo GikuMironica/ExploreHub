@@ -1,6 +1,6 @@
 package discussionComponent.views;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import discussionComponent.controllers.ViewCategoryController;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;

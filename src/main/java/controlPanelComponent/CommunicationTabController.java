@@ -1,7 +1,7 @@
 package controlPanelComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
 import handlers.HandleNet;
 import handlers.MessageHandler;

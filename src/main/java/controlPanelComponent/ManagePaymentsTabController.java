@@ -1,7 +1,7 @@
 package controlPanelComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.HandleNet;
 import handlers.MessageHandler;
 import handlers.Convenience;

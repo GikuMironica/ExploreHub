@@ -1,7 +1,7 @@
 package listComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import filterComponent.FilterSingleton;
 import handlers.CacheSingleton;
 import handlers.Convenience;

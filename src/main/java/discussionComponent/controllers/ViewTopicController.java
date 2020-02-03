@@ -1,6 +1,6 @@
 package discussionComponent.controllers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import models.Account;
 import models.Topic;
 

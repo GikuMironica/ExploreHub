@@ -1,26 +1,22 @@
 package bookingHistoryComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListView;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import mainUI.MainPane;
 import models.Account;
-import models.Events;
 import models.Transactions;
-import wishlistComponent.WishlistCellController;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 

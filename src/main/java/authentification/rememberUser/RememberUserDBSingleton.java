@@ -1,5 +1,6 @@
-package authentification;
+package authentification.rememberUser;
 
+import authentification.loginProcess.*;
 import models.Account;
 import persistenceComponent.GuestConnectionSingleton;
 

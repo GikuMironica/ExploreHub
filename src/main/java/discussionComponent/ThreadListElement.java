@@ -1,6 +1,6 @@
 package discussionComponent;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.TimeConvertor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

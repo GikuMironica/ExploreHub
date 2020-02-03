@@ -1,4 +1,4 @@
-package authentification;
+package authentification.recoverProcess;
 
 import alerts.CustomAlertType;
 import com.jfoenix.controls.JFXButton;

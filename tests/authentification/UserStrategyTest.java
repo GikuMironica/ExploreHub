@@ -1,5 +1,6 @@
 package authentification;
 
+import authentification.loginProcess.UserStrategy;
 import models.User;
 import org.junit.Before;
 import org.junit.Test;

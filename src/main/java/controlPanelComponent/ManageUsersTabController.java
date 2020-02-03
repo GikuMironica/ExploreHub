@@ -1,7 +1,7 @@
 package controlPanelComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXTextArea;
 import handlers.Convenience;
 import handlers.HandleNet;
@@ -21,9 +21,7 @@ import models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.swing.text.html.ImageView;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 

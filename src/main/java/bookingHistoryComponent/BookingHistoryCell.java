@@ -1,7 +1,6 @@
 package bookingHistoryComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import controlPanelComponent.PaymentMethod;

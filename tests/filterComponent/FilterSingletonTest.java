@@ -1,7 +1,8 @@
 package filterComponent;
 
 
-import authentification.*;
+import authentification.loginProcess.StrategyContext;
+import authentification.loginProcess.UserStrategy;
 import javafx.collections.ObservableList;
 import models.Events;
 import org.junit.Before;

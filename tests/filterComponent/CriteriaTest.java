@@ -1,9 +1,10 @@
 package filterComponent;
 
-import authentification.*;
+import authentification.loginProcess.CurrentAccountSingleton;
+import authentification.loginProcess.StrategyContext;
+import authentification.loginProcess.UserStrategy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import listComponent.EventListSingleton;
 import models.Account;
 import models.Events;
 import models.Location;
@@ -13,8 +14,6 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;

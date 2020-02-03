@@ -1,7 +1,7 @@
 package sidebarComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;

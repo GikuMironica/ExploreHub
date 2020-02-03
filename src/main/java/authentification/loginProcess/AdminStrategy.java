@@ -1,24 +1,22 @@
-package authentification;
+package authentification.loginProcess;
 
-import models.Owner;
+import models.Admin;
 import persistenceComponent.AdminConnectionSingleton;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 /**
- * Class part of the strategy pattern serving as a concrete strategy to login as Owner
- *
+ * Class part of the strategy pattern serving as a concrete strategy to login as Admin
  * @author Gheorghe Mironica
  */
-public class OwnerStrategy implements Strategy {
-
+public class AdminStrategy implements Strategy {
     private CurrentAccountSingleton currentAccount;
     private EntityManager entityManager;
     private AdminConnectionSingleton con;
 
     /**
-     * This method is validating the credentials and resets the current Account to owner
+     * This method is validating the credentials and resets the current Account to an Admin
      * @param email this is username
      * @param pass this is the password
      */
@@ -29,12 +27,12 @@ public class OwnerStrategy implements Strategy {
         entityManager = con.getManager();
 
         @SuppressWarnings("JpaQueryApiInspection")
-        TypedQuery<Owner> tq2 = entityManager.createNamedQuery(
-                "Owner.findOwnerByEmailPass",
-                Owner.class);
+        TypedQuery<Admin> tq2 = entityManager.createNamedQuery(
+                "Admin.findAdminByEmailPass",
+                Admin.class);
         tq2.setParameter("email", email);
         tq2.setParameter("password", pass);
-        Owner o1 = tq2.getSingleResult();
-        currentAccount.setAccount(o1);
+        Admin a1 = tq2.getSingleResult();
+        currentAccount.setAccount(a1);
     }
 }

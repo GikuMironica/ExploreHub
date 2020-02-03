@@ -1,6 +1,6 @@
 package discussionComponent.views;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -11,7 +11,6 @@ import models.Admin;
 import models.Post;
 
 import javax.persistence.EntityManager;
-import java.io.IOException;
 
 public class PostNode {
     private Account currentUser = CurrentAccountSingleton.getInstance().getAccount();

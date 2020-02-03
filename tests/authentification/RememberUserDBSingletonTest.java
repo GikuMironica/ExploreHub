@@ -1,8 +1,8 @@
 package authentification;
 
+import authentification.rememberUser.RememberUserDBSingleton;
 import org.junit.Before;
 import org.junit.Test;
-import org.sqlite.SQLiteException;
 
 import java.sql.*;
 

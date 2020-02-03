@@ -1,30 +1,23 @@
 package bookingComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
-import com.jfoenix.controls.JFXTextField;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import listComponent.EventListSingleton;
 import mainUI.MainPane;
 import models.Events;
-import models.User;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 /**

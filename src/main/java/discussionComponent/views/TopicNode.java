@@ -1,6 +1,6 @@
 package discussionComponent.views;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.TimeConvertor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;

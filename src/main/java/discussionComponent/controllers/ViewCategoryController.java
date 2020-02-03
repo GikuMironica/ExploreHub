@@ -1,6 +1,6 @@
 package discussionComponent.controllers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import discussionComponent.views.TopicListViewCell;
 import javafx.application.Platform;

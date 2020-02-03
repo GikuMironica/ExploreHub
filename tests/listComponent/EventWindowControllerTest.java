@@ -1,6 +1,6 @@
 package listComponent;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import persistenceComponent.UserConnectionSingleton;
 import models.*;
 import org.junit.Before;

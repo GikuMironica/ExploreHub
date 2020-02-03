@@ -1,7 +1,7 @@
-package changePasswordComponent;
+package settingsComponent.changePasswordProcess;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import handlers.Convenience;
