@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import mainUI.MainPane;
 import models.Events;
 import models.Transactions;
@@ -94,7 +95,12 @@ public class BookingHistoryCell  extends JFXListCell<Transactions> {
         eventLogoImage.setImage(eventImage);
         locationLabel.setText(bookedEvent.getLocation().getCity());
         dateLabel.setText(String.valueOf(bookedEvent.getDate()));
-        priceLabel.setText(String.valueOf(bookedEvent.getPrice()));
+
+        double priceValue = bookedEvent.getPrice();
+        if (priceValue<1)
+             priceLabel.setText("FREE");
+        else
+            priceLabel.setText(String.valueOf(priceValue));
         titleLabel.setText(bookedEvent.getShortDescription());
 
         String status = String.valueOf(TransactionStatus.valueOf(transaction.getCompleted()));
