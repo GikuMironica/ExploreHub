@@ -50,24 +50,18 @@ public class CategoryListController implements Initializable {
                 ListView<ForumCategory> categoryListView = new ListView<>();
                 categoryListView.setItems(catObservableList);
                 categoryListView.setCellFactory(param ->new CategoryListViewCell(categoryListView));
-                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(106));
+                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(130));
                 categoryListView.getStylesheets().add("/Styles/postList.css");
                 catVbox.getChildren().add(categoryListView);
-
-
-
             }
         });
         Platform.runLater(()->
                 catVbox.getScene().getWindow().widthProperty().addListener((observable, oldValue, newValue) -> {
-            for(Node n : catVbox.getChildren()){
-                if(n instanceof ListView){
-                    ((ListView) n).refresh();
-                }
-            }
+                    for(Node n : catVbox.getChildren()){
+                        if(n instanceof ListView){
+                            ((ListView) n).refresh();
+                        }
+                    }
         }));
-
-
-
     }
 }

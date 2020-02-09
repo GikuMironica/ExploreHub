@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.shape.Circle?>
-<AnchorPane fx:controller="discussionComponent.Main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="discussionComponent.Main">
    <children>
       <BorderPane layoutX="60.0" layoutY="43.0" prefWidth="600.0" style="-fx-box-border: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -30,24 +30,6 @@
                                        <children>
                                           <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <AnchorPane prefWidth="200.0">
-                                                   <children>
-                                                      <VBox layoutX="-6.0" prefHeight="200.0" prefWidth="200.0" spacing="15.0">
-                                                         <children>
-                                                             <JFXButton buttonType="RAISED" text="Add Topic">
-                                                                 <graphic>
-                                                                     <FontAwesomeIconView fill="white" glyphName="PLUS" />
-                                                                 </graphic>
-                                                             </JFXButton>
-                                                            <JFXButton buttonType="RAISED" text="12124213" />
-                                                            <JFXButton buttonType="RAISED" text="124123123" />
-                                                         </children>
-                                                         <padding>
-                                                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-                                                         </padding>
-                                                      </VBox>
-                                                   </children>
-                                                </AnchorPane>
                                                 <AnchorPane fx:id="contentPaneParent" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                                    <padding>
                                                       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -73,7 +55,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Circle fx:id="userImgCircle" radius="16.0" pickOnBounds="true">
+                              <Circle fx:id="userImgCircle" pickOnBounds="true" radius="16.0">
                               <HBox.margin>
                                  <Insets bottom="5.0" left="5.0" top="5.0" />
                               </HBox.margin>
