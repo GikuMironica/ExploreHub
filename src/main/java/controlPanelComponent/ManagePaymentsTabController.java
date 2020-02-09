@@ -80,14 +80,16 @@ public class ManagePaymentsTabController {
     @FXML
     private void cellClicked(Event event){
         try {
-            selectedTransaction = transactionsListView.getSelectionModel().getSelectedItem();
-            entityManager.refresh(selectedTransaction);
-            disableButtons(selectedTransaction);
-            selectedUser = selectedTransaction.getUser();
-            selectedEvent = selectedTransaction.getEvent();
+                selectedTransaction = transactionsListView.getSelectionModel().getSelectedItem();
+            if(selectedTransaction != null) {
+                entityManager.refresh(selectedTransaction);
+                disableButtons(selectedTransaction);
+                selectedUser = selectedTransaction.getUser();
+                selectedEvent = selectedTransaction.getEvent();
 
-            // fill the form with selected data
-            fillTransactionForm();
+                // fill the form with selected data
+                fillTransactionForm();
+            }
         } catch(Exception e){
             handleConnection();
         }

@@ -57,7 +57,7 @@ public class GeneratePDF {
         item.add(new Paragraph( BOOKED_ITEM, boldFont));
         item.add(new Paragraph(bookeditem.getEvent().getCompany()+ITEM1));
         item.add(new Paragraph(bookeditem.getEvent().getShortDescription()));
-        item.add(new Paragraph(String.valueOf(bookeditem.getEvent().getPrice())));
+        item.add(new Paragraph(String.valueOf(bookeditem.getEvent().getPrice())+" EUR"));
         item.add(new Paragraph(String.valueOf(bookeditem.getDate())));
         document.add(item);
     }
