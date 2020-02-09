@@ -2,6 +2,8 @@ package bookingComponent;
 
 import alerts.CustomAlertType;
 import authentification.loginProcess.CurrentAccountSingleton;
+import authentification.loginProcess.OwnerStrategy;
+import authentification.loginProcess.StrategyContext;
 import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -95,18 +97,22 @@ public class PaymentController implements Initializable {
             disableControlBtns();
             totalPrice.setVisible(false);
             boolean isBooked = false;
+            PaymentStrategyContext paymentStrategyContext;
 
             if (BookingController.getPaymentType() == 1) {
-                CashPaymentStrategy CashPS = new CashPaymentStrategy();
-                isBooked = CashPS.pay();
+                //CashPaymentStrategy CashPS = new CashPaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new CashPaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nPayment with: Cash\nVisit Prittwitzstrasse Campus to pay and get approved.";
             } else if (BookingController.getPaymentType() == 0) {
-                CardPaymentStrategy CardPS = new CardPaymentStrategy();
-                isBooked = CardPS.pay();
+                //CardPaymentStrategy CardPS = new CardPaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new CardPaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nPayment with: Card";
             } else if (BookingController.getPaymentType() == 2) {
-                FreePaymentStrategy FreePS = new FreePaymentStrategy();
-                isBooked = FreePS.pay();
+                //FreePaymentStrategy FreePS = new FreePaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new FreePaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nEnjoy your trip!";
             }
 
