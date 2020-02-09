@@ -8,6 +8,11 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" stylesheets="@/Styles/wishlist.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wishlistComponent.WishlistController">
    <children>
+      <HBox prefHeight="301.0" prefWidth="520.0">
+         <children>
+            <JFXListView fx:id="wishListView" prefHeight="301.0" prefWidth="520.0" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
          <VBox.margin>
             <Insets left="20.0" right="20.0" />
@@ -16,11 +21,6 @@
             <JFXButton fx:id="bookAllButton" disable="true" onMouseClicked="#handleBookAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Book all" textFill="WHITE" />
             <JFXButton fx:id="bookSelectedButton" disable="true" onMouseClicked="#handleBookSelectedClicked" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Book Selected" textFill="WHITE" />
             <JFXButton fx:id="removeAllButton" onMouseClicked="#handleRemoveAllClicked" prefWidth="91.0" ripplerFill="WHITE" style="-fx-background-color: #0084AD #0084AD; -fx-cursor: hand;" text="Remove all" textFill="WHITE" />
-         </children>
-      </HBox>
-      <HBox prefHeight="301.0" prefWidth="520.0">
-         <children>
-            <JFXListView fx:id="wishListView" prefHeight="301.0" prefWidth="520.0" />
          </children>
       </HBox>
    </children>

@@ -111,7 +111,7 @@ public class  NavbarController implements Initializable {
             if (newValue) {
                 showSearchTextField();
             } else {
-                if (searchTextField.getText().isBlank()) {
+                if (searchTextField.getText().trim().isEmpty()) {
                     hideSearchTextField();
                 }
             }
@@ -268,7 +268,7 @@ public class  NavbarController implements Initializable {
      */
     @FXML
     private void handleSearchExited(MouseEvent mouseEvent) {
-        if (searchTextField.getText().isBlank() && !searchTextField.isFocused()) {
+        if (searchTextField.getText().trim().isEmpty() && !searchTextField.isFocused()) {
             hideSearchTextField();
         }
     }
@@ -291,7 +291,7 @@ public class  NavbarController implements Initializable {
      */
     @FXML
     private void handleSearchTextFieldExited(MouseEvent mouseEvent) {
-        if (searchTextField.getText().isBlank() && !searchTextField.isFocused()) {
+        if (searchTextField.getText().trim().isEmpty() && !searchTextField.isFocused()) {
             hideSearchTextField();
         }
     }

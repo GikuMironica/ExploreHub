@@ -58,7 +58,7 @@ public class RadiusCriteria implements Criteria {
 
             predicate = event -> distance(event.getLocation().getLatitude(),event.getLocation().getLongitude(), location.getLatitude(), location.getLongitude()) < radius;
         }else if(radius == 0 && city != null){
-            predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city.strip());
+            predicate = event-> event.getLocation().getCity().equalsIgnoreCase(this.city.trim());
         }else {return events;}
             return FXCollections.observableList(events.stream()
                 .filter( predicate )
