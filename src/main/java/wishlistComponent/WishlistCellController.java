@@ -102,7 +102,7 @@ public class WishlistCellController extends JFXListCell<Events> {
 
         titleLabel.setText(event.getShortDescription());
         locationLabel.setText(city);
-        priceLabel.setText(event.getPrice().toString());
+        priceLabel.setText(event.getPrice() == 0d ? "FREE" : event.getPrice().toString());
         placesLeftLabel.setText(String.valueOf(event.getAvailablePlaces()));
 
         setText(null);

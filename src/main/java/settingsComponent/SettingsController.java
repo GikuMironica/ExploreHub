@@ -37,7 +37,7 @@ import java.util.Optional;
  */
 public class SettingsController {
 
-    public static final String DEFAULT_PROFILE_PHOTO_URL = "https://i.imgur.com/EK2R1rn.jpg";
+    public static final String DEFAULT_PROFILE_PHOTO_URL = "IMG/icon-account.png";
     private static final int INPUT_LIMIT = 45;
 
     @FXML
@@ -85,7 +85,7 @@ public class SettingsController {
 
         profilePhotoCircle.setFill(new ImagePattern(profileImage));
 
-        if (profileImageURL.equals(DEFAULT_PROFILE_PHOTO_URL)) {
+        if (profileImageURL.contains(DEFAULT_PROFILE_PHOTO_URL)) {
             removePhotoLabel.setDisable(true);
         }
 
@@ -95,6 +95,10 @@ public class SettingsController {
         lastNameBackup = currentAccount.getLastname();
     }
 
+    /**
+     * Initializes the text fields by filling them with the user's information
+     * and setting a text formatter to limit the number of characters to input.
+     */
     private void initFields() {
         firstNameField.setText(currentAccount.getFirstname());
         lastNameField.setText(currentAccount.getLastname());
@@ -104,6 +108,11 @@ public class SettingsController {
         lastNameField.setTextFormatter(limitInput());
     }
 
+    /**
+     * Creates and returns a {@link TextFormatter} that limits the input to 45 characters max.
+     *
+     * @return {@link TextFormatter} object.
+     */
     private TextFormatter<String> limitInput() {
         return new TextFormatter<>(change -> {
             if (change.getControlNewText().length() > INPUT_LIMIT) {
@@ -190,13 +199,16 @@ public class SettingsController {
         Task<String> saveProfilePhotoTask = new Task<>() {
             @Override
             protected String call() throws Exception {
+                if (getCurrentProfilePhoto().getUrl().contains(DEFAULT_PROFILE_PHOTO_URL)) {
+                    return DEFAULT_PROFILE_PHOTO_URL;
+                }
                 return saveProfilePhoto();
             }
         };
 
         saveProfilePhotoTask.setOnSucceeded(workerStateEvent -> {
             String profileImageURL = saveProfilePhotoTask.getValue();
-            if (profileImageURL != null && !profileImageURL.isBlank()) {
+            if (profileImageURL != null && !profileImageURL.trim().isEmpty()) {
                 currentAccount.setPicture(profileImageURL);
             } else if (profileImageURL != null) {
                 Convenience.showAlert(CustomAlertType.WARNING, "This image can't be uploaded due to its size");
@@ -266,7 +278,7 @@ public class SettingsController {
      */
     private void saveFirstName() {
         if (isFirstNameChanged()) {
-            currentAccount.setFirstname(firstNameField.getText().strip());
+            currentAccount.setFirstname(firstNameField.getText().trim());
         }
     }
 
@@ -275,7 +287,7 @@ public class SettingsController {
      */
     private void saveLastName() {
         if (isLastNameChanged()) {
-            currentAccount.setLastname(lastNameField.getText().strip());
+            currentAccount.setLastname(lastNameField.getText().trim());
         }
     }
 
@@ -366,8 +378,8 @@ public class SettingsController {
      * @return {@code true} if the first name was changed, otherwise {@code false}.
      */
     private boolean isFirstNameChanged() {
-        String firstName = firstNameField.getText().strip();
-        return !firstName.equals(currentAccount.getFirstname().strip());
+        String firstName = firstNameField.getText().trim();
+        return !firstName.equals(currentAccount.getFirstname().trim());
     }
 
     /**
@@ -376,8 +388,8 @@ public class SettingsController {
      * @return {@code true} if the last name was changed, otherwise {@code false}.
      */
     private boolean isLastNameChanged() {
-        String lastName = lastNameField.getText().strip();
-        return !lastName.equals(currentAccount.getLastname().strip());
+        String lastName = lastNameField.getText().trim();
+        return !lastName.equals(currentAccount.getLastname().trim());
     }
 
     /**

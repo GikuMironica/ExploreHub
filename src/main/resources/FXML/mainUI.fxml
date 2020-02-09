@@ -12,7 +12,7 @@
                 <VBox prefHeight="600.0" prefWidth="270.0" BorderPane.alignment="CENTER">
                     <children>
                         <HBox prefHeight="70.0" prefWidth="270.0">
-                            <Label prefHeight="52.0" prefWidth="239.0" style="-fx-cursor: hand;" text="ExploreHub" textAlignment="CENTER" textFill="#0084ad">
+                            <Label prefHeight="52.0" prefWidth="239.0" text="ExploreHub" textAlignment="CENTER" textFill="#0084ad">
                                 <font>
                                     <Font name="Ayuthaya" size="36.0" />
                                 </font>

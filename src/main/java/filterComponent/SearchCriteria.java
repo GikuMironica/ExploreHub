@@ -19,10 +19,10 @@ public class SearchCriteria implements Criteria {
     private List<String> keywords;
 
     public SearchCriteria(String keyword) {
-        keyword = keyword.toLowerCase().strip();
+        keyword = keyword.toLowerCase().trim();
         this.keywords = Arrays.asList(keyword.split("\\W+"));
 
-        if (this.keywords.isEmpty() && !keyword.isBlank()) {
+        if (this.keywords.isEmpty() && !keyword.trim().isEmpty()) {
             this.keywords = Arrays.asList(keyword);
         }
     }

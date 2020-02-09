@@ -230,7 +230,7 @@ public class ManageEventsTabController {
             Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
         }
-        if(urlLogo.isBlank() || urlPic.isBlank()) {
+        if(urlLogo.trim().isEmpty() || urlPic.trim().isEmpty()) {
             clearPictureButton();
             Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
@@ -688,7 +688,7 @@ public class ManageEventsTabController {
                 // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
                 urlPic = uploadImg.upload();
-                if(urlPic.isBlank()){
+                if(urlPic.trim().isEmpty()){
                     clearPictureButton();
                     return false;
                 }
@@ -710,7 +710,7 @@ public class ManageEventsTabController {
             try{
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 urlLogo = uploadLogo.upload();
-                if(urlLogo.isBlank()){
+                if(urlLogo.trim().isEmpty()){
                     clearPictureButton();
                     return false;
                 }

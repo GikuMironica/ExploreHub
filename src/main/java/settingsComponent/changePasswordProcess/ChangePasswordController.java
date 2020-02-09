@@ -65,7 +65,7 @@ public class ChangePasswordController implements Initializable {
      */
     private TextFormatter<String> ignoreSpaceAndLimitInput() {
         return new TextFormatter<>(change -> {
-            if (change.getText().isBlank()) {
+            if (change.getText().trim().isEmpty()) {
                 change.setText("");
             }
             if (change.getControlNewText().length() > INPUT_LIMIT) {

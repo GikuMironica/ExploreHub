@@ -10,10 +10,10 @@
     <packaging>jar</packaging>
 
     <properties>
-        <source>11</source>
-        <target>11</target>
+        <source>10</source>
+        <target>10</target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>authentification.Main</mainClass>
+        <mainClass>authentification.AppLauncher</mainClass>
     </properties>
 
     <dependencies>
@@ -303,8 +303,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>10</source>
+                    <target>10</target>
                 </configuration>
             </plugin>
 
@@ -314,8 +314,30 @@
                 <version>1.6.0</version>
                 <configuration>
                     <executable>iExplore</executable>
-                    <mainClass>authentification.Main</mainClass>
+                    <mainClass>authentification.AppLauncher</mainClass>
                     <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>authentification.AppLauncher</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
