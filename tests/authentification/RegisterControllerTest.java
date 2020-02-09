@@ -1,5 +1,6 @@
 package authentification;
 
+import authentification.registerProcess.RegisterController;
 import models.Courses;
 import org.junit.Test;
 import persistenceComponent.UserConnectionSingleton;

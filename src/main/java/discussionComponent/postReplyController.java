@@ -1,6 +1,6 @@
 package discussionComponent;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import models.Post;
 import models.Topic;
-import models.User;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;

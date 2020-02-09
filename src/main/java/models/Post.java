@@ -6,7 +6,8 @@ import java.nio.charset.StandardCharsets;
 @SuppressWarnings("ALL")
 @NamedQueries({
         @NamedQuery(name="Post.getPostById", query = "Select p from Post p WHERE p.Id = :pid"),
-        @NamedQuery(name="Post.getPostbyThread", query = "SELECT p FROM Post p WHERE p.topic = :t")
+        @NamedQuery(name="Post.getPostbyThread", query = "SELECT p FROM Post p WHERE p.topic = :t"),
+        @NamedQuery(name="Post.getLastPost", query = "SELECT p FROM Post p WHERE p.topic.category = :f ORDER BY p.postLastEdited DESC")
 })
 
 @Entity

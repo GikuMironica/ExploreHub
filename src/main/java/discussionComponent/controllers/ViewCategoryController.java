@@ -1,6 +1,6 @@
 package discussionComponent.controllers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import discussionComponent.views.TopicListViewCell;
 import javafx.application.Platform;
@@ -30,6 +30,7 @@ public class ViewCategoryController implements Initializable {
     private ForumCategory forumCategory;
     private EntityManager em = CurrentAccountSingleton.getInstance().getAccount().getConnection();
 
+    @FXML AnchorPane catAP;
     @FXML Text categoryTitle;
     @FXML JFXButton addTopicBtn;
     @FXML VBox vcVbox;
@@ -45,19 +46,26 @@ public class ViewCategoryController implements Initializable {
         categoryTitle.setText(forumCategory.getName());
         TypedQuery<Topic> tq1 = em.createNamedQuery("Topic.getThreadsbyForum", Topic.class);
         tq1.setParameter("fName", forumCategory.getName());
+        ListView<Topic> topicListView = new ListView<>();
+        refreshListView(topicListView, tq1);
+        Platform.runLater(() -> vcVbox.getChildren().add(topicListView));
+        catAP.visibleProperty().addListener(((observable, oldValue, newValue) -> {
+            if(newValue){
+                refreshListView(topicListView, tq1);
+            }
+        }));
+    }
+
+    private void refreshListView(ListView topicListView, TypedQuery<Topic> tq1){
         Platform.runLater(() -> {
+            topicListView.getItems().clear();
             topicList = tq1.getResultList();
             topicObservableList = FXCollections.observableArrayList();
             topicObservableList.setAll(topicList);
-            ListView<Topic> topicListView = new ListView<>();
             topicListView.setItems(topicObservableList);
-            topicListView.setCellFactory(param -> new TopicListViewCell());
+            topicListView.setCellFactory(param -> new TopicListViewCell(topicListView));
             topicListView.prefHeightProperty().bind(Bindings.size(topicObservableList).multiply(106));
-            vcVbox.getChildren().add(topicListView);
         });
-
-
-
     }
 
     @FXML private void addTopic() throws IOException {

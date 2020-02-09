@@ -1,13 +1,12 @@
 package feedbackComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import models.Account;
 import models.Feedback;
@@ -18,7 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javafx.scene.control.*;
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

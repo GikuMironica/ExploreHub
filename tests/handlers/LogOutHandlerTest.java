@@ -1,12 +1,10 @@
 package handlers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import models.Account;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import persistenceComponent.AdminConnectionSingleton;
-import persistenceComponent.UserConnectionSingleton;
 
 import javax.persistence.EntityManager;
 

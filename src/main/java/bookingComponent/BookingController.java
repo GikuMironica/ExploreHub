@@ -1,24 +1,18 @@
 package bookingComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import mainUI.MainPane;
-import models.Account;
 import models.Events;
-import models.Transactions;
-import models.User;
-import org.eclipse.persistence.exceptions.EclipseLinkException;
 
 import java.io.IOException;
 import java.net.URL;

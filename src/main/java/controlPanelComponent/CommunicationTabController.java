@@ -1,7 +1,7 @@
 package controlPanelComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
 import handlers.HandleNet;
 import handlers.MessageHandler;
@@ -104,12 +104,20 @@ public class CommunicationTabController {
             protected void succeeded(){
                 super.succeeded();
                 if (messages.length == 0){
-                    mails.setPageCount(1);
                     empty();
                     moveToFolder.setDisable(true);
+                    sendButton.setDisable(true);
+                    name.clear();
+                    name.setPromptText("Please enter name");
+                    surname.clear();
+                    surname.setPromptText("Please enter surname");
+                    email.clear();
+                    email.setPromptText("Please enter email");
+
                 }else {
                     create();
                     moveToFolder.setDisable(false);
+                    sendButton.setDisable(false);
                 }
             }
 
@@ -141,6 +149,7 @@ public class CommunicationTabController {
     private VBox createEmptyPage(int pageIndex){
         pageBox = new VBox();
         pageBox.alignmentProperty().setValue(Pos.CENTER);
+        mails.setPageCount(1);
         JFXTextArea messageContent = new JFXTextArea();
         messageContent.setWrapText(true);
         messageContent.setMaxWidth(1170);
@@ -202,25 +211,23 @@ public class CommunicationTabController {
 
             if (m.find()){
                 String fullName = m.group(1);
-                name.setText(fullName.split(" ")[0]);
-                surname.setText(fullName.split(" ")[1]);
+                try {
+                    name.setText(fullName.split(" ")[0]);
+                    surname.setText(fullName.split(" ")[1]);
+                }catch (Exception e){
+                    name.setPromptText("Please enter name");
+                    surname.setPromptText("Please enter surname");
+                }
+
             }else{
                 name.setPromptText("Please enter name");
                 surname.setPromptText("Please enter surname");
             }
         }catch (Exception e){
            if (!HandleNet.hasNetConnection()) {
-               try {
-                   Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-               } catch (Exception exc) {
-                   Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-               }
+                   connectionFailed();
            }else {
-               try {
-                   checkForEmails();
-               } catch (Exception e1) {
                    Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-               }
            }
         }
         pageBox.getChildren().clear();
@@ -324,12 +331,8 @@ public class CommunicationTabController {
         button.setStyle("-fx-background-color: #32a4ba");
         button.setOnAction(actionEvent -> {
             if (!HandleNet.hasNetConnection()) {
-                    try {
                         dialog.close();
-                        Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-                    } catch (IOException e1) {
-                        Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-                    }
+                        connectionFailed();
                 }else{
                     try {
                         String subject = messages[mailSelected].getSubject();
@@ -408,11 +411,7 @@ public class CommunicationTabController {
      */
     private void move(String folder, int mailSelected) throws Exception{
         if (!HandleNet.hasNetConnection()) {
-            try {
-                Convenience.popupDialog(MainPane.getInstance().getStackPane(), anchorPane, getClass().getResource("/FXML/noInternet.fxml"));
-            } catch (IOException e1) {
-                Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-            }
+                connectionFailed();
         } else {
             Session emailSession = Session.getDefaultInstance(properties);
             Store store = emailSession.getStore("imaps");
@@ -467,11 +466,7 @@ public class CommunicationTabController {
                                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
                                 }
                             } else {
-                                try {
-                                    checkForEmails();
-                                } catch (Exception e1) {
                                     Convenience.showAlert(CustomAlertType.ERROR, "Something went wrong. Please, try again later.");
-                                }
                             }
                         }
                     });

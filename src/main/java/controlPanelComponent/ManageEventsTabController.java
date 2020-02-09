@@ -1,7 +1,7 @@
 package controlPanelComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.*;
 import handlers.CacheSingleton;
 import handlers.Convenience;
@@ -16,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import mainUI.MainPane;
 import models.*;
 
@@ -231,7 +230,7 @@ public class ManageEventsTabController {
             Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
         }
-        if(urlLogo.isBlank() || urlPic.isBlank()) {
+        if(urlLogo.trim().isEmpty() || urlPic.trim().isEmpty()) {
             clearPictureButton();
             Convenience.showAlert(CustomAlertType.WARNING,"One of the pictures is too wide or contains inappropriate content. Please, choose another picture.");
             return;
@@ -689,7 +688,7 @@ public class ManageEventsTabController {
                 // move to thread
                 UploadImage uploadImg = new UploadImage(mainPic);
                 urlPic = uploadImg.upload();
-                if(urlPic.isBlank()){
+                if(urlPic.trim().isEmpty()){
                     clearPictureButton();
                     return false;
                 }
@@ -711,7 +710,7 @@ public class ManageEventsTabController {
             try{
                 UploadImage uploadLogo = new UploadImage(logoPic);
                 urlLogo = uploadLogo.upload();
-                if(urlLogo.isBlank()){
+                if(urlLogo.trim().isEmpty()){
                     clearPictureButton();
                     return false;
                 }

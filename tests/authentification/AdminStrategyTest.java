@@ -1,5 +1,6 @@
 package authentification;
 
+import authentification.loginProcess.AdminStrategy;
 import models.Admin;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,8 +41,8 @@ public class AdminStrategyTest {
         TypedQuery<Admin> tq2 = entityManager.createNamedQuery(
                 "Admin.findAdminByEmailPass",
                 Admin.class);
-        tq2.setParameter("email", "Thomas@hs-ulm.de");
-        tq2.setParameter("password", "admin2");
-        assertTrue(tq2.getSingleResult().getId()==102);
+        tq2.setParameter("email", "hochschule@hs-ulm.de");
+        tq2.setParameter("password", "1234");
+        assertTrue(tq2.getSingleResult().getId()==777);
     }
 }

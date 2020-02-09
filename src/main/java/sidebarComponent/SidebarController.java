@@ -1,8 +1,9 @@
 package sidebarComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
+import filterComponent.FilterSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import handlers.LogOutHandler;
@@ -251,7 +252,7 @@ public class SidebarController implements Initializable {
 
             SidebarState.saveStateHidden(true);
             MainUiController.shutDownTasks();
-
+            FilterSingleton.getInstance().resetFilter();
             Convenience.switchScene(mouseEvent, getClass().getResource("/FXML/authentification.fxml"));
         }
     }

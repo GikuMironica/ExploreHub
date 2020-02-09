@@ -1,7 +1,7 @@
 package mainUI;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.EntityManagerEditor;
 import handlers.LogOutHandler;

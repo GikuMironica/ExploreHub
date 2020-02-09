@@ -1,24 +1,16 @@
 package mainUI;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.EntityManagerEditor;
-import handlers.LogOutHandler;
 import models.Account;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.sessions.Session;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import persistenceComponent.AdminConnectionSingleton;
 
-import javax.persistence.Access;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import java.sql.SQLOutput;
 
 import static org.junit.Assert.*;
 

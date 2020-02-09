@@ -1,17 +1,15 @@
 package discussionComponent.controllers;
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import discussionComponent.views.CategoryListViewCell;
 import handlers.Capitalize;
 import javafx.application.Platform;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -20,8 +18,6 @@ import models.ForumCategory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javafx.util.Callback;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -54,24 +50,18 @@ public class CategoryListController implements Initializable {
                 ListView<ForumCategory> categoryListView = new ListView<>();
                 categoryListView.setItems(catObservableList);
                 categoryListView.setCellFactory(param ->new CategoryListViewCell(categoryListView));
-                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(106));
+                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(130));
                 categoryListView.getStylesheets().add("/Styles/postList.css");
                 catVbox.getChildren().add(categoryListView);
-
-
-
             }
         });
         Platform.runLater(()->
                 catVbox.getScene().getWindow().widthProperty().addListener((observable, oldValue, newValue) -> {
-            for(Node n : catVbox.getChildren()){
-                if(n instanceof ListView){
-                    ((ListView) n).refresh();
-                }
-            }
+                    for(Node n : catVbox.getChildren()){
+                        if(n instanceof ListView){
+                            ((ListView) n).refresh();
+                        }
+                    }
         }));
-
-
-
     }
 }

@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <AnchorPane fx:id="bookingHistoryAPane" prefHeight="150.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="498.0" spacing="5.0">
@@ -32,6 +33,9 @@
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
+                                            <graphic>
+                                                <FontAwesomeIconView fill="#0084ad" glyphName="MAP_MARKER" size="15" />
+                                            </graphic>
                                         </Label>
                                     </children>
                                 </HBox>
@@ -44,6 +48,9 @@
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
+                                            <graphic>
+                                                <FontAwesomeIconView fill="#0084ad" glyphName="CALENDAR" size="15" />
+                                            </graphic>
                                         </Label>
                               <JFXButton fx:id="requestButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#sendRequest" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #0084AD; -fx-cursor: hand;" text="Request Cancel" textFill="WHITE">
                                  <HBox.margin>
@@ -61,6 +68,9 @@
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
+                                            <graphic>
+                                                <FontAwesomeIconView fill="#0084ad" glyphName="EURO" size="15" />
+                                            </graphic>
                                         </Label>
                               <Label fx:id="statusLabel" prefHeight="20.0" prefWidth="116.0" style="-fx-text-fill: #000000">
                                  <HBox.margin>

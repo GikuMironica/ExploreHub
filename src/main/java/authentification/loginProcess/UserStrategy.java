@@ -1,4 +1,4 @@
-package authentification;
+package authentification.loginProcess;
 
 import models.User;
 import persistenceComponent.UserConnectionSingleton;

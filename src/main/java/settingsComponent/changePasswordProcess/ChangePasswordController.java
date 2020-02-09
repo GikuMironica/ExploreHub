@@ -1,7 +1,7 @@
-package changePasswordComponent;
+package settingsComponent.changePasswordProcess;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import handlers.Convenience;
@@ -65,7 +65,7 @@ public class ChangePasswordController implements Initializable {
      */
     private TextFormatter<String> ignoreSpaceAndLimitInput() {
         return new TextFormatter<>(change -> {
-            if (change.getText().isBlank()) {
+            if (change.getText().trim().isEmpty()) {
                 change.setText("");
             }
             if (change.getControlNewText().length() > INPUT_LIMIT) {

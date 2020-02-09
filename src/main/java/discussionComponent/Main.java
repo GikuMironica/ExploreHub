@@ -1,7 +1,7 @@
 package discussionComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import handlers.Convenience;
 import javafx.application.Platform;
@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +19,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class Main{

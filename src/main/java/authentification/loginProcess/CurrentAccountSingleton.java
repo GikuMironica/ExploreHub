@@ -1,7 +1,6 @@
-package authentification;
+package authentification.loginProcess;
 
 import models.Account;
-import models.User;
 
 /**
  * Singleton class that holds the instance of the current registered account

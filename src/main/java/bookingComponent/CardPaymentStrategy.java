@@ -1,7 +1,7 @@
 package bookingComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.GeneratePDF;
 import handlers.HandleNet;
@@ -9,13 +9,9 @@ import handlers.MessageHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import mainUI.MainPane;
 import models.*;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,7 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 /**
  * Card Payment Strategy

@@ -1,10 +1,11 @@
 package authentification;
 
 import alerts.CustomAlertType;
+import authentification.loginProcess.*;
+import authentification.rememberUser.RememberUserDBSingleton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
-import handlers.EntityManagerEditor;
 import handlers.HandleNet;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -20,8 +21,6 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import listComponent.EventListSingleton;
 import models.Account;
-import org.eclipse.persistence.jpa.JpaEntityManager;
-import org.eclipse.persistence.sessions.Session;
 import persistenceComponent.GuestConnectionSingleton;
 
 import javax.persistence.EntityManager;

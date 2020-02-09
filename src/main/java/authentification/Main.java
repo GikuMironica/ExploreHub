@@ -1,9 +1,12 @@
 package authentification;
 
 import alerts.CustomAlertType;
+import authentification.loginProcess.CurrentAccountSingleton;
+import authentification.rememberUser.RememberUserDBSingleton;
 import handlers.Convenience;
 import handlers.LogOutHandler;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -28,6 +31,7 @@ public class Main extends Application {
         RememberUserDBSingleton userDB = RememberUserDBSingleton.getInstance();
         primaryStage.setTitle("ExploreHub");
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image("IMG/e-blue.png"));
 
         // checks if remember me was ticked
         if(userDB.okState()) {

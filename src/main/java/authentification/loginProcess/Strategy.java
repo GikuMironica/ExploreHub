@@ -1,4 +1,4 @@
-package authentification;
+package authentification.loginProcess;
 
 /**
  * Interface for the Strategy Pattern used for the login process

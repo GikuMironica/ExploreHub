@@ -1,30 +1,25 @@
 package bookingComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
-import com.jfoenix.controls.JFXTextField;
+import authentification.loginProcess.CurrentAccountSingleton;
+import authentification.loginProcess.OwnerStrategy;
+import authentification.loginProcess.StrategyContext;
 import handlers.Convenience;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import listComponent.EventListSingleton;
 import mainUI.MainPane;
 import models.Events;
-import models.User;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 /**
@@ -102,18 +97,22 @@ public class PaymentController implements Initializable {
             disableControlBtns();
             totalPrice.setVisible(false);
             boolean isBooked = false;
+            PaymentStrategyContext paymentStrategyContext;
 
             if (BookingController.getPaymentType() == 1) {
-                CashPaymentStrategy CashPS = new CashPaymentStrategy();
-                isBooked = CashPS.pay();
+                //CashPaymentStrategy CashPS = new CashPaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new CashPaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nPayment with: Cash\nVisit Prittwitzstrasse Campus to pay and get approved.";
             } else if (BookingController.getPaymentType() == 0) {
-                CardPaymentStrategy CardPS = new CardPaymentStrategy();
-                isBooked = CardPS.pay();
+                //CardPaymentStrategy CardPS = new CardPaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new CardPaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nPayment with: Card";
             } else if (BookingController.getPaymentType() == 2) {
-                FreePaymentStrategy FreePS = new FreePaymentStrategy();
-                isBooked = FreePS.pay();
+                //FreePaymentStrategy FreePS = new FreePaymentStrategy();
+                paymentStrategyContext = new PaymentStrategyContext(new FreePaymentStrategy());
+                isBooked = paymentStrategyContext.executeStrategy();
                 confirmationText = "Booking successful.\nEnjoy your trip!";
             }
 

@@ -1,22 +1,18 @@
 package listComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
-import com.mysql.jdbc.CommunicationsException;
 import handlers.CacheSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
-import handlers.LRUCache;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,17 +20,10 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import mainUI.MainPane;
 import models.*;
-import org.apache.commons.lang.ObjectUtils;
-import org.eclipse.persistence.exceptions.DatabaseException;
-import sidebarComponent.SidebarState;
 
-import javax.naming.CommunicationException;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.lang.Thread;
-import java.net.UnknownHostException;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * This class serves as a controller for the custom ListCell of the ListView

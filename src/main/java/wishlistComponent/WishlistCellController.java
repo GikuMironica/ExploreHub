@@ -1,16 +1,13 @@
 package wishlistComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXListCell;
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import handlers.CacheSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -105,7 +102,7 @@ public class WishlistCellController extends JFXListCell<Events> {
 
         titleLabel.setText(event.getShortDescription());
         locationLabel.setText(city);
-        priceLabel.setText(event.getPrice().toString());
+        priceLabel.setText(event.getPrice() == 0d ? "FREE" : event.getPrice().toString());
         placesLeftLabel.setText(String.valueOf(event.getAvailablePlaces()));
 
         setText(null);

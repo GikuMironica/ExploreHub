@@ -1,24 +1,18 @@
 package listComponent;
 
 
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.VBox;
 import mainUI.MainPane;
 import models.Account;
 import models.Events;
-import navbarComponent.NavbarController;
-import sidebarComponent.SidebarController;
-import sidebarComponent.SidebarState;
 
 import javax.persistence.EntityManager;
 import java.net.URL;

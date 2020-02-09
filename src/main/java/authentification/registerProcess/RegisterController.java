@@ -1,6 +1,7 @@
-package authentification;
+package authentification.registerProcess;
 
 import alerts.CustomAlertType;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import handlers.Convenience;
@@ -8,7 +9,6 @@ import handlers.MessageHandler;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;

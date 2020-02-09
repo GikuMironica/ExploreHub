@@ -1,20 +1,18 @@
 package bookingComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import handlers.Convenience;
 import handlers.HandleNet;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import mainUI.MainPane;
 import models.Account;
 import models.Events;
 import models.Transactions;
 import models.User;
 
 import javax.persistence.EntityManager;
-import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;

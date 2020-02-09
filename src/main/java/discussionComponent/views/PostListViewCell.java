@@ -9,7 +9,7 @@ public class PostListViewCell extends ListCell<Post> {
         super.updateItem(post, empty);
         if(post != null){
             PostNode postNode = new PostNode(post);
-
+            postNode.apply();
             setGraphic(postNode.getPostNode());
         }else{
             setGraphic(null);

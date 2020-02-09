@@ -1,7 +1,7 @@
 package wishlistComponent;
 
 import alerts.CustomAlertType;
-import authentification.CurrentAccountSingleton;
+import authentification.loginProcess.CurrentAccountSingleton;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import handlers.Convenience;

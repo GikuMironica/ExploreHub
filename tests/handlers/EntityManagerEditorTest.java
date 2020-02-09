@@ -1,10 +1,7 @@
 package handlers;
 
-import authentification.CurrentAccountSingleton;
-import models.Account;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.sessions.Session;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import persistenceComponent.AdminConnectionSingleton;
