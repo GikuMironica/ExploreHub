@@ -8,11 +8,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="catAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane stylesheets="/Styles/postList.css" fx:id="catAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="vcVbox" layoutX="200.0" layoutY="88.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton onMouseClicked="#returnToHome" text="Return to Main">
+            <JFXButton styleClass="postButtons" onMouseClicked="#returnToHome" text="Return to Main">
                <graphic>
                   <FontAwesomeIconView glyphName="ARROW_LEFT" />
                </graphic>
@@ -27,7 +27,7 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <JFXButton fx:id="addTopicBtn" onMouseClicked="#addTopic" text="Add Topic" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" />
+                  <JFXButton styleClass="postButtons" fx:id="addTopicBtn" onMouseClicked="#addTopic" text="Add Topic" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
          </children>

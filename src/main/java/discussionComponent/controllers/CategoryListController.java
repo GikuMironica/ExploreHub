@@ -42,7 +42,9 @@ public class CategoryListController implements Initializable {
         TypedQuery<ForumCategory> t2 = em.createNamedQuery("ForumCategory.getCategoryByType", ForumCategory.class);
         Platform.runLater(() ->{
             for (String type : result){
-                catVbox.getChildren().add(new Text(Capitalize.capitalize(type)));
+                Text textType = new Text(Capitalize.capitalize(type));
+                textType.setStyle("-fx-font-size: 16pt");
+                catVbox.getChildren().add(textType);
                 t2.setParameter("fType", type);
                 categoryList = t2.getResultList();
                 catObservableList = FXCollections.observableArrayList();

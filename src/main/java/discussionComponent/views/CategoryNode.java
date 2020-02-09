@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import models.ForumCategory;
@@ -21,7 +22,7 @@ import models.Post;
 
 public class CategoryNode {
     @FXML private AnchorPane categoryNode;
-    @FXML private Text categoryTitle, topicCount, postCount, recentPostAuthor, recentTopicTitle, recentPostTime;
+    @FXML private Label categoryTitle, topicCount, postCount, recentPostAuthor, recentTopicTitle, recentPostTime;
 
     private EntityManager em = CurrentAccountSingleton.getInstance().getAccount().getConnection();
     private ForumCategory category;
@@ -34,7 +35,7 @@ public class CategoryNode {
         loader.setController(this);
         try {
             categoryNode = loader.load();
-            categoryNode.setPrefWidth(this.listViewWidth);
+            categoryNode.setMinWidth(this.listViewWidth);
         } catch (IOException ioe){
             ioe.printStackTrace();
         }

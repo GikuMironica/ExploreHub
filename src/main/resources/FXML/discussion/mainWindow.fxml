@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="discussionComponent.Main">
+<AnchorPane stylesheets="/Styles/postList.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="discussionComponent.Main">
    <children>
       <BorderPane layoutX="60.0" layoutY="43.0" prefWidth="600.0" style="-fx-box-border: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -98,7 +98,7 @@
                               <Image url="@/IMG/logo-letterbox.png" />
                            </image>
                         </ImageView>
-                        <JFXButton buttonType="RAISED" onMouseClicked="#backToAppClicked" text="Back to Application">
+                        <JFXButton buttonType="RAISED" styleClass="postButtons" onMouseClicked="#backToAppClicked" text="Back to Application">
                            <font>
                               <Font size="14.0" />
                            </font>

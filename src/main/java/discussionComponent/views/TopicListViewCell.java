@@ -14,7 +14,7 @@ public class TopicListViewCell extends ListCell<Topic> {
     public void updateItem(Topic topic, boolean empty){
         super.updateItem(topic, empty);
         if(topic != null){
-            TopicNode topicNode = new TopicNode(topic, this.lv.prefWidthProperty());
+            TopicNode topicNode = new TopicNode(topic, this.lv.widthProperty());
             topicNode.apply();
             setGraphic(topicNode.getTopicNode());
         }else{

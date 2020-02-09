@@ -1,42 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="categoryNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="800" onMouseClicked="#viewCategory" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="categoryNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#viewCategory" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" layoutX="349.0" layoutY="108.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="349.0" layoutY="108.0" prefHeight="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="328.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Text fx:id="categoryTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="CategoryTitle">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
+                  <Label fx:id="categoryTitle" style="-fx-font-size:16" text="CategoryTitle" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="124.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="116.0">
                <children>
-                  <Text fx:id="topicCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Topics" />
-                  <Text fx:id="postCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0 Replies" />
+                  <Label fx:id="topicCount" text="0 Topics" />
+                  <Label fx:id="postCount" text="0 Replies" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="167.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text fx:id="recentTopicTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
-                  <Text fx:id="recentPostAuthor" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
-                  <Text fx:id="recentPostTime" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
+                  <Label fx:id="recentTopicTitle" text="-" />
+                  <Label fx:id="recentPostAuthor" text="-" />
+                  <Label fx:id="recentPostTime" text="-" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

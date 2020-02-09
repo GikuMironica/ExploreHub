@@ -47,6 +47,7 @@ public class ViewCategoryController implements Initializable {
         TypedQuery<Topic> tq1 = em.createNamedQuery("Topic.getThreadsbyForum", Topic.class);
         tq1.setParameter("fName", forumCategory.getName());
         ListView<Topic> topicListView = new ListView<>();
+        topicListView.getStylesheets().add("/Styles/postList.css");
         refreshListView(topicListView, tq1);
         Platform.runLater(() -> vcVbox.getChildren().add(topicListView));
         catAP.visibleProperty().addListener(((observable, oldValue, newValue) -> {

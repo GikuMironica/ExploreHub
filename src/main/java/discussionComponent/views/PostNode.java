@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import discussionComponent.controllers.EditPostController;
 import handlers.Convenience;
 import handlers.TimeConvertor;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -33,18 +34,21 @@ public class PostNode {
     private Account currentUser = CurrentAccountSingleton.getInstance().getAccount();
     private EntityManager em = currentUser.getConnection();
     private Post post;
+    private Double widthProperty;
 
     @FXML private AnchorPane postNode;
     @FXML private JFXButton postEditButton, postDeleteButton;
     @FXML private Text postAuthor, postedTime, postLastEdited, postText;
     @FXML private Circle postUserImageCircle;
 
-    public PostNode(Post post){
+    public PostNode(Post post, ReadOnlyDoubleProperty widthProperty){
         this.post = post;
+        this.widthProperty = widthProperty.doubleValue();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/discussion/postNode.fxml"));
         loader.setController(this);
         try {
             postNode = loader.load();
+            postNode.setPrefWidth(this.widthProperty);
         }catch (IOException ioe){
             ioe.printStackTrace();
         }

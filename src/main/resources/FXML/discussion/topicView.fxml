@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="topicViewAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="topicViewAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="/Styles/postList.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="topicVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane>
                <children>
-                  <JFXButton fx:id="backToTopicListBtn" onMouseClicked="#back" text="Back to Topic List" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
+                  <JFXButton fx:id="backToTopicListBtn" onMouseClicked="#back" styleClass="postButtons" text="Back to Topic List" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="ARROW_LEFT" />
                      </graphic></JFXButton>
@@ -24,8 +22,8 @@
                <children>
                   <HBox spacing="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                      <children>
-                        <JFXButton fx:id="deleteTopicBtn" onMouseClicked="#deleteTopic" text="Delete Topic" />
-                        <JFXButton fx:id="addReplyBtn" onMouseClicked="#addPost" text="Add Reply" />
+                        <JFXButton fx:id="deleteTopicBtn" onMouseClicked="#deleteTopic" styleClass="postButtons" text="Delete Topic" />
+                        <JFXButton fx:id="addReplyBtn" onMouseClicked="#addPost" styleClass="postButtons" text="Add Reply" />
                      </children>
                   </HBox>
                   <Text fx:id="topicTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0">
@@ -34,16 +32,22 @@
                      </font>
                   </Text>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </AnchorPane>
             <AnchorPane>
                <children>
                   <HBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
                      <children>
-                        <JFXButton fx:id="deleteTopicBtn1" onMouseClicked="#deleteTopic" text="Delete Topic" />
-                        <JFXButton fx:id="addReplyBtn1" onMouseClicked="#addPost" text="Add Reply" />
+                        <JFXButton fx:id="deleteTopicBtn1" onMouseClicked="#deleteTopic" styleClass="postButtons" text="Delete Topic" />
+                        <JFXButton fx:id="addReplyBtn1" onMouseClicked="#addPost" styleClass="postButtons" text="Add Reply" />
                      </children>
                   </HBox>
                </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </AnchorPane>
          </children>
       </VBox>

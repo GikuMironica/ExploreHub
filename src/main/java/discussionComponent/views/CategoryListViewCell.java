@@ -18,7 +18,7 @@ public class CategoryListViewCell extends ListCell<ForumCategory> {
     public void updateItem(ForumCategory forumCategory, boolean empty){
         super.updateItem(forumCategory, empty);
         if(forumCategory != null){
-            CategoryNode categoryNode = new CategoryNode(forumCategory, listView.prefWidthProperty());
+            CategoryNode categoryNode = new CategoryNode(forumCategory, listView.widthProperty());
             categoryNode.setElement();
             setGraphic(categoryNode.getCategoryNode());
         }else{

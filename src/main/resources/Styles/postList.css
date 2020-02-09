@@ -30,3 +30,9 @@
  .list-view:focused .list-cell:filled:selected {
     -fx-background-color: #D1E8FF;
   }
+
+.postButtons{
+    -fx-background-color: #0084AD;
+    -fx-text-fill: #F2F7F9;
+    -fx-text-alignment: center;
+}

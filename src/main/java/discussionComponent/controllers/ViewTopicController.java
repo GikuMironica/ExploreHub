@@ -52,14 +52,18 @@ public class ViewTopicController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb){
         if(currentUser instanceof Admin){
-            deleteTopicBtn.setVisible(false);
+            deleteTopicBtn.setVisible(true);
+            deleteTopicBtn1.setVisible(true);
+        }else{
             deleteTopicBtn1.setVisible(false);
+            deleteTopicBtn.setVisible(false);
         }
         System.out.println(topic.getThreadTitle());
         TypedQuery<Post> tq1 = em.createNamedQuery("Post.getPostbyThread", Post.class);
         tq1.setParameter("t", this.topic);
         topicTitle.setText(topic.getThreadTitle());
         ListView<Post> postListView = new ListView<>();
+        postListView.getStylesheets().add("/Styles/postList.css");
         refreshPostList(postListView, tq1);
         Platform.runLater(()-> topicVBox.getChildren().add(2, postListView));
         topicViewAP.visibleProperty().addListener(((observable, oldValue, newValue) -> {
@@ -80,7 +84,7 @@ public class ViewTopicController implements Initializable {
             postObservableList = FXCollections.observableArrayList();
             postObservableList.setAll(postList);
             postListView.setItems(postObservableList);
-            postListView.setCellFactory(param -> new PostListViewCell());
+            postListView.setCellFactory(param -> new PostListViewCell(postListView));
             postListView.prefHeightProperty().bind(Bindings.size(postObservableList).multiply(180));
 
             postListView.refresh();
