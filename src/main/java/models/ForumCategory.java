@@ -10,7 +10,9 @@ import static org.eclipse.persistence.jpa.jpql.parser.Expression.SELECT;
         @NamedQuery(name="ForumCategory.getCategoryByType", query = "SELECT f FROM ForumCategory f WHERE f.Type = :fType"),
         @NamedQuery(name="ForumCategory._getCategories", query = "SELECT f FROM ForumCategory f"),
         @NamedQuery(name="ForumCategory.getCat", query = "SELECT f FROM ForumCategory f JOIN Events e ON f.Name = e.ShortDescription JOIN Transactions t ON t.event = e WHERE t.user = :sid AND t.Completed = 1"),
-        @NamedQuery(name="ForumCategory.getCategoryType", query = "SELECT DISTINCT(f.Type) from ForumCategory f")
+        @NamedQuery(name="ForumCategory.getCategoryType", query = "SELECT DISTINCT(f.Type) from ForumCategory f"),
+        @NamedQuery(name="ForumCategory.getTopicCount", query = "SELECT COUNT(t) FROM Topic t WHERE t.category = :f"),
+        @NamedQuery(name="ForumCategory.getReplyCount", query = "SELECT COUNT(p) FROM Post p WHERE p.topic.category = :f")
 })
 @Entity
 @Table(name="category")

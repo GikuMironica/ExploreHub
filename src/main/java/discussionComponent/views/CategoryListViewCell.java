@@ -1,6 +1,7 @@
 package discussionComponent.views;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.ListCell;

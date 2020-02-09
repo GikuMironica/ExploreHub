@@ -42,7 +42,9 @@ public class CategoryListController implements Initializable {
         TypedQuery<ForumCategory> t2 = em.createNamedQuery("ForumCategory.getCategoryByType", ForumCategory.class);
         Platform.runLater(() ->{
             for (String type : result){
-                catVbox.getChildren().add(new Text(Capitalize.capitalize(type)));
+                Text textType = new Text(Capitalize.capitalize(type));
+                textType.setStyle("-fx-font-size: 16pt");
+                catVbox.getChildren().add(textType);
                 t2.setParameter("fType", type);
                 categoryList = t2.getResultList();
                 catObservableList = FXCollections.observableArrayList();
@@ -50,24 +52,18 @@ public class CategoryListController implements Initializable {
                 ListView<ForumCategory> categoryListView = new ListView<>();
                 categoryListView.setItems(catObservableList);
                 categoryListView.setCellFactory(param ->new CategoryListViewCell(categoryListView));
-                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(106));
+                categoryListView.prefHeightProperty().bind(Bindings.size(catObservableList).multiply(130));
                 categoryListView.getStylesheets().add("/Styles/postList.css");
                 catVbox.getChildren().add(categoryListView);
-
-
-
             }
         });
         Platform.runLater(()->
                 catVbox.getScene().getWindow().widthProperty().addListener((observable, oldValue, newValue) -> {
-            for(Node n : catVbox.getChildren()){
-                if(n instanceof ListView){
-                    ((ListView) n).refresh();
-                }
-            }
+                    for(Node n : catVbox.getChildren()){
+                        if(n instanceof ListView){
+                            ((ListView) n).refresh();
+                        }
+                    }
         }));
-
-
-
     }
 }
