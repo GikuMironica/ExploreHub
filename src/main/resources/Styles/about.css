@@ -1,6 +1,4 @@
 .root{
-    -fx-background-image: url("../IMG/about-bg.png");
+    -fx-background-color: #F2F7F9;
     -fx-background-size: cover;
-    -fx-background-radius: 30 30 30 30;
-    -fx-border-radius: 30 30 30 30;
 }

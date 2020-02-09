@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane minWidth="-Infinity" prefWidth="600.0" styleClass="root" stylesheets="@../Styles/about.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
+<AnchorPane minWidth="-Infinity" prefWidth="600.0" styleClass="root" stylesheets="@../Styles/about.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aboutComponent.AboutController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="106.0" prefWidth="101.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../IMG/logo-letters-w.png" />
-               </image></ImageView>
+            <Label text="ExploreHub" textFill="#0084ad">
+               <font>
+                  <Font name="Ayuthaya" size="36.0" />
+               </font>
+            </Label>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../IMG/e-letter-w.png" />
-                     </image></ImageView>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Text fx:id="version" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="400.0">
                            <VBox.margin>
