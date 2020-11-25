@@ -25,18 +25,25 @@
         without internet connection. Nevertheless, it can handle temporal loss of internet connection.</li>
 </ul>
 
+<h1>Disclaimer</h1>
+<ul>
+    <li>In the concept of this application, the security layer had the lowest priority.
+    <li>The bar was raised on UI/UX and performance.</li>
+    <li>This application is not complying with any modern security standards and is not meant to be ever deployed to a production environment.</li>
+ </ul>
+
 <br>
 <h1>Architecture Notebook</h1>
 <ul>
-    <li><a href="https://gofile.io/?c=fyStRO">URL</a></li>
+    <li><a href="https://drive.google.com/file/d/1qIiwqohErWiPdE9PtLeq3GTkDpw-FTcN/view?usp=sharing">URL</a></li>
 </ul>
 <br>
 <br>
 
 <h1>Diagrams</h1>
 <ul>
-    <li><a href="https://gofile.io/?c=PwtiyS">Class Diagram</a></li>
-    <li><a href="https://gofile.io/?c=pdYZPf">ER Diagram</a></li>
+    <li><a href="https://i.imgur.com/O7Xaka4.jpg">Class Diagram</a></li>
+    <li><a href="https://i.imgur.com/P6PnqbO.png">ER Diagram</a></li>
 </ul>
 
 <br>
